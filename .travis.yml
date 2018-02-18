@@ -1,0 +1,36 @@
+osx_image: xcode9.3
+language: objective-c
+sudo: required
+env:
+  global:
+  - PROJECT="Deli.xcodeproj"
+  - SCHEME="Deli"
+  - FRAMEWORK="Deli"
+  matrix:
+  - DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"
+  - DESTINATION="arch=x86_64"
+  - DESTINATION="OS=11.3,name=Apple TV 1080p"
+  - DESTINATION="OS=4.3,name=Apple Watch - 38mm"
+
+install:
+- eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+- swift --version
+
+before_script:
+- set -o pipefail
+
+script:
+- Supports/build-binary.sh
+- Supports/build-framework.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: OjV7AFPP2tTk1ffoiCgWGUmaMPTGe9+R//YVSbJ/fp+LnApb+R1Wf27e1SBZ2kLtrgVhURTnMLi2dEnkk1P777jvJLnlMIK6NxDgU6bwy5sj6Pdg/27YNSbzUy34TdwxoRi2hnzmxKXVd1ndKQotIDym44XhEL1cSLJRl8spqKRM/oqSo80NMjMhYNyU40pFREu4BfeHZfcvNOLqLSD7hoSgZ7oVHFPiKH5m08+cebK719lvjxv3sJzOWG/oGIaVpgzxCDbMZ9NAe9wd4BgbulazyIiI/nieWGQdE9IeuPAWtZu/PF7nJVQvjfVYQcpKGfuPWfOif1VXcprXiSH62kEYwOQyf0irn28pmvF3DhGnD0gAqCwYJnlDONER/yteV+1/hDND3jTG4JrIjuXzPi7uJ7HN3v2pURzdCoxGEfvHMKGh/O9m+UA+RZAbP1UMXhyQ9we7nb32T9Zqz2Gc/v7VAcLlhP5rB1rCVt2iWzOXsVcDRnvLZmZaPqw98LhmxMC4o/MpHxqoPjndFl3W45IVx9+IbHEoqsbFVDAFIGqAbZgiNRFJOs49zlGr+EXS7V8mJmXjyZqCMjpB2L3o1PX/o6LDd6pNf0Qxytc/Bo34htNEEu2mwbwGBGVwKdQfJUiAhAXTeFptnjsN3RvwtyBCswt3OWtXZ9D4diDc/og=
+  file:
+    - Deli.framework.zip
+    - Binary/Build/portable_deli.zip
+    - Binary/Build/Deli.pkg
+  on:
+    repo: kawoou/Deli
+    tags: true
