@@ -1,0 +1,32 @@
+//
+//  Autowired.swift
+//  Deli
+//
+
+public protocol Autowired {<% for dep in 1..9 %>
+    associatedtype Dep<%= dep %> = Void<% end %>
+
+    var scope: Scope { get }
+    var qualifier: String? { get }
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+%>
+    init(<%= params_str %>)<% end %>
+}
+public extension Autowired {
+    public var scope: Scope { return .singleton }
+    public var qualifier: String? { return nil }
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+
+    initializer = (1..dep).map { |i| "dep#{i}" }
+    initializer_str = initializer.join(", ")
+%>
+    init(<%= params_str %>) {
+        self.init(<%= initializer_str %>)
+    }<% end %>
+}

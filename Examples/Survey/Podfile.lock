@@ -1,0 +1,16 @@
+PODS:
+  - Deli (0.1.0)
+
+DEPENDENCIES:
+  - Deli (from `../../`)
+
+EXTERNAL SOURCES:
+  Deli:
+    :path: ../../
+
+SPEC CHECKSUMS:
+  Deli: 333f7ef79e1204a5282c4beea3ccf71f939f9b47
+
+PODFILE CHECKSUM: ba5521b29df867361772305e5c97d9a87fefbf76
+
+COCOAPODS: 1.3.1

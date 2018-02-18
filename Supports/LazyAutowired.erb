@@ -1,0 +1,34 @@
+//
+//  LazyAutowired.swift
+//  Deli
+//
+
+public protocol LazyAutowired {<% for dep in 1..9 %>
+    associatedtype Dep<%= dep %> = Void<% end %>
+
+    var scope: Scope { get }
+    var qualifier: String? { get }
+
+    init()
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+%>
+    func inject(<%= params_str %>)<% end %>
+}
+public extension LazyAutowired {
+    public var scope: Scope { return .singleton }
+    public var qualifier: String? { return nil }
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+
+    initializer = (1..dep).map { |i| "dep#{i}" }
+    initializer_str = initializer.join(", ")
+%>
+    func inject(<%= params_str %>) {
+        self.inject(<%= initializer_str %>)
+    }<% end %>
+}
