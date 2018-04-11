@@ -21,4 +21,6 @@ cp .build/release/deli ./Build
 pkgbuild --identifier "io.kawoou.deli" --install-location "/usr/local/bin" --root "Build" --version "`cat ../version`" "Build/Deli.pkg"
 zip -yr - "Build/deli" "../LICENSE" > "Build/portable_deli.zip"
 
+rm -rf Deli.xcodeproj/
+
 cd ../
