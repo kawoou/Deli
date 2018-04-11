@@ -50,8 +50,7 @@ Pods/
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
+Carthage/Checkouts
 Carthage/Build
 
 # fastlane
@@ -66,6 +65,6 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 
-*.xcodeproj/
+*/*.xcodeproj/
 .idea/
 *.zip
