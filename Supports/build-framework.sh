@@ -1,3 +1,6 @@
+#!/bin/bash -e
+set -o pipefail
+
 rm Sources/Deli/Autowired.swift
 rm Sources/Deli/Configuration.swift
 rm Sources/Deli/LazyAutowired.swift

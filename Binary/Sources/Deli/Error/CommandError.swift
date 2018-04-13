@@ -5,6 +5,7 @@
 
 enum CommandError: Error {
     case runner(Error)
+    case notFoundLatestVersion
     case failedToLoadConfigFile
     case requiredOutputFile
     case unacceptableType
@@ -14,6 +15,8 @@ enum CommandError: Error {
         switch self {
         case .runner(let error):
             return error.localizedDescription
+        case .notFoundLatestVersion:
+            return "Not found latest version on GitHub."
         case .failedToLoadConfigFile:
             return "Failed to load the config file."
         case .requiredOutputFile:

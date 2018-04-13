@@ -9,7 +9,7 @@ env:
   matrix:
   - DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"
   - DESTINATION="arch=x86_64"
-  - DESTINATION="OS=11.3,name=Apple TV 1080p"
+  - DESTINATION="OS=11.3,name=Apple TV"
   - DESTINATION="OS=4.3,name=Apple Watch - 38mm"
 
 install:
