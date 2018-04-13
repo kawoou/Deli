@@ -8,7 +8,29 @@ import Foundation
 final class Logger {
     
     // MARK: - Enumerable
-    
+
+    enum Color: Int {
+        case `default` = 0
+
+        case black = 30
+        case red = 31
+        case green = 32
+        case yellow = 33
+        case blue = 34
+        case magenta = 35
+        case cyan = 36
+        case white = 37
+
+        func resolve(_ text: String) -> String {
+            switch self {
+            case .default:
+                return text
+            default:
+                return "\u{001B}[\0\(self.rawValue)m\(text)\u{001B}[m"
+            }
+        }
+    }
+
     enum LoggingType {
         case fatal(String)
         case error(String)
@@ -63,6 +85,7 @@ final class Logger {
     
     static func log(
         _ logging: LoggingType,
+        color: Color = .default,
         _ file: String = #file,
         _ line: Int = #line,
         _ function: String = #function
@@ -74,28 +97,28 @@ final class Logger {
         
         switch logging {
         case .fatal:
-            print("\(output) [\(file):\(line) (\(function))]")
+            print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
             fatalError()
             
         case .error:
             guard isError else { return }
-            print(output)
+            print(color.resolve(output))
 
         case .warn:
             guard isWarn else { return }
-            print(output)
+            print(color.resolve(output))
 
         case .info:
             guard isInfo else { return }
-            print(logging.message)
+            print(color.resolve(logging.message))
 
         case .debug:
             guard isDebug else { return }
-            print("\(output) [\(file):\(line) (\(function))]")
+            print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
 
         case .assert:
             guard isDebug else { return }
-            print("\(output) [\(file):\(line) (\(function))]")
+            print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
             assertionFailure()
         }
     }
