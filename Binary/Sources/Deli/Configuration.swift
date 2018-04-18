@@ -108,126 +108,138 @@ final class Configuration {
         }
     }
 
-    // MARK: - Lifecycle
-
-    init?(path: String?) {
-        let findURL = { (fileName: String) -> String? in
-            #if swift(>=4.1)
-            return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
-                .compactMap { URL(string: $0) }
-                .filter { $0.lastPathComponent == fileName }
-                .first?
-                .path
-            #else
-            return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
-                .flatMap { URL(string: $0) }
-                .filter { $0.lastPathComponent == fileName }
-                .first?
-                .path
-            #endif
-        }
-        let findBuildReference = { (project: XcodeProj, schemeName: String?) -> String? in
-            guard let schemeName = schemeName else {
-                guard project.pbxproj.objects.nativeTargets.count == 1 else {
-                    Logger.log(.error("Ambiguous build target."))
-                    return nil
-                }
-                return project.pbxproj.objects.nativeTargets.keys.first
-            }
-            let schemeList = project.sharedData?.schemes
-                .filter { $0.name == schemeName } ?? []
-
-            guard schemeList.count == 1 else {
-                Logger.log(.error("Ambiguous build scheme."))
-                return nil
-            }
-
-            let scheme = schemeList[0]
-            return scheme.buildAction?.buildActionEntries.first?.buildableReference.blueprintIdentifier
-        }
-
+    private static func loadConfig(_ path: String?) -> (Config, String)? {
         guard let configPath = path ?? findURL(Constant.configFile), let url = URL(string: configPath) else {
             /// Not exist configuration file.
             /// Find to project file in current directory.
-            let currentDirectory = fileManager.currentDirectoryPath
+            let currentDirectory = FileManager.default.currentDirectoryPath
 
             #if swift(>=4.1)
-            let projectList = (try? fileManager.contentsOfDirectory(atPath: currentDirectory))?
+            let projectList = (try? FileManager.default.contentsOfDirectory(atPath: currentDirectory))?
                 .compactMap { URL(string: $0) }
                 .filter { $0.pathExtension == Constant.xcodeProjectExtension } ?? []
             #else
-            let projectList = (try? fileManager.contentsOfDirectory(atPath: currentDirectory))?
+            let projectList = (try? FileManager.default.contentsOfDirectory(atPath: currentDirectory))?
                 .flatMap { URL(string: $0) }
                 .filter { $0.pathExtension == Constant.xcodeProjectExtension } ?? []
             #endif
 
-            guard projectList.count == 1 else {
+            guard projectList.count > 0 else {
                 Logger.log(.error("Not found project file."))
                 return nil
             }
-
-            let projectPath = projectList[0]
-            guard let project = try? XcodeProj(pathString: projectPath.path) else {
-                Logger.log(.error("Cannnot open the project file. \(projectPath.lastPathComponent)"))
+            guard projectList.count == 1 else {
+                Logger.log(.error("Ambiguous project file."))
                 return nil
             }
-
-            guard let buildReference = findBuildReference(project, nil) else {
-                Logger.log(.error("Cannot load the build scheme. \(projectPath.lastPathComponent)"))
-                return nil
-            }
-
-            guard let nativeTarget = project.pbxproj.objects.nativeTargets.first(where: { $0.key == buildReference }) else {
-                Logger.log(.error("Cannot load the build scheme. \(projectPath.lastPathComponent)"))
-                return nil
-            }
-
-            self.projectPath = currentDirectory
-            self.project = project
-            self.target = nativeTarget.value
-            self.outputPath = self.projectPath + "/" + Constant.outputFile
-
-            parseFileTree(group: self.project.pbxproj.rootGroup)
-            return
+            return (Config(project: projectList[0].lastPathComponent), currentDirectory)
         }
 
-        /// Exist configuration file.
-        let config: Config
+        /// Exist configuration file.
         do {
             let data = try String(contentsOfFile: configPath, encoding: .utf8)
-            config = try YAMLDecoder().decode(Config.self, from: data)
+            return (try YAMLDecoder().decode(Config.self, from: data), url.deletingLastPathComponent().path)
         } catch {
             Logger.log(.error("Failed to load `\(Constant.configFile)` file."))
             return nil
         }
+    }
+    private static func findURL(_ fileName: String) -> String? {
+        #if swift(>=4.1)
+        return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
+            .compactMap { URL(string: $0) }
+            .filter { $0.lastPathComponent == fileName }
+            .first?
+            .path
+        #else
+        return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
+            .flatMap { URL(string: $0) }
+            .filter { $0.lastPathComponent == fileName }
+            .first?
+            .path
+        #endif
+    }
+    private static func findBuildReference(project: XcodeProj, schemeName: String?) -> String? {
+        let schemeList: [XCScheme] = {
+            if let schemeName = schemeName {
+                return project.sharedData?.schemes
+                    .filter { $0.name == schemeName }
+            } else {
+                return project.sharedData?.schemes
+            }
+        }() ?? []
 
-        let projectFile = "\(config.project).\(Constant.xcodeProjectExtension)"
-        let projectPath = "\(url.deletingLastPathComponent())\(projectFile)"
-        guard let projectURL = URL(string: projectPath) else {
+        if schemeList.count == 0 {
+            guard schemeName == nil else {
+                Logger.log(.error("Not found shared build scheme."))
+                return nil
+            }
+            guard project.pbxproj.objects.nativeTargets.count > 0 else {
+                Logger.log(.error("Not found build target."))
+                return nil
+            }
+            guard project.pbxproj.objects.nativeTargets.count == 1 else {
+                Logger.log(.error("Ambiguous build target."))
+                return nil
+            }
+            return project.pbxproj.objects.nativeTargets.keys.first
+        }
+
+        guard schemeList.count == 1 else {
+            Logger.log(.error("Ambiguous shared build scheme."))
+            return nil
+        }
+
+        let scheme = schemeList[0]
+        return scheme.buildAction?.buildActionEntries.first?.buildableReference.blueprintIdentifier
+    }
+
+    // MARK: - Lifecycle
+
+    init?(path: String?) {
+        guard let (config, basePath) = Configuration.loadConfig(path) else { return nil }
+
+        let projectFile: String = {
+            if config.project.hasSuffix(Constant.xcodeProjectExtension) {
+                return config.project
+            } else {
+                return "\(config.project).\(Constant.xcodeProjectExtension)"
+            }
+        }()
+        guard let projectURL = URL(string: "\(basePath)/\(projectFile)") else {
             Logger.log(.error("Cannnot open the project file. \(projectFile)"))
             return nil
         }
-        guard let project = try? XcodeProj(pathString: projectPath) else {
-            Logger.log(.error("Cannnot open the project file. \(projectFile)"))
+
+        guard let project = try? XcodeProj(pathString: projectURL.path) else {
+            Logger.log(.error("Cannnot open the project file. \(projectURL.lastPathComponent)"))
             return nil
         }
-
-        guard let buildReference = findBuildReference(project, config.scheme) else {
-            Logger.log(.error("Cannot load the build scheme. \(projectFile)"))
+        guard let buildReference = Configuration.findBuildReference(project: project, schemeName: config.scheme) else {
+            Logger.log(.error("Cannot load the build scheme. \(projectURL.lastPathComponent)"))
             return nil
         }
-
         guard let nativeTarget = project.pbxproj.objects.nativeTargets.first(where: { $0.key == buildReference }) else {
-            Logger.log(.error("Cannot load the build scheme. \(projectFile)"))
+            Logger.log(.error("Cannot load the build scheme. \(projectURL.lastPathComponent)"))
             return nil
         }
 
-        self.projectPath = projectURL.deletingLastPathComponent().path
+        let outputPath: String = {
+            let path = "\(basePath)/\(config.output ?? Constant.outputFile)"
+
+            var isDirectory: ObjCBool = false
+            if FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue {
+                return "\(path)/\(Constant.outputFile)"
+            } else {
+                return path
+            }
+        }()
+
+        self.projectPath = basePath
         self.project = project
         self.target = nativeTarget.value
-        self.outputPath = self.projectPath + "/" + (config.output ?? Constant.outputFile)
+        self.outputPath = outputPath
 
         parseFileTree(group: self.project.pbxproj.rootGroup)
     }
 }
-

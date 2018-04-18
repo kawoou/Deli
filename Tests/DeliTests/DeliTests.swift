@@ -104,6 +104,15 @@ class DeliTests: XCTestCase, Inject {
         XCTAssertEqual(friendService.requestCount, 5)
         
         XCTAssertNil(testService.friendService)
+
+        RunLoop.current.run(until: Date())
+        XCTAssertNotNil(testService.friendService)
+
+        _ = testService.friendService.accountService.logout()
+        XCTAssertEqual(accountService1.logoutCount, 8)
+        
+        _ = testService.friendService.listFriends()
+        XCTAssertEqual(friendService.requestCount, 6)
         
         AppContext.shared.reset()
     }

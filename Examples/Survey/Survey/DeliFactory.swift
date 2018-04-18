@@ -50,7 +50,7 @@ final class DeliFactory {
                 return ViewModel(_SurveyService)
             },
             qualifier: "",
-            scope: .singleton
+            scope: .prototype
         )
 
         self.context = context
