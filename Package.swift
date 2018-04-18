@@ -10,11 +10,15 @@ let package = Package(
     targets: [
         .target(
             name: "Deli",
-            dependencies: []
+            dependencies: [],
+            path: "Sources/Deli"
         ),
         .testTarget(
             name: "DeliTests",
-            dependencies: []
+            dependencies: [
+                "Deli"
+            ],
+            path: "Tests/DeliTests"
         )
     ],
     swiftLanguageVersions: [3, 4]

@@ -7,10 +7,10 @@ env:
   - SCHEME="Deli"
   - FRAMEWORK="Deli"
   matrix:
-  - DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"
-  - DESTINATION="arch=x86_64"
-  - DESTINATION="OS=11.3,name=Apple TV"
-  - DESTINATION="OS=4.3,name=Apple Watch - 38mm"
+  - TEST=1  DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"
+  - TEST=1  DESTINATION="arch=x86_64"
+  - TEST=1  DESTINATION="OS=11.3,name=Apple TV"
+  - TEST=0  DESTINATION="OS=4.3,name=Apple Watch - 38mm"
 
 install:
 - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
@@ -23,6 +23,11 @@ script:
 - Supports/build-binary.sh
 - Supports/build-framework.sh
 
+after_success:
+- if [ $TEST == 1 ]; then
+    bash <(curl -s https://codecov.io/bash) -X xcodeplist -J 'Deli';
+  fi
+
 deploy:
   provider: releases
   api_key:
@@ -31,6 +36,7 @@ deploy:
     - Deli.framework.zip
     - Binary/Build/portable_deli.zip
     - Binary/Build/Deli.pkg
+  skip_cleanup: true
   on:
     repo: kawoou/Deli
     tags: true

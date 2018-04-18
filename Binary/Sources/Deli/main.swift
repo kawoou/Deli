@@ -6,12 +6,7 @@
 import Foundation
 import Commandant
 import Dispatch
-
-#if os(Linux)
-    import Glibc
-#else
-    import Darwin
-#endif
+import Darwin
 
 DispatchQueue.global(qos: .default).async {
     if let latestVersion = VersionManager.shared.getLatestVersion(timeout: 3000), latestVersion != "v\(Version.current.value)" {

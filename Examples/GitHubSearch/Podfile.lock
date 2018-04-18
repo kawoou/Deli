@@ -1,5 +1,5 @@
 PODS:
-  - Deli (1.0.0)
+  - Deli (0.1.0)
   - RxCocoa (4.1.2):
     - RxSwift (~> 4.0)
   - RxOptional (3.3.0):
@@ -18,7 +18,7 @@ EXTERNAL SOURCES:
     :path: ../../
 
 SPEC CHECKSUMS:
-  Deli: 484388d40c2efbfc80a322de96b12638daec1c82
+  Deli: 333f7ef79e1204a5282c4beea3ccf71f939f9b47
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
   RxSwift: e49536837d9901277638493ea537394d4b55f570

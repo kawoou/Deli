@@ -1,21 +1,29 @@
-import Delis
+import Deli
 
 protocol AccountService {
+    var networkManager: NetworkManager { get }
+    var libraryService: LibraryService { get }
+    
+    var logoutCount: Int { get }
+    
     func login(account: String, password: String) -> Bool
     func logout() -> Bool
 }
-class AccountServiceImpl: AccountService, Autowired {
+class AccountServiceImpl: AccountService {
     let networkManager: NetworkManager
     let libraryService: LibraryService
+    
+    var logoutCount: Int = 0
 
     func login(account: String, password: String) -> Bool {
         return true
     }
     func logout() -> Bool {
+        logoutCount += 1
         return true
     }
 
-    required init(_ networkManager: NetworkManager, _ libraryService: LibraryService) {
+    init(_ networkManager: NetworkManager, _ libraryService: LibraryService) {
         self.networkManager = networkManager
         self.libraryService = libraryService
     }

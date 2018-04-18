@@ -6,8 +6,8 @@
 final class InjectProtocolResult: Results {
     var isLazy: Bool { return false }
     var instanceType: String
-    var scope: String? { return nil }
-    var qualifier: String? { return nil }
+    var scope: String? = nil
+    var qualifier: String? = nil
     var dependencies: [Dependency]
 
     var linkType: Set<String> = Set()

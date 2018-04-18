@@ -13,7 +13,7 @@ public extension Configuration {
     arguments = (1..dep).map { |i| "dep#{i}" }
     arguments_str = arguments.join(", ")
 %>
-    public func Config<T<% if dep > 0 %>, <% end %><%= generics_str %>>(
+    public static func Config<T<% if dep > 0 %>, <% end %><%= generics_str %>>(
         _ type: T.Type,<% for arg in (1..dep) %>
         _ dependency<%= arg %>: Dep<%= arg %>.Type,<% end %>
         qualifier: String = "",
@@ -21,7 +21,7 @@ public extension Configuration {
         resolver: @escaping (<%= generics_str %>) -> T
     ) -> () -> T {
         return { () -> T in
-            guard let instance = AppContext.shared.get(T.self, qualifier: qualifier) else {<% for arg in (1..dep) %>
+            guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {<% for arg in (1..dep) %>
                 let dep<%= arg %> = AppContext.shared.get(Dep<%= arg %>.self, qualifier: "")!<% end %>
                 return resolver(<%= arguments_str %>)
             }

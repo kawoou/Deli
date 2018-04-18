@@ -113,8 +113,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9DB8675F20662F1E0062B396 /* Build configuration list for PBXNativeTarget "GitHubSearch" */;
 			buildPhases = (
-				9D2CD210206E884D00653DA8 /* Deli Script */,
 				AA528D0E14A7A8CB5B725BC6 /* [CP] Check Pods Manifest.lock */,
+				9D2CD210206E884D00653DA8 /* Deli Script */,
 				9DB8674920662F1E0062B396 /* Sources */,
 				9DB8674A20662F1E0062B396 /* Frameworks */,
 				9DB8674B20662F1E0062B396 /* Resources */,
@@ -404,6 +404,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4U2J29Y5X8;
 				INFOPLIST_FILE = GitHubSearch/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.kawoou.GitHubSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -420,6 +421,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4U2J29Y5X8;
 				INFOPLIST_FILE = GitHubSearch/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.kawoou.GitHubSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";

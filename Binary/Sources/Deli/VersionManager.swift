@@ -37,7 +37,7 @@ class VersionManager {
         }
         task.resume()
         if let timeout = timeout {
-            _ = semaphore.wait(timeout: DispatchTime.now() + timeout)
+            _ = semaphore.wait(timeout: DispatchTime(uptimeNanoseconds: UInt64(timeout)))
         } else {
             _ = semaphore.wait(timeout: .distantFuture)
         }
