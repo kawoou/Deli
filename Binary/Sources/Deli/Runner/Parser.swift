@@ -28,7 +28,7 @@ final class Parser: Runnable {
     
     // MARK: - Private
     
-    private var inheritanceMap = [String: [String]]()
+    private var inheritanceMap = [String: InheritanceInfo]()
     
     private func parse(structure: Structure, content: String) throws -> [Results] {
         guard let name = structure.name else { return [] }
@@ -40,7 +40,12 @@ final class Parser: Runnable {
         guard Constant.allowAccessLevels.contains(structure.accessLevel) else { return [] }
         
         /// Save inheritance information
-        inheritanceMap[name] = structure.inheritedTypes
+        inheritanceMap[name] = InheritanceInfo(
+            name: name,
+            types: structure.inheritedTypes,
+            structure: structure,
+            content: content
+        )
         
         /// Parsing
         return try moduleList
@@ -74,13 +79,16 @@ final class Parser: Runnable {
     
     // MARK: - Public
     
-    func inheritanceList(_ name: String) -> [String] {
-        var inheritanceList = inheritanceMap[name] ?? []
-        var queue = inheritanceList
+    func inheritanceList(_ name: String) -> [InheritanceInfo] {
+        var inheritanceList = [InheritanceInfo]()
+        var queue = inheritanceMap[name]?.types ?? []
         while let item = queue.popLast() {
-            guard let list = inheritanceMap[item] else { continue }
-            queue.append(contentsOf: list)
-            inheritanceList.append(contentsOf: list)
+            guard let info = inheritanceMap[item] else {
+                Logger.log(.error("Type not found: \(item)."))
+                return []
+            }
+            queue.append(contentsOf: info.types)
+            inheritanceList.append(info)
         }
         return inheritanceList
     }

@@ -78,14 +78,14 @@ final class GraphGenerator: Generator {
             link.target = nodes[link.target];
         });
 
-        var width = 960;
-        var height = 500;
+        var width = window.innerWidth || 960;
+        var height = window.innerHeight || 500;
         var color = d3.scale.category20c();
         var force = d3.layout.force()
             .nodes(d3.values(nodes))
             .links(links)
             .size([width, height])
-            .linkDistance(60)
+            .linkDistance(120)
             .charge(-300)
             .on('tick', tick)
             .start();

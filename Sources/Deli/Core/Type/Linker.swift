@@ -5,7 +5,8 @@
 
 public protocol LinkerType {
     associatedtype T
-
+    
+    @discardableResult
     func link<U>(_ type: U.Type) -> Linker<T>
 }
 

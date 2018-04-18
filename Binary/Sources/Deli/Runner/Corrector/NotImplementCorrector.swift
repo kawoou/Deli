@@ -31,7 +31,11 @@ final class NotImplementCorrector: Correctable {
             .filter { resultMap[$0] == nil }
             .forEach { dependency in
                 let correctList = results
-                    .filter { parser.inheritanceList($0.instanceType).contains(dependency.name) }
+                    .filter {
+                        return parser.inheritanceList($0.instanceType)
+                            .map { $0.name }
+                            .contains(dependency.name)
+                    }
                     .filter { result in
                         guard dependency.qualifier != "" else { return true }
                         return (result.qualifier ?? "") == dependency.qualifier

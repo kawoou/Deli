@@ -6,8 +6,8 @@
 protocol Results: class, CustomStringConvertible, CustomDebugStringConvertible {
     var isLazy: Bool { get }
     var instanceType: String { get }
-    var scope: String? { get }
-    var qualifier: String? { get }
+    var scope: String? { get set }
+    var qualifier: String? { get set }
     var dependencies: [Dependency] { get set }
 
     var linkType: Set<String> { get set }

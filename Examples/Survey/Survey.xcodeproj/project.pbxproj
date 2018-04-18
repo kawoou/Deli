@@ -125,8 +125,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC1E9E1BEC2B23C0997CA2505C35D99C /* Build configuration list for PBXNativeTarget "Survey" */;
 			buildPhases = (
-				9D2CD1DD206E6C5200653DA8 /* Deli Script */,
 				07AF895D94B9CD59CDEE627FE6EEF02A /* [CP] Check Pods Manifest.lock */,
+				9D2CD1DD206E6C5200653DA8 /* Deli Script */,
 				44698CB095EEA7220FE95B4922333683 /* Sources */,
 				CA488CAA6366FBA3EC21815D1BD2B24C /* Frameworks */,
 				3497C999829F1A52331FA4562F8310E2 /* Resources */,
@@ -414,6 +414,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4U2J29Y5X8;
 				INFOPLIST_FILE = Survey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.kawoou.Survey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -430,6 +431,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4U2J29Y5X8;
 				INFOPLIST_FILE = Survey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.kawoou.Survey;
 				PRODUCT_NAME = "$(TARGET_NAME)";

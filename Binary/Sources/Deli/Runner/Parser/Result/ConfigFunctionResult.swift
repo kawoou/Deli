@@ -33,8 +33,8 @@ final class ConfigFunctionResult: Results {
         context.register(
             \(instanceType).self,
             resolver: {
-                let _\(parentInstanceType) = context.get(\(parentInstanceType).Type, qualifier: "")
-                return _\(parentInstanceType).\(variableName)()
+                let _\(parentInstanceType) = context.get(\(parentInstanceType).self, qualifier: "")!
+                return _\(parentInstanceType).\(variableName)() as AnyObject
             },
             qualifier: "\(qualifier ?? "")",
             scope: \(scope ?? ".singleton")

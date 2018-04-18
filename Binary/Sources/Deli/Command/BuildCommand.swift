@@ -34,6 +34,8 @@ struct BuildCommand: CommandProtocol {
             InjectParser()
         ])
         let corrector = Corrector([
+            QualifierCorrector(parser: parser),
+            ScopeCorrector(parser: parser),
             NotImplementCorrector(parser: parser)
         ])
         let validator = Validator([

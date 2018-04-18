@@ -1,12 +1,18 @@
-import Delis
+import Deli
 
 class TestViewModel: Autowired {
-    static var scope: Scope {
+    var scope: Scope {
         return .prototype
     }
+    
+    var testCount: Int = 0
 
     let accountService: AccountService
     let friendService: FriendService
+    
+    func test() {
+        testCount += 1
+    }
 
     required init(_ accountService: AccountService, _ friendService: FriendService) {
         self.accountService = accountService

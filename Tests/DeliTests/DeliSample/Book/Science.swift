@@ -1,7 +1,7 @@
 import Foundation
 
-struct Science: Book {
-    static var qualifier: String? {
+class Science: Book {
+    var qualifier: String? {
         return "Science"
     }
 

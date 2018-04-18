@@ -1,13 +1,19 @@
-import Delis
+import Deli
 
 class TestService: LazyAutowired {
-    let friendService: FriendService!
+    var friendService: FriendService!
+    
+    var testCount: Int = 0
+    
+    func test() {
+        testCount += 1
+    }
 
     func inject(_ friendService: FriendServiceImpl) {
         self.friendService = friendService
     }
 
-    init() {
+    required init() {
         
     }
 }

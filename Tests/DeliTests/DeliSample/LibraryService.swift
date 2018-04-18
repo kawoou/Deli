@@ -1,4 +1,4 @@
-import Delis
+import Deli
 
 final class LibraryService: Autowired {
     let testService: TestService

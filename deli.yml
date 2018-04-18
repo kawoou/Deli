@@ -1,0 +1,3 @@
+project: DeliSample
+scheme: DeliSample
+output: Tests/DeliTests/DeliSample/DeliFactory.swift

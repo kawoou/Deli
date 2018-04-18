@@ -24,13 +24,15 @@ Deli is an easy-to-use Dependency Injection Container that creates DI containers
   - [LazyAutowired](#3-lazyautowired)
   - [Configuration](#4-configuration)
   - [Inject](#5-inject)
+  - [Testable](#6-testable)
 * [Installation](#installation)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
   - [Command Line](#command-line)
 * [Contributing](#contributing)
-* [License](#license)
+* [Requirements](#requirements)
 * [Attributions](#attributions)
+* [License](#license)
 
 
 
@@ -316,6 +318,56 @@ class NovelBookView: Inject {
 
 
 
+### 6. Testable
+
+Deli provides methods for testing in AppContext.
+
+It is `setTestMode ()`:
+
+```swift
+public func setTestMode(_ active: Bool, qualifierPrefix: String)
+```
+
+Suppose that a test mode is activating using the function above.
+
+Then using the `qualifier` prefix when gets instances from DI containers(if it exists).
+
+If you register a Mock object for testing in the DI Container, it will be gets first.
+
+```swift
+/// Register
+AppContext.shared.register(
+    AccountService.self,
+    resolver: {
+        let networkManager = AppContext.shared.get(NetworkManager.self, qualifier: "")!
+        let libraryService = AppContext.shared.get(LibraryService.self, qualifier: "")!
+
+        return MockAccountService(networkManager, libraryService)
+    },
+    qualifier: "test",
+    scope: .singleton
+)
+
+/// Test Mode
+AppContext.shared.setTestMode(true, qualifierPrefix: "test")
+
+/// Inject
+let accountService = Inject(AccountService.self)
+
+if accountService is MockAccountService {
+  print("Test Mode")
+} else {
+  print("Normal Mode")
+}
+
+/// Result
+> Test Mode
+```
+
+An example of a test code is `Deli.xcodeproj`.
+
+
+
 ## Installation
 
 ### [Cocoapods](https://cocoapods.org/):
@@ -345,6 +397,7 @@ Available commands:
    build      Build the Dependency Graph.
    generate   Generate the Dependency Graph.
    help       Display general or command-specific help
+   upgrade    Upgrade outdated.
    validate   Validate the Dependency Graph.
    version    Display the current version of Deli
 ```
@@ -359,9 +412,9 @@ If you want to contribute, [submit a pull request](https://github.com/kawoou/Del
 
 
 
-### License
+## Requirements
 
-Deli is under MIT license. See the [LICENSE](https://github.com/kawoou/Deli/blob/master/LICENSE) file for more info.
+* Swift 3.1+
 
 
 
@@ -384,4 +437,10 @@ This project is powered by
  * [Commandant](https://github.com/Carthage/Commandant)
    - MIT License
    - Created by [Carthage](https://github.com/Carthage)
+
+
+
+### License
+
+Deli is under MIT license. See the [LICENSE](https://github.com/kawoou/Deli/blob/master/LICENSE) file for more info.
 
