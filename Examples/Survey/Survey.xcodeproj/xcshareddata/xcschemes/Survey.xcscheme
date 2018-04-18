@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9D0CEFE5206BCE7900A81AA1"
+               BlueprintIdentifier = "030E6123A84B5FD2FF1931616AF8BBF8"
                BuildableName = "Survey.app"
                BlueprintName = "Survey"
                ReferencedContainer = "container:Survey.xcodeproj">
@@ -26,14 +26,13 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9D0CEFE5206BCE7900A81AA1"
+            BlueprintIdentifier = "030E6123A84B5FD2FF1931616AF8BBF8"
             BuildableName = "Survey.app"
             BlueprintName = "Survey"
             ReferencedContainer = "container:Survey.xcodeproj">
@@ -46,7 +45,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -57,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9D0CEFE5206BCE7900A81AA1"
+            BlueprintIdentifier = "030E6123A84B5FD2FF1931616AF8BBF8"
             BuildableName = "Survey.app"
             BlueprintName = "Survey"
             ReferencedContainer = "container:Survey.xcodeproj">
@@ -76,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9D0CEFE5206BCE7900A81AA1"
+            BlueprintIdentifier = "030E6123A84B5FD2FF1931616AF8BBF8"
             BuildableName = "Survey.app"
             BlueprintName = "Survey"
             ReferencedContainer = "container:Survey.xcodeproj">

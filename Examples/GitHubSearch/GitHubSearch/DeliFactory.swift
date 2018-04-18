@@ -17,7 +17,7 @@ final class DeliFactory {
                 return ViewModel(_GitHubService)
             },
             qualifier: "",
-            scope: .singleton
+            scope: .prototype
         )
         context.register(
             NetworkManagerImpl.self,

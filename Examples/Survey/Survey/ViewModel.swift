@@ -9,7 +9,7 @@ class ViewModel: Autowired {
     
     // MARK: - Deli
     
-    static let scope: Scope = .prototype
+    let scope: Scope = .prototype
     
     // MARK: - Property
     

@@ -50,11 +50,17 @@ In Spring framework provides automatic registration using some code rules and th
 
 Simple setup for the automated configuration files, `deli.yml`.
 
+If the configuration file does not exist, find the build target for a unique project in the current folders automatically. It works the same even if no `scheme` or `output` field is specified.
+
 ```yaml
 project: MyProject
 scheme: MyScheme
 output: Sources/DeliFactory.swift
 ```
+
+You’ll have to make your targets `Shared`. To do this `Manage Schemes` and check the `Shared` areas:
+
+![shared-build-scheme](https://github.com/kawoou/Deli/raw/screenshot/shared-build-scheme.png)
 
 Then build with the provided binaries.
 
@@ -105,9 +111,10 @@ Just add a new "Run Script Phase" with:
 if which deli >/dev/null; then
   deli build
 else
-  echo "warning: Deli not installed, download from https://github.com/kawoou/Deli"
+  echo "error: Deli not installed, download from https://github.com/kawoou/Deli"
 fi
 ```
+
 ![Build Phase](https://github.com/kawoou/Deli/raw/screenshot/xcode-run-script.png)
 
 Alternatively, if you've installed Deli via CocoaPods the script should look like this:

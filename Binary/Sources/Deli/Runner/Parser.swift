@@ -83,10 +83,7 @@ final class Parser: Runnable {
         var inheritanceList = [InheritanceInfo]()
         var queue = inheritanceMap[name]?.types ?? []
         while let item = queue.popLast() {
-            guard let info = inheritanceMap[item] else {
-                Logger.log(.error("Type not found: \(item)."))
-                return []
-            }
+            guard let info = inheritanceMap[item] else { continue }
             queue.append(contentsOf: info.types)
             inheritanceList.append(info)
         }
