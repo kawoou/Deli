@@ -12,12 +12,7 @@ struct UpgradeCommand: CommandProtocol {
     let function = "Upgrade outdated."
 
     func run(_ options: UpgradeOptions) -> Result<(), CommandError> {
-        if options.isVerbose {
-            Logger.isError = true
-            Logger.isWarn = true
-            Logger.isInfo = true
-            Logger.isDebug = true
-        }
+        Logger.isVerbose = options.isVerbose
 
         guard let latestVersion = VersionManager.shared.getLatestVersion() else {
             return .failure(.notFoundLatestVersion)

@@ -65,7 +65,7 @@ You’ll have to make your targets `Shared`. To do this `Manage Schemes` and che
 Then build with the provided binaries.
 
 ```bash
-deli build
+$ deli build
 ```
 
 Dependency Graph is configured through source code analysis. It is saved as the file you specified earlier.
@@ -257,8 +257,10 @@ class MessageService: Autowired {
 
 If you try to inject a MessageService, Circular Dependency will occurred.
 
-```
-MessageService -> FriendService -> UserService -> MessageService(!) -> ...
+```bash
+$ deli validate
+
+Error: The circular dependency exists. (MessageService -> FriendService -> UserService -> MessageService)
 ```
 
 What if UserService extends `LazyAutowired`?

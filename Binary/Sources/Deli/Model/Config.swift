@@ -24,10 +24,10 @@ struct Config: Decodable {
 
     // MARK: - Lifecycle
 
-    init(project: String) {
+    init(project: String, scheme: String? = nil, output: String? = nil) {
         self.project = project
-        self.scheme = nil
-        self.output = nil
+        self.scheme = scheme
+        self.output = output
     }
 
     init(from decoder: Decoder) throws {

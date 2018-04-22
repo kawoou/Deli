@@ -195,10 +195,8 @@ final class Configuration {
     }
 
     // MARK: - Lifecycle
-
-    init?(path: String?) {
-        guard let (config, basePath) = Configuration.loadConfig(path) else { return nil }
-
+    
+    private init?(config: Config, basePath: String) {
         let projectFile: String = {
             if config.project.hasSuffix(Constant.xcodeProjectExtension) {
                 return config.project
@@ -210,7 +208,7 @@ final class Configuration {
             Logger.log(.error("Cannnot open the project file. \(projectFile)"))
             return nil
         }
-
+        
         guard let project = try? XcodeProj(pathString: projectURL.path) else {
             Logger.log(.error("Cannnot open the project file. \(projectURL.lastPathComponent)"))
             return nil
@@ -223,10 +221,10 @@ final class Configuration {
             Logger.log(.error("Cannot load the build scheme. \(projectURL.lastPathComponent)"))
             return nil
         }
-
+        
         let outputPath: String = {
             let path = "\(basePath)/\(config.output ?? Constant.outputFile)"
-
+            
             var isDirectory: ObjCBool = false
             if FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue {
                 return "\(path)/\(Constant.outputFile)"
@@ -234,12 +232,25 @@ final class Configuration {
                 return path
             }
         }()
-
+        
         self.projectPath = basePath
         self.project = project
         self.target = nativeTarget.value
         self.outputPath = outputPath
-
+        
         parseFileTree(group: self.project.pbxproj.rootGroup)
+    }
+    
+    convenience init?(projectPath: String, scheme: String?, output: String?) {
+        guard let url = URL(string: projectPath) else { return nil }
+        let config = Config(project: url.lastPathComponent, scheme: scheme, output: output)
+        let basePath = url.deletingLastPathComponent().path
+        
+        self.init(config: config, basePath: basePath)
+    }
+    convenience init?(path: String?) {
+        guard let (config, basePath) = Configuration.loadConfig(path) else { return nil }
+        
+        self.init(config: config, basePath: basePath)
     }
 }
