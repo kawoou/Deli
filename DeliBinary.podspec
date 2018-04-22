@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.homepage          = 'https://github.com/kawoou/Deli'
   s.authors           = { 'Jungwon An' => 'kawoou@kawoou.kr' }
   s.social_media_url  = 'http://fb.com/kawoou'
-  s.source            = { :http => "#{s.homepage}/releases/download/#{s.version}/portable_deli.zip" }
+  s.source            = { :http => "#{s.homepage}/releases/download/v#{s.version}/portable_deli.zip" }
   s.preserve_paths    = '*'
 
 end
