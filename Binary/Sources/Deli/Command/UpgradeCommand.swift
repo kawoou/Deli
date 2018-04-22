@@ -28,7 +28,7 @@ struct UpgradeCommand: CommandProtocol {
         wget https://github.com/kawoou/Deli/releases/download/\(latestVersion)/portable_deli.zip -q -o /dev/null -O &> /dev/null
         unzip -o -q portable_deli.zip
         sudo rm $OLD_PATH
-        sudo cp ./Build/deli $OLD_PATH
+        sudo cp ./deli $OLD_PATH
         echo "Upgrade complete to \(latestVersion)!"
         exit
         """
