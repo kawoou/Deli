@@ -11,15 +11,22 @@ struct ValidateCommand: CommandProtocol {
     let function = "Validate the Dependency Graph."
 
     func run(_ options: ValidateOptions) -> Result<(), CommandError> {
-        if options.isVerbose {
-            Logger.isError = true
-            Logger.isWarn = true
-            Logger.isInfo = true
-            Logger.isDebug = true
-        }
+        Logger.isVerbose = options.isVerbose
 
-        guard let configure = Configuration(path: options.configFile) else {
-            return .failure(.failedToLoadConfigFile)
+        let configure: Configuration
+        if let project = options.project {
+            guard let config = Configuration(projectPath: project, scheme: options.scheme, output: nil) else {
+                return .failure(.failedToLoadConfigFile)
+            }
+            configure = config
+        } else {
+            guard options.scheme == nil else {
+                return .failure(.mustBeUsedWithProjectArguments)
+            }
+            guard let config = Configuration(path: options.configFile) else {
+                return .failure(.failedToLoadConfigFile)
+            }
+            configure = config
         }
 
         let sourceFiles = configure.getSourceList()
@@ -59,12 +66,14 @@ struct ValidateCommand: CommandProtocol {
 
 struct ValidateOptions: OptionsProtocol {
     let configFile: String?
+    let project: String?
+    let scheme: String?
     let isVerbose: Bool
 
-    static func create(configFile: String?) -> (_ isVerbose: Bool) -> ValidateOptions {
-        return { isVerbose in
-            self.init(configFile: configFile, isVerbose: isVerbose)
-        }
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ isVerbose: Bool) -> ValidateOptions {
+        return { project in { scheme in { isVerbose in
+            self.init(configFile: configFile, project: project, scheme: scheme, isVerbose: isVerbose)
+        }}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<ValidateOptions, CommandantError<CommandError>> {
@@ -73,6 +82,16 @@ struct ValidateOptions: OptionsProtocol {
                 key: "config",
                 defaultValue: nil,
                 usage: "the path to Deli's configuration file"
+            )
+            <*> mode <| Option(
+                key: "project",
+                defaultValue: nil,
+                usage: "the path of project file"
+            )
+            <*> mode <| Option(
+                key: "scheme",
+                defaultValue: nil,
+                usage: "using build scheme name"
             )
             <*> mode <| Option(
                 key: "verbose",

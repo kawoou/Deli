@@ -42,16 +42,16 @@ final class Logger {
         var prefix: String {
             switch self {
             case .fatal:
-                return "❌ Fatal"
+                return "Fatal"
             case .error:
-                return "⛔️ Error"
+                return "Error"
             case .warn:
-                return "⚠️ Warning"
+                return "Warning"
             case .info:
                 return ""
             case .debug,
                  .assert:
-                return "🔵️ Debug"
+                return "Debug"
             }
         }
         
@@ -77,15 +77,12 @@ final class Logger {
     }()
     
     // MARK: - Public
-
-    static var isError: Bool = true
-    static var isWarn: Bool = true
-    static var isInfo: Bool = true
-    static var isDebug: Bool = false
     
+    static var isVerbose: Bool = false
+
     static func log(
         _ logging: LoggingType,
-        color: Color = .default,
+        color: Color? = nil,
         _ file: String = #file,
         _ line: Int = #line,
         _ function: String = #function
@@ -93,31 +90,39 @@ final class Logger {
         let now = Logger.dateFormatter.string(from: Date())
         let file = URL(fileURLWithPath: file).lastPathComponent
         
-        let output = "[\(now)] \(logging.prefix): \(logging.message)"
+        let output: String = {
+            let timeString = isVerbose ? "[\(now)] " : ""
+            let validateString = logging.prefix.isEmpty ? "" : "\(logging.prefix): "
+            
+            return "\(timeString)\(validateString)\(logging.message)"
+        }()
         
         switch logging {
         case .fatal:
+            let color = color ?? .red
             print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
             fatalError()
             
         case .error:
-            guard isError else { return }
+            let color = color ?? .red
             print(color.resolve(output))
 
         case .warn:
-            guard isWarn else { return }
+            let color = color ?? .yellow
             print(color.resolve(output))
 
         case .info:
-            guard isInfo else { return }
-            print(color.resolve(logging.message))
+            let color = color ?? .default
+            print(color.resolve(output))
 
         case .debug:
-            guard isDebug else { return }
+            guard isVerbose else { return }
+            let color = color ?? .cyan
             print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
 
         case .assert:
-            guard isDebug else { return }
+            guard isVerbose else { return }
+            let color = color ?? .cyan
             print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
             assertionFailure()
         }

@@ -12,15 +12,22 @@ struct BuildCommand: CommandProtocol {
     let function = "Build the Dependency Graph."
 
     func run(_ options: BuildOptions) -> Result<(), CommandError> {
-        if options.isVerbose {
-            Logger.isError = true
-            Logger.isWarn = true
-            Logger.isInfo = true
-            Logger.isDebug = true
-        }
+        Logger.isVerbose = options.isVerbose
 
-        guard let configure = Configuration(path: options.configFile) else {
-            return .failure(.failedToLoadConfigFile)
+        let configure: Configuration
+        if let project = options.project {
+            guard let config = Configuration(projectPath: project, scheme: options.scheme, output: options.output) else {
+                return .failure(.failedToLoadConfigFile)
+            }
+            configure = config
+        } else {
+            guard options.scheme == nil, options.output == nil else {
+                return .failure(.mustBeUsedWithProjectArguments)
+            }
+            guard let config = Configuration(path: options.configFile) else {
+                return .failure(.failedToLoadConfigFile)
+            }
+            configure = config
         }
 
         let sourceFiles = configure.getSourceList()
@@ -64,12 +71,15 @@ struct BuildCommand: CommandProtocol {
 
 struct BuildOptions: OptionsProtocol {
     let configFile: String?
+    let project: String?
+    let scheme: String?
+    let output: String?
     let isVerbose: Bool
 
-    static func create(configFile: String?) -> (_ isVerbose: Bool) -> BuildOptions {
-        return { isVerbose in
-            self.init(configFile: configFile, isVerbose: isVerbose)
-        }
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ output: String?) -> (_ isVerbose: Bool) -> BuildOptions {
+        return { project in { scheme in { output in { isVerbose in
+            self.init(configFile: configFile, project: project, scheme: scheme, output: output, isVerbose: isVerbose)
+        }}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<BuildOptions, CommandantError<CommandError>> {
@@ -78,6 +88,21 @@ struct BuildOptions: OptionsProtocol {
                 key: "config",
                 defaultValue: nil,
                 usage: "the path of Deli's configuration file"
+            )
+            <*> mode <| Option(
+                key: "project",
+                defaultValue: nil,
+                usage: "the path of project file"
+            )
+            <*> mode <| Option(
+                key: "scheme",
+                defaultValue: nil,
+                usage: "using build scheme name"
+            )
+            <*> mode <| Option(
+                key: "output",
+                defaultValue: nil,
+                usage: "the path of output file"
             )
             <*> mode <| Option(
                 key: "verbose",

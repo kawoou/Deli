@@ -9,6 +9,7 @@ enum CommandError: Error {
     case failedToLoadConfigFile
     case requiredOutputFile
     case unacceptableType
+    case mustBeUsedWithProjectArguments
     case unknown
 
     var localizedDescription: String {
@@ -23,6 +24,8 @@ enum CommandError: Error {
             return "Output file is required."
         case .unacceptableType:
             return "Unacceptable type."
+        case .mustBeUsedWithProjectArguments:
+            return "Must be used with project arguments."
         case .unknown:
             return "Unknown error."
         }
