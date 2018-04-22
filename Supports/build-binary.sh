@@ -22,8 +22,9 @@ xcodebuild clean build \
 swift build -c release
 cp .build/release/deli ./Build
 pkgbuild --identifier "io.kawoou.deli" --install-location "/usr/local/bin" --root "Build" --version "`cat ../version`" "Build/Deli.pkg"
+cp ../LICENSE ./Build/LICENSE
 cd Build
-zip -yr - "deli" "../../LICENSE" > "portable_deli.zip"
+zip -yr - "deli" "LICENSE" > "portable_deli.zip"
 cd ..
 
 rm -rf Deli.xcodeproj/
