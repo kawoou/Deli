@@ -23,11 +23,6 @@ script:
 - Supports/build-binary.sh
 - Supports/build-framework.sh
 
-after_success:
-- if [ $TEST == 1 ]; then
-    bash <(curl -s https://codecov.io/bash) -X xcodeplist -J 'Deli';
-  fi
-
 deploy:
   provider: releases
   api_key:

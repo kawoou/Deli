@@ -21,14 +21,16 @@ if [ $TEST == 1 ]; then
         -destination "$DESTINATION" \
         -configuration Debug \
         -enableCodeCoverage YES \
-        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
+        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
+
+    bash <(curl -s https://codecov.io/bash) -X xcodeplist -J 'Deli'
 else
     xcodebuild clean build \
         -project "Deli.xcodeproj" \
         -scheme "Deli-Package" \
         -destination "$DESTINATION" \
         -configuration Debug \
-        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
+        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
 fi
 
 carthage build --no-skip-current --verbose | xcpretty -c
