@@ -9,48 +9,47 @@
 <a href="http://cocoadocs.org/docsets/Deli"><img src="https://img.shields.io/cocoapods/p/Deli.svg?style=flat" alt="Platform"/></a>
 </p>
 
-Deli is an easy-to-use Dependency Injection Container that creates DI containers with all required registrations and corresponding factories.
+Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
 
 
 
 
-## Table of Contents
-* [Overview](#overview)
-* [Getting Started](#getting-started)
+## 목차
+* [개요](#개요)
+* [시작하기](#시작하기)
   - [Build Phases](#build-phases)
-* [Features](#features)
+* [기능](#기능)
   - [Component](#1-component)
   - [Autowired](#2-autowired)
   - [LazyAutowired](#3-lazyautowired)
   - [Configuration](#4-configuration)
   - [Inject](#5-inject)
-  - [Testable](#6-testable)
-* [Installation](#installation)
+  - [테스트](#6-테스트)
+* [설치 방법](#설치-방법)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
   - [Command Line](#command-line)
-* [Contributing](#contributing)
-* [Requirements](#requirements)
+* [기여 방법](#기여-방법)
+* [요구사항](#요구사항)
 * [Attributions](#attributions)
 * [License](#license)
 
 
 
-## Overview
+## 개요
 
-Wanna spaghetti? or not.
-As your project grows, will experience a complex. We can write the wrong code by mistake.
+우리는 언제나 실수를 저지를 수 있으며 잘못된 코드를 작성할 수 있습니다. 당신은 프로젝트가 커지면서 복잡성이 늘어나는 것을 경험한 적이 있을 것입니다.
 
-In [Spring framework](https://github.com/spring-projects/spring-framework) provides automatic registration using some code rules and throws the wrong Dependency Graph before running. I wanted these features to be in Swift.
-
+[Spring framework](https://github.com/spring-projects/spring-framework)에서는 Annotation을 이용하여 자동 등록 기능을 제공하는 것뿐만 아니라 Dependency Graph의 문제를 알려줍니다. 저는 이 기능을 Swift에도 녹여내고 싶었습니다.
 
 
 
-## Getting Started
 
-Simple setup for the automated configuration files, `deli.yml`.
+## 시작하기
 
-If the configuration file does not exist, find the build target for a unique project in the current folders automatically. It works the same even if no `scheme` or `output` field is specified.
+`deli.yml`이라는 설정 파일을 만들어 봅시다.
+
+만약 설정 파일이 존재하지 않는다면, 현재 폴더의 유일한 프로젝트의 빌드 타겟을 찾습니다. 이것은 `scheme`이나 `output` 필드를 지정하지 않았을 때와 비슷하게 동작합니다.
 
 ```yaml
 project: MyProject
@@ -58,19 +57,19 @@ scheme: MyScheme
 output: Sources/DeliFactory.swift
 ```
 
-You’ll have to make your targets `Shared`. To do this `Manage Schemes` and check the `Shared` areas:
+당신이 지정한 빌드 타겟은 `Shared`로 설정되어야 합니다. Xcode의 `Manage Scheme`에서 `Shared` 영역을 확인합시다:
 
 ![shared-build-scheme](https://github.com/kawoou/Deli/raw/screenshot/shared-build-scheme.png)
 
-Then build with the provided binaries.
+그리고, 제공된 바이너리를 통해 빌드합니다.
 
 ```bash
 $ deli build
 ```
 
-Dependency Graph is configured through source code analysis. It is saved as the file you specified earlier.
+Dependency Graph는 소스코드 정적 분석을 통해 구성됩니다. 그리고 이것은 당신이 지정한 파일 혹은 폴더에 저장됩니다.
 
-File contents as below:
+만들어진 파일은 다음과 같습니다:
 
 ```swift
 class DeliFactory {
@@ -81,7 +80,7 @@ class DeliFactory {
 }
 ```
 
-Add the generated file to the project and call it from the app's launch point.
+생성된 파일을 프로젝트에 추가하고, 앱의 시작 지점에서 불러줍니다.
 
 ![drag-and-drop](https://github.com/kawoou/Deli/raw/screenshot/drag-and-drop-deli-factory.png)
 
@@ -104,8 +103,8 @@ class AppDelegate {
 
 ### Build Phases
 
-Integrate Deli into an Xcode scheme to get warnings and errors displayed in the IDE.
-Just add a new "Run Script Phase" with:
+Deli를 Xcode 스킴에 통합하여 IDE 상에 경고와 에러를 표시할 수 있습니다.
+새로운 "Run Script Phase"를 만들고 아래의 스크립트를 추가하면 됩니다:
 
 ```bash
 if which deli >/dev/null; then
@@ -117,7 +116,7 @@ fi
 
 ![Build Phase](https://github.com/kawoou/Deli/raw/screenshot/xcode-run-script.png)
 
-Alternatively, if you've installed Deli via CocoaPods the script should look like this:
+CocoaPods를 사용해서 설치한 경우에는 아래의 스크립트를 대신 사용합니다:
 
 ```bash
 "${PODS_ROOT}/DeliBinary/deli" build
@@ -125,11 +124,11 @@ Alternatively, if you've installed Deli via CocoaPods the script should look lik
 
 
 
-## Features
+## 기능
 ### 1. Component
-The class, struct, and protocol can extend the `Component` protocol and will be registered automatically in the DI container.
+`Component` 프로토콜은 class, struct, protocol이 확장할 수 있으며, 확장한 구현체는 자동으로 DI container에 등록됩니다.
 
-`Component` can be used as below:
+`Component`는 다음과 같이 사용합니다:
 
 ```swift
 protocol UserService {
@@ -149,15 +148,15 @@ class UserServiceImpl: UserService, Component {
 }
 ```
 
-If the above code is written, you can use the `UserService` or `UserServiceImpl` type to load the dependency instance.
+위와 같은 코드가 작성되어 있다면, 당신은 `UserService`나 `UserServiceImpl` 타입을 사용해 의존성 구현체의 인스턴스를 로드할 수 있습니다.
 
 
 
 ### 2. Autowired
 
-The `Autowired` protocol is registered automatically, same as `Component` protocol. A difference, you can load the required dependencies from DI container.
+`Autowired` 프로토콜도 자동으로 등록된다는 점에서 `Component` 프로토콜과 비슷합니다. 다른 점이 있다면, 로드 시에 의존성을 주입받을 수 있다는 점입니다.
 
-`Autowired` can be used as below:
+`Autowired`는 다음과 같이 사용합니다:
 
 ```swift
 class LoginViewModel: Autowired {
@@ -169,7 +168,7 @@ class LoginViewModel: Autowired {
 }
 ```
 
-Easy right? So let's look at the code below.
+간단하죠? 그럼 이제 아래의 코드를 봅시다:
 
 ```swift
 protocol Book {
@@ -210,7 +209,7 @@ struct TroisiemeHumanite: Novel, Component {
 }
 ```
 
-This code arranged the books through inheritance. You can get all of `Book` instances like below:
+이 코드는 상속을 통해 책들을 정리하고 있습니다. 당신은 아래와 같이 `Book` 타입을 이용해 모든 책의 인스턴스를 받아올 수 있습니다:
 
 ```swift
 class LibraryService: Autowired {
@@ -226,10 +225,9 @@ class LibraryService: Autowired {
 
 ### 3. LazyAutowired
 
-If we can remove whole Circular Dependency cases, the world will be better than before, but it cannot be ruled completely.
-A simple way to solve this problem is to initialize one of the dependency lazily.
+순환 참조가 발생하지 않는 것이 가장 좋겠지만, 프로덕트를 개발하다보면 완전히 배제할 수는 없는 문제입니다. 문제를 해결하기 위한 간단한 방법은 하나의 의존성을 느리게 로드하는 방법이 있습니다.
 
-Let's try `LazyAutowired` protocol:
+그럼 `LazyAutowired` 프로토콜을 사용해봅시다:
 
 ```swift
 class UserService: Autowired {
@@ -255,7 +253,7 @@ class MessageService: Autowired {
 }
 ```
 
-If you try to inject a MessageService, Circular Dependency will occurred.
+만약 당신이 MessageService를 주입받고자 하면 순환 참조 에러를 마주하게 됩니다.
 
 ```bash
 $ deli validate
@@ -263,7 +261,7 @@ $ deli validate
 Error: The circular dependency exists. (MessageService -> FriendService -> UserService -> MessageService)
 ```
 
-What if UserService extends `LazyAutowired`?
+그럼 UserService가 `LazyAutowired`를 확장한다면 어떨까요?
 
 ```swift
 class UserService: LazyAutowired {
@@ -277,16 +275,17 @@ class UserService: LazyAutowired {
 }
 ```
 
-The cycle was broken and the issue was resolved!
-After MessageService instance successfully created, dependencies can be injected via `inject()` that UserService needed.
+순환 고리가 끊어지고 이슈가 해결되었습니다!
+MessageService가 성공적으로 생성된 이후에 필요로하는 UserService 의존성은 `inject()` 메소드를 통해 주입됩니다.
+
 
 
 
 ### 4. Configuration
 
-The `Configuration` protocol makes the user can register `Resolver` directly.
+`Configuration` 프로토콜은 사용자가 직접 `Resolver`를 직접 등록할 수 있도록 해줍니다.
 
-Let's look at the code:
+아래의 코드를 봅시다:
 
 ```swift
 class UserConfiguration: Configuration {
@@ -298,16 +297,16 @@ class UserConfiguration: Configuration {
     init() {}
 }
 ```
-You can see privateKey is passed to ConfigurationManager on NetworkManager creation.
+ConfigurationManager에 privateKey를 넘겨 NetworkManager를 생성하는 모습을 볼 수 있습니다.
 
-This NetworkManager instance is registered in DI container, and it will be managed as singleton.
-(However, instance behavior can be changed by updating scope argument.)
+이 NetworkManager 인스턴스는 DI container에 등록되고, `singleton` Scope로써 관리됩니다.
+(그러나, 이 동작은 scope 인자를 변경하여 바꿀 수 있습니다.)
 
 
 
 ### 5. Inject
 
-As written, `Autowired` is registered in DI container. But you may want to use without registration. That's an `Inject`.
+설명했듯이, `Autowired`는 DI container에 등록됩니다. 그러나 등록하지 않고 사용하고 싶을 수도 있습니다. 이 때 사용하는 것이 `Inject`입니다.
 
 ```swift
 class LoginView: Inject {
@@ -327,19 +326,19 @@ class NovelBookView: Inject {
 
 
 
-### 6. Testable
+### 6. 테스트
 
-Deli provides methods for testing in AppContext.
+Deli는 AppContext에서 테스트를 위한 메소드를 제공합니다.
 
-It is `setTestMode()`:
+그것은 `setTestMode()` 메소드입니다:
 
 ```swift
 public func setTestMode(_ active: Bool, qualifierPrefix: String)
 ```
 
-Suppose that a test mode is activating using the method above. Then using the `qualifier` prefix when gets instances from DI containers(if it exists).
+위의 메소드를 사용해 Test Mode가 활성화되었다고 가정해봅시다. 그러면 DI container에서 인스턴스를 가져올 때 `qualifier` 접두어를 사용하게 됩니다(존재할 경우).
 
-If you register a Mock object for testing in the DI Container, it will be gets first.
+만약 당신이 테스트를 위해 DI container에 Mock Object를 등록한다면, 그것을 우선으로 가져오게 됩니다.
 
 ```swift
 /// Register
@@ -371,15 +370,15 @@ if accountService is MockAccountService {
 > Test Mode
 ```
 
-An example of a test code is `Deli.xcodeproj`.
+테스트 코드에 대한 예시는 `Deli.xcodeproj`에서 확인할 수 있습니다.
 
 
 
-## Installation
+## 설치 방법
 
 ### [Cocoapods](https://cocoapods.org/):
 
-Simply add the following line to your Podfile:
+Podfile에 아래 라인을 추가하기만 하면 됩니다.
 
 ```ruby
 pod 'Deli'
@@ -411,15 +410,15 @@ Available commands:
 
 
 
-## Contributing
+## 기여 방법
 
-Any discussions and pull requests are welcomed.
+토론이나 PR은 어떤 것이든 환영합니다.
 
-If you want to contribute, [submit a pull request](https://github.com/kawoou/Deli/compare).
+만약 당신이 기여하고자 한다면, [PR을 등록해주세요](https://github.com/kawoou/Deli/compare).
 
 
 
-## Requirements
+## 요구사항
 
 * Swift 3.1+
 
@@ -427,7 +426,7 @@ If you want to contribute, [submit a pull request](https://github.com/kawoou/Del
 
 ## Attributions
 
-This project is powered by
+이 프로젝트는 아래의 프로젝트를 사용하고 있습니다.
 
  * [SourceKitten](https://github.com/jpsim/SourceKitten)
    - MIT License
