@@ -57,6 +57,13 @@ final class Configuration {
             .filter { [weak self] path in
                 guard let ss = self else { return false }
                 return path != ss.outputPath
+            }
+            .filter { [weak self] path in
+                guard FileManager.default.fileExists(atPath: path) else {
+                    Logger.log(.warn("The file `\(path)` couldn’t be opened because there is no such file."))
+                    return false
+                }
+                return true
             } ?? []
         #else
         return project.pbxproj.objects.sourcesBuildPhases
@@ -78,6 +85,13 @@ final class Configuration {
             .filter { [weak self] path in
                 guard let ss = self else { return false }
                 return path != ss.outputPath
+            }
+            .filter { [weak self] path in
+                guard FileManager.default.fileExists(atPath: path) else {
+                    Logger.log(.warn("The file `\(path)` couldn’t be opened because there is no such file."))
+                    return false
+                }
+                return true
             } ?? []
         #endif
     }
