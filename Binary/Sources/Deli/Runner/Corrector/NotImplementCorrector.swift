@@ -19,7 +19,10 @@ final class NotImplementCorrector: Correctable {
         var totalList = Set<Dependency>()
 
         for result in results {
-            let instanceDependency = Dependency(name: result.instanceType)
+            let instanceDependency = Dependency(
+                name: result.instanceType,
+                qualifier: result.qualifier ?? ""
+            )
             resultMap[instanceDependency] = result
 
             totalList.insert(instanceDependency)

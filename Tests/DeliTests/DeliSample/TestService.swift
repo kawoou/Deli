@@ -1,6 +1,8 @@
 import Deli
 
 class TestService: LazyAutowired {
+    var qualifier = "qualifierTest"
+
     var friendService: FriendService!
     
     var testCount: Int = 0

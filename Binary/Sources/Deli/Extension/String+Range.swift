@@ -18,4 +18,8 @@ extension String {
         let end = index(startIndex, offsetBy: r.upperBound)
         return String(self[start...end])
     }
+    subscript (r: CountablePartialRangeFrom<Int>) -> String {
+        let start = index(startIndex, offsetBy: r.lowerBound)
+        return String(self[start...])
+    }
 }
