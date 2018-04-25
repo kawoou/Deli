@@ -38,7 +38,9 @@ final class AutowiredConstructorResult: Results {
             .joined(separator: "\n        ")
 
         let dependencyInject = instanceDependency
-            .map { "_\($0.name)" }
+            .map { dependency in
+                return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(dependency.name)"
+            }
             .joined(separator: ", ")
 
         return """

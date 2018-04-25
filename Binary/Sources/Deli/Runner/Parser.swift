@@ -80,14 +80,15 @@ final class Parser: Runnable {
     // MARK: - Public
     
     func inheritanceList(_ name: String) -> [InheritanceInfo] {
+        guard let info = inheritanceMap[name] else { return [] }
         var inheritanceList = [InheritanceInfo]()
-        var queue = inheritanceMap[name]?.types ?? []
+        var queue = info.types
         while let item = queue.popLast() {
             guard let info = inheritanceMap[item] else { continue }
             queue.append(contentsOf: info.types)
             inheritanceList.append(info)
         }
-        return inheritanceList
+        return [info] + inheritanceList
     }
     
     func run(_ pathList: [String]) throws -> [Results] {

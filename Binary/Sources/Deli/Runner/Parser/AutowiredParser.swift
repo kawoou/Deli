@@ -60,12 +60,19 @@ final class AutowiredParser: Parsable {
             throw ParserError.constructorAmbiguous
         }
         
+        let qualifierList = constructorList.first?
+            .name?[Constant.constructorPrefix.count...]
+            .split(separator: ":")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map { $0 == "_" ? "" : $0 } ?? []
+        
         let scope = try parseScope(source, fileContent: fileContent)
         let qualifier = try parseQualifier(source, fileContent: fileContent)
         let dependencies = try constructorList
             .flatMap { $0.substructures }
             .filter { $0.kind == SwiftDeclarationKind.varParameter.rawValue }
-            .map { info -> Dependency in
+            .enumerated()
+            .map { (index, info) -> Dependency in
                 guard let typeName = info.typeName else {
                     Logger.log(.error("Unknown `\(name)` dependency type."))
                     throw ParserError.typeNotFound
@@ -74,11 +81,13 @@ final class AutowiredParser: Parsable {
                     Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`."))
                     throw ParserError.typeNotFound
                 }
+                
+                let qualifier = qualifierList[index]
 
                 if let arrayMatch = Constant.arrayRegex.findFirst(in: dependencyName), let arrayType = arrayMatch.group(at: 1) {
-                    return Dependency(name: arrayType, type: .array)
+                    return Dependency(name: arrayType, type: .array, qualifier: qualifier)
                 }
-                return Dependency(name: dependencyName)
+                return Dependency(name: dependencyName, qualifier: qualifier)
             }
         
         return [AutowiredConstructorResult(name, scope, qualifier, dependencies)]
