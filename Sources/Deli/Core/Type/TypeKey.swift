@@ -9,7 +9,7 @@ struct TypeKey {
 
     private let hash: Int
 
-    init(type: Any.Type, qualifier: String) {
+    init(type: Any.Type, qualifier: String = "") {
 	    self.type = type
         self.qualifier = qualifier
 

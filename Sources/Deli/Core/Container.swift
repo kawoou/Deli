@@ -25,8 +25,8 @@ final class Container: ContainerType {
         }
         
         guard let safeComponent = component else {
-            let childKey = TypeKey(type: key.type, qualifier: "")
-            if let chain = chainMap[childKey]?.first(where: { $0.qualifier == key.qualifier }), let component = map[chain] {
+            let childKey = TypeKey(type: key.type)
+            if let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }), let component = map[chain] {
                 return resolve(component: component)
             }
             throw ContainerError.unregistered
@@ -34,7 +34,7 @@ final class Container: ContainerType {
         return resolve(component: safeComponent)
     }
     func gets(_ key: TypeKey, prefix: Bool) throws -> [AnyObject] {
-        let newKey = TypeKey(type: key.type, qualifier: "")
+        let newKey = TypeKey(type: key.type)
         let list = mutex.sync {
             return chainMap[newKey] ?? []
         }
@@ -46,9 +46,7 @@ final class Container: ContainerType {
                     guard !prefix else {
                         return $0.qualifier.hasPrefix(key.qualifier)
                     }
-                    guard key.qualifier != "" else {
-                        return true
-                    }
+                    guard !key.qualifier.isEmpty else { return true }
                     return $0.qualifier == key.qualifier
                 }
                 .compactMap { try get($0) }
@@ -58,9 +56,7 @@ final class Container: ContainerType {
                     guard !prefix else {
                         return $0.qualifier.hasPrefix(key.qualifier)
                     }
-                    guard key.qualifier != "" else {
-                        return true
-                    }
+                    guard !key.qualifier.isEmpty else { return true }
                     return $0.qualifier == key.qualifier
                 }
                 .flatMap { try get($0) }
@@ -75,8 +71,8 @@ final class Container: ContainerType {
         }
         
         guard let safeComponent = component else {
-            let childKey = TypeKey(type: key.type, qualifier: "")
-            if let chain = chainMap[childKey]?.first(where: { $0.qualifier == key.qualifier }), let component = map[chain] {
+            let childKey = TypeKey(type: key.type)
+            if let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }), let component = map[chain] {
                 return resolveWithoutResolve(component: component)
             }
             throw ContainerError.unregistered
@@ -84,7 +80,7 @@ final class Container: ContainerType {
         return resolveWithoutResolve(component: safeComponent)
     }
     func gets(withoutResolve key: TypeKey, prefix: Bool) throws -> [AnyObject] {
-        let newKey = TypeKey(type: key.type, qualifier: "")
+        let newKey = TypeKey(type: key.type)
         let list = mutex.sync {
             return chainMap[newKey] ?? []
         }
@@ -96,9 +92,7 @@ final class Container: ContainerType {
                     guard !prefix else {
                         return $0.qualifier.hasPrefix(key.qualifier)
                     }
-                    guard key.qualifier != "" else {
-                        return true
-                    }
+                    guard !key.qualifier.isEmpty else { return true }
                     return $0.qualifier == key.qualifier
                 }
                 .compactMap { try get(withoutResolve: $0) }
@@ -108,9 +102,7 @@ final class Container: ContainerType {
                     guard !prefix else {
                         return $0.qualifier.hasPrefix(key.qualifier)
                     }
-                    guard key.qualifier != "" else {
-                        return true
-                    }
+                    guard !key.qualifier.isEmpty else { return true }
                     return $0.qualifier == key.qualifier
                 }
                 .flatMap { try get(withoutResolve: $0) }
@@ -123,6 +115,10 @@ final class Container: ContainerType {
         mutex.sync {
             map[key] = component
         }
+
+        guard !key.qualifier.isEmpty else { return }
+        let childKey = TypeKey(type: key.type)
+        link(childKey, children: key)
     }
     func link(_ key: TypeKey, children: TypeKey) {
         mutex.sync {

@@ -99,7 +99,7 @@ public class AppContext: AppContextType {
     public func get<T>(_ type: [T].Type, qualifier: String) -> [T] {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: T.self, qualifier: "\(testQualifierPrefix)\(qualifier)")
-            let prefixTest = (qualifier == "")
+            let prefixTest = qualifier.isEmpty
             
             let testList: [T] = {
                 #if swift(>=4.1)
@@ -150,7 +150,7 @@ public class AppContext: AppContextType {
     public func get<T>(withoutResolve type: [T].Type, qualifier: String) -> [T] {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: T.self, qualifier: "\(testQualifierPrefix)\(qualifier)")
-            let prefixTest = (qualifier == "")
+            let prefixTest = qualifier.isEmpty
             
             let testList: [T] = {
                 #if swift(>=4.1)
