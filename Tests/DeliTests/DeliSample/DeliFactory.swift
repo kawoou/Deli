@@ -76,7 +76,7 @@ final class DeliFactory {
             resolver: {
                 let _TestService = context.get(TestService.self, qualifier: "")!
                 let _Book = context.get([Book].self, qualifier: "")
-                return LibraryService(_TestService, _Book)
+                return LibraryService(qualifierTest: _TestService, _Book)
             },
             qualifier: "",
             scope: .singleton
@@ -98,7 +98,7 @@ final class DeliFactory {
                 let _FriendServiceImpl = context.get(FriendServiceImpl.self, qualifier: "")!
                 instance.inject(_FriendServiceImpl)
             },
-            qualifier: "",
+            qualifier: "qualifierTest",
             scope: .singleton
         )
         context.register(
