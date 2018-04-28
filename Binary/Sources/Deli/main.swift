@@ -31,7 +31,13 @@ DispatchQueue.global(qos: .default).async {
     registry.register(HelpCommand(registry: registry))
 
     registry.main(defaultVerb: "help") { error in
-        Logger.log(.error(error.localizedDescription))
+        switch error {
+        case .runner:
+            break
+            
+        default:
+            Logger.log(.error(error.localizedDescription, nil))
+        }
     }
 }
 

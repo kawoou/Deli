@@ -58,9 +58,9 @@ final class Configuration {
                 guard let ss = self else { return false }
                 return path != ss.outputPath
             }
-            .filter { [weak self] path in
+            .filter { path in
                 guard FileManager.default.fileExists(atPath: path) else {
-                    Logger.log(.warn("The file `\(path)` couldn’t be opened because there is no such file."))
+                    Logger.log(.warn("The file `\(path)` couldn’t be opened because there is no such file.", nil))
                     return false
                 }
                 return true
@@ -139,11 +139,12 @@ final class Configuration {
             #endif
 
             guard projectList.count > 0 else {
-                Logger.log(.error("Not found project file."))
+                Logger.log(.error("Not found project file.", nil))
                 return nil
             }
             guard projectList.count == 1 else {
-                Logger.log(.error("Ambiguous project file."))
+                Logger.log(.debug("Ambiguous project file: \(projectList.map { $0.lastPathComponent }.joined(separator: ", "))"))
+                Logger.log(.error("Ambiguous project file.", nil))
                 return nil
             }
             return (Config(project: projectList[0].lastPathComponent), currentDirectory)
@@ -153,8 +154,9 @@ final class Configuration {
         do {
             let data = try String(contentsOfFile: configPath, encoding: .utf8)
             return (try YAMLDecoder().decode(Config.self, from: data), url.deletingLastPathComponent().path)
-        } catch {
-            Logger.log(.error("Failed to load `\(Constant.configFile)` file."))
+        } catch let error {
+            Logger.log(.debug(error.localizedDescription))
+            Logger.log(.error("Failed to load `\(Constant.configFile)` file.", nil))
             return nil
         }
     }
@@ -185,22 +187,24 @@ final class Configuration {
 
         if schemeList.count == 0 {
             guard schemeName == nil else {
-                Logger.log(.error("Not found shared build scheme."))
+                Logger.log(.error("Build scheme `\(schemeName!)` is not shared.", nil))
                 return nil
             }
             guard project.pbxproj.objects.nativeTargets.count > 0 else {
-                Logger.log(.error("Not found build target."))
+                Logger.log(.error("Not found build target.", nil))
                 return nil
             }
             guard project.pbxproj.objects.nativeTargets.count == 1 else {
-                Logger.log(.error("Ambiguous build target."))
+                Logger.log(.debug("Ambiguous build target: \(project.pbxproj.objects.nativeTargets.keys.joined(separator: ", "))"))
+                Logger.log(.error("Ambiguous build target.", nil))
                 return nil
             }
             return project.pbxproj.objects.nativeTargets.keys.first
         }
 
         guard schemeList.count == 1 else {
-            Logger.log(.error("Ambiguous shared build scheme."))
+            Logger.log(.debug("Ambiguous shared build scheme: \(schemeList.map { $0.name }.joined(separator: ", "))"))
+            Logger.log(.error("Ambiguous shared build scheme.", nil))
             return nil
         }
 
@@ -219,20 +223,20 @@ final class Configuration {
             }
         }()
         guard let projectURL = URL(string: "\(basePath)/\(projectFile)") else {
-            Logger.log(.error("Cannnot open the project file. \(projectFile)"))
+            Logger.log(.error("Cannnot open the project file: \(projectFile)", nil))
             return nil
         }
         
         guard let project = try? XcodeProj(pathString: projectURL.path) else {
-            Logger.log(.error("Cannnot open the project file. \(projectURL.lastPathComponent)"))
+            Logger.log(.error("Cannnot open the project file: \(projectURL.lastPathComponent)", nil))
             return nil
         }
         guard let buildReference = Configuration.findBuildReference(project: project, schemeName: config.scheme) else {
-            Logger.log(.error("Cannot load the build scheme. \(projectURL.lastPathComponent)"))
+            Logger.log(.error("Cannot load the build scheme: \(projectURL.lastPathComponent)", nil))
             return nil
         }
         guard let nativeTarget = project.pbxproj.objects.nativeTargets.first(where: { $0.key == buildReference }) else {
-            Logger.log(.error("Cannot load the build scheme. \(projectURL.lastPathComponent)"))
+            Logger.log(.error("Cannot load the build scheme: \(projectURL.lastPathComponent)", nil))
             return nil
         }
         

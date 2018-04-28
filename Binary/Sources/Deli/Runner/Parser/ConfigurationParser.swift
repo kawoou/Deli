@@ -42,7 +42,7 @@ final class ConfigurationParser: Parsable {
             }
         
         guard rawArguments.count > 0 else {
-            Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments."))
+            Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
             throw ParserError.emptyArguments
         }
 
@@ -57,7 +57,7 @@ final class ConfigurationParser: Parsable {
         let dependencies = arguments
             /// Remove unnecessary arguments.
             .filter { $0.index(of: Constant.argumentInfoKeyword) == nil }
-            .map { Dependency(name: $0) }
+            .map { Dependency(parent: name, target: source, name: $0) }
 
         let qualifier = arguments
             .first(where: { $0.contains(Constant.qualifierPrefix) })?
@@ -71,22 +71,22 @@ final class ConfigurationParser: Parsable {
         /// Get previous context
         guard let index = parent.substructures.index(where: { $0 === source }) else {
             Logger.log(.assert("Not found the index of current structure on \(name)."))
-            Logger.log(.error("Unknown error in `\(name)`."))
+            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
         }
         guard index > 0 else {
             Logger.log(.assert("The `\(Constant.functionName)` method call position that can not exist."))
-            Logger.log(.error("Unknown error in `\(name)`."))
+            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
         }
 
         let prevSource = parent.substructures[index - 1]
         guard let variableName = prevSource.name else {
-            Logger.log(.error("Not found to stored name in `\(name)`."))
+            Logger.log(.error("Not found to stored name in `\(name)`.", prevSource.getSourceLine(with: fileContent)))
             throw ParserError.unavailableDeclaration
         }
         guard Constant.availableKinds.contains(prevSource.kind) else {
-            Logger.log(.error("Not allowed `\(name).\(variableName)` declaration."))
+            Logger.log(.error("Not allowed `\(name).\(variableName)` declaration.", prevSource.getSourceLine(with: fileContent)))
             throw ParserError.unavailableDeclaration
         }
 

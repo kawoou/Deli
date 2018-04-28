@@ -16,10 +16,16 @@ final class ConfigFunctionResult: Results {
     var variableName: String
     
     init(_ instanceType: String, _ scope: String?, _ qualifier: String?, _ dependency: [Dependency], parentInstanceType: String, variableName: String) {
+        let parentDependency = Dependency(
+            parent: instanceType,
+            target: dependency.first?.target,
+            name: parentInstanceType
+        )
+        
         self.instanceType = instanceType
         self.scope = scope
         self.qualifier = qualifier
-        self.dependencies = dependency + [Dependency(name: parentInstanceType)]
+        self.dependencies = dependency + [parentDependency]
         
         self.parentInstanceType = parentInstanceType
         self.variableName = variableName

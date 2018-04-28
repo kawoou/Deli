@@ -27,19 +27,20 @@ final class InjectParser: Parsable {
 
     // MARK: - Private
 
-    private func found(_ source: Structure, fileContent: String) throws -> Dependency? {
+    private func found(_ source: Structure, root: Structure, fileContent: String) throws -> Dependency? {
+        guard let rootName = root.name else { return nil }
         guard let name = source.name else { return nil }
         guard name == Constant.functionName else { return nil }
         guard source.kind == Constant.functionCallKey else { return nil }
 
         guard let parent = source.parent else {
             Logger.log(.assert("Not found the parent of current structure on \(name)."))
-            Logger.log(.error("Unknown error in `\(name)`."))
+            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
         }
         guard let index = parent.substructures.index(where: { $0 === source }) else {
             Logger.log(.assert("Not found the index of current structure on \(parent.name!)."))
-            Logger.log(.error("Unknown error in `\(parent.name!)`."))
+            Logger.log(.error("Unknown error in `\(parent.name!)`.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
         }
         let callExpr: String = {
@@ -55,13 +56,13 @@ final class InjectParser: Parsable {
         }()
 
         guard let prefixRange = callExpr.range(of: Constant.injectFuncPrefix) else {
-            Logger.log(.assert("Mismatched result of SourceKitten. \(callExpr)"))
-            Logger.log(.error("Unknown error."))
+            Logger.log(.assert("Mismatched prefix of `\(Constant.functionName)` method on SourceKitten result. \(callExpr)"))
+            Logger.log(.error("Unknown error.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
         }
         guard let infixRange = callExpr.range(of: Constant.injectFuncSuffix) else {
-            Logger.log(.assert("Mismatched result of SourceKitten. \(callExpr)"))
-            Logger.log(.error("Unknown error."))
+            Logger.log(.assert("Mismatched suffix of `\(Constant.functionName)` method on SourceKitten result. \(callExpr)"))
+            Logger.log(.error("Unknown error.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
         }
 
@@ -70,7 +71,7 @@ final class InjectParser: Parsable {
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
 
         guard arguments.count > 0 else {
-            Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments."))
+            Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
             throw ParserError.emptyArguments
         }
         
@@ -83,9 +84,19 @@ final class InjectParser: Parsable {
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
         if let arrayMatch = Constant.arrayRegex.findFirst(in: arguments[0]), let arrayType = arrayMatch.group(at: 1) {
-            return Dependency(name: arrayType, type: .array)
+            return Dependency(
+                parent: rootName,
+                target: source,
+                name: arrayType,
+                type: .array
+            )
         }
-        return Dependency(name: arguments[0], qualifier: qualifier)
+        return Dependency(
+            parent: rootName,
+            target: source,
+            name: arguments[0],
+            qualifier: qualifier
+        )
     }
 
     private func searchInject(_ source: Structure, fileContent: String) throws -> [Dependency] {
@@ -93,7 +104,7 @@ final class InjectParser: Parsable {
 
         var queue = source.substructures
         while let item = queue.popLast() {
-            guard let dependency = try found(item, fileContent: fileContent) else {
+            guard let dependency = try found(item, root: source, fileContent: fileContent) else {
                 queue.append(contentsOf: item.substructures)
                 continue
             }
