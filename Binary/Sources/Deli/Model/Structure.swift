@@ -32,10 +32,25 @@ final class Structure {
     let substructures: [Structure]
     let offset: Int64
     let length: Int64
+    let filePath: String
+
+    // MARK: - Public
+
+    func getSourceLine(with content: String? = nil) -> String {
+        guard let content = content else { return "\(filePath):1:0" }
+        let beforeIndex = content.index(content.startIndex, offsetBy: Int(offset))
+
+        let lineList: [String] = content[..<beforeIndex]
+            .split(separator: "\n", omittingEmptySubsequences: false)
+            .map { String($0) }
+
+        guard let currentLine = lineList.last else { return "\(filePath):1:0" }
+        return "\(filePath):\(lineList.count):\(currentLine.count)"
+    }
     
     // MARK: - Lifecycle
     
-    init?(source: KittenType) {
+    init?(source: KittenType, filePath: String) {
         guard let kind = source[SwiftDocKey.kind.rawValue] as? String else { return nil }
         guard let offset = source[SwiftDocKey.offset.rawValue] as? Int64 else { return nil }
         guard let length = source[SwiftDocKey.length.rawValue] as? Int64 else { return nil }
@@ -70,10 +85,10 @@ final class Structure {
         if let substructuresRaw = source[SwiftDocKey.substructure.rawValue] as? [KittenType] {
             #if swift(>=4.1)
             self.substructures = substructuresRaw
-                .compactMap { Structure(source: $0) }
+                .compactMap { Structure(source: $0, filePath: filePath) }
             #else
             self.substructures = substructuresRaw
-                .flatMap { Structure(source: $0) }
+                .flatMap { Structure(source: $0, filePath: filePath) }
             #endif
         } else {
             self.substructures = []
@@ -95,6 +110,7 @@ final class Structure {
         self.typeName = source[SwiftDocKey.typeName.rawValue] as? String
         self.offset = offset
         self.length = length
+        self.filePath = filePath
         
         /// Bind Parent
         self.substructures.forEach { [weak self] info in

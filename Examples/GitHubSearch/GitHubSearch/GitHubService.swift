@@ -32,7 +32,7 @@ final class GitHubServiceImpl: GitHubService, Autowired {
             .map { json -> SearchResponse in
                 guard let items = json["items"] as? [[String: Any]] else { return .empty }
                 
-                let repos = items.flatMap { $0["full_name"] as? String }
+                let repos = items.compactMap { $0["full_name"] as? String }
                 
                 guard repos.count < Constant.pageCount else {
                     return SearchResponse(query: query, repos: repos, nextPage: page + 1)

@@ -33,20 +33,20 @@ final class Logger {
 
     enum LoggingType {
         case fatal(String)
-        case error(String)
-        case warn(String)
+        case error(String, String?)
+        case warn(String, String?)
         case info(String)
         case debug(String)
         case assert(String)
-        
+
         var prefix: String {
             switch self {
             case .fatal:
                 return "Fatal"
-            case .error:
-                return "Error"
-            case .warn:
-                return "Warning"
+            case .error(_, let file):
+                return "\(file != nil ? "\(file!): " : "")error"
+            case .warn(_, let file):
+                return "\(file != nil ? "\(file!): " : "")warning"
             case .info:
                 return ""
             case .debug,
@@ -58,8 +58,8 @@ final class Logger {
         var message: String {
             switch self {
             case .fatal(let message),
-                 .error(let message),
-                 .warn(let message),
+                 .error(let message, _),
+                 .warn(let message, _),
                  .info(let message),
                  .debug(let message),
                  .assert(let message):
@@ -104,11 +104,11 @@ final class Logger {
             fatalError()
             
         case .error:
-            let color = color ?? .red
+            let color = color ?? .default
             print(color.resolve(output))
 
         case .warn:
-            let color = color ?? .yellow
+            let color = color ?? .default
             print(color.resolve(output))
 
         case .info:

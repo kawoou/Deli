@@ -3,6 +3,7 @@
 //  Deli
 //
 
+import Foundation
 import SourceKittenFramework
 
 final class Parser: Runnable {
@@ -63,11 +64,16 @@ final class Parser: Runnable {
     }
     
     private func parse(path: String) throws -> [Results] {
+        guard let url = URL(string: "\(FileManager.default.currentDirectoryPath)/\(path)")?.standardized else {
+            Logger.log(.warn("Failed to create URL: \(path)", nil))
+            return []
+        }
+
         let content = try String(contentsOfFile: path, encoding: .utf8)
-        
+
         /// Analysis the source code
         let info = (try? KittenStructure(file: File(contents: content)).dictionary) ?? [:]
-        guard let rootStructure = RootStructure(source: info) else {
+        guard let rootStructure = RootStructure(source: info, filePath: url.path) else {
             Logger.log(.debug("Failed to parse the source code in SourceKitten. (\(path))"))
             return []
         }

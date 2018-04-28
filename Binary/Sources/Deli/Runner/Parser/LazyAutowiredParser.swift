@@ -54,11 +54,13 @@ final class LazyAutowiredParser: Parsable {
             .filter { validInjector($0) }
 
         guard injectorList.count > 0 else {
-            Logger.log(.error("Not found `\(name)` constructor."))
+            Logger.log(.error("Not found `\(name)` constructor.", source.getSourceLine(with: fileContent)))
             throw ParserError.constructorNotFound
         }
         guard injectorList.count == 1 else {
-            Logger.log(.error("Ambiguous `\(name)` constructor. \(injectorList)"))
+            for injector in injectorList {
+                Logger.log(.error("Ambiguous `\(name)` constructor.", injector.getSourceLine(with: fileContent)))
+            }
             throw ParserError.constructorAmbiguous
         }
         
@@ -69,18 +71,27 @@ final class LazyAutowiredParser: Parsable {
             .filter { $0.kind == SwiftDeclarationKind.varParameter.rawValue }
             .map { info -> Dependency in
                 guard let typeName = info.typeName else {
-                    Logger.log(.error("Unknown `\(name)` dependency type."))
+                    Logger.log(.error("Unknown `\(name)` dependency type.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
                 guard let dependencyName = convert(name: typeName, fileContent: fileContent) else {
-                    Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`."))
+                    Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
 
-                if let arrayMatch = Constant.arrayRegex.findFirst(in: dependencyName), let arrayType = arrayMatch.group(at: 1) {
-                    return Dependency(name: arrayType, type: .array)
+                if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
+                    return Dependency(
+                        parent: name,
+                        target: injectorList.first,
+                        name: arrayType,
+                        type: .array
+                    )
                 }
-                return Dependency(name: dependencyName)
+                return Dependency(
+                    parent: name,
+                    target: injectorList.first,
+                    name: dependencyName
+                )
             }
 
         return [LazyAutowiredConstructorResult(name, scope, qualifier, dependencies)]

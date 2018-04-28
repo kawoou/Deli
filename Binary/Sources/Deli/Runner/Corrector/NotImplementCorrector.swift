@@ -20,6 +20,8 @@ final class NotImplementCorrector: Correctable {
 
         for result in results {
             let instanceDependency = Dependency(
+                parent: result.instanceType,
+                target: result.dependencies.first?.target,
                 name: result.instanceType,
                 qualifier: result.qualifier ?? ""
             )
@@ -44,13 +46,22 @@ final class NotImplementCorrector: Correctable {
                         return (result.qualifier ?? "") == dependency.qualifier
                     }
 
+                let fileLine: String? = {
+                    guard let targetInfo = dependency.target else {
+                        guard let info = parser.inheritanceList(dependency.name).first else { return nil }
+                        return info.structure.getSourceLine(with: info.content)
+                    }
+                    
+                    guard let info = parser.inheritanceList(dependency.parent).first else { return nil }
+                    return targetInfo.getSourceLine(with: info.content)
+                }()
                 guard correctList.count > 0 else {
-                    Logger.log(.error("Not found implementation on `\(dependency.name)(qualifier: \"\(dependency.qualifier)\")`."))
+                    Logger.log(.error("Not found implementation on `\(dependency.name)` with qualifier `\(dependency.qualifier)`.", fileLine))
                     throw CorrectorError.implementationNotFound
                 }
                 guard dependency.type != .single || correctList.count == 1 else {
                     let ambiguousNames = correctList.map { $0.instanceType }.joined(separator: ", ")
-                    Logger.log(.error("Ambiguous implementation on `\(dependency.name)` (\(ambiguousNames))"))
+                    Logger.log(.error("Ambiguous implementation on `\(dependency.name)` (\(ambiguousNames))", fileLine))
                     throw CorrectorError.ambiguousImplementation
                 }
                 correctList.forEach { $0.linkType.insert(dependency.name) }

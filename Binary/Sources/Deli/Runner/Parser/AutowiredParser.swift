@@ -55,8 +55,14 @@ final class AutowiredParser: Parsable {
         let constructorList = source.substructures
             .filter { validConstructor($0) }
 
+        guard constructorList.count > 0 else {
+            Logger.log(.error("Not found `\(name)` constructor.", source.getSourceLine(with: fileContent)))
+            throw ParserError.constructorNotFound
+        }
         guard constructorList.count == 1 else {
-            Logger.log(.error("Ambiguous `\(name)` constructor. \(constructorList)"))
+            for constructor in constructorList {
+                Logger.log(.error("Ambiguous `\(name)` constructor.", constructor.getSourceLine(with: fileContent)))
+            }
             throw ParserError.constructorAmbiguous
         }
         
@@ -74,20 +80,31 @@ final class AutowiredParser: Parsable {
             .enumerated()
             .map { (index, info) -> Dependency in
                 guard let typeName = info.typeName else {
-                    Logger.log(.error("Unknown `\(name)` dependency type."))
+                    Logger.log(.error("Unknown `\(name)` dependency type.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
                 guard let dependencyName = convert(name: typeName, fileContent: fileContent) else {
-                    Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`."))
+                    Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
                 
                 let qualifier = qualifierList[index]
 
-                if let arrayMatch = Constant.arrayRegex.findFirst(in: dependencyName), let arrayType = arrayMatch.group(at: 1) {
-                    return Dependency(name: arrayType, type: .array, qualifier: qualifier)
+                if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
+                    return Dependency(
+                        parent: name,
+                        target: constructorList.first,
+                        name: arrayType,
+                        type: .array,
+                        qualifier: qualifier
+                    )
                 }
-                return Dependency(name: dependencyName, qualifier: qualifier)
+                return Dependency(
+                    parent: name,
+                    target: constructorList.first,
+                    name: dependencyName,
+                    qualifier: qualifier
+                )
             }
         
         return [AutowiredConstructorResult(name, scope, qualifier, dependencies)]

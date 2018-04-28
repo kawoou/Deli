@@ -14,13 +14,18 @@ struct Dependency {
 
     // MARK: - Property
 
+    let parent: String
+    let target: Structure?
+    
     let name: String
     let type: DependencyType
     let qualifier: String
 
     // MARL: - Lifecycle
 
-    init(name: String, type: DependencyType = .single, qualifier: String = "") {
+    init(parent: String, target: Structure?, name: String, type: DependencyType = .single, qualifier: String = "") {
+        self.parent = parent
+        self.target = target
         self.name = name
         self.type = type
         self.qualifier = qualifier

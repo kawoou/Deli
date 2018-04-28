@@ -34,7 +34,13 @@ final class CircularDependencyValidator: Validatable {
 
         guard isInnerLazy == false else { return }
 
-        Logger.log(.error("The circular dependency exists. (\(chainStack.joined(separator: " -> ")))"))
+        for chain in chainStack {
+            let fileLine: String? = {
+                guard let info = parser.inheritanceList(chain).first else { return nil }
+                return info.structure.getSourceLine(with: info.content)
+            }()
+            Logger.log(.error("The circular dependency exists. (\(chainStack.joined(separator: " -> ")))", fileLine))
+        }
         throw ValidatorError.circularDependency
     }
 
@@ -43,8 +49,14 @@ final class CircularDependencyValidator: Validatable {
         travelInstance.insert(result.instanceType)
 
         for dependency in result.dependencies {
+            let fileLine: String? = {
+                guard let lastName = chainStack.last else { return nil }
+                guard let info = parser.inheritanceList(lastName).first else { return nil }
+                return info.structure.getSourceLine(with: info.content)
+            }()
+
             guard let results = resultMap[dependency.name] else {
-                Logger.log(.error("`\(dependency.name)` is unregistered dependency. (\(chainStack.joined(separator: " -> ")))"))
+                Logger.log(.error("`\(dependency.name)` is unregistered dependency. (\(chainStack.joined(separator: " -> ")))", fileLine))
                 throw ValidatorError.brokenLink
             }
             let newResults: [Results] = {
@@ -52,7 +64,7 @@ final class CircularDependencyValidator: Validatable {
                 return results.filter { $0.qualifier ?? "" == dependency.qualifier }
             }()
             guard newResults.count > 0 else {
-                Logger.log(.error("`\(dependency.name)(qualifier: \(dependency.qualifier))` is unregistered dependency. (\(chainStack.joined(separator: " -> ")))"))
+                Logger.log(.error("`\(dependency.name)(qualifier: \(dependency.qualifier))` is unregistered dependency. (\(chainStack.joined(separator: " -> ")))", fileLine))
                 throw ValidatorError.brokenLink
             }
 

@@ -26,7 +26,9 @@ func parseScope(_ source: Structure, fileContent: String) throws -> String? {
         .filter { $0.name == Constant.scopeName }
     
     guard scopeList.count <= 1 else {
-        Logger.log(.error("Ambiguous `\(name)` scope property. \(scopeList)"))
+        for scope in scopeList {
+            Logger.log(.error("Ambiguous `\(name)` scope property.", scope.getSourceLine(with: fileContent)))
+        }
         throw ParserError.scopeAmbiguous
     }
     
@@ -65,7 +67,9 @@ func parseQualifier(_ source: Structure, fileContent: String) throws -> String? 
         .filter { $0.name == Constant.qualifierName }
     
     guard qualifierList.count <= 1 else {
-        Logger.log(.error("Ambiguous `\(name)` qualifier property. \(qualifierList)"))
+        for qualifier in qualifierList {
+            Logger.log(.error("Ambiguous `\(name)` qualifier property.", qualifier.getSourceLine(with: fileContent)))
+        }
         throw ParserError.qualifierAmbiguous
     }
     
