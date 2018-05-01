@@ -221,6 +221,19 @@ class LibraryService: Autowired {
 }
 ```
 
+더 나아가서, "Novel" Qualifier가 지정된 책들을 가져오기 위해서는 어떡해야할까요?
+Deli에서는 아래와 같이 생성자 주입받을 수 있습니다:
+
+```swift
+class LibraryService: Autowired {
+    let bookcs: [Book]
+
+    required init(Novel books: [Book]) {
+        self.books = books
+    }
+}
+```
+
 
 
 ### 3. LazyAutowired
@@ -278,6 +291,19 @@ class UserService: LazyAutowired {
 순환 고리가 끊어지고 이슈가 해결되었습니다!
 MessageService가 성공적으로 생성된 이후에 필요로하는 UserService 의존성은 `inject()` 메소드를 통해 주입됩니다.
 
+추가적으로 LazyAutowired도 Autowired와 같이 Qualifier를 지정할 수 있습니다. 아래의 코드는 "facebook" Qualifier가 지정된 UserService 인스턴스를 받아옵니다:
+
+```swift
+class FacebookViewModel: LazyAutowired {
+    let userService: UserService!
+
+    func inject(facebook userService: UserService) {
+        self.userService = userService
+    }
+
+    required init() {}
+}
+```
 
 
 

@@ -222,6 +222,19 @@ class LibraryService: Autowired {
 }
 ```
 
+Furthermore, What should do to get the books with the "Novel" qualifier?
+In Deli, can be constructor injection in the below:
+
+```swift
+class LibraryService: Autowired {
+    let bookcs: [Book]
+
+    required init(Novel books: [Book]) {
+        self.books = books
+    }
+}
+```
+
 
 
 ### 3. LazyAutowired
@@ -280,6 +293,20 @@ class UserService: LazyAutowired {
 The cycle was broken and the issue was resolved!
 After MessageService instance successfully created, dependencies can be injected via `inject()` that UserService needed.
 
+In addition, LazyAutowired can be specified qualifier like Autowired.
+Below code injects a UserService instance with the "facebook" qualifier specified:
+
+```swift
+class FacebookViewModel: LazyAutowired {
+    let userService: UserService!
+
+    func inject(facebook userService: UserService) {
+        self.userService = userService
+    }
+
+    required init() {}
+}
+```
 
 
 ### 4. Configuration
