@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D3F857A209867FD002AD603 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F8579209867FD002AD603 /* UserViewModel.swift */; };
+		9D3F857C2098683F002AD603 /* UserPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F857B2098683F002AD603 /* UserPayload.swift */; };
 		9D8C8A292081D05B00A53F35 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A172081D05B00A53F35 /* TestViewModel.swift */; };
 		9D8C8A2A2081D05B00A53F35 /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A182081D05B00A53F35 /* FriendService.swift */; };
 		9D8C8A2B2081D05B00A53F35 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A192081D05B00A53F35 /* AccountService.swift */; };
@@ -24,20 +26,6 @@
 		9D8C8A372081D05B00A53F35 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A262081D05B00A53F35 /* TestService.swift */; };
 		9D8C8A382081D05B00A53F35 /* TestView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A272081D05B00A53F35 /* TestView1.swift */; };
 		9D8C8A392081D05B00A53F35 /* AccountConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A282081D05B00A53F35 /* AccountConfiguration.swift */; };
-		9D8C8A5C2081D0AC00A53F35 /* LazyAutowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A492081D0AC00A53F35 /* LazyAutowired.swift */; };
-		9D8C8A5D2081D0AC00A53F35 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A4B2081D0AC00A53F35 /* Container.swift */; };
-		9D8C8A5E2081D0AC00A53F35 /* ContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A4C2081D0AC00A53F35 /* ContainerComponent.swift */; };
-		9D8C8A5F2081D0AC00A53F35 /* TypeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A4E2081D0AC00A53F35 /* TypeKey.swift */; };
-		9D8C8A602081D0AC00A53F35 /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A4F2081D0AC00A53F35 /* Scope.swift */; };
-		9D8C8A612081D0AC00A53F35 /* Linker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A502081D0AC00A53F35 /* Linker.swift */; };
-		9D8C8A622081D0AC00A53F35 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A512081D0AC00A53F35 /* Resolver.swift */; };
-		9D8C8A632081D0AC00A53F35 /* Mutex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A532081D0AC00A53F35 /* Mutex.swift */; };
-		9D8C8A642081D0AC00A53F35 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A542081D0AC00A53F35 /* AppContext.swift */; };
-		9D8C8A652081D0AC00A53F35 /* ContainerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A562081D0AC00A53F35 /* ContainerError.swift */; };
-		9D8C8A662081D0AC00A53F35 /* Autowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A572081D0AC00A53F35 /* Autowired.swift */; };
-		9D8C8A672081D0AC00A53F35 /* Inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A582081D0AC00A53F35 /* Inject.swift */; };
-		9D8C8A682081D0AC00A53F35 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A592081D0AC00A53F35 /* Component.swift */; };
-		9D8C8A6A2081D0AC00A53F35 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A5B2081D0AC00A53F35 /* Configuration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +41,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D3F8579209867FD002AD603 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		9D3F857B2098683F002AD603 /* UserPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPayload.swift; sourceTree = "<group>"; };
 		9D8C8A172081D05B00A53F35 /* TestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
 		9D8C8A182081D05B00A53F35 /* FriendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendService.swift; sourceTree = "<group>"; };
 		9D8C8A192081D05B00A53F35 /* AccountService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
@@ -70,20 +60,6 @@
 		9D8C8A262081D05B00A53F35 /* TestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
 		9D8C8A272081D05B00A53F35 /* TestView1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView1.swift; sourceTree = "<group>"; };
 		9D8C8A282081D05B00A53F35 /* AccountConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountConfiguration.swift; sourceTree = "<group>"; };
-		9D8C8A492081D0AC00A53F35 /* LazyAutowired.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyAutowired.swift; sourceTree = "<group>"; };
-		9D8C8A4B2081D0AC00A53F35 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
-		9D8C8A4C2081D0AC00A53F35 /* ContainerComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerComponent.swift; sourceTree = "<group>"; };
-		9D8C8A4E2081D0AC00A53F35 /* TypeKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeKey.swift; sourceTree = "<group>"; };
-		9D8C8A4F2081D0AC00A53F35 /* Scope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
-		9D8C8A502081D0AC00A53F35 /* Linker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Linker.swift; sourceTree = "<group>"; };
-		9D8C8A512081D0AC00A53F35 /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
-		9D8C8A532081D0AC00A53F35 /* Mutex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutex.swift; sourceTree = "<group>"; };
-		9D8C8A542081D0AC00A53F35 /* AppContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
-		9D8C8A562081D0AC00A53F35 /* ContainerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerError.swift; sourceTree = "<group>"; };
-		9D8C8A572081D0AC00A53F35 /* Autowired.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Autowired.swift; sourceTree = "<group>"; };
-		9D8C8A582081D0AC00A53F35 /* Inject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Inject.swift; sourceTree = "<group>"; };
-		9D8C8A592081D0AC00A53F35 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
-		9D8C8A5B2081D0AC00A53F35 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		9DAED2192080E73F00860D80 /* DeliSample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DeliSample; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -102,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				9D8C8A172081D05B00A53F35 /* TestViewModel.swift */,
+				9D3F8579209867FD002AD603 /* UserViewModel.swift */,
+				9D3F857B2098683F002AD603 /* UserPayload.swift */,
 				9D8C8A182081D05B00A53F35 /* FriendService.swift */,
 				9D8C8A192081D05B00A53F35 /* AccountService.swift */,
 				9D8C8A1A2081D05B00A53F35 /* NetworkManager.swift */,
@@ -131,64 +109,9 @@
 			path = Book;
 			sourceTree = "<group>";
 		};
-		9D8C8A482081D0AC00A53F35 /* Deli */ = {
-			isa = PBXGroup;
-			children = (
-				9D8C8A492081D0AC00A53F35 /* LazyAutowired.swift */,
-				9D8C8A4A2081D0AC00A53F35 /* Core */,
-				9D8C8A572081D0AC00A53F35 /* Autowired.swift */,
-				9D8C8A582081D0AC00A53F35 /* Inject.swift */,
-				9D8C8A592081D0AC00A53F35 /* Component.swift */,
-				9D8C8A5B2081D0AC00A53F35 /* Configuration.swift */,
-			);
-			name = Deli;
-			path = Sources/Deli;
-			sourceTree = "<group>";
-		};
-		9D8C8A4A2081D0AC00A53F35 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				9D8C8A4B2081D0AC00A53F35 /* Container.swift */,
-				9D8C8A4C2081D0AC00A53F35 /* ContainerComponent.swift */,
-				9D8C8A4D2081D0AC00A53F35 /* Type */,
-				9D8C8A522081D0AC00A53F35 /* Support */,
-				9D8C8A542081D0AC00A53F35 /* AppContext.swift */,
-				9D8C8A552081D0AC00A53F35 /* Error */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		9D8C8A4D2081D0AC00A53F35 /* Type */ = {
-			isa = PBXGroup;
-			children = (
-				9D8C8A4E2081D0AC00A53F35 /* TypeKey.swift */,
-				9D8C8A4F2081D0AC00A53F35 /* Scope.swift */,
-				9D8C8A502081D0AC00A53F35 /* Linker.swift */,
-				9D8C8A512081D0AC00A53F35 /* Resolver.swift */,
-			);
-			path = Type;
-			sourceTree = "<group>";
-		};
-		9D8C8A522081D0AC00A53F35 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				9D8C8A532081D0AC00A53F35 /* Mutex.swift */,
-			);
-			path = Support;
-			sourceTree = "<group>";
-		};
-		9D8C8A552081D0AC00A53F35 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				9D8C8A562081D0AC00A53F35 /* ContainerError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
 		9DAED2102080E73F00860D80 = {
 			isa = PBXGroup;
 			children = (
-				9D8C8A482081D0AC00A53F35 /* Deli */,
 				9D8C8A162081D05B00A53F35 /* DeliSample */,
 				9DAED21A2080E73F00860D80 /* Products */,
 			);
@@ -259,36 +182,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D8C8A612081D0AC00A53F35 /* Linker.swift in Sources */,
-				9D8C8A5C2081D0AC00A53F35 /* LazyAutowired.swift in Sources */,
-				9D8C8A5E2081D0AC00A53F35 /* ContainerComponent.swift in Sources */,
-				9D8C8A622081D0AC00A53F35 /* Resolver.swift in Sources */,
 				9D8C8A302081D05B00A53F35 /* HarryPotter.swift in Sources */,
-				9D8C8A5F2081D0AC00A53F35 /* TypeKey.swift in Sources */,
-				9D8C8A6A2081D0AC00A53F35 /* Configuration.swift in Sources */,
 				9D8C8A2C2081D05B00A53F35 /* NetworkManager.swift in Sources */,
 				9D8C8A312081D05B00A53F35 /* COSMOS.swift in Sources */,
-				9D8C8A5D2081D0AC00A53F35 /* Container.swift in Sources */,
-				9D8C8A642081D0AC00A53F35 /* AppContext.swift in Sources */,
 				9D8C8A332081D05B00A53F35 /* Book.swift in Sources */,
-				9D8C8A602081D0AC00A53F35 /* Scope.swift in Sources */,
 				9D8C8A2B2081D05B00A53F35 /* AccountService.swift in Sources */,
 				9D8C8A322081D05B00A53F35 /* Novel.swift in Sources */,
 				9D8C8A382081D05B00A53F35 /* TestView1.swift in Sources */,
 				9D8C8A2E2081D05B00A53F35 /* DeliFactory.swift in Sources */,
-				9D8C8A632081D0AC00A53F35 /* Mutex.swift in Sources */,
 				9D8C8A392081D05B00A53F35 /* AccountConfiguration.swift in Sources */,
 				9D8C8A362081D05B00A53F35 /* MessageService.swift in Sources */,
-				9D8C8A682081D0AC00A53F35 /* Component.swift in Sources */,
-				9D8C8A672081D0AC00A53F35 /* Inject.swift in Sources */,
-				9D8C8A652081D0AC00A53F35 /* ContainerError.swift in Sources */,
 				9D8C8A292081D05B00A53F35 /* TestViewModel.swift in Sources */,
 				9D8C8A2F2081D05B00A53F35 /* TestView2.swift in Sources */,
+				9D3F857C2098683F002AD603 /* UserPayload.swift in Sources */,
+				9D3F857A209867FD002AD603 /* UserViewModel.swift in Sources */,
 				9D8C8A2D2081D05B00A53F35 /* LibraryService.swift in Sources */,
 				9D8C8A352081D05B00A53F35 /* TroisiemeHumanite.swift in Sources */,
 				9D8C8A372081D05B00A53F35 /* TestService.swift in Sources */,
 				9D8C8A342081D05B00A53F35 /* Science.swift in Sources */,
-				9D8C8A662081D0AC00A53F35 /* Autowired.swift in Sources */,
 				9D8C8A2A2081D05B00A53F35 /* FriendService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

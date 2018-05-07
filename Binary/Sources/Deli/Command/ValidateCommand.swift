@@ -37,6 +37,7 @@ struct ValidateCommand: CommandProtocol {
             ConfigurationParser(),
             AutowiredParser(),
             LazyAutowiredParser(),
+            AutowiredFactoryParser(),
             InjectParser()
         ])
         let corrector = Corrector([
@@ -45,6 +46,7 @@ struct ValidateCommand: CommandProtocol {
             NotImplementCorrector(parser: parser)
         ])
         let validator = Validator([
+            FactoryReferenceValidator(parser: parser),
             CircularDependencyValidator(parser: parser)
         ])
 

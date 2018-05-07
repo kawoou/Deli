@@ -7,10 +7,11 @@ import Foundation
 
 protocol ContainerType {
     func get(_ key: TypeKey) throws -> AnyObject?
-    func gets(_ key: TypeKey, prefix: Bool) throws -> [AnyObject]
+    func get(_ key: TypeKey, payload: _Payload) throws -> AnyObject?
+    func gets(_ key: TypeKey, prefix: Bool, payload: _Payload?) throws -> [AnyObject]
     func get(withoutResolve key: TypeKey) throws -> AnyObject?
     func gets(withoutResolve key: TypeKey, prefix: Bool) throws -> [AnyObject]
-    func register(_ key: TypeKey, component: ContainerComponent)
+    func register(_ key: TypeKey, component: _ContainerComponent)
     func link(_ key: TypeKey, children: TypeKey)
     func reset()
 }
@@ -20,18 +21,34 @@ final class Container: ContainerType {
     // MARK: - Public
 
     func get(_ key: TypeKey) throws -> AnyObject? {
-        let component = mutex.sync {
-            return map[key]
-        }
+        let component = mutex.sync { map[key] }
         
         guard let safeComponent = component else {
             let childKey = TypeKey(type: key.type)
-            if let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }), let component = map[chain] {
-                return resolve(component: component)
+            guard let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }) else {
+                throw ContainerError.unregistered
             }
-            throw ContainerError.unregistered
+            guard let component = map[chain] else {
+                throw ContainerError.unregistered
+            }
+            return resolve(component: component)
         }
         return resolve(component: safeComponent)
+    }
+    func get(_ key: TypeKey, payload: _Payload) throws -> AnyObject? {
+        let component = mutex.sync { map[key] }
+        
+        guard let safeComponent = component as? FactoryContainerComponent else {
+            let childKey = TypeKey(type: key.type)
+            guard let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }) else {
+                throw ContainerError.unregistered
+            }
+            guard let component = map[chain] as? FactoryContainerComponent else {
+                throw ContainerError.unregistered
+            }
+            return resolveWithFactory(component: component, payload: payload)
+        }
+        return resolveWithFactory(component: safeComponent, payload: payload)
     }
     func gets(_ key: TypeKey, prefix: Bool) throws -> [AnyObject] {
         let newKey = TypeKey(type: key.type)
@@ -40,7 +57,6 @@ final class Container: ContainerType {
         }
 
         do {
-            #if swift(>=4.1)
             return try list
                 .filter {
                     guard !prefix else {
@@ -50,17 +66,24 @@ final class Container: ContainerType {
                     return $0.qualifier == key.qualifier
                 }
                 .compactMap { try get($0) }
-            #else
-            return try list
-                .filter {
-                    guard !prefix else {
-                        return $0.qualifier.hasPrefix(key.qualifier)
-                    }
-                    guard !key.qualifier.isEmpty else { return true }
-                    return $0.qualifier == key.qualifier
-                }
-                .flatMap { try get($0) }
-            #endif
+        } catch {
+            return []
+        }
+    }
+    func gets(_ key: TypeKey, prefix: Bool, payload: _Payload?) throws -> [AnyObject] {
+        let newKey = TypeKey(type: key.type)
+        let list = mutex.sync { chainMap[newKey] ?? [] }
+            .filter {
+                guard !prefix else { return $0.qualifier.hasPrefix(key.qualifier) }
+                guard !key.qualifier.isEmpty else { return true }
+                return $0.qualifier == key.qualifier
+            }
+        
+        do {
+            guard let payload = payload else {
+                return try list.compactMap { try get($0) }
+            }
+            return try list.compactMap { try get($0, payload: payload) }
         } catch {
             return []
         }
@@ -86,7 +109,6 @@ final class Container: ContainerType {
         }
         
         do {
-            #if swift(>=4.1)
             return try list
                 .filter {
                     guard !prefix else {
@@ -96,22 +118,11 @@ final class Container: ContainerType {
                     return $0.qualifier == key.qualifier
                 }
                 .compactMap { try get(withoutResolve: $0) }
-            #else
-            return try list
-                .filter {
-                    guard !prefix else {
-                        return $0.qualifier.hasPrefix(key.qualifier)
-                    }
-                    guard !key.qualifier.isEmpty else { return true }
-                    return $0.qualifier == key.qualifier
-                }
-                .flatMap { try get(withoutResolve: $0) }
-            #endif
         } catch {
             return []
         }
     }
-    func register(_ key: TypeKey, component: ContainerComponent) {
+    func register(_ key: TypeKey, component: _ContainerComponent) {
         mutex.sync {
             map[key] = component
         }
@@ -142,32 +153,35 @@ final class Container: ContainerType {
     private let mutex = Mutex()
 
     private var chainMap = [TypeKey: Set<TypeKey>]()
-    private var map = [TypeKey: ContainerComponent]()
+    private var map = [TypeKey: _ContainerComponent]()
     
-    private func resolve(component: ContainerComponent) -> AnyObject {
+    private func resolve(component: _ContainerComponent) -> AnyObject {
         switch component.scope {
         case .singleton:
             if let instance = mutex.sync(execute: { component.cache }) {
                 return instance
             }
             
-            let instance = component.resolver()
+            let instance = component.resolve()!
             mutex.sync {
                 component.cache = instance
             }
             return instance
 
         case .prototype:
-            return component.resolver()
+            return component.resolve()!
         }
     }
-    private func resolveWithoutResolve(component: ContainerComponent) -> AnyObject? {
+    private func resolveWithFactory(component: FactoryContainerComponent, payload: _Payload) -> AnyObject {
+        return component.resolve(payload: payload)!
+    }
+    private func resolveWithoutResolve(component: _ContainerComponent) -> AnyObject? {
         switch component.scope {
         case .singleton:
             return mutex.sync(execute: { component.cache })
             
         case .prototype:
-            return component.resolver()
+            return component.resolve()!
         }
     }
 }

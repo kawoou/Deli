@@ -1,0 +1,34 @@
+//
+//  LazyAutowiredFactory.swift
+//  Deli
+//
+
+public protocol LazyAutowiredFactory: Factory {<% for dep in 1..9 %>
+    associatedtype Dep<%= dep %> = Void<% end %>
+    associatedtype _Payload: Payload
+
+    var qualifier: String? { get }
+
+    init(payload: _Payload)
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+%>
+    func inject(<%= params_str %>)<% end %>
+}
+public extension LazyAutowiredFactory {
+    public var payloadType: _Payload.Type { return _Payload.self }
+    public var qualifier: String? { return nil }
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+
+    initializer = (1..dep).map { |i| "dep#{i}" }
+    initializer_str = initializer.join(", ")
+%>
+    func inject(<%= params_str %>) {
+        self.inject(<%= initializer_str %>)
+    }<% end %>
+}

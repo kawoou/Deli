@@ -5,6 +5,7 @@
 
 final class ConfigFunctionResult: Results {
     var isLazy: Bool { return false }
+    var isFactory: Bool { return false }
     var instanceType: String
     var scope: String?
     var qualifier: String?

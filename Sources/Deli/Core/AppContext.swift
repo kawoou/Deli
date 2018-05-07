@@ -32,6 +32,12 @@ public protocol AppContextType {
     /// Get instance list for type
     func get<T>(_ type: [T].Type, qualifier: String) -> [T]
     
+    /// Get instance for type by factory
+    func get<T: Factory>(_ type: T.Type, qualifier: String, payload: T.RawPayload) -> T?
+    
+    /// Get instance list for type by factory
+    func get<T: Factory>(_ type: [T].Type, qualifier: String, payload: T.RawPayload) -> [T]
+    
     /// Get instance for type without resolve
     func get<T>(withoutResolve type: T.Type, qualifier: String) -> T?
     
@@ -55,6 +61,14 @@ public protocol AppContextType {
         injector: @escaping (T) -> (),
         qualifier: String,
         scope: Scope
+    ) -> Linker<T>
+    
+    /// Register factory in DI graph
+    @discardableResult
+    func registerFactory<T>(
+        _ type: T.Type,
+        resolver: @escaping FactoryResolver,
+        qualifier: String
     ) -> Linker<T>
     
     /// Reset container
@@ -102,13 +116,8 @@ public class AppContext: AppContextType {
             let prefixTest = qualifier.isEmpty
             
             let testList: [T] = {
-                #if swift(>=4.1)
-                return (try? container.gets(testKey, prefix: prefixTest))?
+                return (try? container.gets(testKey, prefix: prefixTest, payload: nil))?
                     .compactMap { $0 as? T } ?? []
-                #else
-                return (try? container.gets(testKey, prefix: prefixTest))?
-                    .flatMap { $0 as? T } ?? []
-                #endif
             }()
             if testList.count > 0 {
                 return testList
@@ -117,13 +126,47 @@ public class AppContext: AppContextType {
         
         let key = TypeKey(type: T.self, qualifier: qualifier)
         do {
-            #if swift(>=4.1)
-            return try container.gets(key, prefix: false)
+            return try container.gets(key, prefix: false, payload: nil)
                 .compactMap { $0 as? T }
-            #else
-            return try container.gets(key)
-                .flatMap { $0 as? T }
-            #endif
+        } catch let error {
+            print("Deli Error: \(error)")
+        }
+        return []
+    }
+    public func get<T: Factory>(_ type: T.Type, qualifier: String, payload: T.RawPayload) -> T? {
+        if let testQualifierPrefix = testQualifierPrefix {
+            let testKey = TypeKey(type: type, qualifier: "\(testQualifierPrefix)\(qualifier)")
+            if let testInstance = (try? container.get(testKey, payload: payload)) as? T {
+                return testInstance
+            }
+        }
+        
+        let key = TypeKey(type: type, qualifier: qualifier)
+        do {
+            return try container.get(key, payload: payload) as? T
+        } catch let error {
+            print("Deli Error: \(error)")
+        }
+        return nil
+    }
+    public func get<T: Factory>(_ type: [T].Type, qualifier: String, payload: T.RawPayload) -> [T] {
+        if let testQualifierPrefix = testQualifierPrefix {
+            let testKey = TypeKey(type: T.self, qualifier: "\(testQualifierPrefix)\(qualifier)")
+            let prefixTest = qualifier.isEmpty
+            
+            let testList: [T] = {
+                return (try? container.gets(testKey, prefix: prefixTest, payload: payload))?
+                    .compactMap { $0 as? T } ?? []
+            }()
+            if testList.count > 0 {
+                return testList
+            }
+        }
+        
+        let key = TypeKey(type: T.self, qualifier: qualifier)
+        do {
+            return try container.gets(key, prefix: false, payload: payload)
+                .compactMap { $0 as? T }
         } catch let error {
             print("Deli Error: \(error)")
         }
@@ -153,13 +196,8 @@ public class AppContext: AppContextType {
             let prefixTest = qualifier.isEmpty
             
             let testList: [T] = {
-                #if swift(>=4.1)
                 return (try? container.gets(withoutResolve: testKey, prefix: prefixTest))?
                     .compactMap { $0 as? T } ?? []
-                #else
-                return (try? container.gets(withoutResolve: testKey, prefix: prefixTest))?
-                    .flatMap { $0 as? T } ?? []
-                #endif
             }()
             if testList.count > 0 {
                 return testList
@@ -168,13 +206,8 @@ public class AppContext: AppContextType {
         
         let key = TypeKey(type: T.self, qualifier: qualifier)
         do {
-            #if swift(>=4.1)
             return try container.gets(withoutResolve: key, prefix: false)
                 .compactMap { $0 as? T }
-            #else
-            return try container.gets(withoutResolve: key)
-                .flatMap { $0 as? T }
-            #endif
         } catch let error {
             print("Deli Error: \(error)")
         }
@@ -189,7 +222,7 @@ public class AppContext: AppContextType {
         scope: Scope
     ) -> Linker<T> {
         let key = TypeKey(type: type, qualifier: qualifier)
-	    let component = ContainerComponent(
+	    let component = DefaultContainerComponent(
     	    resolver: resolver,
     	    qualifier: qualifier,
     	    scope: scope
@@ -208,7 +241,7 @@ public class AppContext: AppContextType {
         scope: Scope
     ) -> Linker<T> {
         let key = TypeKey(type: type, qualifier: qualifier)
-        let component = ContainerComponent(
+        let component = DefaultContainerComponent(
             resolver: { [unowned self] () -> AnyObject in
                 let instance = resolver()
 
@@ -228,6 +261,24 @@ public class AppContext: AppContextType {
         )
         container.register(key, component: component)
 
+        return Linker(type, qualifier: qualifier)
+    }
+    
+    /// Register factory in DI graph
+    @discardableResult
+    public func registerFactory<T>(
+        _ type: T.Type,
+        resolver: @escaping FactoryResolver,
+        qualifier: String
+    ) -> Linker<T> {
+        let key = TypeKey(type: type, qualifier: qualifier)
+        let component = FactoryContainerComponent(
+            resolver: resolver,
+            qualifier: qualifier,
+            scope: .prototype
+        )
+        container.register(key, component: component)
+        
         return Linker(type, qualifier: qualifier)
     }
     

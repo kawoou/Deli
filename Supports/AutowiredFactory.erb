@@ -1,0 +1,32 @@
+//
+//  AutowiredFactory.swift
+//  Deli
+//
+
+public protocol AutowiredFactory: Factory {<% for dep in 1..9 %>
+    associatedtype Dep<%= dep %> = Void<% end %>
+    associatedtype _Payload: Payload
+
+    var qualifier: String? { get }
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+%>
+    init(<%= params_str %>, payload: _Payload)<% end %>
+}
+public extension AutowiredFactory {
+    public var payloadType: _Payload.Type { return _Payload.self }
+    public var qualifier: String? { return nil }
+<%
+  for dep in 1..9
+    params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
+    params_str = params.join(", ")
+
+    initializer = (1..dep).map { |i| "dep#{i}" }
+    initializer_str = initializer.join(", ")
+%>
+    init(<%= params_str %>, payload: _Payload) {
+        self.init(<%= initializer_str %>, payload: payload)
+    }<% end %>
+}
