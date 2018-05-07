@@ -1,5 +1,5 @@
 import Deli
 
 class TestView2: Inject {
-    let viewModel = Inject(UserViewModel.self, with: (""))
+    let viewModel = Inject(UserViewModel.self, with: ("UserID"))
 }
