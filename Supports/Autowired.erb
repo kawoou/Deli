@@ -3,7 +3,7 @@
 //  Deli
 //
 
-public protocol Autowired {<% for dep in 1..9 %>
+public protocol Autowired: Inject {<% for dep in 1..9 %>
     associatedtype Dep<%= dep %> = Void<% end %>
 
     var scope: Scope { get }

@@ -61,6 +61,14 @@ final class DeliFactory {
             qualifier: "",
             scope: .singleton
         )
+        context.registerFactory(
+            FriendInfoViewModel.self,
+            resolver: { payload in
+                let _AccountService = context.get(AccountService.self, qualifier: "")!
+                return FriendInfoViewModel(_AccountService, payload: payload as! FriendPayload)
+            },
+            qualifier: ""
+        ).link(FriendInfoViewModel.self)
         context.register(
             TestViewModel.self,
             resolver: {
@@ -70,6 +78,15 @@ final class DeliFactory {
             },
             qualifier: "",
             scope: .prototype
+        )
+        context.register(
+            FriendListViewModel.self,
+            resolver: {
+                let _FriendService = context.get(FriendService.self, qualifier: "")!
+                return FriendListViewModel(_FriendService)
+            },
+            qualifier: "",
+            scope: .singleton
         )
         context.registerFactory(
             UserViewModel.self,

@@ -6,6 +6,7 @@
 final class AutowiredFactoryConstructorResult: Results {
     var isLazy: Bool { return false }
     var isFactory: Bool { return true }
+    var isRegister: Bool { return true }
     var instanceType: String
     var scope: String?
     var qualifier: String?

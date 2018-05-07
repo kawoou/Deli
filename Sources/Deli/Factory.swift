@@ -3,7 +3,7 @@
 //  Deli
 //
 
-public protocol Factory {
+public protocol Factory: Inject {
     associatedtype RawPayload: Payload
     
     var payloadType: RawPayload.Type { get }

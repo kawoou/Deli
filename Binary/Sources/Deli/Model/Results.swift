@@ -6,6 +6,7 @@
 protocol Results: class, CustomStringConvertible, CustomDebugStringConvertible {
     var isLazy: Bool { get }
     var isFactory: Bool { get }
+    var isRegister: Bool { get }
     var instanceType: String { get }
     var scope: String? { get set }
     var qualifier: String? { get set }
@@ -32,6 +33,8 @@ extension Results {
         return """
         \(instanceType)(
             isLazy: \(isLazy),
+            isFactory: \(isFactory),
+            isRegister: \(isRegister),
             scope: \(scope ?? ".singleton"),
             qualifier: \"\(qualifier ?? "")\",
             dependencies: [\(dependenciesString.isEmpty ? "" : ("\n        " + dependenciesString + "\n    "))],

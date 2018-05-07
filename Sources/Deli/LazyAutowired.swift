@@ -3,7 +3,7 @@
 //  Deli
 //
 
-public protocol LazyAutowired {
+public protocol LazyAutowired: Inject {
     associatedtype Dep1 = Void
     associatedtype Dep2 = Void
     associatedtype Dep3 = Void
