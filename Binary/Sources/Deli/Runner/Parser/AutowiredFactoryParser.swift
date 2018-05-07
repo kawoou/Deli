@@ -123,6 +123,10 @@ final class AutowiredFactoryParser: Parsable {
                 Logger.log(.error("Not found payload type.", constructorList[0].getSourceLine(with: fileContent)))
                 throw ParserError.payloadNotFound
             }
+            guard info.name == Constant.payloadKey else {
+                Logger.log(.error("Not found payload type.", info.getSourceLine(with: fileContent)))
+                throw ParserError.payloadNotFound
+            }
             guard let typeName = info.typeName else {
                 Logger.log(.error("Not found payload type.", info.getSourceLine(with: fileContent)))
                 throw ParserError.payloadNotFound
