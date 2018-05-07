@@ -24,7 +24,8 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
   - [LazyAutowired](#3-lazyautowired)
   - [Configuration](#4-configuration)
   - [Inject](#5-inject)
-  - [테스트](#6-테스트)
+  - [Factory](#6-factory)
+  - [테스트](#7-테스트)
 * [설치 방법](#설치-방법)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -351,8 +352,93 @@ class NovelBookView: Inject {
 ```
 
 
+### 6. Factory
 
-### 6. 테스트
+Front-end에서는 유동적으로 사용자의 데이터를 이용하여 모델을 생성하는 경우가 많습니다. 예를 들어봅시다.
+
+당신은 친구 목록을 구현해야합니다. 친구 목록에서 하나의 셀을 선택하면, 친구의 정보를 볼 수 있는 모달이 떠야합니다.
+이때 `정보 모달`에는 친구를 특정할 수 있는 데이터가 전달되어야 합니다.
+
+이런 상황은 매우 빈번하게 발생하는 플로우이며, Factory들은 이를 도와줍니다.
+
+먼저 `AutowiredFactory`를 살펴봅시다:
+
+```swift
+class FriendPayload: Payload {
+    let userID: String
+    let cachedName: String
+    
+    required init(with argument: (userID: String, cachedName: String)) {
+        userID = argument.userID
+        cachedName = argument.cachedName
+    }
+}
+
+class FriendInfoViewModel: AutowiredFactory {
+    let accountService: AccountService
+    
+    let userID: String
+    var name: String
+    
+    required init(_ accountService: AccountService, payload: FriendPayload) {
+        self.accountService = accountService
+        self.userID = payload.userID
+        self.name = payload.cachedName
+    }
+}
+```
+
+User-argument를 넘기기 위해서 `Payload`라는 프로토콜을 구현해야 합니다.
+(당연하게도 Factory들은 prototype scope로 동작합니다)
+
+구현된 `FriendInfoViewModel`는 다음과 같이 사용할 수 있습니다:
+
+```swift
+class FriendListViewModel: Autowired {
+    let friendService: FriendService
+    
+    func generateInfo(by id: String) -> FriendInfoViewModel? {
+        guard let friend = friendService.getFriend(by: id) else { return nil }
+        
+        return Inject(
+            FriendInfoViewModel.self,
+            with: (
+                userID: friend.id,
+                cachedName: friend.name
+            )
+        )
+    }
+    
+    required init(_ friendService: FriendService) {
+        self.friendService = friendService
+    }
+}
+```
+
+Swift 타입 추론에 의해서 `with:` argument 부분에 대한 스타일이 강제화된 모습을 볼 수 있습니다.
+
+다음으로 LazyAutowiredFactory를 살펴봅시다:
+
+```swift
+class FriendInfoViewModel: LazyAutowiredFactory {
+    var accountService: AccountService!
+    
+    func inject(facebook accountService: AccountService) {
+        self.accountService = accountService
+    }
+    
+    required init(payload: TestPayload) {
+        ...
+    }
+}
+```
+
+AutowiredFactory와 LazyAutowiredFactory 간의 차이점은 Autowired와 LazyAutowired와의 관계랑 같이 Lazy하게 주입된다는 점입니다.
+그렇지만 Payload는 사용자에 의해 전달받으므로 생성자를 통해 주입합니다.
+
+
+
+### 7. 테스트
 
 Deli는 AppContext에서 테스트를 위한 메소드를 제공합니다.
 
