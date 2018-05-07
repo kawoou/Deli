@@ -5,6 +5,7 @@
 
 protocol Results: class, CustomStringConvertible, CustomDebugStringConvertible {
     var isLazy: Bool { get }
+    var isFactory: Bool { get }
     var instanceType: String { get }
     var scope: String? { get set }
     var qualifier: String? { get set }

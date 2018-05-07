@@ -12,6 +12,7 @@ enum ParserError: Error {
     case emptyArguments
     case manyArguments
     case unavailableDeclaration
+    case payloadNotFound
     case unknownName
     case unknown
     
@@ -33,6 +34,8 @@ enum ParserError: Error {
             return "The method accepts only single argument."
         case .unavailableDeclaration:
             return "This declaration is not allowed."
+        case .payloadNotFound:
+            return "Not found payload type."
         case .unknownName:
             return "Unknown structure name."
         case .unknown:
