@@ -39,6 +39,7 @@ struct BuildCommand: CommandProtocol {
             AutowiredParser(),
             LazyAutowiredParser(),
             AutowiredFactoryParser(),
+            LazyAutowiredFactoryParser(),
             InjectParser()
         ])
         let corrector = Corrector([

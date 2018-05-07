@@ -71,6 +71,15 @@ public protocol AppContextType {
         qualifier: String
     ) -> Linker<T>
     
+    /// Lazy register factory in DI graph
+    @discardableResult
+    func registerLazyFactory<T>(
+        _ type: T.Type,
+        resolver: @escaping FactoryResolver,
+        injector: @escaping (T) -> (),
+        qualifier: String
+    ) -> Linker<T>
+    
     /// Reset container
     func reset()
 }
@@ -274,6 +283,38 @@ public class AppContext: AppContextType {
         let key = TypeKey(type: type, qualifier: qualifier)
         let component = FactoryContainerComponent(
             resolver: resolver,
+            qualifier: qualifier,
+            scope: .prototype
+        )
+        container.register(key, component: component)
+        
+        return Linker(type, qualifier: qualifier)
+    }
+    
+    /// Register factory in DI graph
+    @discardableResult
+    public func registerLazyFactory<T>(
+        _ type: T.Type,
+        resolver: @escaping FactoryResolver,
+        injector: @escaping (T) -> (),
+        qualifier: String
+    ) -> Linker<T> {
+        let key = TypeKey(type: type, qualifier: qualifier)
+        let component = FactoryContainerComponent(
+            resolver: { [unowned self] (payload) -> AnyObject in
+                let instance = resolver(payload)
+                
+                let dispatchItem = DispatchWorkItem {
+                    guard let instance = instance as? T else { return }
+                    injector(instance)
+                    
+                    self.lazyDict.removeValue(forKey: key)
+                }
+                self.lazyDict[key] = dispatchItem
+                self.lazyQueue.async(execute: dispatchItem)
+                
+                return instance as AnyObject
+            },
             qualifier: qualifier,
             scope: .prototype
         )

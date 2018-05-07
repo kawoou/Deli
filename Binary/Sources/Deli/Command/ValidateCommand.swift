@@ -38,6 +38,7 @@ struct ValidateCommand: CommandProtocol {
             AutowiredParser(),
             LazyAutowiredParser(),
             AutowiredFactoryParser(),
+            LazyAutowiredFactoryParser(),
             InjectParser()
         ])
         let corrector = Corrector([

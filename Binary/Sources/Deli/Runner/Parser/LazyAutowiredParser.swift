@@ -54,14 +54,14 @@ final class LazyAutowiredParser: Parsable {
             .filter { validInjector($0) }
 
         guard injectorList.count > 0 else {
-            Logger.log(.error("Not found `\(name)` constructor.", source.getSourceLine(with: fileContent)))
-            throw ParserError.constructorNotFound
+            Logger.log(.error("Not found `\(name)` injector.", source.getSourceLine(with: fileContent)))
+            throw ParserError.injectorNotFound
         }
         guard injectorList.count == 1 else {
             for injector in injectorList {
-                Logger.log(.error("Ambiguous `\(name)` constructor.", injector.getSourceLine(with: fileContent)))
+                Logger.log(.error("Ambiguous `\(name)` injector.", injector.getSourceLine(with: fileContent)))
             }
-            throw ParserError.constructorAmbiguous
+            throw ParserError.injectorAmbiguous
         }
         
         let scope = try parseScope(source, fileContent: fileContent)

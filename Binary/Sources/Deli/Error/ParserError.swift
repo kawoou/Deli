@@ -6,8 +6,11 @@
 enum ParserError: Error {
     case constructorNotFound
     case constructorAmbiguous
+    case injectorNotFound
+    case injectorAmbiguous
     case scopeAmbiguous
     case qualifierAmbiguous
+    case qualifierUnavailable
     case typeNotFound
     case emptyArguments
     case manyArguments
@@ -22,10 +25,16 @@ enum ParserError: Error {
             return "Not found dependency constructor."
         case .constructorAmbiguous:
             return "Ambiguous dependency constructor."
+        case .injectorNotFound:
+            return "Not found dependency injector."
+        case .injectorAmbiguous:
+            return "Ambiguous dependency injector."
         case .scopeAmbiguous:
             return "Ambiguous scope property."
         case .qualifierAmbiguous:
             return "Ambiguous qualifier property."
+        case .qualifierUnavailable:
+            return "Unavailable qualifier value."
         case .typeNotFound:
             return "Not found dependency type."
         case .emptyArguments:
