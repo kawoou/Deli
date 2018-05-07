@@ -14,6 +14,7 @@ enum ParserError: Error {
     case typeNotFound
     case emptyArguments
     case manyArguments
+    case parseErrorArguments
     case unavailableDeclaration
     case payloadNotFound
     case unknownName
@@ -41,6 +42,8 @@ enum ParserError: Error {
             return "The method required arguments."
         case .manyArguments:
             return "The method accepts only single argument."
+        case .parseErrorArguments:
+            return "Failed to parse argument."
         case .unavailableDeclaration:
             return "This declaration is not allowed."
         case .payloadNotFound:

@@ -101,6 +101,15 @@ class DeliTests: XCTestCase, Inject {
         XCTAssertEqual(friendService.requestCount, 3)
         _ = testView1.viewModel.friendService.listFriends()
         XCTAssertEqual(friendService.requestCount, 4)
+        _ = testView3.viewModel.friendService.listFriends()
+        XCTAssertEqual(friendService.requestCount, 5)
+        
+        let friend1 = testView3.viewModel.generateInfo(by: "test1")
+        let friend2 = testView3.viewModel.generateInfo(by: "test2")
+        let friend3 = testView3.viewModel.generateInfo(by: "test3")
+        XCTAssertEqual(friend1?.name, friendService.getFriend(by: "test1")?.name)
+        XCTAssertEqual(friend2?.name, friendService.getFriend(by: "test2")?.name)
+        XCTAssertEqual(friend3?.name, friendService.getFriend(by: "test3")?.name)
         
         XCTAssertNil(testService.friendService)
         XCTAssertNil(testView3.test.accountService)
@@ -114,7 +123,7 @@ class DeliTests: XCTestCase, Inject {
         XCTAssertEqual(accountService1.logoutCount, 9)
         
         _ = testService.friendService.listFriends()
-        XCTAssertEqual(friendService.requestCount, 5)
+        XCTAssertEqual(friendService.requestCount, 6)
         
         AppContext.shared.reset()
     }

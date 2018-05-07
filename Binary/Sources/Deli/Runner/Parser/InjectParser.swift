@@ -10,13 +10,13 @@ final class InjectParser: Parsable {
     // MARK: - Constant
 
     private struct Constant {
-        static let inheritanceName = "Inject"
+        static let inheritanceName = ["Inject", "Autowired", "LazyAutowired", "AutowiredFactory", "LazyAutowiredFactory", "Component"]
         static let functionName = "Inject"
         static let functionCallKey = "source.lang.swift.expr.call"
 
         static let typeRefererSuffix = ".self"
-        static let injectFuncPrefix = "\(functionName)("
-        static let injectFuncSuffix = ")"
+        static let injectFuncRegex = "Inject\\(([^\\(]*([^\\(]*\\([^\\)]*\\))*[^\\)]*)\\)".r!
+        static let argumentRegex = ",[\\s]*([^:]+:[\\s]*\\([^\\)]*\\))|[\\s]*([^,]+)".r!
         
         static let qualifierName = "qualifier"
         static let qualifierPrefix = "\(qualifierName):"
@@ -58,21 +58,24 @@ final class InjectParser: Parsable {
                 .replacingOccurrences(of: Constant.typeRefererSuffix, with: "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
         }()
-
-        guard let prefixRange = callExpr.range(of: Constant.injectFuncPrefix) else {
-            Logger.log(.assert("Mismatched prefix of `\(Constant.functionName)` method on SourceKitten result. \(callExpr)"))
+        
+        guard let callExprMatch = Constant.injectFuncRegex.findFirst(in: callExpr)?.group(at: 1) else {
+            Logger.log(.assert("Mismatched usage of `\(Constant.functionName)` method on SourceKitten result. \(callExpr)"))
             Logger.log(.error("Unknown error.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
         }
-        guard let infixRange = callExpr.range(of: Constant.injectFuncSuffix) else {
-            Logger.log(.assert("Mismatched suffix of `\(Constant.functionName)` method on SourceKitten result. \(callExpr)"))
-            Logger.log(.error("Unknown error.", source.getSourceLine(with: fileContent)))
-            throw ParserError.unknown
-        }
-
-        let arguments = String(callExpr[prefixRange.upperBound..<infixRange.lowerBound])
-            .split(separator: ",")
+        
+        let arguments = try Constant.argumentRegex
+            .findAll(in: callExprMatch.trimmingCharacters(in: .whitespacesAndNewlines))
+            .map { match -> String in
+                guard let result = match.group(at: 1) ?? match.group(at: 2) else {
+                    Logger.log(.error("Failed to parse argument `\(match.source)`.", source.getSourceLine(with: fileContent)))
+                    throw ParserError.parseErrorArguments
+                }
+                return result
+            }
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
 
         guard arguments.count > 0 else {
             Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
@@ -129,7 +132,7 @@ final class InjectParser: Parsable {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
-        guard source.inheritedTypes.contains(Constant.inheritanceName) else { return [] }
+        guard source.inheritedTypes.contains(where: { Constant.inheritanceName.contains($0) }) else { return [] }
 
         let dependencyList = try searchInject(source, fileContent: fileContent)
         return [InjectProtocolResult(name, dependencyList)]

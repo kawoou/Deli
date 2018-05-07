@@ -3,7 +3,7 @@
 //  Deli
 //
 
-public protocol Component {
+public protocol Component: Inject {
     var qualifier: String? { get }
     var scope: Scope { get }
 }

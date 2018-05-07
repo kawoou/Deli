@@ -45,6 +45,7 @@ final class NotImplementCorrector: Correctable {
                         guard dependency.qualifier != "" else { return true }
                         return (result.qualifier ?? "") == dependency.qualifier
                     }
+                    .filter { $0.isRegister }
 
                 let fileLine: String? = {
                     guard let targetInfo = dependency.target else {
@@ -60,7 +61,9 @@ final class NotImplementCorrector: Correctable {
                     throw CorrectorError.implementationNotFound
                 }
                 guard dependency.type != .single || correctList.count == 1 else {
-                    let ambiguousNames = correctList.map { $0.instanceType }.joined(separator: ", ")
+                    let ambiguousNames = correctList
+                        .map { $0.instanceType }
+                        .joined(separator: ", ")
                     Logger.log(.error("Ambiguous implementation on `\(dependency.name)` (\(ambiguousNames))", fileLine))
                     throw CorrectorError.ambiguousImplementation
                 }

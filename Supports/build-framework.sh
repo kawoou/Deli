@@ -1,13 +1,11 @@
 #!/bin/bash -e
 set -o pipefail
 
-rm Sources/Deli/Autowired.swift
-rm Sources/Deli/Configuration.swift
-rm Sources/Deli/LazyAutowired.swift
-
-erb Supports/Autowired.erb >> Sources/Deli/Autowired.swift
-erb Supports/Configuration.erb >> Sources/Deli/Configuration.swift
-erb Supports/LazyAutowired.erb >> Sources/Deli/LazyAutowired.swift
+erb Supports/Autowired.erb > Sources/Deli/Autowired.swift
+erb Supports/Configuration.erb > Sources/Deli/Configuration.swift
+erb Supports/LazyAutowired.erb > Sources/Deli/LazyAutowired.swift
+erb Supports/AutowiredFactory.erb > Sources/Deli/AutowiredFactory.swift
+erb Supports/LazyAutowiredFactory.erb > Sources/Deli/LazyAutowiredFactory.swift
 
 ./Binary/Build/deli build
 
