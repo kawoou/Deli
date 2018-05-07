@@ -49,6 +49,11 @@ class DeliTests: XCTestCase, Inject {
         let books = Inject([Book].self)
         let testView1 = TestView1()
         let testView2 = TestView2()
+        let testView3 = TestView3()
+        
+        XCTAssertEqual(testView2.viewModel.userID, "UserID")
+        XCTAssertEqual(testView3.test.test1, false)
+        XCTAssertEqual(testView3.test.test2, [1, 2, 3, 4, 5])
         
         _ = networkManager.request()
         XCTAssertEqual(networkManager.requestCount, 1)
@@ -82,15 +87,11 @@ class DeliTests: XCTestCase, Inject {
         testView1.viewModel.test()
         XCTAssertEqual(testViewModel.testCount, 0)
         XCTAssertEqual(testView1.viewModel.testCount, 1)
-        XCTAssertEqual(testView2.viewModel.testCount, 0)
-        testView2.viewModel.test()
         XCTAssertEqual(testViewModel.testCount, 0)
         XCTAssertEqual(testView1.viewModel.testCount, 1)
-        XCTAssertEqual(testView2.viewModel.testCount, 1)
         testViewModel.test()
         XCTAssertEqual(testViewModel.testCount, 1)
         XCTAssertEqual(testView1.viewModel.testCount, 1)
-        XCTAssertEqual(testView2.viewModel.testCount, 1)
         
         _ = friendService.listFriends()
         XCTAssertEqual(friendService.requestCount, 1)
@@ -100,19 +101,20 @@ class DeliTests: XCTestCase, Inject {
         XCTAssertEqual(friendService.requestCount, 3)
         _ = testView1.viewModel.friendService.listFriends()
         XCTAssertEqual(friendService.requestCount, 4)
-        _ = testView2.viewModel.friendService.listFriends()
-        XCTAssertEqual(friendService.requestCount, 5)
         
         XCTAssertNil(testService.friendService)
+        XCTAssertNil(testView3.test.accountService)
 
         RunLoop.current.run(until: Date())
         XCTAssertNotNil(testService.friendService)
 
         _ = testService.friendService.accountService.logout()
         XCTAssertEqual(accountService1.logoutCount, 8)
+        _ = testView3.test.accountService.logout()
+        XCTAssertEqual(accountService1.logoutCount, 9)
         
         _ = testService.friendService.listFriends()
-        XCTAssertEqual(friendService.requestCount, 6)
+        XCTAssertEqual(friendService.requestCount, 5)
         
         AppContext.shared.reset()
     }
@@ -135,6 +137,8 @@ class DeliTests: XCTestCase, Inject {
         AppContext.shared.reset()
     }
     func testTestMode() {
+        factory = DeliFactory()
+        
         AppContext.shared.register(
             AccountService.self,
             resolver: {
@@ -142,7 +146,7 @@ class DeliTests: XCTestCase, Inject {
                 let libraryService = AppContext.shared.get(LibraryService.self, qualifier: "")!
                 return MockAccountService(networkManager, libraryService)
             },
-            qualifier: "test",
+            qualifier: "testfacebook",
             scope: .singleton
         )
         AppContext.shared.register(
@@ -154,12 +158,10 @@ class DeliTests: XCTestCase, Inject {
             scope: .singleton
         ).link(Book.self)
         
-        factory = DeliFactory()
-        
         /// Test Mode: OFF
         XCTAssertEqual(AppContext.shared.isTestMode, false)
         
-        let accountService = AppContext.shared.get(AccountService.self, qualifier: "")!
+        let accountService = AppContext.shared.get(AccountService.self, qualifier: "facebook")!
         XCTAssertEqual(accountService.logout(), true)
         XCTAssertEqual(accountService.logoutCount, 1)
         let books = Inject([Book].self)
@@ -169,7 +171,7 @@ class DeliTests: XCTestCase, Inject {
         AppContext.shared.setTestMode(true, qualifierPrefix: "test")
         XCTAssertEqual(AppContext.shared.isTestMode, true)
         
-        let mockAccountService = AppContext.shared.get(AccountService.self, qualifier: "")!
+        let mockAccountService = AppContext.shared.get(AccountService.self, qualifier: "facebook")!
         XCTAssertEqual(mockAccountService.logout(), false)
         XCTAssertEqual(mockAccountService.logoutCount, 0)
         let mockBooks = Inject([Book].self, qualifier: "")
@@ -179,7 +181,7 @@ class DeliTests: XCTestCase, Inject {
         AppContext.shared.setTestMode(false, qualifierPrefix: "")
         XCTAssertEqual(AppContext.shared.isTestMode, false)
         
-        let oldAccountService = AppContext.shared.get(AccountService.self, qualifier: "")!
+        let oldAccountService = AppContext.shared.get(AccountService.self, qualifier: "facebook")!
         XCTAssertEqual(oldAccountService.logout(), true)
         XCTAssertEqual(oldAccountService.logoutCount, 2)
         let novelBooks = Inject([Book].self, qualifier: "Novel")

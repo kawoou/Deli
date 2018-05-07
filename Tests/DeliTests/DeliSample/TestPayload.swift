@@ -1,11 +1,11 @@
 import Deli
 
-class TestPayload: Paload {
+class TestPayload: Payload {
     let test1: Bool
     let test2: [Int]
     
-    required init(with argument: (test1: Bool, test2: [Int])) {
-        self.test1 = argument.test1
-        self.test2 = argument.test2
+    required init(with argument: (Bool, [Int])) {
+        self.test1 = argument.0
+        self.test2 = argument.1
     }
 }
