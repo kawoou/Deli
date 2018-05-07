@@ -18,6 +18,8 @@ final class ConfigurationParser: Parsable {
         static let argumentInfoKeyword: Character = ":"
         static let qualifierPrefix = "qualifier:"
         static let scopePrefix = "scope:"
+        
+        static let qualifierClearRegex = "\"([^\\\"]+)\"".r!
 
         static let availableKinds: [String] = [
             SwiftDeclarationKind.varInstance.rawValue,
@@ -59,10 +61,20 @@ final class ConfigurationParser: Parsable {
             .filter { $0.index(of: Constant.argumentInfoKeyword) == nil }
             .map { Dependency(parent: name, target: source, name: $0) }
 
-        let qualifier = arguments
+        let qualifierRaw = arguments
             .first(where: { $0.contains(Constant.qualifierPrefix) })?
             .replacingOccurrences(of: Constant.qualifierPrefix, with: "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let qualifier: String? = try {
+            guard let raw = qualifierRaw else { return nil }
+            guard let match = Constant.qualifierClearRegex.findFirst(in: raw)?.group(at: 1) else {
+                Logger.log(.error("Unavailable qualifier `\(raw)`.", source.getSourceLine(with: fileContent)))
+                throw ParserError.qualifierUnavailable
+            }
+            return match
+        }()
+        
         let scope = arguments
             .first(where: { $0.contains(Constant.scopePrefix) })?
             .replacingOccurrences(of: Constant.scopePrefix, with: "")

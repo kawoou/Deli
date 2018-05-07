@@ -1,32 +1,35 @@
 //
-//  LazyAutowiredConstructorResult.swift
+//  LazyAutowiredFactoryConstructorResult.swift
 //  Deli
 //
 
-final class LazyAutowiredConstructorResult: Results {
+final class LazyAutowiredFactoryConstructorResult: Results {
     var isLazy: Bool { return true }
-    var isFactory: Bool { return false }
+    var isFactory: Bool { return true }
     var instanceType: String
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
-
+    
     var linkType: Set<String> = Set()
-
+    
+    var payload: Dependency
     var instanceDependency: [Dependency]
-
-    init(_ instanceType: String, _ scope: String?, _ qualifier: String?, _ dependencies: [Dependency]) {
+    
+    init(_ instanceType: String, _ qualifier: String?, _ dependencies: [Dependency], payload: Dependency) {
         self.instanceType = instanceType
-        self.scope = scope
+        self.scope = "prototype"
         self.qualifier = qualifier
         self.dependencies = dependencies
+        
         self.instanceDependency = dependencies
+        self.payload = payload
     }
     func makeSource() -> String? {
         let linkString = linkType
             .map { ".link(\($0).self)" }
             .joined(separator: "")
-
+        
         let dependencyResolve = instanceDependency
             .map { dependency in
                 switch dependency.type {
@@ -37,27 +40,25 @@ final class LazyAutowiredConstructorResult: Results {
                 }
             }
             .joined(separator: "\n        ")
-
+        
         let dependencyInject = instanceDependency
             .map { dependency in
                 return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(dependency.name)"
             }
             .joined(separator: ", ")
-
+        
         return """
-        context.registerLazy(
+        context.registerLazyFactory(
             \(instanceType).self,
-            resolver: {
-                return \(instanceType)()
+            resolver: { payload in
+                return \(instanceType)(payload: payload as! \(payload.name))
             },
             injector: { instance in
                 \(dependencyResolve)
                 instance.inject(\(dependencyInject))
             },
-            qualifier: "\(qualifier ?? "")",
-            scope: \(scope ?? ".singleton")
+            qualifier: "\(qualifier ?? "")"
         )\(linkString)
         """
     }
 }
-

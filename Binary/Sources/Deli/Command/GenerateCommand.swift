@@ -39,6 +39,7 @@ struct GenerateCommand: CommandProtocol {
             AutowiredParser(),
             LazyAutowiredParser(),
             AutowiredFactoryParser(),
+            LazyAutowiredFactoryParser(),
             InjectParser()
         ])
         let corrector = Corrector([

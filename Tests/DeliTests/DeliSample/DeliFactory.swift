@@ -40,9 +40,9 @@ final class DeliFactory {
                 let _AccountConfiguration = context.get(AccountConfiguration.self, qualifier: "")!
                 return _AccountConfiguration.accountService() as AnyObject
             },
-            qualifier: "",
+            qualifier: "facebook",
             scope: .singleton
-        )
+        ).link(AccountService.self)
         context.register(
             AccountConfiguration.self,
             resolver: {
@@ -71,6 +71,14 @@ final class DeliFactory {
             qualifier: "",
             scope: .prototype
         )
+        context.registerFactory(
+            UserViewModel.self,
+            resolver: { payload in
+                let _AccountService = context.get(AccountService.self, qualifier: "")!
+                return UserViewModel(_AccountService, payload: payload as! UserPayload)
+            },
+            qualifier: ""
+        ).link(UserViewModel.self)
         context.register(
             LibraryService.self,
             resolver: {
@@ -101,6 +109,17 @@ final class DeliFactory {
             qualifier: "qualifierTest",
             scope: .singleton
         )
+        context.registerLazyFactory(
+            FactoryTest.self,
+            resolver: { payload in
+                return FactoryTest(payload: payload as! TestPayload)
+            },
+            injector: { instance in
+                let _AccountService = context.get(AccountService.self, qualifier: "")!
+                instance.inject(facebook: _AccountService)
+            },
+            qualifier: ""
+        ).link(FactoryTest.self)
         context.register(
             FriendServiceImpl.self,
             resolver: {

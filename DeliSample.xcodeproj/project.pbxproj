@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		9D3F857A209867FD002AD603 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F8579209867FD002AD603 /* UserViewModel.swift */; };
 		9D3F857C2098683F002AD603 /* UserPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F857B2098683F002AD603 /* UserPayload.swift */; };
+		9D3F858420A07DCC002AD603 /* TestPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F858320A07DCC002AD603 /* TestPayload.swift */; };
+		9D3F858620A07E59002AD603 /* FactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F858520A07E59002AD603 /* FactoryTest.swift */; };
+		9D3F858820A07F09002AD603 /* TestView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F858720A07F09002AD603 /* TestView3.swift */; };
 		9D8C8A292081D05B00A53F35 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A172081D05B00A53F35 /* TestViewModel.swift */; };
 		9D8C8A2A2081D05B00A53F35 /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A182081D05B00A53F35 /* FriendService.swift */; };
 		9D8C8A2B2081D05B00A53F35 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8C8A192081D05B00A53F35 /* AccountService.swift */; };
@@ -43,6 +46,9 @@
 /* Begin PBXFileReference section */
 		9D3F8579209867FD002AD603 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		9D3F857B2098683F002AD603 /* UserPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPayload.swift; sourceTree = "<group>"; };
+		9D3F858320A07DCC002AD603 /* TestPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPayload.swift; sourceTree = "<group>"; };
+		9D3F858520A07E59002AD603 /* FactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryTest.swift; sourceTree = "<group>"; };
+		9D3F858720A07F09002AD603 /* TestView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView3.swift; sourceTree = "<group>"; };
 		9D8C8A172081D05B00A53F35 /* TestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
 		9D8C8A182081D05B00A53F35 /* FriendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendService.swift; sourceTree = "<group>"; };
 		9D8C8A192081D05B00A53F35 /* AccountService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
@@ -86,11 +92,14 @@
 				9D8C8A1B2081D05B00A53F35 /* LibraryService.swift */,
 				9D8C8A1C2081D05B00A53F35 /* DeliFactory.swift */,
 				9D8C8A1D2081D05B00A53F35 /* TestView2.swift */,
+				9D3F858720A07F09002AD603 /* TestView3.swift */,
 				9D8C8A1E2081D05B00A53F35 /* Book */,
 				9D8C8A252081D05B00A53F35 /* MessageService.swift */,
 				9D8C8A262081D05B00A53F35 /* TestService.swift */,
 				9D8C8A272081D05B00A53F35 /* TestView1.swift */,
 				9D8C8A282081D05B00A53F35 /* AccountConfiguration.swift */,
+				9D3F858320A07DCC002AD603 /* TestPayload.swift */,
+				9D3F858520A07E59002AD603 /* FactoryTest.swift */,
 			);
 			name = DeliSample;
 			path = Tests/DeliTests/DeliSample;
@@ -184,6 +193,7 @@
 			files = (
 				9D8C8A302081D05B00A53F35 /* HarryPotter.swift in Sources */,
 				9D8C8A2C2081D05B00A53F35 /* NetworkManager.swift in Sources */,
+				9D3F858820A07F09002AD603 /* TestView3.swift in Sources */,
 				9D8C8A312081D05B00A53F35 /* COSMOS.swift in Sources */,
 				9D8C8A332081D05B00A53F35 /* Book.swift in Sources */,
 				9D8C8A2B2081D05B00A53F35 /* AccountService.swift in Sources */,
@@ -192,6 +202,7 @@
 				9D8C8A2E2081D05B00A53F35 /* DeliFactory.swift in Sources */,
 				9D8C8A392081D05B00A53F35 /* AccountConfiguration.swift in Sources */,
 				9D8C8A362081D05B00A53F35 /* MessageService.swift in Sources */,
+				9D3F858420A07DCC002AD603 /* TestPayload.swift in Sources */,
 				9D8C8A292081D05B00A53F35 /* TestViewModel.swift in Sources */,
 				9D8C8A2F2081D05B00A53F35 /* TestView2.swift in Sources */,
 				9D3F857C2098683F002AD603 /* UserPayload.swift in Sources */,
@@ -199,6 +210,7 @@
 				9D8C8A2D2081D05B00A53F35 /* LibraryService.swift in Sources */,
 				9D8C8A352081D05B00A53F35 /* TroisiemeHumanite.swift in Sources */,
 				9D8C8A372081D05B00A53F35 /* TestService.swift in Sources */,
+				9D3F858620A07E59002AD603 /* FactoryTest.swift in Sources */,
 				9D8C8A342081D05B00A53F35 /* Science.swift in Sources */,
 				9D8C8A2A2081D05B00A53F35 /* FriendService.swift in Sources */,
 			);
