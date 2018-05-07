@@ -9,6 +9,8 @@ import Yams
 
 final class Configuration {
 
+    typealias BuildableReference = (id: String, name: String)
+    
     // MARK: - Constant
 
     private struct Constant {
@@ -175,7 +177,7 @@ final class Configuration {
             .path
         #endif
     }
-    private static func findBuildReference(project: XcodeProj, schemeName: String?) -> String? {
+    private static func findBuildReference(project: XcodeProj, schemeName: String?) -> BuildableReference? {
         let schemeList: [XCScheme] = {
             if let schemeName = schemeName {
                 return project.sharedData?.schemes
@@ -199,7 +201,14 @@ final class Configuration {
                 Logger.log(.error("Ambiguous build target.", nil))
                 return nil
             }
-            return project.pbxproj.objects.nativeTargets.keys.first
+            guard let nativeTarget = project.pbxproj.objects.nativeTargets.first else {
+                Logger.log(.error("Not found build target.", nil))
+                return nil
+            }
+            return (
+                id: nativeTarget.key,
+                name: nativeTarget.value.name
+            )
         }
 
         guard schemeList.count == 1 else {
@@ -209,7 +218,14 @@ final class Configuration {
         }
 
         let scheme = schemeList[0]
-        return scheme.buildAction?.buildActionEntries.first?.buildableReference.blueprintIdentifier
+        guard let buildAction = scheme.buildAction?.buildActionEntries.first else {
+            Logger.log(.error("Not found build target.", nil))
+            return nil
+        }
+        return (
+            id: buildAction.buildableReference.blueprintIdentifier,
+            name: buildAction.buildableReference.buildableName
+        )
     }
 
     // MARK: - Lifecycle
@@ -235,7 +251,10 @@ final class Configuration {
             Logger.log(.error("Cannot load the build scheme: \(projectURL.lastPathComponent)", nil))
             return nil
         }
-        guard let nativeTarget = project.pbxproj.objects.nativeTargets.first(where: { $0.key == buildReference }) else {
+        let nativeTarget1 = project.pbxproj.objects.nativeTargets.first { $0.key == buildReference.id }
+        let nativeTarget2 = project.pbxproj.objects.nativeTargets.first { $0.value.name == buildReference.name }
+        
+        guard let nativeTarget = nativeTarget1 ?? nativeTarget2 else {
             Logger.log(.error("Cannot load the build scheme: \(projectURL.lastPathComponent)", nil))
             return nil
         }

@@ -11,30 +11,6 @@ final class DeliFactory {
     init() {
         let context = AppContext.shared
         context.register(
-            HarryPotter.self,
-            resolver: {
-                return HarryPotter()
-            },
-            qualifier: "Novel",
-            scope: .singleton
-        ).link(Book.self)
-        context.register(
-            NetworkManagerImpl.self,
-            resolver: {
-                return NetworkManagerImpl()
-            },
-            qualifier: "",
-            scope: .singleton
-        ).link(NetworkManager.self)
-        context.register(
-            COSMOS.self,
-            resolver: {
-                return COSMOS()
-            },
-            qualifier: "Science",
-            scope: .singleton
-        ).link(Book.self)
-        context.register(
             AccountService.self,
             resolver: {
                 let _AccountConfiguration = context.get(AccountConfiguration.self, qualifier: "")!
@@ -52,15 +28,24 @@ final class DeliFactory {
             scope: .singleton
         )
         context.register(
-            MessageServiceImpl.self,
+            COSMOS.self,
             resolver: {
-                let _FriendService = context.get(FriendService.self, qualifier: "")!
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                return MessageServiceImpl(_FriendService, _AccountService)
+                return COSMOS()
             },
-            qualifier: "",
+            qualifier: "Science",
             scope: .singleton
-        )
+        ).link(Book.self)
+        context.registerLazyFactory(
+            FactoryTest.self,
+            resolver: { payload in
+                return FactoryTest(payload: payload as! TestPayload)
+            },
+            injector: { instance in
+                let _AccountService = context.get(AccountService.self, qualifier: "")!
+                instance.inject(facebook: _AccountService)
+            },
+            qualifier: ""
+        ).link(FactoryTest.self)
         context.registerFactory(
             FriendInfoViewModel.self,
             resolver: { payload in
@@ -70,16 +55,6 @@ final class DeliFactory {
             qualifier: ""
         ).link(FriendInfoViewModel.self)
         context.register(
-            TestViewModel.self,
-            resolver: {
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                let _FriendService = context.get(FriendService.self, qualifier: "")!
-                return TestViewModel(_AccountService, _FriendService)
-            },
-            qualifier: "",
-            scope: .prototype
-        )
-        context.register(
             FriendListViewModel.self,
             resolver: {
                 let _FriendService = context.get(FriendService.self, qualifier: "")!
@@ -88,14 +63,23 @@ final class DeliFactory {
             qualifier: "",
             scope: .singleton
         )
-        context.registerFactory(
-            UserViewModel.self,
-            resolver: { payload in
+        context.register(
+            FriendServiceImpl.self,
+            resolver: {
                 let _AccountService = context.get(AccountService.self, qualifier: "")!
-                return UserViewModel(_AccountService, payload: payload as! UserPayload)
+                return FriendServiceImpl(_AccountService)
             },
-            qualifier: ""
-        ).link(UserViewModel.self)
+            qualifier: "",
+            scope: .singleton
+        ).link(FriendService.self)
+        context.register(
+            HarryPotter.self,
+            resolver: {
+                return HarryPotter()
+            },
+            qualifier: "Novel",
+            scope: .singleton
+        ).link(Book.self)
         context.register(
             LibraryService.self,
             resolver: {
@@ -107,13 +91,23 @@ final class DeliFactory {
             scope: .singleton
         )
         context.register(
-            TroisiemeHumanite.self,
+            MessageServiceImpl.self,
             resolver: {
-                return TroisiemeHumanite()
+                let _FriendService = context.get(FriendService.self, qualifier: "")!
+                let _AccountService = context.get(AccountService.self, qualifier: "")!
+                return MessageServiceImpl(_FriendService, _AccountService)
             },
-            qualifier: "Novel",
+            qualifier: "",
             scope: .singleton
-        ).link(Book.self)
+        )
+        context.register(
+            NetworkManagerImpl.self,
+            resolver: {
+                return NetworkManagerImpl()
+            },
+            qualifier: "",
+            scope: .singleton
+        ).link(NetworkManager.self)
         context.registerLazy(
             TestService.self,
             resolver: {
@@ -126,26 +120,32 @@ final class DeliFactory {
             qualifier: "qualifierTest",
             scope: .singleton
         )
-        context.registerLazyFactory(
-            FactoryTest.self,
-            resolver: { payload in
-                return FactoryTest(payload: payload as! TestPayload)
-            },
-            injector: { instance in
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                instance.inject(facebook: _AccountService)
-            },
-            qualifier: ""
-        ).link(FactoryTest.self)
         context.register(
-            FriendServiceImpl.self,
+            TestViewModel.self,
             resolver: {
                 let _AccountService = context.get(AccountService.self, qualifier: "")!
-                return FriendServiceImpl(_AccountService)
+                let _FriendService = context.get(FriendService.self, qualifier: "")!
+                return TestViewModel(_AccountService, _FriendService)
             },
             qualifier: "",
+            scope: .prototype
+        )
+        context.register(
+            TroisiemeHumanite.self,
+            resolver: {
+                return TroisiemeHumanite()
+            },
+            qualifier: "Novel",
             scope: .singleton
-        ).link(FriendService.self)
+        ).link(Book.self)
+        context.registerFactory(
+            UserViewModel.self,
+            resolver: { payload in
+                let _AccountService = context.get(AccountService.self, qualifier: "")!
+                return UserViewModel(_AccountService, payload: payload as! UserPayload)
+            },
+            qualifier: ""
+        ).link(UserViewModel.self)
 
         self.context = context
     }
