@@ -2,8 +2,9 @@ import Deli
 
 class FactoryTest: LazyAutowiredFactory {
     var accountService: AccountService!
-    var test1: Bool!
-    var test2: [Int]!
+    
+    let test1: Bool
+    let test2: [Int]
     
     func inject(facebook accountService: AccountService) {
         self.accountService = accountService
