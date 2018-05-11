@@ -5,6 +5,7 @@ branches:
   only:
   - master
   - develop
+  - /^v[\d.]+$/
   except:
   - screenshot
 
