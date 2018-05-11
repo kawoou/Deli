@@ -9,7 +9,7 @@ import Yams
 
 final class Configuration {
 
-    typealias BuildableReference = (id: String, name: String)
+    private typealias BuildableReference = (id: String, name: String)
     
     // MARK: - Constant
 
@@ -251,13 +251,28 @@ final class Configuration {
             Logger.log(.error("Cannot load the build scheme: \(projectURL.lastPathComponent)", nil))
             return nil
         }
-        let nativeTarget1 = project.pbxproj.objects.nativeTargets.first { $0.key == buildReference.id }
-        let nativeTarget2 = project.pbxproj.objects.nativeTargets.first { $0.value.name == buildReference.name }
         
-        guard let nativeTarget = nativeTarget1 ?? nativeTarget2 else {
-            Logger.log(.error("Cannot load the build scheme: \(projectURL.lastPathComponent)", nil))
-            return nil
-        }
+        let nativeTarget: PBXNativeTarget? = {
+            if let target = project.pbxproj.objects.nativeTargets.first(where: { $0.key == buildReference.id }) {
+                return target.value
+            }
+            
+            let targetList = project.pbxproj.objects.nativeTargets.filter { $0.value.name == buildReference.name }
+            guard targetList.count > 0 else {
+                Logger.log(.error("Not found build target: \(projectURL.lastPathComponent)", nil))
+                return nil
+            }
+            guard targetList.count == 1 else {
+                Logger.log(.error("Ambiguous build target: \(projectURL.lastPathComponent)", nil))
+                return nil
+            }
+            guard let target = targetList.first else {
+                Logger.log(.error("Cannot load the build scheme: \(projectURL.lastPathComponent)", nil))
+                return nil
+            }
+            return target.value
+        }()
+        guard let safeNativeTarget = nativeTarget else { return nil }
         
         let outputPath: String = {
             let path = "\(basePath)/\(config.output ?? Constant.outputFile)"
@@ -272,7 +287,7 @@ final class Configuration {
         
         self.projectPath = basePath
         self.project = project
-        self.target = nativeTarget.value
+        self.target = safeNativeTarget
         self.outputPath = outputPath
         
         parseFileTree(group: self.project.pbxproj.rootGroup)
