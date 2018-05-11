@@ -15,7 +15,7 @@ final class InjectParser: Parsable {
         static let functionCallKey = "source.lang.swift.expr.call"
 
         static let typeRefererSuffix = ".self"
-        static let injectFuncRegex = "Inject\\(([^\\(]*([^\\(]*\\([^\\)]*\\))*[^\\)]*)\\)".r!
+        static let injectFuncRegex = "Inject\\(([^\\(]*(\\([^\\)]*\\))*[^\\)]*)\\)".r!
         static let argumentRegex = ",[\\s]*([^:]+:[\\s]*\\([^\\)]*\\))|[\\s]*([^,]+)".r!
         
         static let qualifierName = "qualifier"
