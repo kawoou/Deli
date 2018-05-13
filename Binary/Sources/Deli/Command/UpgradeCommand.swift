@@ -25,7 +25,7 @@ struct UpgradeCommand: CommandProtocol {
         let script = """
         sleep 1
         OLD_PATH=`which deli`
-        wget https://github.com/kawoou/Deli/releases/download/\(latestVersion)/portable_deli.zip -q -o /dev/null -O &> /dev/null
+        wget https://github.com/kawoou/Deli/releases/download/\(latestVersion)/portable_deli.zip -q -o /dev/null -O portable_deli.zip
         unzip -o -q portable_deli.zip
         sudo rm $OLD_PATH
         sudo cp ./deli $OLD_PATH

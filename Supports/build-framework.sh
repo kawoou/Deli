@@ -30,6 +30,3 @@ else
         -configuration Debug \
         CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
 fi
-
-carthage build --no-skip-current --verbose | xcpretty -c
-carthage archive Deli

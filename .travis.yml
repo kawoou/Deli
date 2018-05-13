@@ -31,6 +31,10 @@ script:
 - Supports/build-binary.sh
 - Supports/build-framework.sh
 
+before_deploy:
+- carthage build --no-skip-current --verbose | xcpretty -c
+- carthage archive Deli
+
 deploy:
   provider: releases
   api_key:
