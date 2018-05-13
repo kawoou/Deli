@@ -10,7 +10,7 @@ rm -rf .build/
 rm -rf Build/
 mkdir Build
 
-swift build -c release
+swift build -c release -Xswiftc -static-stdlib
 cp .build/release/deli ./Build
 pkgbuild --identifier "io.kawoou.deli" --install-location "/usr/local/bin" --root "Build" --version "`cat ../version`" "Build/Deli.pkg"
 cp ../LICENSE ./Build/LICENSE
