@@ -128,6 +128,14 @@ final class DeliFactory: ModuleFactory {
             scope: .prototype
         )
         context.register(
+            WeakViewModel.self,
+            resolver: {
+                return WeakViewModel()
+            },
+            qualifier: "",
+            scope: .weak
+        )
+        context.register(
             TroisiemeHumanite.self,
             resolver: {
                 return TroisiemeHumanite()

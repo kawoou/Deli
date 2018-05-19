@@ -170,6 +170,17 @@ final class Container: ContainerType {
 
         case .prototype:
             return component.resolve()!
+            
+        case .weak:
+            if let instance = mutex.sync(execute: { component.weakCache }) {
+                return instance
+            }
+            
+            let instance = component.resolve()!
+            mutex.sync {
+                component.weakCache = instance
+            }
+            return instance
         }
     }
     private func resolveWithFactory(component: FactoryContainerComponent, payload: _Payload) -> AnyObject {
@@ -182,6 +193,9 @@ final class Container: ContainerType {
             
         case .prototype:
             return component.resolve()!
+            
+        case .weak:
+            return mutex.sync(execute: { component.weakCache })
         }
     }
 }
