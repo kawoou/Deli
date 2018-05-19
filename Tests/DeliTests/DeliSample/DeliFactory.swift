@@ -128,14 +128,6 @@ final class DeliFactory: ModuleFactory {
             scope: .prototype
         )
         context.register(
-            WeakViewModel.self,
-            resolver: {
-                return WeakViewModel()
-            },
-            qualifier: "",
-            scope: .weak
-        )
-        context.register(
             TroisiemeHumanite.self,
             resolver: {
                 return TroisiemeHumanite()
@@ -151,6 +143,14 @@ final class DeliFactory: ModuleFactory {
             },
             qualifier: ""
         ).link(UserViewModel.self)
+        context.register(
+            WeakViewModel.self,
+            resolver: {
+                return WeakViewModel()
+            },
+            qualifier: "",
+            scope: .weak
+        )
     }
 
     required init() {}

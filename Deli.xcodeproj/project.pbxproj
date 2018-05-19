@@ -931,8 +931,8 @@
       "OBJ_74" = {
          isa = "PBXGroup";
          children = (
-            "Deli::DeliTests::Product",
             "Deli::Deli::Product",
+            "Deli::DeliTests::Product",
          );
          name = "Products";
          path = "";
