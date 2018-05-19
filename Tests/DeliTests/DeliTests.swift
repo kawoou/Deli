@@ -129,6 +129,16 @@ class DeliTests: XCTestCase, Inject {
         _ = testService.friendService.listFriends()
         XCTAssertEqual(friendService.requestCount, 6)
         
+        let weakPointer1 = unsafeBitCast(Inject(WeakViewModel.self), to: Int.self)
+        let weakPointer2 = unsafeBitCast(Inject(WeakViewModel.self), to: Int.self)
+        XCTAssertNotEqual(weakPointer1, weakPointer2)
+        
+        let strongInstance1 = Inject(WeakViewModel.self)
+        let strongInstance2 = Inject(WeakViewModel.self)
+        let strongPointer1 = unsafeBitCast(strongInstance1, to: Int.self)
+        let strongPointer2 = unsafeBitCast(strongInstance2, to: Int.self)
+        XCTAssertEqual(strongPointer1, strongPointer2)
+        
         AppContext.reset()
     }
     func testWithResolve() {
