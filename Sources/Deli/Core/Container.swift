@@ -13,6 +13,7 @@ protocol ContainerType {
     func gets(withoutResolve key: TypeKey, prefix: Bool) throws -> [AnyObject]
     func register(_ key: TypeKey, component: _ContainerComponent)
     func link(_ key: TypeKey, children: TypeKey)
+    func load()
     func reset()
 }
 
@@ -141,6 +142,13 @@ final class Container: ContainerType {
             chainMap[key] = list
         }
     }
+    func load() {
+        map.values
+            .filter { $0.scope == .always }
+            .forEach { [weak self] in
+                _ = self?.resolve(component: $0)
+            }
+    }
     func reset() {
         mutex.sync {
             chainMap = [:]
@@ -157,7 +165,7 @@ final class Container: ContainerType {
     
     private func resolve(component: _ContainerComponent) -> AnyObject {
         switch component.scope {
-        case .singleton:
+        case .always, .singleton:
             if let instance = mutex.sync(execute: { component.cache }) {
                 return instance
             }
@@ -188,7 +196,7 @@ final class Container: ContainerType {
     }
     private func resolveWithoutResolve(component: _ContainerComponent) -> AnyObject? {
         switch component.scope {
-        case .singleton:
+        case .always, .singleton:
             return mutex.sync(execute: { component.cache })
             
         case .prototype:
