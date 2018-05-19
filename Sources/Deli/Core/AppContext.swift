@@ -89,12 +89,13 @@ public class AppContext: AppContextType {
     
     /// Load container
     public static func load(_ moduleFactories: [ModuleFactory.Type]) -> AppContextType {
-        let context = AppContext.shared
+        let context = AppContext.shared as! AppContext
         
         moduleFactories
             .map { $0.init() }
             .forEach { $0.load(context: context) }
         
+        context.container.load()
         return context
     }
     
