@@ -74,11 +74,19 @@ Dependency Graph is configured through source code analysis. It is saved as the 
 File contents as below:
 
 ```swift
-class DeliFactory {
-    ...
-    init() {
+//
+//  Deli Factory
+//  Auto generated code.
+//
+
+import Deli
+
+final class DeliFactory: ModuleFactory {
+    func load(context: AppContextType) {
         ...
     }
+
+    required init() {}
 }
 ```
 
@@ -89,11 +97,16 @@ Add the generated file to the project and call it from the app's launch point.
 AppDelegate.swift:
 
 ```swift
+import UIKit
+import Deli
+
 class AppDelegate {
     
     var window: UIWindow?
 
-    let factory = DeliFactory()
+    let context = AppContext.load([
+        DeliFactory.self
+    ])
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         return true
