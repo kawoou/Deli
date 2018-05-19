@@ -1,7 +1,7 @@
 PODS:
-  - Deli (0.1.0):
-    - DeliBinary (~> 0.1.0)
-  - DeliBinary (0.1.0)
+  - Deli (0.2.0):
+    - DeliBinary (~> 0.2.0)
+  - DeliBinary (0.2.0)
 
 DEPENDENCIES:
   - Deli (from `../../`)
@@ -11,8 +11,8 @@ EXTERNAL SOURCES:
     :path: ../../
 
 SPEC CHECKSUMS:
-  Deli: 5f066bfa37ff50a7af6f03ae18ef660c5a16d75b
-  DeliBinary: 51a1f81283d88cbf61c3647eb459f6e373ccd248
+  Deli: 8541321c0a25489fa8cc7e254ed195b37bf3b76a
+  DeliBinary: 62fffaadd4006523677651b4272a361d97c3c482
 
 PODFILE CHECKSUM: ba5521b29df867361772305e5c97d9a87fefbf76
 
