@@ -73,11 +73,19 @@ Dependency Graph는 소스코드 정적 분석을 통해 구성됩니다. 그리
 만들어진 파일은 다음과 같습니다:
 
 ```swift
-class DeliFactory {
-    ...
-    init() {
+//
+//  Deli Factory
+//  Auto generated code.
+//
+
+import Deli
+
+final class DeliFactory: ModuleFactory {
+    func load(context: AppContextType) {
         ...
     }
+
+    required init() {}
 }
 ```
 
@@ -88,11 +96,16 @@ class DeliFactory {
 AppDelegate.swift:
 
 ```swift
+import UIKit
+import Deli
+
 class AppDelegate {
     
     var window: UIWindow?
 
-    let factory = DeliFactory()
+    let context = AppContext.load([
+        DeliFactory.self
+    ])
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         return true
