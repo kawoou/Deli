@@ -5,11 +5,8 @@
 
 import Deli
 
-final class DeliFactory {
-    let context: AppContextType
-
-    init() {
-        let context = AppContext.shared
+final class DeliFactory: ModuleFactory {
+    func load(context: AppContextType) {
         context.register(
             ViewModel.self,
             resolver: {
@@ -36,7 +33,7 @@ final class DeliFactory {
             qualifier: "",
             scope: .singleton
         ).link(GitHubService.self)
-
-        self.context = context
     }
+
+    required init() {}
 }

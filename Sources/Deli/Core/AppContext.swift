@@ -79,9 +79,6 @@ public protocol AppContextType {
         injector: @escaping (T) -> (),
         qualifier: String
     ) -> Linker<T>
-    
-    /// Reset container
-    func reset()
 }
 
 public class AppContext: AppContextType {
@@ -89,6 +86,29 @@ public class AppContext: AppContextType {
     // MARK: - Static
 
     public static let shared: AppContextType = AppContext()
+    
+    /// Load container
+    public static func load(_ moduleFactories: [ModuleFactory.Type]) -> AppContextType {
+        let context = AppContext.shared
+        
+        moduleFactories
+            .map { $0.init() }
+            .forEach { $0.load(context: context) }
+        
+        return context
+    }
+    
+    /// Reset container
+    public static func reset() {
+        let context = AppContext.shared as! AppContext
+        
+        for item in context.lazyDict.values {
+            item.cancel()
+        }
+        context.lazyDict = [:]
+        
+        context.container.reset()
+    }
     
     // MARK: - Property
     
@@ -321,15 +341,6 @@ public class AppContext: AppContextType {
         container.register(key, component: component)
         
         return Linker(type, qualifier: qualifier)
-    }
-    
-    public func reset() {
-        for item in lazyDict.values {
-            item.cancel()
-        }
-        lazyDict = [:]
-        
-        self.container.reset()
     }
 
     // MARK: - Private

@@ -5,11 +5,8 @@
 
 import Deli
 
-final class DeliFactory {
-    let context: AppContextType
-
-    init() {
-        let context = AppContext.shared
+final class DeliFactory: ModuleFactory {
+    func load(context: AppContextType) {
         context.register(
             SurveyServiceImpl.self,
             resolver: {
@@ -52,7 +49,7 @@ final class DeliFactory {
             qualifier: "",
             scope: .prototype
         )
-
-        self.context = context
     }
+
+    required init() {}
 }

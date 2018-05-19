@@ -5,11 +5,8 @@
 
 import Deli
 
-final class DeliFactory {
-    let context: AppContextType
-
-    init() {
-        let context = AppContext.shared
+final class DeliFactory: ModuleFactory {
+    func load(context: AppContextType) {
         context.register(
             AccountService.self,
             resolver: {
@@ -146,7 +143,7 @@ final class DeliFactory {
             },
             qualifier: ""
         ).link(UserViewModel.self)
-
-        self.context = context
     }
+
+    required init() {}
 }

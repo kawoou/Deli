@@ -30,15 +30,12 @@ final class SourceGenerator: Generator {
 
         import Deli
 
-        final class DeliFactory {
-            let context: AppContextType
-
-            init() {
-                let context = AppContext.shared
+        final class DeliFactory: ModuleFactory {
+            func load(context: AppContextType) {
                 \(output)
-
-                self.context = context
             }
+
+            required init() {}
         }
         """
     }
