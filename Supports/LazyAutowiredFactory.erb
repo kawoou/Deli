@@ -3,21 +3,38 @@
 //  Deli
 //
 
+/// The AutowiredFactory protocol is registered automatically, and lazily load
+/// the required dependencies from IoC container.
+///
+/// It requires a payload, so is registered as a `prototype` scope.
 public protocol LazyAutowiredFactory: Factory {<% for dep in 1..9 %>
-    associatedtype Dep<%= dep %> = Void<% end %>
+    /// Associated type for dependency <%= dep %>.
+    associatedtype Dep<%= dep %> = Void
+<% end %>
+    /// Associated type for payload.
     associatedtype _Payload: Payload
 
+    /// Since autowiring by Type may lead to multiple candidates.
+    /// The `qualifier` property is used to differentiate that.
     var qualifier: String? { get }
 
+    /// Pre-generated initialize method for instantiating.
+    ///
+    /// A payload already existed when instantiate, so injected into
+    /// the constructor.
     init(payload: _Payload)
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
     params_str = params.join(", ")
 %>
-    func inject(<%= params_str %>)<% end %>
+    /// Pre-generated initialize method for <%= dep %> dependencies
+    /// constructor inject.
+    func inject(<%= params_str %>)
+<% end %>
 }
 public extension LazyAutowiredFactory {
+    /// To supports type-inference of the compiler.
     public var payloadType: _Payload.Type { return _Payload.self }
     public var qualifier: String? { return nil }
 <%

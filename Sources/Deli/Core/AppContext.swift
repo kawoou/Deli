@@ -5,89 +5,20 @@
 
 import Foundation
 
-public protocol AppContextType {
-    /// Test mode activate status
-    var isTestMode: Bool { get }
-    
-    /// Activate test mode
-    ///
-    /// When the test mode is activated, uses the qualifierPrefix in the `get()` and `gets()` methods.
-    ///
-    /// If `setTestMode(true, qualifierPrefix: "test")` has enabled test mode.
-    /// When you call `get(Book.self, qualifier: "Novel")`, It works as below.
-    ///
-    /// - 1. gets(Book.self, qualifier: "testNovel")
-    /// - 2. gets(Book.self, qualifier: "Novel")
-    ///
-    /// Returns an exists instance (`testNovel` is a high priority)
-    ///
-    /// - Parameters:
-    ///     - active: Activate state
-    ///     - qualifierPrefix: Qualifier prefix for test mode.
-    func setTestMode(_ active: Bool, qualifierPrefix: String)
-    
-    /// Get instance for type
-    func get<T>(_ type: T.Type, qualifier: String) -> T?
-    
-    /// Get instance list for type
-    func get<T>(_ type: [T].Type, qualifier: String) -> [T]
-    
-    /// Get instance for type by factory
-    func get<T: Factory>(_ type: T.Type, qualifier: String, payload: T.RawPayload) -> T?
-    
-    /// Get instance list for type by factory
-    func get<T: Factory>(_ type: [T].Type, qualifier: String, payload: T.RawPayload) -> [T]
-    
-    /// Get instance for type without resolve
-    func get<T>(withoutResolve type: T.Type, qualifier: String) -> T?
-    
-    /// Get instance list for type without resolve
-    func get<T>(withoutResolve type: [T].Type, qualifier: String) -> [T]
-
-    /// Register in DI graph
-    @discardableResult
-    func register<T>(
-        _ type: T.Type,
-        resolver: @escaping Resolver,
-        qualifier: String,
-        scope: Scope
-    ) -> Linker<T>
-
-    /// Lazy register in DI graph
-    @discardableResult
-    func registerLazy<T>(
-        _ type: T.Type,
-        resolver: @escaping Resolver,
-        injector: @escaping (T) -> (),
-        qualifier: String,
-        scope: Scope
-    ) -> Linker<T>
-    
-    /// Register factory in DI graph
-    @discardableResult
-    func registerFactory<T>(
-        _ type: T.Type,
-        resolver: @escaping FactoryResolver,
-        qualifier: String
-    ) -> Linker<T>
-    
-    /// Lazy register factory in DI graph
-    @discardableResult
-    func registerLazyFactory<T>(
-        _ type: T.Type,
-        resolver: @escaping FactoryResolver,
-        injector: @escaping (T) -> (),
-        qualifier: String
-    ) -> Linker<T>
-}
-
+/// The AppContext is the context that wrapped the container.
+///
+/// Most of them provide the same functionality as Containers, but they are
+/// responsible for functions such as `Lazy` and `Factory`.
 public class AppContext: AppContextType {
     
     // MARK: - Static
 
+    /// Shared application context for using container.
     public static let shared: AppContextType = AppContext()
     
-    /// Load container
+    /// Load dependency graph into the container.
+    ///
+    /// - Returns: Instance of shared application context.
     public static func load(_ moduleFactories: [ModuleFactory.Type]) -> AppContextType {
         let context = AppContext.shared as! AppContext
         
@@ -99,7 +30,7 @@ public class AppContext: AppContextType {
         return context
     }
     
-    /// Reset container
+    /// Reset dependency graph and container components.
     public static func reset() {
         let context = AppContext.shared as! AppContext
         
@@ -113,16 +44,39 @@ public class AppContext: AppContextType {
     
     // MARK: - Property
     
+    /// Test mode activate status
     public var isTestMode: Bool {
         return testQualifierPrefix != nil
     }
 
     // MARK: - Public
     
+    /// Activate test mode
+    ///
+    /// When the test mode is activated, uses the qualifierPrefix in the
+    /// `get()` and `gets()` methods.
+    ///
+    /// If `setTestMode(true, qualifierPrefix: "test")` has enabled test mode.
+    /// When you call `get(Book.self, qualifier: "Novel")`, It works as below.
+    ///
+    /// - 1. gets(Book.self, qualifier: "testNovel")
+    /// - 2. gets(Book.self, qualifier: "Novel")
+    ///
+    /// Returns an exists instance (`testNovel` is a high priority)
+    ///
+    /// - Parameters:
+    ///     - active: Activate state
+    ///     - qualifierPrefix: Qualifier prefix for test mode.
     public func setTestMode(_ active: Bool, qualifierPrefix: String) {
         testQualifierPrefix = active ? qualifierPrefix : nil
     }
 
+    /// Get instance for type.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifier: The registered qualifier.
+    /// - Returns: The resolved instance, or nil.
     public func get<T>(_ type: T.Type, qualifier: String) -> T? {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: type, qualifier: "\(testQualifierPrefix)\(qualifier)")
@@ -140,6 +94,12 @@ public class AppContext: AppContextType {
         return nil
     }
 
+    /// Get instance list for type.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifier: The registered qualifier.
+    /// - Returns: The resolved instances, or empty.
     public func get<T>(_ type: [T].Type, qualifier: String) -> [T] {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: T.self, qualifier: "\(testQualifierPrefix)\(qualifier)")
@@ -163,6 +123,14 @@ public class AppContext: AppContextType {
         }
         return []
     }
+    
+    /// Get instance for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifier: The registered qualifier.
+    ///     - payload: User data for resolve.
+    /// - Returns: The resolved instance, or nil.
     public func get<T: Factory>(_ type: T.Type, qualifier: String, payload: T.RawPayload) -> T? {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: type, qualifier: "\(testQualifierPrefix)\(qualifier)")
@@ -179,6 +147,14 @@ public class AppContext: AppContextType {
         }
         return nil
     }
+    
+    /// Get instance list for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifier: The registered qualifier.
+    ///     - payload: User data for resolve.
+    /// - Returns: The resolved instances, or emtpy.
     public func get<T: Factory>(_ type: [T].Type, qualifier: String, payload: T.RawPayload) -> [T] {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: T.self, qualifier: "\(testQualifierPrefix)\(qualifier)")
@@ -203,6 +179,13 @@ public class AppContext: AppContextType {
         return []
     }
     
+    /// Get instance for type without resolve.
+    /// It is used to avoid repetitive resolve if already registered.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifier: The registered qualifier.
+    /// - Returns: The resolved instances, or nil.
     public func get<T>(withoutResolve type: T.Type, qualifier: String) -> T? {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: type, qualifier: "\(testQualifierPrefix)\(qualifier)")
@@ -220,6 +203,13 @@ public class AppContext: AppContextType {
         return nil
     }
     
+    /// Get instance list for type without resolve.
+    /// It is used to avoid repetitive resolve if already registered.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifier: The registered qualifier.
+    /// - Returns: The resolved instances, or empty.
     public func get<T>(withoutResolve type: [T].Type, qualifier: String) -> [T] {
         if let testQualifierPrefix = testQualifierPrefix {
             let testKey = TypeKey(type: T.self, qualifier: "\(testQualifierPrefix)\(qualifier)")
@@ -244,6 +234,20 @@ public class AppContext: AppContextType {
         return []
     }
 
+    /// Register in DI graph.
+    ///
+    /// By default, it is called from automatically generated code via
+    /// Deli binary.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - resolver: The closure to specify how to resolve with the
+    ///       dependencies of the type.
+    ///       It is invoked when needs to instantiate the instance.
+    ///     - qualifier: The qualifier.
+    ///     - scope: It is specify the way that manages the lifecycle.
+    /// - Returns: Returns a Linker for specifying the Type to allow access to
+    ///   resolve the registered type.
     @discardableResult
     public func register<T>(
         _ type: T.Type,
@@ -262,6 +266,20 @@ public class AppContext: AppContextType {
         return Linker(type, qualifier: qualifier)
     }
 
+    /// Lazy register in DI graph.
+    ///
+    /// By default, it is called from automatically generated code via
+    /// Deli binary.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - resolver: The closure to specify how to instantiate the instance.
+    ///     - injector: The closure to specify how to inject with the
+    ///       dependencies of the type.
+    ///     - qualifier: The qualifier.
+    ///     - scope: It is specify the way that manages the lifecycle.
+    /// - Returns: Returns a Linker for specifying the Type to allow access to
+    ///   resolve the registered type.
     @discardableResult
     public func registerLazy<T>(
         _ type: T.Type,
@@ -294,7 +312,20 @@ public class AppContext: AppContextType {
         return Linker(type, qualifier: qualifier)
     }
     
-    /// Register factory in DI graph
+    /// Register factory in DI graph.
+    ///
+    /// It is automatically managed as a prototype scope.
+    /// By default, it is called from automatically generated code via
+    /// Deli binary.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - resolver: The closure to specify how to resolve with the
+    ///       dependencies of the type.
+    ///       It is invoked when needs to instantiate the instance.
+    ///     - qualifier: The qualifier.
+    /// - Returns: Returns a Linker for specifying the Type to allow access to
+    ///   resolve the registered type.
     @discardableResult
     public func registerFactory<T>(
         _ type: T.Type,
@@ -312,7 +343,20 @@ public class AppContext: AppContextType {
         return Linker(type, qualifier: qualifier)
     }
     
-    /// Register factory in DI graph
+    /// Lazy register factory in DI graph.
+    ///
+    /// It is automatically managed as a prototype scope.
+    /// By default, it is called from automatically generated code via
+    /// Deli binary.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - resolver: The closure to specify how to instantiate the instance.
+    ///     - injector: The closure to specify how to inject with the
+    ///       dependencies of the type.
+    ///     - qualifier: The qualifier.
+    /// - Returns: Returns a Linker for specifying the Type to allow access to
+    ///   resolve the registered type.
     @discardableResult
     public func registerLazyFactory<T>(
         _ type: T.Type,

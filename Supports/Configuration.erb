@@ -3,6 +3,7 @@
 //  Deli
 //
 
+/// The Configuration protocol makes the user can register Resolver.
 public protocol Configuration {}
 public extension Configuration {
 <%
@@ -13,6 +14,18 @@ public extension Configuration {
     arguments = (1..dep).map { |i| "dep#{i}" }
     arguments_str = arguments.join(", ")
 %>
+    /// Register custom Resolver by developers.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.<% for arg in (1..dep) %>
+    ///     - dependency<%= arg %>: Required dependency <%= arg %><% end %>
+    ///     - qualifier: The qualifier.
+    ///     - scope: It is specify the way that manages the lifecycle.
+    ///       (default is .singleton)
+    ///     - resolver: The closure to specify how to resolve with the
+    ///       dependencies of the type.
+    ///       It is invoked when needs to instantiate the instance.
+    /// - Returns: The closure that resolve dependency type.
     public static func Config<T<% if dep > 0 %>, <% end %><%= generics_str %>>(
         _ type: T.Type,<% for arg in (1..dep) %>
         _ dependency<%= arg %>: Dep<%= arg %>.Type,<% end %>

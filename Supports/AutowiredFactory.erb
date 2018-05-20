@@ -3,19 +3,32 @@
 //  Deli
 //
 
+/// The AutowiredFactory protocol is registered automatically, and load the
+/// required dependencies from IoC container.
+///
+/// It requires a payload, so is registered as a `prototype` scope.
 public protocol AutowiredFactory: Factory {<% for dep in 1..9 %>
-    associatedtype Dep<%= dep %> = Void<% end %>
+    /// Associated type for dependency <%= dep %>.
+    associatedtype Dep<%= dep %> = Void
+<% end %>
+    /// Associated type for payload.
     associatedtype _Payload: Payload
 
+    /// Since autowiring by Type may lead to multiple candidates.
+    /// The `qualifier` property is used to differentiate that.
     var qualifier: String? { get }
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
     params_str = params.join(", ")
 %>
-    init(<%= params_str %>, payload: _Payload)<% end %>
+    /// Pre-generated initialize method for <%= dep %> dependencies and single payload
+    /// constructor inject.
+    init(<%= params_str %>, payload: _Payload)
+<% end %>
 }
 public extension AutowiredFactory {
+    /// To supports type-inference of the compiler.
     public var payloadType: _Payload.Type { return _Payload.self }
     public var qualifier: String? { return nil }
 <%

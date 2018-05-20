@@ -3,21 +3,31 @@
 //  Deli
 //
 
+/// The Autowired protocol is registered automatically, and load the
+/// required dependencies from IoC container.
 public protocol Autowired: Inject {<% for dep in 1..9 %>
-    associatedtype Dep<%= dep %> = Void<% end %>
-
-    var scope: Scope { get }
+    /// Associated type for dependency <%= dep %>.
+    associatedtype Dep<%= dep %> = Void
+<% end %>
+    /// Since autowiring by Type may lead to multiple candidates.
+    /// The `qualifier` property is used to differentiate that.
     var qualifier: String? { get }
+
+    /// All instances lifecycle is managed by IoC Container.
+    /// The `scope` property specifies how to manage it.
+    var scope: Scope { get }
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
     params_str = params.join(", ")
 %>
-    init(<%= params_str %>)<% end %>
+    /// Pre-generated initialize method for <%= dep %> dependencies constructor inject.
+    init(<%= params_str %>)
+<% end %>
 }
 public extension Autowired {
-    public var scope: Scope { return .singleton }
     public var qualifier: String? { return nil }
+    public var scope: Scope { return .singleton }
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }

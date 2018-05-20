@@ -3,23 +3,34 @@
 //  Deli
 //
 
+/// The LazyAutowired protocol is registered automatically, and lazily load
+/// the required dependencies from IoC container.
 public protocol LazyAutowired: Inject {<% for dep in 1..9 %>
-    associatedtype Dep<%= dep %> = Void<% end %>
-
-    var scope: Scope { get }
+    /// Associated type for dependency <%= dep %>.
+    associatedtype Dep<%= dep %> = Void
+<% end %>
+    /// Since autowiring by Type may lead to multiple candidates.
+    /// The `qualifier` property is used to differentiate that.
     var qualifier: String? { get }
 
+    /// All instances lifecycle is managed by IoC Container.
+    /// The `scope` property specifies how to manage it.
+    var scope: Scope { get }
+
+    /// Pre-generated initialize method for instantiating.
     init()
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
     params_str = params.join(", ")
 %>
-    func inject(<%= params_str %>)<% end %>
+    /// Pre-generated method for <%= dep %> dependencies lazily inject.
+    func inject(<%= params_str %>)
+<% end %>
 }
 public extension LazyAutowired {
-    public var scope: Scope { return .singleton }
     public var qualifier: String? { return nil }
+    public var scope: Scope { return .singleton }
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
