@@ -6,6 +6,7 @@
 <a href="http://cocoadocs.org/docsets/Deli"><img src="https://img.shields.io/cocoapods/v/Deli.svg?style=flat" alt="Version"/></a>
 <a href="https://github.com/kawoou/Deli/blob/master/LICENSE"><img src="https://img.shields.io/cocoapods/l/Deli.svg?style=flat" alt="License"/></a>
 <a href="https://travis-ci.org/kawoou/Deli"><img src="https://travis-ci.org/kawoou/Deli.svg?branch=master" alt="CI Status"/></a>
+<a href="http://kawoou.kr/Deli"><img src="http://kawoou.kr/Deli/badge.svg" alt="Jazzy"/></a>
 <a href="http://cocoadocs.org/docsets/Deli"><img src="https://img.shields.io/cocoapods/p/Deli.svg?style=flat" alt="Platform"/></a>
 </p>
 
