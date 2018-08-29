@@ -1,7 +1,7 @@
 ![Deli](https://github.com/kawoou/Deli/raw/screenshot/deli.png)
 
 <p align="center">
-<a href="#"><img src="https://img.shields.io/badge/Swift-4.1-orange.svg" alt="Swift"/></a>
+<a href="#"><img src="https://img.shields.io/badge/Swift-4.1.2-orange.svg" alt="Swift"/></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/></a>
 <a href="http://cocoadocs.org/docsets/Deli"><img src="https://img.shields.io/cocoapods/v/Deli.svg?style=flat" alt="Version"/></a>
 <a href="https://github.com/kawoou/Deli/blob/master/LICENSE"><img src="https://img.shields.io/cocoapods/l/Deli.svg?style=flat" alt="License"/></a>

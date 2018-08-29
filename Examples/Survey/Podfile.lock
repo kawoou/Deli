@@ -1,19 +1,23 @@
 PODS:
-  - Deli (0.2.0):
-    - DeliBinary (~> 0.2.0)
-  - DeliBinary (0.2.0)
+  - Deli (0.3.0):
+    - DeliBinary (~> 0.3.0)
+  - DeliBinary (0.3.0)
 
 DEPENDENCIES:
   - Deli (from `../../`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DeliBinary
+
 EXTERNAL SOURCES:
   Deli:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
-  Deli: 8541321c0a25489fa8cc7e254ed195b37bf3b76a
-  DeliBinary: 62fffaadd4006523677651b4272a361d97c3c482
+  Deli: a81d4f6bd28eeeaf78f2d69356453e0dc5784f23
+  DeliBinary: 454175d0d2ea3ce5694a191663790fc1f1315479
 
 PODFILE CHECKSUM: ba5521b29df867361772305e5c97d9a87fefbf76
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.3

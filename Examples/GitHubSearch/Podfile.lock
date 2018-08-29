@@ -1,7 +1,7 @@
 PODS:
-  - Deli (0.2.0):
-    - DeliBinary (~> 0.2.0)
-  - DeliBinary (0.2.0)
+  - Deli (0.3.0):
+    - DeliBinary (~> 0.3.0)
+  - DeliBinary (0.3.0)
   - RxCocoa (4.1.2):
     - RxSwift (~> 4.0)
   - RxOptional (3.3.0):
@@ -15,17 +15,24 @@ DEPENDENCIES:
   - RxOptional (= 3.3.0)
   - RxSwift (= 4.1.2)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DeliBinary
+    - RxCocoa
+    - RxOptional
+    - RxSwift
+
 EXTERNAL SOURCES:
   Deli:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
-  Deli: 8541321c0a25489fa8cc7e254ed195b37bf3b76a
-  DeliBinary: 62fffaadd4006523677651b4272a361d97c3c482
+  Deli: a81d4f6bd28eeeaf78f2d69356453e0dc5784f23
+  DeliBinary: 454175d0d2ea3ce5694a191663790fc1f1315479
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
   RxSwift: e49536837d9901277638493ea537394d4b55f570
 
 PODFILE CHECKSUM: 744847b8cb534f522b5b13695236f9ee4d362045
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.3

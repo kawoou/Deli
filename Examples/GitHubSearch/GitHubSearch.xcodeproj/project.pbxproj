@@ -122,7 +122,6 @@
 				9DB8674A20662F1E0062B396 /* Frameworks */,
 				9DB8674B20662F1E0062B396 /* Resources */,
 				14FBE2CA13F40A297669ACC7 /* [CP] Embed Pods Frameworks */,
-				528ABD082B1743471715296E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -203,21 +202,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GitHubSearch/Pods-GitHubSearch-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		528ABD082B1743471715296E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GitHubSearch/Pods-GitHubSearch-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9D2CD210206E884D00653DA8 /* Deli Script */ = {

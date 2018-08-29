@@ -7,11 +7,11 @@ let package = Package(
         .executable(name: "deli", targets: ["deli"])
     ],
     dependencies: [
-        .package(url: "https://github.com/jpsim/SourceKitten.git", from: "0.20.0"),
-        .package(url: "https://github.com/jpsim/Yams.git", from: "0.7.0"),
+        .package(url: "https://github.com/jpsim/SourceKitten.git", from: "0.21.1"),
+        .package(url: "https://github.com/jpsim/Yams.git", from: "1.0.0"),
         .package(url: "https://github.com/crossroadlabs/Regex.git", from: "1.1.0"),
-        .package(url: "https://github.com/xcodeswift/xcproj.git", from: "4.3.0"),
-        .package(url: "https://github.com/Carthage/Commandant.git", from: "0.13.0")
+        .package(url: "https://github.com/tuist/xcodeproj.git", from: "5.0.0"),
+        .package(url: "https://github.com/Carthage/Commandant.git", from: "0.15.0")
     ],
     targets: [
         .target(
@@ -20,7 +20,7 @@ let package = Package(
                 "SourceKittenFramework",
                 "Yams",
                 "Regex",
-                "xcproj",
+                "xcodeproj",
                 "Commandant"
             ]
         )
