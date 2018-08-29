@@ -2,7 +2,7 @@
 set -o pipefail
 
 rm Binary/Sources/Deli/Model/Version.swift
-erb version=`cat version` Supports/Version.erb >> Binary/Sources/Deli/Model/Version.swift
+erb version=`cat version` Supports/Version.erb > Binary/Sources/Deli/Model/Version.swift
 
 cd Binary/
 

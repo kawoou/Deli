@@ -33,7 +33,6 @@ public protocol LazyAutowired: Inject {
     /// Associated type for dependency 9.
     associatedtype Dep9 = Void
 
-
     /// Since autowiring by Type may lead to multiple candidates.
     /// The `qualifier` property is used to differentiate that.
     var qualifier: String? { get }
@@ -47,22 +46,31 @@ public protocol LazyAutowired: Inject {
 
     /// Pre-generated method for 1 dependencies lazily inject.
     func inject(_ dep1: Dep1)
+
     /// Pre-generated method for 2 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2)
+
     /// Pre-generated method for 3 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3)
+
     /// Pre-generated method for 4 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4)
+
     /// Pre-generated method for 5 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5)
+
     /// Pre-generated method for 6 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6)
+
     /// Pre-generated method for 7 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7)
+
     /// Pre-generated method for 8 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8)
+
     /// Pre-generated method for 9 dependencies lazily inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8, _ dep9: Dep9)
+
 }
 public extension LazyAutowired {
     public var qualifier: String? { return nil }

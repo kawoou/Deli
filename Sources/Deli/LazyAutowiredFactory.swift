@@ -51,30 +51,39 @@ public protocol LazyAutowiredFactory: Factory {
     /// Pre-generated initialize method for 1 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1)
+
     /// Pre-generated initialize method for 2 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2)
+
     /// Pre-generated initialize method for 3 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3)
+
     /// Pre-generated initialize method for 4 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4)
+
     /// Pre-generated initialize method for 5 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5)
+
     /// Pre-generated initialize method for 6 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6)
+
     /// Pre-generated initialize method for 7 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7)
+
     /// Pre-generated initialize method for 8 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8)
+
     /// Pre-generated initialize method for 9 dependencies
     /// constructor inject.
     func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8, _ dep9: Dep9)
+
 }
 public extension LazyAutowiredFactory {
     /// To supports type-inference of the compiler.
