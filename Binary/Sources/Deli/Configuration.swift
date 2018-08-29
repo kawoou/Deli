@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import xcproj
+import xcodeproj
 import Yams
 
 final class Configuration {
@@ -43,17 +43,17 @@ final class Configuration {
         return project.pbxproj.objects.sourcesBuildPhases
             .first { [weak self] (key, value) in
                 guard let ss = self else { return false }
-                return ss.target.buildPhases.contains(key)
+                return ss.target.buildPhasesReferences.contains(key)
             }?
             .value
-            .files
-            .compactMap { [weak self] fileKey -> String? in
+            .fileReferences
+            .compactMap { [weak self] fileKey -> PBXObjectReference? in
                 guard let ss = self else { return nil }
-                return ss.project.pbxproj.objects.buildFiles[fileKey]?.fileRef
+                return ss.project.pbxproj.objects.buildFiles[fileKey]?.fileReference
             }
             .compactMap { [weak self] refKey -> String? in
                 guard let ss = self else { return nil }
-                guard let path = ss.filePath[refKey] else { return nil }
+                guard let path = ss.filePath[String(refKey.hashValue)] else { return nil }
                 return "\(ss.projectPath)/\(path)"
             }
             .filter { [weak self] path in
@@ -71,17 +71,17 @@ final class Configuration {
         return project.pbxproj.objects.sourcesBuildPhases
             .first { [weak self] (key, value) in
                 guard let ss = self else { return false }
-                return ss.target.buildPhases.contains(key)
+                return ss.target.buildPhasesReferences.contains(key)
             }?
             .value
             .files
-            .flatMap { [weak self] fileKey in
+            .flatMap { [weak self] fileKey -> PBXObjectReference? in
                 guard let ss = self else { return nil }
-                return ss.project.pbxproj.objects.buildFiles[fileKey]?.fileRef
+                return ss.project.pbxproj.objects.buildFiles[fileKey]?.fileReference
             }
             .flatMap { [weak self] refKey in
                 guard let ss = self else { return nil }
-                guard let path = ss.filePath[refKey] else { return nil }
+                guard let path = ss.filePath[String(refKey.hashValue)] else { return nil }
                 return "\(ss.projectPath)/\(path)"
             }
             .filter { [weak self] path in
@@ -102,11 +102,11 @@ final class Configuration {
 
     private var stackedPath: [String] = []
     private func parseFileTree(group: PBXGroup) {
-        for groupKey in group.children {
+        for groupKey in group.childrenReferences {
             guard let group = project.pbxproj.objects.groups[groupKey] else {
                 if let path = project.pbxproj.objects.fileReferences[groupKey]?.path {
                     stackedPath.append(path)
-                    filePath[groupKey] = stackedPath.joined(separator: "/")
+                    filePath[String(groupKey.hashValue)] = stackedPath.joined(separator: "/")
                     _ = stackedPath.popLast()
                 }
                 continue
@@ -163,19 +163,27 @@ final class Configuration {
         }
     }
     private static func findURL(_ fileName: String) -> String? {
-        #if swift(>=4.1)
-        return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
-            .compactMap { URL(string: $0) }
-            .filter { $0.lastPathComponent == fileName }
-            .first?
-            .path
-        #else
-        return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
-            .flatMap { URL(string: $0) }
-            .filter { $0.lastPathComponent == fileName }
-            .first?
-            .path
-        #endif
+        guard let currentDirectoryURL = URL(string: FileManager.default.currentDirectoryPath) else { return nil }
+
+        let path: String? = {
+            #if swift(>=4.1)
+            return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
+                .compactMap { URL(string: $0) }
+                .filter { $0.lastPathComponent == fileName }
+                .first?
+                .path
+            #else
+            return (try? FileManager.default.contentsOfDirectory(atPath: FileManager.default.currentDirectoryPath))?
+                .flatMap { URL(string: $0) }
+                .filter { $0.lastPathComponent == fileName }
+                .first?
+                .path
+            #endif
+        }()
+
+        guard let safePath = path else { return nil }
+        let url = currentDirectoryURL.appendingPathComponent(safePath)
+        return url.standardized.path
     }
     private static func findBuildReference(project: XcodeProj, schemeName: String?) -> BuildableReference? {
         let schemeList: [XCScheme] = {
@@ -197,7 +205,7 @@ final class Configuration {
                 return nil
             }
             guard project.pbxproj.objects.nativeTargets.count == 1 else {
-                Logger.log(.debug("Ambiguous build target: \(project.pbxproj.objects.nativeTargets.keys.joined(separator: ", "))"))
+                Logger.log(.debug("Ambiguous build target: \(project.pbxproj.objects.nativeTargets.values.map { $0.name }.joined(separator: ", "))"))
                 Logger.log(.error("Ambiguous build target.", nil))
                 return nil
             }
@@ -206,7 +214,7 @@ final class Configuration {
                 return nil
             }
             return (
-                id: nativeTarget.key,
+                id: String(nativeTarget.key.hashValue),
                 name: nativeTarget.value.name
             )
         }
@@ -223,7 +231,7 @@ final class Configuration {
             return nil
         }
         return (
-            id: buildAction.buildableReference.blueprintIdentifier,
+            id: String(buildAction.buildableReference.blueprintIdentifier.hashValue),
             name: buildAction.buildableReference.buildableName
         )
     }
@@ -243,7 +251,7 @@ final class Configuration {
             return nil
         }
         
-        guard let project = try? XcodeProj(pathString: projectURL.path) else {
+        guard let project = try? XcodeProj(pathString: projectURL.absoluteString) else {
             Logger.log(.error("Cannnot open the project file: \(projectURL.lastPathComponent)", nil))
             return nil
         }
@@ -253,7 +261,7 @@ final class Configuration {
         }
         
         let nativeTarget: PBXNativeTarget? = {
-            if let target = project.pbxproj.objects.nativeTargets.first(where: { $0.key == buildReference.id }) {
+            if let target = project.pbxproj.objects.nativeTargets.first(where: { String($0.key.hashValue) == buildReference.id }) {
                 return target.value
             }
             
@@ -289,8 +297,10 @@ final class Configuration {
         self.project = project
         self.target = safeNativeTarget
         self.outputPath = outputPath
-        
-        parseFileTree(group: self.project.pbxproj.rootGroup)
+
+        guard let rootGroupOptional = try? self.project.pbxproj.rootGroup() else { return nil }
+        guard let rootGroup = rootGroupOptional else { return nil }
+        parseFileTree(group: rootGroup)
     }
     
     convenience init?(projectPath: String, scheme: String?, output: String?) {

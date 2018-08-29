@@ -22,7 +22,8 @@ let package = Package(
                 "Regex",
                 "xcodeproj",
                 "Commandant"
-            ]
+            ],
+            path: "Sources/deli"
         )
     ]
 )
