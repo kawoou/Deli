@@ -77,7 +77,7 @@ final class InjectParser: Parsable {
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
 
-        guard arguments.count > 0 else {
+        guard let firstArgument = arguments.first else {
             Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
             throw ParserError.emptyArguments
         }
@@ -92,7 +92,7 @@ final class InjectParser: Parsable {
         
         let isPayload = arguments.first { $0.contains(Constant.payloadPrefix) } != nil
 
-        if let arrayMatch = Constant.arrayRegex.findFirst(in: arguments[0]), let arrayType = arrayMatch.group(at: 1) {
+        if let arrayMatch = Constant.arrayRegex.findFirst(in: firstArgument), let arrayType = arrayMatch.group(at: 1) {
             return Dependency(
                 parent: rootName,
                 target: source,

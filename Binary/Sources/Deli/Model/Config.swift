@@ -11,30 +11,26 @@ struct Config: Decodable {
     // MARK: - Enumerable
 
     enum CodingKeys: String, CodingKey {
-        case project
-        case scheme
-        case output
+        case target
+        case config
     }
 
     // MARK: - Property
 
-    let project: String
-    let scheme: String?
-    let output: String?
+    let target: Set<String>
+    let config: [String: ConfigInfo]
 
     // MARK: - Lifecycle
 
-    init(project: String, scheme: String? = nil, output: String? = nil) {
-        self.project = project
-        self.scheme = scheme
-        self.output = output
+    init(target: Set<String>, config: [String: ConfigInfo]) {
+        self.target = target
+        self.config = config
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.project = try container.decode(String.self, forKey: .project)
-        self.scheme = try? container.decode(String.self, forKey: .scheme)
-        self.output = try? container.decode(String.self, forKey: .output)
+        target = try container.decode(Set<String>.self, forKey: .target)
+        config = (try? container.decode([String: ConfigInfo].self, forKey: .config)) ?? [:]
     }
 }
