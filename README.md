@@ -55,9 +55,18 @@ Simple setup for the automated configuration files, `deli.yml`.
 If the configuration file does not exist, find the build target for a unique project in the current folders automatically. It works the same even if no `scheme` or `output` field is specified.
 
 ```yaml
-project: MyProject
-scheme: MyScheme
-output: Sources/DeliFactory.swift
+target:
+  - MyProject
+
+config:
+  MyProject:
+    project: MyProject
+    scheme: MyScheme
+    include:
+      - Include files...
+    exclude:
+      - Exclude files...
+    output: Sources/DeliFactory.swift
 ```
 
 You’ll have to make your targets `Shared`. To do this `Manage Schemes` and check the `Shared` areas:

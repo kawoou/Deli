@@ -54,9 +54,18 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
 만약 설정 파일이 존재하지 않는다면, 현재 폴더의 유일한 프로젝트의 빌드 타겟을 찾습니다. 이것은 `scheme`이나 `output` 필드를 지정하지 않았을 때와 비슷하게 동작합니다.
 
 ```yaml
-project: MyProject
-scheme: MyScheme
-output: Sources/DeliFactory.swift
+target:
+  - MyProject
+
+config:
+  MyProject:
+    project: MyProject
+    scheme: MyScheme
+    include:
+      - 추가할 파일들...
+    exclude:
+      - 제외할 파일들...
+    output: Sources/DeliFactory.swift
 ```
 
 당신이 지정한 빌드 타겟은 `Shared`로 설정되어야 합니다. Xcode의 `Manage Scheme`에서 `Shared` 영역을 확인합시다:
