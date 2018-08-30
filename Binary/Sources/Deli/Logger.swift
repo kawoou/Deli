@@ -38,6 +38,7 @@ final class Logger {
         case info(String)
         case debug(String)
         case assert(String)
+        case newLine
 
         var prefix: String {
             switch self {
@@ -47,7 +48,8 @@ final class Logger {
                 return "\(file != nil ? "\(file!): " : "")error"
             case .warn(_, let file):
                 return "\(file != nil ? "\(file!): " : "")warning"
-            case .info:
+            case .info,
+                .newLine:
                 return ""
             case .debug,
                  .assert:
@@ -64,6 +66,8 @@ final class Logger {
                  .debug(let message),
                  .assert(let message):
                 return message
+            case .newLine:
+                return ""
             }
         }
     }
@@ -125,6 +129,9 @@ final class Logger {
             let color = color ?? .cyan
             print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
             assertionFailure()
+
+        case .newLine:
+            print("")
         }
     }
     

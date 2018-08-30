@@ -64,7 +64,7 @@ final class AutowiredFactoryParser: Parsable {
         let constructorList = source.substructures
             .filter { validConstructor($0) }
         
-        guard constructorList.count > 0 else {
+        guard let constructor = constructorList.first else {
             Logger.log(.error("Not found `\(name)` constructor.", source.getSourceLine(with: fileContent)))
             throw ParserError.constructorNotFound
         }
@@ -75,7 +75,7 @@ final class AutowiredFactoryParser: Parsable {
             throw ParserError.constructorAmbiguous
         }
         
-        let qualifierList = constructorList.first?
+        let qualifierList = constructor
             .name?[Constant.constructorPrefix.count...]
             .split(separator: ":")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -104,7 +104,7 @@ final class AutowiredFactoryParser: Parsable {
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
                     return Dependency(
                         parent: name,
-                        target: constructorList.first,
+                        target: constructor,
                         name: arrayType,
                         type: .array,
                         qualifier: qualifier
@@ -112,7 +112,7 @@ final class AutowiredFactoryParser: Parsable {
                 }
                 return Dependency(
                     parent: name,
-                    target: constructorList.first,
+                    target: constructor,
                     name: dependencyName,
                     qualifier: qualifier
                 )
@@ -120,7 +120,7 @@ final class AutowiredFactoryParser: Parsable {
         
         let payload: Dependency = try {
             guard let info = parameterList.last else {
-                Logger.log(.error("Not found payload type.", constructorList[0].getSourceLine(with: fileContent)))
+                Logger.log(.error("Not found payload type.", constructor.getSourceLine(with: fileContent)))
                 throw ParserError.payloadNotFound
             }
             guard info.name == Constant.payloadKey else {
@@ -138,7 +138,7 @@ final class AutowiredFactoryParser: Parsable {
             
             return Dependency(
                 parent: name,
-                target: constructorList.first,
+                target: constructor,
                 name: payloadName
             )
         }()

@@ -53,7 +53,7 @@ final class LazyAutowiredParser: Parsable {
         let injectorList = source.substructures
             .filter { validInjector($0) }
 
-        guard injectorList.count > 0 else {
+        guard let injector = injectorList.first else {
             Logger.log(.error("Not found `\(name)` injector.", source.getSourceLine(with: fileContent)))
             throw ParserError.injectorNotFound
         }
@@ -82,14 +82,14 @@ final class LazyAutowiredParser: Parsable {
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
                     return Dependency(
                         parent: name,
-                        target: injectorList.first,
+                        target: injector,
                         name: arrayType,
                         type: .array
                     )
                 }
                 return Dependency(
                     parent: name,
-                    target: injectorList.first,
+                    target: injector,
                     name: dependencyName
                 )
             }

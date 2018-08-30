@@ -55,7 +55,7 @@ final class AutowiredParser: Parsable {
         let constructorList = source.substructures
             .filter { validConstructor($0) }
 
-        guard constructorList.count > 0 else {
+        guard let constructor = constructorList.first else {
             Logger.log(.error("Not found `\(name)` constructor.", source.getSourceLine(with: fileContent)))
             throw ParserError.constructorNotFound
         }
@@ -66,7 +66,7 @@ final class AutowiredParser: Parsable {
             throw ParserError.constructorAmbiguous
         }
         
-        let qualifierList = constructorList.first?
+        let qualifierList = constructor
             .name?[Constant.constructorPrefix.count...]
             .split(separator: ":")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -93,7 +93,7 @@ final class AutowiredParser: Parsable {
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
                     return Dependency(
                         parent: name,
-                        target: constructorList.first,
+                        target: constructor,
                         name: arrayType,
                         type: .array,
                         qualifier: qualifier
@@ -101,7 +101,7 @@ final class AutowiredParser: Parsable {
                 }
                 return Dependency(
                     parent: name,
-                    target: constructorList.first,
+                    target: constructor,
                     name: dependencyName,
                     qualifier: qualifier
                 )

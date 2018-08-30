@@ -10,16 +10,9 @@ import Darwin
 
 DispatchQueue.global(qos: .default).async {
     if let latestVersion = VersionManager.shared.getLatestVersion(timeout: 3000), latestVersion != "v\(Version.current.value)" {
-        Logger.log(
-            .info(
-                """
-                Deli \(latestVersion) is available.
-                To update use: `deli upgrade`
-
-                """
-            ),
-            color: .green
-        )
+        Logger.log(.info("Deli \(latestVersion) is available."), color: .green)
+        Logger.log(.info("To update use: `deli upgrade`"), color: .green)
+        Logger.log(.newLine)
     }
 
     let registry = CommandRegistry<CommandError>()

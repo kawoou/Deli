@@ -13,9 +13,10 @@ struct ValidateCommand: CommandProtocol {
     func run(_ options: ValidateOptions) -> Result<(), CommandError> {
         Logger.isVerbose = options.isVerbose
 
-        let configure: Configuration
+        let configuration = Configuration()
+        let configure: Config
         if let project = options.project {
-            guard let config = Configuration(projectPath: project, scheme: options.scheme, output: nil) else {
+            guard let config = configuration.getConfig(project: project, scheme: options.scheme, output: nil) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
@@ -23,46 +24,63 @@ struct ValidateCommand: CommandProtocol {
             guard options.scheme == nil else {
                 return .failure(.mustBeUsedWithProjectArguments)
             }
-            guard let config = Configuration(path: options.configFile) else {
+            guard let config = configuration.getConfig(configPath: options.configFile) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
         }
 
-        let sourceFiles = configure.getSourceList()
-            .filter { $0.contains(".swift") }
-
-        let parser = Parser([
-            ComponentParser(),
-            ConfigurationParser(),
-            AutowiredParser(),
-            LazyAutowiredParser(),
-            AutowiredFactoryParser(),
-            LazyAutowiredFactoryParser(),
-            InjectParser()
-        ])
-        let corrector = Corrector([
-            QualifierCorrector(parser: parser),
-            ScopeCorrector(parser: parser),
-            NotImplementCorrector(parser: parser)
-        ])
-        let validator = Validator([
-            FactoryReferenceValidator(parser: parser),
-            CircularDependencyValidator(parser: parser)
-        ])
-
-        do {
-            _ = try validator.run(
-                try corrector.run(
-                    try parser.run(sourceFiles)
-                )
-            )
-
-            Logger.log(.info("Validate success."))
-        } catch let error {
-            return .failure(.runner(error))
+        guard configure.target.count > 0 else {
+            Logger.log(.warn("No targets are active.", nil))
+            return .success(())
         }
+        for target in configure.target {
+            guard let info = configure.config[target] else {
+                Logger.log(.warn("Target not found: `\(target)`", nil))
+                continue
+            }
 
+            Logger.log(.info("Set Target `\(target)`"))
+            let sourceFiles = configuration.getSourceList(info: info)
+            if sourceFiles.count == 0 {
+                Logger.log(.warn("No source files for processing.", nil))
+            }
+            Logger.log(.debug("Source files:"))
+            for source in sourceFiles {
+                Logger.log(.debug(" - \(source)"))
+            }
+
+            let parser = Parser([
+                ComponentParser(),
+                ConfigurationParser(),
+                AutowiredParser(),
+                LazyAutowiredParser(),
+                AutowiredFactoryParser(),
+                LazyAutowiredFactoryParser(),
+                InjectParser()
+            ])
+            let corrector = Corrector([
+                QualifierCorrector(parser: parser),
+                ScopeCorrector(parser: parser),
+                NotImplementCorrector(parser: parser)
+            ])
+            let validator = Validator([
+                FactoryReferenceValidator(parser: parser),
+                CircularDependencyValidator(parser: parser)
+            ])
+
+            do {
+                _ = try validator.run(
+                    try corrector.run(
+                        try parser.run(sourceFiles)
+                    )
+                )
+
+                Logger.log(.info("Validate success."))
+            } catch let error {
+                return .failure(.runner(error))
+            }
+        }
         return .success(())
     }
 }

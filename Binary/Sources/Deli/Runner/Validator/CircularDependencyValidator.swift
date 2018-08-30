@@ -20,18 +20,18 @@ final class CircularDependencyValidator: Validatable {
         let stackSet = Set(chainStack)
         guard stackSet.count != chainStack.count else { return }
 
+        let results: [Results]
         #if swift(>=4.1)
-        let isInnerLazy = stackSet
+        results = stackSet
             .compactMap { resultMap[$0] }
             .flatMap { $0 }
-            .reduce(false) { $0 || $1.isLazy }
         #else
-        let isInnerLazy = stackSet
+        results = stackSet
             .flatMap { resultMap[$0] }
             .flatMap { $0 }
-            .reduce(false) { $0 || $1.isLazy }
         #endif
 
+        let isInnerLazy = results.reduce(false) { $0 || $1.isLazy }
         guard isInnerLazy == false else { return }
 
         for chain in chainStack {
