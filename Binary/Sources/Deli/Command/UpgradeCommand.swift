@@ -17,7 +17,7 @@ struct UpgradeCommand: CommandProtocol {
         guard let latestVersion = VersionManager.shared.getLatestVersion() else {
             return .failure(.notFoundLatestVersion)
         }
-        guard latestVersion != "v\(Version.current.value)" else {
+        if latestVersion == "v\(Version.current.value)" {
             Logger.log(.info("No need to upgrade."))
             return .success(())
         }

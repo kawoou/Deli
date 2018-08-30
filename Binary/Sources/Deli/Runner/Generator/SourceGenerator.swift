@@ -10,17 +10,16 @@ final class SourceGenerator: Generator {
     // MARK: - Public
 
     func generate() throws -> String {
+        let sourceList: [String]
         #if swift(>=4.1)
-        let output = results
-            .compactMap { $0.makeSource() }
-            .joined(separator: "\n")
-            .replacingOccurrences(of: "\n", with: "\n        ")
+        sourceList = results.compactMap { $0.makeSource() }
         #else
-        let output = results
-            .flatMap { $0.makeSource() }
+        sourceList = results.flatMap { $0.makeSource() }
+        #endif
+        
+        let output = sourceList
             .joined(separator: "\n")
             .replacingOccurrences(of: "\n", with: "\n        ")
-        #endif
 
         return """
         //

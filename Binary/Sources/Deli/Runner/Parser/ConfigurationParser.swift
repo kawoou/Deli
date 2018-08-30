@@ -43,13 +43,12 @@ final class ConfigurationParser: Parsable {
                     .replacingOccurrences(of: Constant.typeRefererSuffix, with: "")
             }
         
-        guard rawArguments.count > 0 else {
+        guard let instanceType = rawArguments.first else {
             Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
             throw ParserError.emptyArguments
         }
 
         /// Safe arguments
-        let instanceType = rawArguments[0]
         let arguments: [String] = {
             guard rawArguments.count > 1 else { return [] }
             return Array(rawArguments[1..<(rawArguments.count - 1)])
@@ -62,7 +61,7 @@ final class ConfigurationParser: Parsable {
             .map { Dependency(parent: name, target: source, name: $0) }
 
         let qualifierRaw = arguments
-            .first(where: { $0.contains(Constant.qualifierPrefix) })?
+            .first { $0.contains(Constant.qualifierPrefix) }?
             .replacingOccurrences(of: Constant.qualifierPrefix, with: "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -76,7 +75,7 @@ final class ConfigurationParser: Parsable {
         }()
         
         let scope = arguments
-            .first(where: { $0.contains(Constant.scopePrefix) })?
+            .first { $0.contains(Constant.scopePrefix) }?
             .replacingOccurrences(of: Constant.scopePrefix, with: "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
 

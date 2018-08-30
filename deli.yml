@@ -1,3 +1,8 @@
-project: DeliSample
-scheme: DeliSample
-output: Tests/DeliTests/DeliSample
+target:
+  - DeliSample
+
+config:
+  DeliSample:
+    project: DeliSample
+    scheme: DeliSample
+    output: Tests/DeliTests/DeliSample

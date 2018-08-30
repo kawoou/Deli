@@ -79,7 +79,7 @@ final class LazyAutowiredFactoryParser: Parsable {
         let injectorList = source.substructures
             .filter { validInjector($0) }
         
-        guard constructorList.count > 0 else {
+        guard let constructor = constructorList.first else {
             Logger.log(.error("Not found `\(name)` constructor.", source.getSourceLine(with: fileContent)))
             throw ParserError.constructorNotFound
         }
@@ -90,7 +90,7 @@ final class LazyAutowiredFactoryParser: Parsable {
             throw ParserError.constructorAmbiguous
         }
         
-        guard injectorList.count > 0 else {
+        guard let injector = injectorList.first else {
             Logger.log(.error("Not found `\(name)` injector.", source.getSourceLine(with: fileContent)))
             throw ParserError.injectorNotFound
         }
@@ -101,7 +101,7 @@ final class LazyAutowiredFactoryParser: Parsable {
             throw ParserError.injectorAmbiguous
         }
         
-        let qualifierList = injectorList.first?
+        let qualifierList = injector
             .name?[Constant.injectorPrefix.count...]
             .split(separator: ":")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -129,7 +129,7 @@ final class LazyAutowiredFactoryParser: Parsable {
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
                     return Dependency(
                         parent: name,
-                        target: injectorList.first,
+                        target: injector,
                         name: arrayType,
                         type: .array,
                         qualifier: qualifier
@@ -137,14 +137,13 @@ final class LazyAutowiredFactoryParser: Parsable {
                 }
                 return Dependency(
                     parent: name,
-                    target: injectorList.first,
+                    target: injector,
                     name: dependencyName,
                     qualifier: qualifier
                 )
         }
         
         let payload: Dependency = try {
-            let constructor = constructorList[0]
             guard let info = constructor.substructures.first else {
                 Logger.log(.error("Not found payload type.", constructor.getSourceLine(with: fileContent)))
                 throw ParserError.payloadNotFound
