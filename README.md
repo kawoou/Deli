@@ -66,6 +66,7 @@ config:
       - Include files...
     exclude:
       - Exclude files...
+    className: DeilFactory
     output: Sources/DeliFactory.swift
 ```
 
