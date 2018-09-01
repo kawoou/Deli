@@ -43,6 +43,7 @@ struct BuildCommand: CommandProtocol {
 
             Logger.log(.info("Set Target `\(target)`"))
             let outputFile = configuration.getOutputPath(info: info)
+            let className = configuration.getClassName(info: info)
             let sourceFiles = configuration.getSourceList(info: info)
             if sourceFiles.count == 0 {
                 Logger.log(.warn("No source files for processing.", nil))
@@ -77,7 +78,7 @@ struct BuildCommand: CommandProtocol {
                         try parser.run(sourceFiles)
                     )
                 )
-                let outputData = try SourceGenerator(results: results).generate()
+                let outputData = try SourceGenerator(className: className, results: results).generate()
                 let url = URL(fileURLWithPath: outputFile)
                 try? FileManager.default.removeItem(at: url)
                 try outputData.write(to: url, atomically: false, encoding: .utf8)

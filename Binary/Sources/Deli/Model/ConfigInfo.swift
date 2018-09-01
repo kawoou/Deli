@@ -16,6 +16,7 @@ struct ConfigInfo: Decodable {
         case include
         case exclude
         case output
+        case className
     }
 
     // MARK: - Property
@@ -25,15 +26,17 @@ struct ConfigInfo: Decodable {
     let include: [String]
     let exclude: [String]
     let output: String?
+    let className: String?
 
     // MARK: - Lifecycle
 
-    init(project: String, scheme: String? = nil, output: String? = nil) {
+    init(project: String, scheme: String? = nil, output: String? = nil, className: String? = nil) {
         self.project = project
         self.scheme = scheme
         self.include = []
         self.exclude = []
         self.output = output
+        self.className = className
     }
 
     init(from decoder: Decoder) throws {
@@ -44,5 +47,6 @@ struct ConfigInfo: Decodable {
         include = (try? container.decode([String].self, forKey: .include)) ?? []
         exclude = (try? container.decode([String].self, forKey: .exclude)) ?? []
         output = try? container.decode(String.self, forKey: .output)
+        className = try? container.decode(String.self, forKey: .className)
     }
 }
