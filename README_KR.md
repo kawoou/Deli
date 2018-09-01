@@ -65,6 +65,7 @@ config:
       - 추가할 파일들...
     exclude:
       - 제외할 파일들...
+    className: DeilFactory
     output: Sources/DeliFactory.swift
 ```
 
