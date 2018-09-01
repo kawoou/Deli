@@ -42,6 +42,7 @@ struct GenerateCommand: CommandProtocol {
             }
 
             Logger.log(.info("Set Target `\(target)`"))
+            let className = configuration.getClassName(info: info)
             let sourceFiles = configuration.getSourceList(info: info)
             if sourceFiles.count == 0 {
                 Logger.log(.warn("Empty source files.", nil))
@@ -82,7 +83,7 @@ struct GenerateCommand: CommandProtocol {
                 case "graph", "html":
                     outputData = try GraphGenerator(results: results).generate()
                 case "code", "swift":
-                    outputData = try SourceGenerator(results: results).generate()
+                    outputData = try SourceGenerator(className: className, results: results).generate()
                 case "raw":
                     outputData = try RawGenerator(results: results).generate()
                 default:

@@ -23,13 +23,13 @@ final class SourceGenerator: Generator {
 
         return """
         //
-        //  Deli Factory
+        //  \(className).swift
         //  Auto generated code.
         //
 
         import Deli
 
-        final class DeliFactory: ModuleFactory {
+        final class \(className): ModuleFactory {
             func load(context: AppContextType) {
                 \(output)
             }
@@ -41,11 +41,17 @@ final class SourceGenerator: Generator {
 
     // MARK: - Private
 
+    private let className: String
     private let results: [Results]
 
     // MARK: - Lifecycle
-
+    
     init(results: [Results]) {
+        self.className = "DeliFactory"
+        self.results = results
+    }
+    init(className: String, results: [Results]) {
+        self.className = className
         self.results = results
     }
 }

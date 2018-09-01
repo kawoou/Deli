@@ -1,5 +1,5 @@
 //
-//  Deli Factory
+//  DeliFactory.swift
 //  Auto generated code.
 //
 

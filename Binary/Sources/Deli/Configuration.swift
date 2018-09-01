@@ -15,7 +15,8 @@ final class Configuration {
 
     private struct Constant {
         static let configFile = "deli.yml"
-        static let outputFile = "DeliFactory.swift"
+        static let className = "DeliFactory"
+        static let outputFile = "\(className).swift"
 
         static let xcodeProjectExtension = "xcodeproj"
         static let xcodeSchemeExtension = "xcscheme"
@@ -24,7 +25,7 @@ final class Configuration {
     // MARK: - Private
 
     private let fileManager = FileManager.default
-    private lazy var basePath = fileManager.currentDirectoryPath
+    private lazy var basePath = self.fileManager.currentDirectoryPath
 
     private func findPath(_ fileName: String) -> String? {
         guard let baseURL = URL(string: basePath) else { return nil }
@@ -242,6 +243,33 @@ final class Configuration {
         } else {
             return url.path
         }
+    }
+    func getClassName(info: ConfigInfo) -> String {
+        let path = getOutputPath(info: info)
+        
+        let className: String = {
+            if let name = info.className {
+                return name
+            }
+            guard let url = URL(string: path) else { return Constant.className }
+            guard let match = "(.+)\\.swift$".r?.findFirst(in: url.lastPathComponent) else { return Constant.className }
+            return match.group(at: 1) ?? Constant.className
+        }()
+        
+        let nameReplaceRegex = "(^[^a-zA-Z_]+|[^a-zA-Z0-9_]+)".r!
+        let newClassName = nameReplaceRegex.replaceAll(in: className, with: "_")
+        
+        let first: String
+        let other: String
+        #if swift(>=4.0)
+            first = newClassName.prefix(1).uppercased()
+            other = String(newClassName.dropFirst())
+        #else
+            first = String(newClassName.characters.prefix(1)).capitalized
+            other = String(newClassName.characters.dropFirst())
+        #endif
+        
+        return first + other
     }
     func getSourceList(info: ConfigInfo) -> [String] {
         /// Check if project file exists.
