@@ -10,6 +10,7 @@ enum CommandError: Error {
     case requiredOutputFile
     case unacceptableType
     case mustBeUsedWithProjectArguments
+    case cannotOverwriteDirectory
     case unknown
 
     var localizedDescription: String {
@@ -26,6 +27,8 @@ enum CommandError: Error {
             return "Unacceptable type."
         case .mustBeUsedWithProjectArguments:
             return "Must be used with project arguments."
+        case .cannotOverwriteDirectory:
+            return "Cannot overwrite a directory with an output file."
         case .unknown:
             return "Unknown error."
         }

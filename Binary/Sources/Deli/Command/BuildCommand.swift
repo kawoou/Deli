@@ -42,9 +42,17 @@ struct BuildCommand: CommandProtocol {
             }
 
             Logger.log(.info("Set Target `\(target)`"))
-            let outputFile = configuration.getOutputPath(info: info)
-            let className = configuration.getClassName(info: info)
-            let sourceFiles = configuration.getSourceList(info: info)
+            let outputFile: String
+            let className: String
+            if info.className != nil {
+                className = configuration.getClassName(info: info)
+                outputFile = configuration.getOutputPath(info: info, fileName: "\(className).swift")
+            } else {
+                outputFile = configuration.getOutputPath(info: info)
+                className = configuration.getClassName(info: info)
+            }
+            
+            guard let sourceFiles = try? configuration.getSourceList(info: info) else { continue }
             if sourceFiles.count == 0 {
                 Logger.log(.warn("No source files for processing.", nil))
             }
@@ -80,6 +88,12 @@ struct BuildCommand: CommandProtocol {
                 )
                 let outputData = try SourceGenerator(className: className, results: results).generate()
                 let url = URL(fileURLWithPath: outputFile)
+                
+                var isDirectory: ObjCBool = false
+                if FileManager.default.fileExists(atPath: outputFile, isDirectory: &isDirectory), isDirectory.boolValue {
+                    Logger.log(.error("Cannot overwrite a directory with an output file: \(outputFile)", nil))
+                    throw CommandError.cannotOverwriteDirectory
+                }
                 try? FileManager.default.removeItem(at: url)
                 try outputData.write(to: url, atomically: false, encoding: .utf8)
 

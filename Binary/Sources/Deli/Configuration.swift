@@ -7,6 +7,14 @@ import Foundation
 import xcodeproj
 import Yams
 
+enum ConfigurationError: Error {
+    case projectNotFound
+    case projectCannotOpen
+    case schemeCannotLoad
+    case buildTargetNotFound
+    case buildTargetAmbiguous
+}
+
 final class Configuration {
 
     private typealias BuildableReference = (id: String, name: String)
@@ -30,25 +38,10 @@ final class Configuration {
     private func findPath(_ fileName: String) -> String? {
         guard let baseURL = URL(string: basePath) else { return nil }
 
-        let path: String? = {
-            #if swift(>=4.1)
-            return (try? fileManager.contentsOfDirectory(atPath: basePath))?
-                .compactMap { URL(string: $0) }
-                .filter { $0.lastPathComponent == fileName }
-                .first?
-                .path
-            #else
-            return (try? fileManager.contentsOfDirectory(atPath: basePath))?
-                .flatMap { URL(string: $0) }
-                .filter { $0.lastPathComponent == fileName }
-                .first?
-                .path
-            #endif
-        }()
-
-        guard let safePath = path else { return nil }
-        let url = baseURL.appendingPathComponent(safePath)
-        return url.standardized.path
+        let fileURL = baseURL.appendingPathComponent(fileName).standardized
+        guard fileManager.fileExists(atPath: fileURL.path) else { return nil }
+        
+        return fileURL.path
     }
 
     private func convertToProjectFile(_ project: String) -> String {
@@ -229,17 +222,17 @@ final class Configuration {
         )
     }
 
-    func getOutputPath(info: ConfigInfo) -> String {
+    func getOutputPath(info: ConfigInfo, fileName: String? = nil) -> String {
         let projectFile = convertToProjectFile(info.project)
         guard let projectPath = findPath(projectFile) else { return "" }
         guard let projectURL = URL(string: projectPath) else { return "" }
 
         let projectDirectory = projectURL.deletingLastPathComponent()
-        let url = projectDirectory.appendingPathComponent(info.output ?? Constant.outputFile).standardized
+        let url = projectDirectory.appendingPathComponent(info.output ?? fileName ?? Constant.outputFile).standardized
 
         var isDirectory: ObjCBool = false
         if fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue {
-            return url.appendingPathComponent(Constant.outputFile).standardized.path
+            return url.appendingPathComponent(fileName ?? Constant.outputFile).standardized.path
         } else {
             return url.path
         }
@@ -271,24 +264,24 @@ final class Configuration {
         
         return first + other
     }
-    func getSourceList(info: ConfigInfo) -> [String] {
+    func getSourceList(info: ConfigInfo) throws -> [String] {
         /// Check if project file exists.
         let projectFile = convertToProjectFile(info.project)
         guard let projectPath = findPath(projectFile) else {
             Logger.log(.error("Not found `\(projectFile)` file.", nil))
-            return []
+            throw ConfigurationError.projectNotFound
         }
 
         /// Load project file.
         guard let projectURL = URL(string: projectPath) else {
             Logger.log(.error("Cannnot open the project file: \(projectFile)", nil))
-            return []
+            throw ConfigurationError.projectCannotOpen
         }
 
         let projectDirectory = projectURL.deletingLastPathComponent()
         guard let project = try? XcodeProj(pathString: projectURL.absoluteString) else {
             Logger.log(.error("Cannnot open the project file: \(projectURL.lastPathComponent)", nil))
-            return []
+            throw ConfigurationError.projectCannotOpen
         }
 
         /// Find build reference
@@ -300,11 +293,11 @@ final class Configuration {
         }
         guard let buildReference = reference else {
             Logger.log(.error("Cannot load the build scheme: \(projectFile)", nil))
-            return []
+            throw ConfigurationError.schemeCannotLoad
         }
 
         /// Find native target
-        let target: PBXNativeTarget? = {
+        let target: PBXNativeTarget? = try {
             if let target = project.pbxproj.objects.nativeTargets.first(where: { String($0.key.hashValue) == buildReference.id }) {
                 return target.value
             }
@@ -312,11 +305,11 @@ final class Configuration {
             let targetList = project.pbxproj.objects.nativeTargets.filter { $0.value.name == buildReference.name }
             guard let target = targetList.first else {
                 Logger.log(.error("Not found build target: \(projectFile)", nil))
-                return nil
+                throw ConfigurationError.buildTargetNotFound
             }
             guard targetList.count == 1 else {
                 Logger.log(.error("Ambiguous build target: \(projectFile)", nil))
-                return nil
+                throw ConfigurationError.buildTargetAmbiguous
             }
             return target.value
         }()

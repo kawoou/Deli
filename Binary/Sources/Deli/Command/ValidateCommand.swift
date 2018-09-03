@@ -41,7 +41,7 @@ struct ValidateCommand: CommandProtocol {
             }
 
             Logger.log(.info("Set Target `\(target)`"))
-            let sourceFiles = configuration.getSourceList(info: info)
+            guard let sourceFiles = try? configuration.getSourceList(info: info) else { continue }
             if sourceFiles.count == 0 {
                 Logger.log(.warn("No source files for processing.", nil))
             }

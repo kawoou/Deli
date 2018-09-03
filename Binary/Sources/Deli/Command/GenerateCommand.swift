@@ -43,7 +43,8 @@ struct GenerateCommand: CommandProtocol {
 
             Logger.log(.info("Set Target `\(target)`"))
             let className = configuration.getClassName(info: info)
-            let sourceFiles = configuration.getSourceList(info: info)
+            
+            guard let sourceFiles = try? configuration.getSourceList(info: info) else { continue }
             if sourceFiles.count == 0 {
                 Logger.log(.warn("Empty source files.", nil))
             }
@@ -92,7 +93,12 @@ struct GenerateCommand: CommandProtocol {
 
                 if let path = options.output {
                     let url = URL(fileURLWithPath: path)
-                    try? FileManager.default.removeItem(at: url)
+                    
+                    var isDirectory: ObjCBool = false
+                    if FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue {
+                        Logger.log(.error("Cannot overwrite a directory with an output file: \(path)", nil))
+                        throw CommandError.cannotOverwriteDirectory
+                    }
                     try outputData.write(to: url, atomically: false, encoding: .utf8)
 
                     Logger.log(.info("Generate file: \(path)"))
