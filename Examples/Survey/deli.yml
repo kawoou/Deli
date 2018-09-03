@@ -1,2 +1,7 @@
-project: Survey
-output: Survey/DeliFactory.swift
+target:
+  - Survey
+
+config:
+  Survey:
+    project: Survey.xcodeproj
+    output: Survey/SurveyFactory.swift

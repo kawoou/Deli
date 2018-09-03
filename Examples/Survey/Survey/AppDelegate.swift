@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     let context = AppContext.load([
-        DeliFactory.self
+        SurveyFactory.self
     ])
 
 

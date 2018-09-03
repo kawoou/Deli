@@ -1,11 +1,11 @@
 //
-//  Deli Factory
+//  SurveyFactory.swift
 //  Auto generated code.
 //
 
 import Deli
 
-final class DeliFactory: ModuleFactory {
+final class SurveyFactory: ModuleFactory {
     func load(context: AppContextType) {
         context.register(
             SurveyServiceImpl.self,

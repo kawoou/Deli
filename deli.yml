@@ -1,8 +1,17 @@
 target:
-  - DeliSample
+  - Sample
+  - GitHubSearch
+  - Survey
 
 config:
-  DeliSample:
+  Sample:
     project: DeliSample
     scheme: DeliSample
     output: Tests/DeliTests/DeliSample
+  GitHubSearch:
+    project: Examples/GitHubSearch/GitHubSearch
+    className: GitHubFactory
+    output: GitHubSearch
+  Survey:
+    project: Examples/Survey/Survey.xcodeproj
+    output: Survey/SurveyFactory.swift

@@ -1,11 +1,11 @@
 //
-//  Deli Factory
+//  GitHubFactory.swift
 //  Auto generated code.
 //
 
 import Deli
 
-final class DeliFactory: ModuleFactory {
+final class GitHubFactory: ModuleFactory {
     func load(context: AppContextType) {
         context.register(
             ViewModel.self,

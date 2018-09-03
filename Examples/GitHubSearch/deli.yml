@@ -1,2 +1,8 @@
-project: GitHubSearch
-output: GitHubSearch/DeliFactory.swift
+target:
+  - GitHubSearch
+
+config:
+  GitHubSearch:
+    project: GitHubSearch
+    className: GitHubFactory
+    output: GitHubSearch

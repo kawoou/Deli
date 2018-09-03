@@ -16,7 +16,7 @@
 		6BEC3FF7FA0411B38F07EACF5A546129 /* TestSurvey1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72D54005E4BCB4F874BFC5D8AE4457 /* TestSurvey1.swift */; };
 		8353A59BD5EA8560D1EC662A7EB2BF35 /* SurveyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A376C83AAD6AB5547F4384EF88343E6 /* SurveyData.swift */; };
 		878C3FC27DDA4041F3E2A886DA389371 /* SurveyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23998A9A6D2A174EE0081762D709A79 /* SurveyService.swift */; };
-		9D2CD20D206E874500653DA8 /* DeliFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2CD20C206E874500653DA8 /* DeliFactory.swift */; };
+		9D9B453F213DF67C005BE944 /* SurveyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B453E213DF67C005BE944 /* SurveyFactory.swift */; };
 		A3D16C72B68778963DDC8F8CBAC11516 /* TestSurvey2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030CB11449047684E7A3ED66EA50306 /* TestSurvey2.swift */; };
 		A7CF5D2CCB59D854184087D916E403FB /* SurveySliderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E508CB801201AC55E41049E0C528E803 /* SurveySliderItem.swift */; };
 		C0E401060234D77334A0209A412FD94E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C553E94E7BE6A883E4DB63B7E69B261 /* AppDelegate.swift */; };
@@ -38,7 +38,7 @@
 		83D805BD0AF65948C7BB95C028ED0391 /* Pods-Survey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Survey.release.xcconfig"; path = "Pods/Target Support Files/Pods-Survey/Pods-Survey.release.xcconfig"; sourceTree = "<group>"; };
 		87FFE79F4B859DA9D98438807147D9F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C553E94E7BE6A883E4DB63B7E69B261 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9D2CD20C206E874500653DA8 /* DeliFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeliFactory.swift; sourceTree = "<group>"; };
+		9D9B453E213DF67C005BE944 /* SurveyFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyFactory.swift; sourceTree = "<group>"; };
 		9FC1B9058F8461A18B5EE6808A5C2D12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFB865DBB615BBE12B907D9B54720AA0 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		D28D3523B92DAFAE4A0201D23F45AAC9 /* SurveyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 		4769B5196A2528F6E2A6EA6CDA78C04B /* Survey */ = {
 			isa = PBXGroup;
 			children = (
-				9D2CD20C206E874500653DA8 /* DeliFactory.swift */,
+				9D9B453E213DF67C005BE944 /* SurveyFactory.swift */,
 				8C553E94E7BE6A883E4DB63B7E69B261 /* AppDelegate.swift */,
 				9FC1B9058F8461A18B5EE6808A5C2D12 /* Assets.xcassets */,
 				87FFE79F4B859DA9D98438807147D9F0 /* Info.plist */,
@@ -219,7 +219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which deli >/dev/null; then\n  deli build\nelse\n  echo \"error: Deli not installed, download from https://github.com/kawoou/Deli\"\nfi";
+			shellScript = "if which deli >/dev/null; then\n  deli build\nelse\n  echo \"error: Deli not installed, download from https://github.com/kawoou/Deli\"\nfi\n";
 		};
 		DA08BA355E8F52F274FF7431F8F140F0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -247,8 +247,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0E401060234D77334A0209A412FD94E /* AppDelegate.swift in Sources */,
+				9D9B453F213DF67C005BE944 /* SurveyFactory.swift in Sources */,
 				06DE5D92B9BBE36A7175DC66546257F6 /* Survey.swift in Sources */,
-				9D2CD20D206E874500653DA8 /* DeliFactory.swift in Sources */,
 				8353A59BD5EA8560D1EC662A7EB2BF35 /* SurveyData.swift in Sources */,
 				878C3FC27DDA4041F3E2A886DA389371 /* SurveyService.swift in Sources */,
 				A7CF5D2CCB59D854184087D916E403FB /* SurveySliderItem.swift in Sources */,
