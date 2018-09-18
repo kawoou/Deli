@@ -202,7 +202,8 @@ protocol Book {
     var author: String { get }
     var category: String { get }
 }
-struct Novel: Book {
+
+class Novel: Book {
     var qualifier: String {
         return "Novel"
     }
@@ -210,26 +211,32 @@ struct Novel: Book {
     var name: String {
         return ""
     }
+    
     var author: String {
         return ""
     }
+    
     var category: String {
         return "Novel"
     }
 }
-struct HarryPotter: Novel, Component {
-    var name: String {
+
+class HarryPotter: Novel, Component {
+    override var name: String {
         return "Harry Potter"
     }
-    var author: String {
+    
+    override var author: String {
         return "J. K. Rowling"
     }
 }
-struct TroisiemeHumanite: Novel, Component {
-    var name: String {
+
+class TroisiemeHumanite: Novel, Component {
+    override var name: String {
         return "Troisième humanité"
     }
-    var author: String {
+    
+    override var author: String {
         return "Bernard Werber"
     }
 }
