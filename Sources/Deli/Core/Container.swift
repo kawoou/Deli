@@ -8,9 +8,9 @@ import Foundation
 protocol ContainerType {
     func get(_ key: TypeKey) throws -> AnyObject?
     func get(_ key: TypeKey, payload: _Payload) throws -> AnyObject?
-    func gets(_ key: TypeKey, prefix: Bool, payload: _Payload?) throws -> [AnyObject]
+    func gets(_ key: TypeKey, payload: _Payload?) throws -> [AnyObject]
     func get(withoutResolve key: TypeKey) throws -> AnyObject?
-    func gets(withoutResolve key: TypeKey, prefix: Bool) throws -> [AnyObject]
+    func gets(withoutResolve key: TypeKey) throws -> [AnyObject]
     func register(_ key: TypeKey, component: _ContainerComponent)
     func link(_ key: TypeKey, children: TypeKey)
     func load()
@@ -51,7 +51,7 @@ final class Container: ContainerType {
         }
         return resolveWithFactory(component: safeComponent, payload: payload)
     }
-    func gets(_ key: TypeKey, prefix: Bool) throws -> [AnyObject] {
+    func gets(_ key: TypeKey) throws -> [AnyObject] {
         let newKey = TypeKey(type: key.type)
         let list = mutex.sync {
             return chainMap[newKey] ?? []
@@ -60,9 +60,6 @@ final class Container: ContainerType {
         do {
             return try list
                 .filter {
-                    guard !prefix else {
-                        return $0.qualifier.hasPrefix(key.qualifier)
-                    }
                     guard !key.qualifier.isEmpty else { return true }
                     return $0.qualifier == key.qualifier
                 }
@@ -71,11 +68,10 @@ final class Container: ContainerType {
             return []
         }
     }
-    func gets(_ key: TypeKey, prefix: Bool, payload: _Payload?) throws -> [AnyObject] {
+    func gets(_ key: TypeKey, payload: _Payload?) throws -> [AnyObject] {
         let newKey = TypeKey(type: key.type)
         let list = mutex.sync { chainMap[newKey] ?? [] }
             .filter {
-                guard !prefix else { return $0.qualifier.hasPrefix(key.qualifier) }
                 guard !key.qualifier.isEmpty else { return true }
                 return $0.qualifier == key.qualifier
             }
@@ -103,7 +99,7 @@ final class Container: ContainerType {
         }
         return resolveWithoutResolve(component: safeComponent)
     }
-    func gets(withoutResolve key: TypeKey, prefix: Bool) throws -> [AnyObject] {
+    func gets(withoutResolve key: TypeKey) throws -> [AnyObject] {
         let newKey = TypeKey(type: key.type)
         let list = mutex.sync {
             return chainMap[newKey] ?? []
@@ -112,9 +108,6 @@ final class Container: ContainerType {
         do {
             return try list
                 .filter {
-                    guard !prefix else {
-                        return $0.qualifier.hasPrefix(key.qualifier)
-                    }
                     guard !key.qualifier.isEmpty else { return true }
                     return $0.qualifier == key.qualifier
                 }
