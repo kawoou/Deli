@@ -46,7 +46,7 @@ final class LazyAutowiredConstructorResult: Results {
             .joined(separator: ", ")
 
         return """
-        context.registerLazy(
+        registerLazy(
             \(instanceType).self,
             resolver: {
                 return \(instanceType)()

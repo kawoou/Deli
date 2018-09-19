@@ -6,8 +6,8 @@
 import Deli
 
 final class GitHubFactory: ModuleFactory {
-    func load(context: AppContextType) {
-        context.register(
+    override func load(context: AppContext) {
+        register(
             ViewModel.self,
             resolver: {
                 let _GitHubService = context.get(GitHubService.self, qualifier: "")!
@@ -16,7 +16,7 @@ final class GitHubFactory: ModuleFactory {
             qualifier: "",
             scope: .prototype
         )
-        context.register(
+        register(
             NetworkManagerImpl.self,
             resolver: {
                 return NetworkManagerImpl()
@@ -24,7 +24,7 @@ final class GitHubFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(NetworkManager.self)
-        context.register(
+        register(
             GitHubServiceImpl.self,
             resolver: {
                 let _NetworkManager = context.get(NetworkManager.self, qualifier: "")!

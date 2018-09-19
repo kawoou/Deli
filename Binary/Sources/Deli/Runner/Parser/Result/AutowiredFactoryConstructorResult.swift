@@ -49,7 +49,7 @@ final class AutowiredFactoryConstructorResult: Results {
             .joined(separator: ", ")
         
         return """
-        context.registerFactory(
+        registerFactory(
             \(instanceType).self,
             resolver: { payload in
                 \(dependencyResolve)

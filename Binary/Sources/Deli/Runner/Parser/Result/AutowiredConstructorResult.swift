@@ -46,7 +46,7 @@ final class AutowiredConstructorResult: Results {
             .joined(separator: ", ")
 
         return """
-        context.register(
+        register(
             \(instanceType).self,
             resolver: {
                 \(dependencyResolve)

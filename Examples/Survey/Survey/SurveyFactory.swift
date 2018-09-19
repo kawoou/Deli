@@ -6,8 +6,8 @@
 import Deli
 
 final class SurveyFactory: ModuleFactory {
-    func load(context: AppContextType) {
-        context.register(
+    override func load(context: AppContext) {
+        register(
             SurveyServiceImpl.self,
             resolver: {
                 let _Survey = context.get([Survey].self, qualifier: "")
@@ -16,7 +16,7 @@ final class SurveyFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(SurveyService.self)
-        context.register(
+        register(
             TestSurvey1.self,
             resolver: {
                 return TestSurvey1()
@@ -24,7 +24,7 @@ final class SurveyFactory: ModuleFactory {
             qualifier: "Survey1",
             scope: .singleton
         ).link(Survey.self)
-        context.register(
+        register(
             TestSurvey2.self,
             resolver: {
                 return TestSurvey2()
@@ -32,7 +32,7 @@ final class SurveyFactory: ModuleFactory {
             qualifier: "Survey2",
             scope: .singleton
         ).link(Survey.self)
-        context.register(
+        register(
             TestSurvey3.self,
             resolver: {
                 return TestSurvey3()
@@ -40,7 +40,7 @@ final class SurveyFactory: ModuleFactory {
             qualifier: "Survey3",
             scope: .singleton
         ).link(Survey.self)
-        context.register(
+        register(
             ViewModel.self,
             resolver: {
                 let _SurveyService = context.get(SurveyService.self, qualifier: "")!
