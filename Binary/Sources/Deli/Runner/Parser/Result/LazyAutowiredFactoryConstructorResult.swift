@@ -49,7 +49,7 @@ final class LazyAutowiredFactoryConstructorResult: Results {
             .joined(separator: ", ")
         
         return """
-        context.registerLazyFactory(
+        registerLazyFactory(
             \(instanceType).self,
             resolver: { payload in
                 return \(instanceType)(payload: payload as! \(payload.name))

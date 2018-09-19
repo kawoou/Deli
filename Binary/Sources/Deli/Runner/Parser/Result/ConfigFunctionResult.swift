@@ -38,7 +38,7 @@ final class ConfigFunctionResult: Results {
             .joined(separator: "")
 
         return """
-        context.register(
+        register(
             \(instanceType).self,
             resolver: {
                 let _\(parentInstanceType) = context.get(\(parentInstanceType).self, qualifier: "")!

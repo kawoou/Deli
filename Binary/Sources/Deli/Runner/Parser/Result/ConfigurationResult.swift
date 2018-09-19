@@ -24,7 +24,7 @@ final class ConfigurationResult: Results {
             .joined(separator: "")
 
         return """
-        context.register(
+        register(
             \(instanceType).self,
             resolver: {
                 return \(instanceType)()

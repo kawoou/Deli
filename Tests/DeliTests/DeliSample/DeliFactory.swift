@@ -6,8 +6,8 @@
 import Deli
 
 final class DeliFactory: ModuleFactory {
-    func load(context: AppContextType) {
-        context.register(
+    override func load(context: AppContext) {
+        register(
             AccountService.self,
             resolver: {
                 let _AccountConfiguration = context.get(AccountConfiguration.self, qualifier: "")!
@@ -16,7 +16,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "facebook",
             scope: .singleton
         ).link(AccountService.self)
-        context.register(
+        register(
             AccountConfiguration.self,
             resolver: {
                 return AccountConfiguration()
@@ -24,7 +24,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         )
-        context.register(
+        register(
             COSMOS.self,
             resolver: {
                 return COSMOS()
@@ -32,7 +32,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "Science",
             scope: .singleton
         ).link(Book.self)
-        context.registerLazyFactory(
+        registerLazyFactory(
             FactoryTest.self,
             resolver: { payload in
                 return FactoryTest(payload: payload as! TestPayload)
@@ -43,7 +43,7 @@ final class DeliFactory: ModuleFactory {
             },
             qualifier: ""
         ).link(FactoryTest.self)
-        context.registerFactory(
+        registerFactory(
             FriendInfoViewModel.self,
             resolver: { payload in
                 let _AccountService = context.get(AccountService.self, qualifier: "")!
@@ -51,7 +51,7 @@ final class DeliFactory: ModuleFactory {
             },
             qualifier: ""
         ).link(FriendInfoViewModel.self)
-        context.register(
+        register(
             FriendListViewModel.self,
             resolver: {
                 let _FriendService = context.get(FriendService.self, qualifier: "")!
@@ -60,7 +60,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         )
-        context.register(
+        register(
             FriendServiceImpl.self,
             resolver: {
                 let _AccountService = context.get(AccountService.self, qualifier: "")!
@@ -69,7 +69,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(FriendService.self)
-        context.register(
+        register(
             HarryPotter.self,
             resolver: {
                 return HarryPotter()
@@ -77,7 +77,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "Novel",
             scope: .singleton
         ).link(Book.self)
-        context.register(
+        register(
             LibraryService.self,
             resolver: {
                 let _TestService = context.get(TestService.self, qualifier: "")!
@@ -87,7 +87,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         )
-        context.register(
+        register(
             MessageServiceImpl.self,
             resolver: {
                 let _FriendService = context.get(FriendService.self, qualifier: "")!
@@ -97,7 +97,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         )
-        context.register(
+        register(
             NetworkManagerImpl.self,
             resolver: {
                 return NetworkManagerImpl()
@@ -105,7 +105,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(NetworkManager.self)
-        context.registerLazy(
+        registerLazy(
             TestService.self,
             resolver: {
                 return TestService()
@@ -117,7 +117,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "qualifierTest",
             scope: .singleton
         )
-        context.register(
+        register(
             TestViewModel.self,
             resolver: {
                 let _AccountService = context.get(AccountService.self, qualifier: "")!
@@ -127,7 +127,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .prototype
         )
-        context.register(
+        register(
             TroisiemeHumanite.self,
             resolver: {
                 return TroisiemeHumanite()
@@ -135,7 +135,7 @@ final class DeliFactory: ModuleFactory {
             qualifier: "Novel",
             scope: .singleton
         ).link(Book.self)
-        context.registerFactory(
+        registerFactory(
             UserViewModel.self,
             resolver: { payload in
                 let _AccountService = context.get(AccountService.self, qualifier: "")!
@@ -143,7 +143,7 @@ final class DeliFactory: ModuleFactory {
             },
             qualifier: ""
         ).link(UserViewModel.self)
-        context.register(
+        register(
             WeakViewModel.self,
             resolver: {
                 return WeakViewModel()

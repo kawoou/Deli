@@ -30,7 +30,7 @@ final class SourceGenerator: Generator {
         import Deli
 
         final class \(className): ModuleFactory {
-            func load(context: AppContextType) {
+            override func load(context: AppContext) {
                 \(output)
             }
 

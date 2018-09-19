@@ -26,7 +26,7 @@ final class ComponentResult: Results {
             .joined(separator: "")
 
         return """
-        context.register(
+        register(
             \(instanceType).self,
             resolver: {
                 return \(instanceType)()
