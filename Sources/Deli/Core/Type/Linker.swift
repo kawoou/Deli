@@ -11,6 +11,7 @@ public final class Linker<T> {
 
     // MARK: - Private
 
+    private let container: ContainerType
     private let typeKey: TypeKey
 
     // MARK: - Public
@@ -23,13 +24,14 @@ public final class Linker<T> {
     @discardableResult
     public func link<U>(_ type: U.Type) -> Linker<T> {
         let parentKey = TypeKey(type: type, qualifier: "")
-        (AppContext.shared as? AppContext)?.container.link(parentKey, children: typeKey)
+        container.link(parentKey, children: typeKey)
         return self
     }
 
     // MARK: - Lifecycle
 
-    init(_ type: T.Type, qualifier: String) {
-        typeKey = TypeKey(type: type, qualifier: qualifier)
+    init(_ container: ContainerType, type: T.Type, qualifier: String) {
+        self.container = container
+        self.typeKey = TypeKey(type: type, qualifier: qualifier)
     }
 }
