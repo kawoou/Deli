@@ -472,11 +472,11 @@
 		OBJ_169 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				Quick::Quick::Product /* Quick.framework */,
-				Quick::QuickSpecBase::Product /* QuickSpecBase.framework */,
-				Deli::Deli::Product /* Deli.framework */,
-				Nimble::Nimble::Product /* Nimble.framework */,
 				Deli::DeliTests::Product /* DeliTests.xctest */,
+				Quick::QuickSpecBase::Product /* QuickSpecBase.framework */,
+				Nimble::Nimble::Product /* Nimble.framework */,
+				Deli::Deli::Product /* Deli.framework */,
+				Quick::Quick::Product /* Quick.framework */,
 			);
 			name = Products;
 			path = "";
