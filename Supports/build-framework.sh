@@ -25,9 +25,11 @@ if [ $TEST == 1 ]; then
 
     bash <(curl -s https://codecov.io/bash) -X xcodeplist -J 'Deli'
 else
+    ruby Supports/spm-build-only.rb
+
     xcodebuild clean build \
         -project "Deli.xcodeproj" \
-        -scheme "Deli-Package" \
+        -scheme "Deli-Only" \
         -destination "$DESTINATION" \
         -configuration Debug \
         CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c

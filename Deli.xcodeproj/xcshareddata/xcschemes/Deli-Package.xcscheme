@@ -6,7 +6,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "Quick"
+          BlueprintName = "QuickSpecBase"
           ReferencedContainer = "container:Deli.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -14,7 +14,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "QuickSpecBase"
+          BlueprintName = "Nimble"
           ReferencedContainer = "container:Deli.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -30,7 +30,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "Nimble"
+          BlueprintName = "Quick"
           ReferencedContainer = "container:Deli.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
