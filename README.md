@@ -26,7 +26,9 @@ Deli is an easy-to-use Dependency Injection Container that creates DI containers
   - [Configuration](#4-configuration)
   - [Inject](#5-inject)
   - [Factory](#6-factory)
-  - [Testable](#7-testable)
+  - [ModuleFactory](#7-modulefactory)
+    - [Multi-Container](#71-multi-container)
+    - [Unit Test](#72-unit-test)
 * [Installation](#installation)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -86,18 +88,16 @@ File contents as below:
 
 ```swift
 //
-//  Deli Factory
+//  DeliFactory.swift
 //  Auto generated code.
 //
 
 import Deli
 
 final class DeliFactory: ModuleFactory {
-    func load(context: AppContextType) {
+    override func load(context: AppContextType) {
         ...
     }
-
-    required init() {}
 }
 ```
 
@@ -470,48 +470,72 @@ However, payload injects by the constructor because passed by the user.
 
 
 
-### 7. Testable
+### 7. ModuleFactory
 
-Deli provides methods for testing in AppContext.
+When injecting the dependency, required blueprint.
+As above, This blueprint is generated at `build`(ex. DeliFactory).
+When calling `AppContext#load()`, load container of generated class that inherited `ModuleFactory`.
 
-It is `setTestMode()`:
+Deli supports Multi-Container.
+Can be used `ModuleFactory` as below.
+
+
+
+#### 7.1. Multi-Container
+
+When calling `AppContext#load()`, also load the `ModuleFactory` in the module.
+
+Can specify `LoadPriority` in this situation. This is the order for selecting the container to be used in dependency injection.
+
+Priority are `normal(500)` defaultly. Container's order for selecting as below:
+
+1. High priority first.
 
 ```swift
-public func setTestMode(_ active: Bool, qualifierPrefix: String)
+AppContext.shared.load([
+    OtherModule.DeliFactory.self,
+    DeliFactory.self
+])
 ```
 
-Suppose that a test mode is activating using the method above. Then using the `qualifier` prefix when gets instances from DI containers(if it exists).
-
-If you register a Mock object for testing in the DI Container, it will be gets first.
+2. If priority is same, In the loaded order.
 
 ```swift
-/// Register
-AppContext.shared.register(
-    AccountService.self,
-    resolver: {
-        let networkManager = AppContext.shared.get(NetworkManager.self, qualifier: "")!
-        let libraryService = AppContext.shared.get(LibraryService.self, qualifier: "")!
+AppContext.shared
+    .load(DeliFactory())
+    .load(OtherModule.DeliFactory(), priority: .high)
+```
 
-        return MockAccountService(networkManager, libraryService)
-    },
-    qualifier: "test",
-    scope: .singleton
-)
 
-/// Test Mode
-AppContext.shared.setTestMode(true, qualifierPrefix: "test")
 
-/// Inject
-let accountService = Inject(AccountService.self)
+#### 7.2. Unit Test
 
-if accountService is MockAccountService {
-  print("Test Mode")
-} else {
-  print("Normal Mode")
+Priority loading that same as [7.1](#71-multi-container) used be Unit Test, too.
+
+``` swift
+import Quick
+import Nimble
+
+@testable import MyApp
+
+class UserTests: QuickSpec {
+    override func spec() {
+        super.spec()
+
+        let testModule: ModuleFactory!
+        testModule.register(UserService.self) { MockUserService() }
+
+        let appContext = AppContext.shared
+        beforeEach {
+            appContext.load(testModule, priority: .high)
+        }
+        afterEach {
+            appContext.unload(testModule)
+        }
+        
+        ...
+    }
 }
-
-/// Result
-> Test Mode
 ```
 
 An example of a test code is `Deli.xcodeproj`.
@@ -587,6 +611,12 @@ This project is powered by
  * [Commandant](https://github.com/Carthage/Commandant)
    - MIT License
    - Created by [Carthage](https://github.com/Carthage)
+ * [Quick](https://github.com/Quick/Quick)
+   - Apache License 2.0
+   - Created by [Quick Team](https://github.com/Quick)
+ * [Nimble](https://github.com/Quick/Nimble)
+   - Apache License 2.0
+   - Created by [Quick Team](https://github.com/Quick)
 
 
 
