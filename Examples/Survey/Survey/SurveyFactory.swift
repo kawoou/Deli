@@ -50,6 +50,4 @@ final class SurveyFactory: ModuleFactory {
             scope: .prototype
         )
     }
-
-    required init() {}
 }

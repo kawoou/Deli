@@ -34,6 +34,4 @@ final class GitHubFactory: ModuleFactory {
             scope: .singleton
         ).link(GitHubService.self)
     }
-
-    required init() {}
 }
