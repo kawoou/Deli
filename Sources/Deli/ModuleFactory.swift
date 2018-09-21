@@ -26,9 +26,7 @@ open class ModuleFactory {
     ///
     /// - Parameters:
     ///     - context: Instance of AppContext.
-    open func load(context: AppContext) {
-        assertionFailure("load(context:) has not been implemented")
-    }
+    open func load(context: AppContext) {}
     
     /// Reset container components.
     public func reset() {

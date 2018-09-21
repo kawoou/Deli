@@ -7,6 +7,8 @@ protocol AccountService {
     var logoutCount: Int { get }
     
     func login(account: String, password: String) -> Bool
+    
+    @discardableResult
     func logout() -> Bool
 }
 class AccountServiceImpl: AccountService {
@@ -19,6 +21,8 @@ class AccountServiceImpl: AccountService {
     func login(account: String, password: String) -> Bool {
         return true
     }
+    
+    @discardableResult
     func logout() -> Bool {
         logoutCount += 1
         return true

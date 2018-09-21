@@ -27,12 +27,17 @@ public class AppContext {
     
     // MARK: - Static
     
-    private static let mutex = Mutex()
-    
     /// Shared application context for using container.
     ///
     /// - Returns: Instance of shared application context.
     public static let shared = AppContext()
+    
+    // MARK: - Private
+    
+    private let mutex = Mutex()
+    private var loadedList: [LoadInfo] = []
+    
+    // MARK: - Public
     
     /// Load container components.
     ///
@@ -40,11 +45,12 @@ public class AppContext {
     ///     - factory: Container components.
     ///     - priority: Using priority.
     /// - Returns: Instance of shared application context.
-    public static func load(_ factories: [ModuleFactory.Type], priority: LoadPriority = .normal) -> AppContext {
+    @discardableResult
+    public func load(_ factories: [ModuleFactory.Type], priority: LoadPriority = .normal) -> AppContext {
         for type in factories {
             load(type.init(), priority: priority)
         }
-        return AppContext.shared
+        return self
     }
     
     /// Load container component.
@@ -54,25 +60,23 @@ public class AppContext {
     ///     - priority: Using priority.
     /// - Returns: Instance of shared application context.
     @discardableResult
-    public static func load(_ factory: ModuleFactory, priority: LoadPriority = .normal) -> AppContext {
-        let context = AppContext.shared
-        
+    public func load(_ factory: ModuleFactory, priority: LoadPriority = .normal) -> AppContext {
         return mutex.sync {
             /// Duplicated load
-            guard !context.loadedList.contains(where: { $0.factory === factory }) else { return context }
+            guard !loadedList.contains(where: { $0.factory === factory }) else { return self }
             
-            factory.load(context: context)
-            context.loadedList.append(
+            factory.load(context: self)
+            loadedList.append(
                 LoadInfo(
                     factory: factory,
                     priority: priority
                 )
             )
-            context.loadedList.sort { (a, b) in
-                guard a.priority.rawValue >= b.priority.rawValue else { return false }
+            loadedList.sort { (a, b) in
+                guard a.priority.rawValue < b.priority.rawValue else { return true }
                 return a.loadedAt < b.loadedAt
             }
-            return context
+            return self
         }
     }
     
@@ -82,56 +86,48 @@ public class AppContext {
     ///     - factory: Container component.
     /// - Returns: Instance of shared application context.
     @discardableResult
-    public static func unload(_ factory: ModuleFactory) -> AppContext {
-        let context = AppContext.shared
-        
+    public func unload(_ factory: ModuleFactory) -> AppContext {
         return mutex.sync {
-            guard let instance = context.loadedList.first(where: { $0.factory === factory }) else { return context }
+            guard let instance = loadedList.first(where: { $0.factory === factory }) else { return self }
             
-            context.loadedList = context.loadedList.filter { $0.factory !== factory }
+            loadedList = loadedList.filter { $0.factory !== factory }
             instance.factory.reset()
             
-            return context
+            return self
         }
     }
     
     /// Unload all container components.
-    public static func unloadAll() {
-        let context = AppContext.shared
-        context.loadedList
+    public func unloadAll() {
+        loadedList
             .map { $0.factory }
             .forEach { unload($0) }
     }
     
     /// Reset container components.
-    public static func reset() {
-        let context = AppContext.shared
-        context.loadedList
-            .forEach { $0.factory.reset() }
+    public func reset() {
+        loadedList.forEach { $0.factory.reset() }
     }
-    
-    // MARK: - Private
-    
-    private var loadedList: [LoadInfo] = []
-    
-    // MARK: - Public
     
     /// Get instance for type.
     ///
     /// - Parameters:
     ///     - type: The dependency type to resolve.
     ///     - qualifier: The registered qualifier.
+    ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance, or nil.
-    public func get<T>(_ type: T.Type, qualifier: String) -> T? {
+    public func get<T>(
+        _ type: T.Type,
+        qualifier: String = "",
+        resolveRole: ResolveRule = .recursive
+    ) -> T? {
         let key = TypeKey(type: type, qualifier: qualifier)
         
-        do {
-            for info in loadedList {
-                guard let instance = try info.factory.container.get(key) as? T else { continue }
-                return instance
-            }
-        } catch let error {
-            print("Deli Error: \(error)")
+        let list = resolveRole.findModules(loadedList.map { $0.factory })
+        for factory in list {
+            guard let instance = try? factory.container.get(key) else { continue }
+            guard let result = instance as? T else { continue }
+            return result
         }
         return nil
     }
@@ -141,12 +137,18 @@ public class AppContext {
     /// - Parameters:
     ///     - type: The dependency type to resolve.
     ///     - qualifier: The registered qualifier.
+    ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or empty.
-    public func get<T>(_ type: [T].Type, qualifier: String) -> [T] {
+    public func get<T>(
+        _ type: [T].Type,
+        qualifier: String = "",
+        resolveRole: ResolveRule = .default
+    ) -> [T] {
         let key = TypeKey(type: T.self, qualifier: qualifier)
         
-        return loadedList
-            .flatMap { (try? $0.factory.container.gets(key, payload: nil)) ?? [] }
+        return resolveRole
+            .findModules(loadedList.map { $0.factory })
+            .flatMap { (try? $0.container.gets(key, payload: nil)) ?? [] }
             .compactMap { $0 as? T }
     }
     
@@ -156,17 +158,21 @@ public class AppContext {
     ///     - type: The dependency type to resolve.
     ///     - qualifier: The registered qualifier.
     ///     - payload: User data for resolve.
+    ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance, or nil.
-    public func get<T: Factory>(_ type: T.Type, qualifier: String, payload: T.RawPayload) -> T? {
+    public func get<T: Factory>(
+        _ type: T.Type,
+        qualifier: String,
+        payload: T.RawPayload,
+        resolveRole: ResolveRule = .recursive
+    ) -> T? {
         let key = TypeKey(type: type, qualifier: qualifier)
         
-        do {
-            for info in loadedList {
-                guard let instance = try info.factory.container.get(key, payload: payload) as? T else { continue }
-                return instance
-            }
-        } catch let error {
-            print("Deli Error: \(error)")
+        let list = resolveRole.findModules(loadedList.map { $0.factory })
+        for factory in list {
+            guard let instance = try? factory.container.get(key, payload: payload) else { continue }
+            guard let result = instance as? T else { continue }
+            return result
         }
         return nil
     }
@@ -177,12 +183,19 @@ public class AppContext {
     ///     - type: The dependency type to resolve.
     ///     - qualifier: The registered qualifier.
     ///     - payload: User data for resolve.
+    ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or emtpy.
-    public func get<T: Factory>(_ type: [T].Type, qualifier: String, payload: T.RawPayload) -> [T] {
+    public func get<T: Factory>(
+        _ type: [T].Type,
+        qualifier: String,
+        payload: T.RawPayload,
+        resolveRole: ResolveRule = .default
+    ) -> [T] {
         let key = TypeKey(type: T.self, qualifier: qualifier)
         
-        return loadedList
-            .flatMap { (try? $0.factory.container.gets(key, payload: payload)) ?? [] }
+        return resolveRole
+            .findModules(loadedList.map { $0.factory })
+            .flatMap { (try? $0.container.gets(key, payload: payload)) ?? [] }
             .compactMap { $0 as? T }
     }
     
@@ -192,17 +205,20 @@ public class AppContext {
     /// - Parameters:
     ///     - type: The dependency type to resolve.
     ///     - qualifier: The registered qualifier.
+    ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instances, or nil.
-    public func get<T>(withoutResolve type: T.Type, qualifier: String) -> T? {
+    public func get<T>(
+        withoutResolve type: T.Type,
+        qualifier: String,
+        resolveRole: ResolveRule = .recursive
+    ) -> T? {
         let key = TypeKey(type: type, qualifier: qualifier)
         
-        do {
-            for info in loadedList {
-                guard let instance = try info.factory.container.get(withoutResolve: key) as? T else { continue }
-                return instance
-            }
-        } catch let error {
-            print("Deli Error: \(error)")
+        let list = resolveRole.findModules(loadedList.map { $0.factory })
+        for factory in list {
+            guard let instance = try? factory.container.get(withoutResolve: key) else { continue }
+            guard let result = instance as? T else { continue }
+            return result
         }
         return nil
     }
@@ -213,16 +229,22 @@ public class AppContext {
     /// - Parameters:
     ///     - type: The dependency type to resolve.
     ///     - qualifier: The registered qualifier.
+    ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or empty.
-    public func get<T>(withoutResolve type: [T].Type, qualifier: String) -> [T] {
+    public func get<T>(
+        withoutResolve type: [T].Type,
+        qualifier: String,
+        resolveRole: ResolveRule = .default
+    ) -> [T] {
         let key = TypeKey(type: T.self, qualifier: qualifier)
         
-        return loadedList
-            .flatMap { (try? $0.factory.container.gets(withoutResolve: key)) ?? [] }
+        return resolveRole
+            .findModules(loadedList.map { $0.factory })
+            .flatMap { (try? $0.container.gets(withoutResolve: key)) ?? [] }
             .compactMap { $0 as? T }
     }
     
     // MARK: - Lifecycle
     
-    private init() {}
+    init() {}
 }

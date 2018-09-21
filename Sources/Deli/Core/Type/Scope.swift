@@ -6,6 +6,7 @@
 /// All instances lifecycle is managed by IoC Container.
 /// The `scope` property specifies how to manage it.
 public enum Scope {
+    
     /// Instantiated when an object graph is being created.
     case always
     
@@ -19,4 +20,5 @@ public enum Scope {
     /// It is similar to `singleton` but uses `weak` caching strategy.
     /// Naturally, if not referenced will be released on memory.
     case weak
+    
 }

@@ -4,6 +4,7 @@ protocol FriendService {
     var requestCount: Int { get }
     var accountService: AccountService { get }
     
+    @discardableResult
     func listFriends() -> [Friend]
     func isExistFriend(by id: String) -> Bool
     func getFriend(by id: String) -> Friend?
@@ -19,6 +20,7 @@ class FriendServiceImpl: FriendService, Autowired {
         "test3": Friend(id: "test3", name: "Tester 3", age: 30)
     ]
 
+    @discardableResult
     func listFriends() -> [Friend] {
         requestCount += 1
         

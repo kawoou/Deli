@@ -13,6 +13,8 @@ swift package clean
 swift package generate-xcodeproj
 
 if [ $TEST == 1 ]; then
+    ruby Supports/spm-fix-quick.rb
+
     xcodebuild clean build test \
         -project "Deli.xcodeproj" \
         -scheme "Deli-Package" \

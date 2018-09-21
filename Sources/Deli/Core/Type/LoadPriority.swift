@@ -3,11 +3,24 @@
 //  Deli
 //
 
+/// Priority that load ModuleFactory.
 public enum LoadPriority {
+    
+    // MARK: - Case
+    
+    /// High priority
     case high
+    
+    /// Normal priority
     case normal
+    
+    /// Low priority
     case low
+    
+    /// Custom priority
     case priority(UInt)
+    
+    // MARK: - Internal
     
     var rawValue: UInt {
         switch self {
