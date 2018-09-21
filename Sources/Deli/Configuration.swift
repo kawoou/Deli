@@ -53,7 +53,7 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
                 return resolver(dep1)
             }
             return instance
@@ -83,8 +83,8 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
                 return resolver(dep1, dep2)
             }
             return instance
@@ -116,9 +116,9 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
-                let dep3 = AppContext.shared.get(Dep3.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
+                let dep3 = AppContext.shared.get(Dep3.self)!
                 return resolver(dep1, dep2, dep3)
             }
             return instance
@@ -152,10 +152,10 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
-                let dep3 = AppContext.shared.get(Dep3.self, qualifier: "")!
-                let dep4 = AppContext.shared.get(Dep4.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
+                let dep3 = AppContext.shared.get(Dep3.self)!
+                let dep4 = AppContext.shared.get(Dep4.self)!
                 return resolver(dep1, dep2, dep3, dep4)
             }
             return instance
@@ -191,11 +191,11 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
-                let dep3 = AppContext.shared.get(Dep3.self, qualifier: "")!
-                let dep4 = AppContext.shared.get(Dep4.self, qualifier: "")!
-                let dep5 = AppContext.shared.get(Dep5.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
+                let dep3 = AppContext.shared.get(Dep3.self)!
+                let dep4 = AppContext.shared.get(Dep4.self)!
+                let dep5 = AppContext.shared.get(Dep5.self)!
                 return resolver(dep1, dep2, dep3, dep4, dep5)
             }
             return instance
@@ -233,12 +233,12 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
-                let dep3 = AppContext.shared.get(Dep3.self, qualifier: "")!
-                let dep4 = AppContext.shared.get(Dep4.self, qualifier: "")!
-                let dep5 = AppContext.shared.get(Dep5.self, qualifier: "")!
-                let dep6 = AppContext.shared.get(Dep6.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
+                let dep3 = AppContext.shared.get(Dep3.self)!
+                let dep4 = AppContext.shared.get(Dep4.self)!
+                let dep5 = AppContext.shared.get(Dep5.self)!
+                let dep6 = AppContext.shared.get(Dep6.self)!
                 return resolver(dep1, dep2, dep3, dep4, dep5, dep6)
             }
             return instance
@@ -278,13 +278,13 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
-                let dep3 = AppContext.shared.get(Dep3.self, qualifier: "")!
-                let dep4 = AppContext.shared.get(Dep4.self, qualifier: "")!
-                let dep5 = AppContext.shared.get(Dep5.self, qualifier: "")!
-                let dep6 = AppContext.shared.get(Dep6.self, qualifier: "")!
-                let dep7 = AppContext.shared.get(Dep7.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
+                let dep3 = AppContext.shared.get(Dep3.self)!
+                let dep4 = AppContext.shared.get(Dep4.self)!
+                let dep5 = AppContext.shared.get(Dep5.self)!
+                let dep6 = AppContext.shared.get(Dep6.self)!
+                let dep7 = AppContext.shared.get(Dep7.self)!
                 return resolver(dep1, dep2, dep3, dep4, dep5, dep6, dep7)
             }
             return instance
@@ -326,14 +326,14 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
-                let dep3 = AppContext.shared.get(Dep3.self, qualifier: "")!
-                let dep4 = AppContext.shared.get(Dep4.self, qualifier: "")!
-                let dep5 = AppContext.shared.get(Dep5.self, qualifier: "")!
-                let dep6 = AppContext.shared.get(Dep6.self, qualifier: "")!
-                let dep7 = AppContext.shared.get(Dep7.self, qualifier: "")!
-                let dep8 = AppContext.shared.get(Dep8.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
+                let dep3 = AppContext.shared.get(Dep3.self)!
+                let dep4 = AppContext.shared.get(Dep4.self)!
+                let dep5 = AppContext.shared.get(Dep5.self)!
+                let dep6 = AppContext.shared.get(Dep6.self)!
+                let dep7 = AppContext.shared.get(Dep7.self)!
+                let dep8 = AppContext.shared.get(Dep8.self)!
                 return resolver(dep1, dep2, dep3, dep4, dep5, dep6, dep7, dep8)
             }
             return instance
@@ -377,15 +377,15 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {
-                let dep1 = AppContext.shared.get(Dep1.self, qualifier: "")!
-                let dep2 = AppContext.shared.get(Dep2.self, qualifier: "")!
-                let dep3 = AppContext.shared.get(Dep3.self, qualifier: "")!
-                let dep4 = AppContext.shared.get(Dep4.self, qualifier: "")!
-                let dep5 = AppContext.shared.get(Dep5.self, qualifier: "")!
-                let dep6 = AppContext.shared.get(Dep6.self, qualifier: "")!
-                let dep7 = AppContext.shared.get(Dep7.self, qualifier: "")!
-                let dep8 = AppContext.shared.get(Dep8.self, qualifier: "")!
-                let dep9 = AppContext.shared.get(Dep9.self, qualifier: "")!
+                let dep1 = AppContext.shared.get(Dep1.self)!
+                let dep2 = AppContext.shared.get(Dep2.self)!
+                let dep3 = AppContext.shared.get(Dep3.self)!
+                let dep4 = AppContext.shared.get(Dep4.self)!
+                let dep5 = AppContext.shared.get(Dep5.self)!
+                let dep6 = AppContext.shared.get(Dep6.self)!
+                let dep7 = AppContext.shared.get(Dep7.self)!
+                let dep8 = AppContext.shared.get(Dep8.self)!
+                let dep9 = AppContext.shared.get(Dep9.self)!
                 return resolver(dep1, dep2, dep3, dep4, dep5, dep6, dep7, dep8, dep9)
             }
             return instance

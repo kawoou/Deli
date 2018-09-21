@@ -76,6 +76,7 @@ public class AppContext {
                 guard a.priority.rawValue < b.priority.rawValue else { return true }
                 return a.loadedAt < b.loadedAt
             }
+            factory.container.load()
             return self
         }
     }

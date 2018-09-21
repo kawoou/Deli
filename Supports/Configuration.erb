@@ -35,7 +35,7 @@ public extension Configuration {
     ) -> () -> T {
         return { () -> T in
             guard let instance = AppContext.shared.get(withoutResolve: T.self, qualifier: qualifier) else {<% for arg in (1..dep) %>
-                let dep<%= arg %> = AppContext.shared.get(Dep<%= arg %>.self, qualifier: "")!<% end %>
+                let dep<%= arg %> = AppContext.shared.get(Dep<%= arg %>.self)!<% end %>
                 return resolver(<%= arguments_str %>)
             }
             return instance

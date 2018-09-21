@@ -198,8 +198,4 @@ open class ModuleFactory {
     public required init() {
         container = Container()
     }
-    
-    deinit {
-        reset()
-    }
 }
