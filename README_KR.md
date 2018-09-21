@@ -26,7 +26,9 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
   - [Configuration](#4-configuration)
   - [Inject](#5-inject)
   - [Factory](#6-factory)
-  - [테스트](#7-테스트)
+  - [ModuleFactory](#7-modulefactory)
+    - [Multi-Container](#71-multi-container)
+    - [Unit Test](#72-unit-test)
 * [설치 방법](#설치-방법)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -85,18 +87,16 @@ Dependency Graph는 소스코드 정적 분석을 통해 구성됩니다. 그리
 
 ```swift
 //
-//  Deli Factory
+//  DeliFactory.swift
 //  Auto generated code.
 //
 
 import Deli
 
 final class DeliFactory: ModuleFactory {
-    func load(context: AppContextType) {
+    override func load(context: AppContextType) {
         ...
     }
-
-    required init() {}
 }
 ```
 
@@ -469,48 +469,72 @@ AutowiredFactory와 LazyAutowiredFactory 간의 차이점은 Autowired와 LazyAu
 
 
 
-### 7. 테스트
+### 7. ModuleFactory
 
-Deli는 AppContext에서 테스트를 위한 메소드를 제공합니다.
+Container를 통한 의존성 주입시에는 설계도가 필요합니다.
+그 설계도는 위에서 이야기했듯이 `빌드`라는 과정을 통해서 만들어집니다(ex. DeliFactory).
+만들어진 클래스는 `AppContext#load()` 호출 시, 클래스가 상속받고 있는 `ModuleFactory` 안에 들어있는 Container에 로드시킵니다.
 
-그것은 `setTestMode()` 메소드입니다:
+Deli는 Multi-Container를 제공합니다.
+그래서 다음과 같은 상황에서 ModuleFactory를 활용할 수 있습니다.
+
+
+
+#### 7.1. Multi-Container
+
+`AppContext#load()`를 호출할 때 모듈 안에 들어있는 `ModuleFactory`도 로드해주면 됩니다.
+
+이 경우 추가적으로 `LoadPriority`를 지정할 수 있습니다. 이는 의존성 주입 시에 사용되어질 Container를 선택하는 기준이 됩니다.
+
+Priority는 기본적으로 `normal(500)`이며 Container의 선택되는 순서는 다음과 같습니다.
+
+1. 우선 순위가 높을수록 우선적으로 사용합니다.
 
 ```swift
-public func setTestMode(_ active: Bool, qualifierPrefix: String)
+AppContext.shared.load([
+    OtherModule.DeliFactory.self,
+    DeliFactory.self
+])
 ```
 
-위의 메소드를 사용해 Test Mode가 활성화되었다고 가정해봅시다. 그러면 DI container에서 인스턴스를 가져올 때 `qualifier` 접두어를 사용하게 됩니다(존재할 경우).
-
-만약 당신이 테스트를 위해 DI container에 Mock Object를 등록한다면, 그것을 우선으로 가져오게 됩니다.
+2. 같은 우선 순위일 경우, 등록한 순서대로 사용합니다.
 
 ```swift
-/// Register
-AppContext.shared.register(
-    AccountService.self,
-    resolver: {
-        let networkManager = AppContext.shared.get(NetworkManager.self, qualifier: "")!
-        let libraryService = AppContext.shared.get(LibraryService.self, qualifier: "")!
+AppContext.shared
+    .load(DeliFactory())
+    .load(OtherModule.DeliFactory(), priority: .high)
+```
 
-        return MockAccountService(networkManager, libraryService)
-    },
-    qualifier: "test",
-    scope: .singleton
-)
 
-/// Test Mode
-AppContext.shared.setTestMode(true, qualifierPrefix: "test")
 
-/// Inject
-let accountService = Inject(AccountService.self)
+#### 7.2. Unit Test
 
-if accountService is MockAccountService {
-  print("Test Mode")
-} else {
-  print("Normal Mode")
+[7.1](#71-multi-container)의 내용과 같이 우선 순위 로드를 Unit Test 시에도 활용할 수 있습니다.
+
+``` swift
+import Quick
+import Nimble
+
+@testable import MyApp
+
+class UserTests: QuickSpec {
+    override func spec() {
+        super.spec()
+
+        let testModule: ModuleFactory!
+        testModule.register(UserService.self) { MockUserService() }
+
+        let appContext = AppContext.shared
+        beforeEach {
+            appContext.load(testModule, priority: .high)
+        }
+        afterEach {
+            appContext.unload(testModule)
+        }
+        
+        ...
+    }
 }
-
-/// Result
-> Test Mode
 ```
 
 테스트 코드에 대한 예시는 `Deli.xcodeproj`에서 확인할 수 있습니다.
@@ -557,7 +581,7 @@ Available commands:
 
 토론이나 PR은 어떤 것이든 환영합니다.
 
-만약 당신이 기여하고자 한다면, [PR을 등록해주세요](https://github.com/kawoou/Deli/compare).
+[PR 등록을 통해](https://github.com/kawoou/Deli/compare) 프로젝트에 기여해주세요!
 
 
 
@@ -586,6 +610,12 @@ Available commands:
  * [Commandant](https://github.com/Carthage/Commandant)
    - MIT License
    - Created by [Carthage](https://github.com/Carthage)
+ * [Quick](https://github.com/Quick/Quick)
+   - Apache License 2.0
+   - Created by [Quick Team](https://github.com/Quick)
+ * [Nimble](https://github.com/Quick/Nimble)
+   - Apache License 2.0
+   - Created by [Quick Team](https://github.com/Quick)
 
 
 
