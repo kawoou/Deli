@@ -39,7 +39,5 @@ public extension LazyAutowired {
     initializer = (1..dep).map { |i| "dep#{i}" }
     initializer_str = initializer.join(", ")
 %>
-    func inject(<%= params_str %>) {
-        self.inject(<%= initializer_str %>)
-    }<% end %>
+    func inject(<%= params_str %>) {}<% end %>
 }

@@ -112,11 +112,11 @@ public extension Inject {
         qualifier: String? = nil,
         resolveRole: ResolveRule = .recursive
     ) -> T {
-        return AppContext.shared.get(
+        return Self.Inject(
             type,
-            qualifier: qualifier ?? "",
+            qualifier: qualifier,
             resolveRole: resolveRole
-        )!
+        )
     }
     
     /// Get instance list for type.
@@ -131,9 +131,9 @@ public extension Inject {
         qualifier: String? = nil,
         resolveRole: ResolveRule = .default
     ) -> [T] {
-        return AppContext.shared.get(
+        return Self.Inject(
             type,
-            qualifier: qualifier ?? "",
+            qualifier: qualifier,
             resolveRole: resolveRole
         )
     }
@@ -152,13 +152,12 @@ public extension Inject {
         qualifier: String? = nil,
         resolveRole: ResolveRule = .recursive
     ) -> T {
-        let payload = T.RawPayload(with: argument)
-        return AppContext.shared.get(
+        return Self.Inject(
             type,
-            qualifier: qualifier ?? "",
-            payload: payload,
+            with: argument,
+            qualifier: qualifier,
             resolveRole: resolveRole
-        )!
+        )
     }
     
     /// Get instance list for type by factory.
@@ -175,11 +174,10 @@ public extension Inject {
         qualifier: String? = nil,
         resolveRole: ResolveRule = .default
     ) -> [T] {
-        let payload = T.RawPayload(with: argument)
-        return AppContext.shared.get(
+        return Self.Inject(
             type,
-            qualifier: qualifier ?? "",
-            payload: payload,
+            with: argument,
+            qualifier: qualifier,
             resolveRole: resolveRole
         )
     }
