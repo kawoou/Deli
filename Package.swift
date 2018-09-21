@@ -6,7 +6,10 @@ let package = Package(
     products: [
         .library(name: "Deli", targets: ["Deli"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/Quick/Quick.git", from: "1.3.1"),
+        .package(url: "https://github.com/Quick/Nimble.git", from: "7.3.0")
+    ],
     targets: [
         .target(
             name: "Deli",
@@ -16,7 +19,9 @@ let package = Package(
         .testTarget(
             name: "DeliTests",
             dependencies: [
-                "Deli"
+                "Deli",
+                "Quick",
+                "Nimble"
             ],
             path: "Tests/DeliTests"
         )

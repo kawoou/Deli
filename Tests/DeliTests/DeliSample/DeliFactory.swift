@@ -152,6 +152,4 @@ final class DeliFactory: ModuleFactory {
             scope: .weak
         )
     }
-
-    required init() {}
 }

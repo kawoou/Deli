@@ -33,8 +33,6 @@ final class SourceGenerator: Generator {
             override func load(context: AppContext) {
                 \(output)
             }
-
-            required init() {}
         }
         """
     }
