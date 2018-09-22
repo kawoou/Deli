@@ -344,7 +344,7 @@ final class Configuration {
             .map { projectDirectory.appendingPathComponent($0).standardized.path }
             .filter { $0.contains(".swift") }
             .filter { $0 != outputPath }
-            .filter { excludeFiles.contains($0) == false }
+            .filter { !excludeFiles.contains($0) }
 
         return result
             .filter { path in

@@ -206,6 +206,7 @@ class DeliTests: QuickSpec, Inject {
                 
                 beforeEach {
                     weakPointer1 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
+                    RunLoop.current.run(until: Date())
                     weakPointer2 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
                 }
                 it("pointer values of each other should different") {
