@@ -6,31 +6,7 @@
         <BuildableReference
           BuildableIdentifier = "primary"
           BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "QuickSpecBase"
-          ReferencedContainer = "container:Deli.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "Nimble"
-          ReferencedContainer = "container:Deli.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
           BlueprintName = "Deli"
-          ReferencedContainer = "container:Deli.xcodeproj">
-        </BuildableReference>
-      </BuildActionEntry>
-      <BuildActionEntry buildForTesting = "YES" buildForRunning = "YES" buildForProfiling = "YES" buildForArchiving = "YES" buildForAnalyzing = "YES">
-        <BuildableReference
-          BuildableIdentifier = "primary"
-          BuildableName = "'lib$(TARGET_NAME)'"
-          BlueprintName = "Quick"
           ReferencedContainer = "container:Deli.xcodeproj">
         </BuildableReference>
       </BuildActionEntry>
@@ -43,15 +19,15 @@
     shouldUseLaunchSchemeArgsEnv = "YES"
     codeCoverageEnabled = "NO">
     <Testables>
-    <TestableReference
-      skipped = "NO">
-      <BuildableReference
-        BuildableIdentifier = "primary"
-        BuildableName = "'$(TARGET_NAME)'"
-        BlueprintName = "DeliTests"
-        ReferencedContainer = "container:Deli.xcodeproj">
-      </BuildableReference>
-    </TestableReference>
+        <TestableReference
+          skipped = "NO">
+          <BuildableReference
+            BuildableIdentifier = "primary"
+            BuildableName = "'$(TARGET_NAME)'"
+            BlueprintName = "DeliTests"
+            ReferencedContainer = "container:Deli.xcodeproj">
+          </BuildableReference>
+        </TestableReference>
     </Testables>
   </TestAction>
 </Scheme>
