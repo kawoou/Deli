@@ -45,7 +45,7 @@ final class CircularDependencyValidator: Validatable {
     }
 
     private func recursiveFind(_ result: Results) throws {
-        guard travelInstance.contains(result.instanceType) == false else { return }
+        guard !travelInstance.contains(result.instanceType) else { return }
         travelInstance.insert(result.instanceType)
 
         for dependency in result.dependencies {

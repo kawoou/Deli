@@ -91,7 +91,11 @@ public class AppContext {
         return mutex.sync {
             guard let instance = loadedList.first(where: { $0.factory === factory }) else { return self }
             
+            #if swift(>=4.2)
+            loadedList.removeAll { $0.factory === factory }
+            #else
             loadedList = loadedList.filter { $0.factory !== factory }
+            #endif
             instance.factory.reset()
             
             return self

@@ -90,7 +90,7 @@ final class InjectParser: Parsable {
             }?
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
-        let isPayload = arguments.first { $0.contains(Constant.payloadPrefix) } != nil
+        let isPayload = arguments.contains { $0.contains(Constant.payloadPrefix) }
 
         if let arrayMatch = Constant.arrayRegex.findFirst(in: firstArgument), let arrayType = arrayMatch.group(at: 1) {
             return Dependency(
