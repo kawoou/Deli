@@ -1,5 +1,5 @@
 //
-//  DeliTests.swift
+//  DeliSpec.swift
 //  DeliTests
 //
 
@@ -9,7 +9,7 @@ import Nimble
 
 @testable import Deli
 
-class DeliTests: QuickSpec, Inject {
+class DeliSpec: QuickSpec, Inject {
     override func spec() {
         super.spec()
         
@@ -206,7 +206,7 @@ class DeliTests: QuickSpec, Inject {
                 
                 beforeEach {
                     weakPointer1 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
-                    RunLoop.current.run(until: Date())
+                    RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
                     weakPointer2 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
                 }
                 it("pointer values of each other should different") {
@@ -225,6 +225,7 @@ class DeliTests: QuickSpec, Inject {
                         strongInstance2 = appContext.get(WeakViewModel.self)
                         
                         strongPointer1 = unsafeBitCast(strongInstance1, to: Int.self)
+                        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
                         strongPointer2 = unsafeBitCast(strongInstance2, to: Int.self)
                     }
                     it("pointer values of each other should equal") {
@@ -274,7 +275,7 @@ class DeliTests: QuickSpec, Inject {
                         expect(friendInfoViewModel.qualifier).to(beNil())
                     }
                     it("payload type of friendInfoViewModel should be FriendPayload") {
-                        expect(friendInfoViewModel.payloadType) === FriendPayload.self
+                        expect(String(describing: friendInfoViewModel.payloadType)) == String(describing: FriendPayload.self)
                     }
                 }
             }
@@ -320,7 +321,7 @@ class DeliTests: QuickSpec, Inject {
                     expect(factoryTest.qualifier).to(beNil())
                 }
                 it("payload type of factoryTest should be FriendPayload") {
-                    expect(factoryTest.payloadType) === TestPayload.self
+                    expect(String(describing: factoryTest.payloadType)) == String(describing: TestPayload.self)
                 }
             }
             describe("multi-container test") {
