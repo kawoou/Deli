@@ -75,7 +75,7 @@ final class Configuration {
             return nil
         }
         return (
-            id: String(buildAction.buildableReference.blueprintIdentifier.hashValue),
+            id: String(buildAction.buildableReference.blueprintIdentifier),
             name: buildAction.buildableReference.buildableName
         )
     }
@@ -83,12 +83,12 @@ final class Configuration {
         let schemeList = project.sharedData?.schemes ?? []
 
         guard let scheme = schemeList.first else {
-            guard let nativeTarget = project.pbxproj.objects.nativeTargets.first else {
+            guard let nativeTarget = project.pbxproj.nativeTargets.first else {
                 Logger.log(.error("Not found build target.", nil))
                 return nil
             }
-            guard project.pbxproj.objects.nativeTargets.count == 1 else {
-                let targetMessage = project.pbxproj.objects.nativeTargets.values
+            guard project.pbxproj.nativeTargets.count == 1 else {
+                let targetMessage = project.pbxproj.nativeTargets
                     .map { $0.name }
                     .joined(separator: ", ")
 
@@ -97,8 +97,8 @@ final class Configuration {
                 return nil
             }
             return (
-                id: String(nativeTarget.key.hashValue),
-                name: nativeTarget.value.name
+                id: nativeTarget.uuid,
+                name: nativeTarget.name
             )
         }
 
@@ -117,7 +117,7 @@ final class Configuration {
             return nil
         }
         return (
-            id: String(buildAction.buildableReference.blueprintIdentifier.hashValue),
+            id: String(buildAction.buildableReference.blueprintIdentifier),
             name: buildAction.buildableReference.buildableName
         )
     }
@@ -126,24 +126,24 @@ final class Configuration {
         var stackedPath = stackedPath
         var filePath = [String: String]()
 
-        for groupKey in group.childrenReferences {
-            guard let group = project.pbxproj.objects.groups[groupKey] else {
-                if let path = project.pbxproj.objects.fileReferences[groupKey]?.path {
+        for element in group.children {
+            guard let group = element as? PBXGroup else {
+                if let path = element.path {
                     stackedPath.append(path)
-                    filePath[String(groupKey.hashValue)] = stackedPath.joined(separator: "/")
+                    filePath[element.uuid] = stackedPath.joined(separator: "/")
                     _ = stackedPath.popLast()
                 }
                 continue
             }
-
+            
             if let path = group.path {
                 stackedPath.append(path)
             }
-
+            
             for (key, value) in parseFileTree(group: group, project: project, stackedPath: stackedPath) {
                 filePath[key] = value
             }
-
+            
             if group.path != nil {
                 _ = stackedPath.popLast()
             }
@@ -298,11 +298,11 @@ final class Configuration {
 
         /// Find native target
         let target: PBXNativeTarget? = try {
-            if let target = project.pbxproj.objects.nativeTargets.first(where: { String($0.key.hashValue) == buildReference.id }) {
-                return target.value
+            if let target = project.pbxproj.nativeTargets.first(where: { $0.uuid == buildReference.id }) {
+                return target
             }
 
-            let targetList = project.pbxproj.objects.nativeTargets.filter { $0.value.name == buildReference.name }
+            let targetList = project.pbxproj.nativeTargets.filter { $0.name == buildReference.name }
             guard let target = targetList.first else {
                 Logger.log(.error("Not found build target: \(projectFile)", nil))
                 throw ConfigurationError.buildTargetNotFound
@@ -311,7 +311,7 @@ final class Configuration {
                 Logger.log(.error("Ambiguous build target: \(projectFile)", nil))
                 throw ConfigurationError.buildTargetAmbiguous
             }
-            return target.value
+            return target
         }()
         guard let nativeTarget = target else { return [] }
 
@@ -321,23 +321,20 @@ final class Configuration {
         let fileDictionary = parseFileTree(group: rootGroup, project: project)
         let outputPath = getOutputPath(info: info)
 
-        let fileReferenceList = project.pbxproj.objects.sourcesBuildPhases
-            .first { nativeTarget.buildPhasesReferences.contains($0.key) }?
-            .value
-            .fileReferences ?? []
+        let fileList = project.pbxproj.sourcesBuildPhases
+            .first { nativeTarget.buildPhases.map { $0.uuid }.contains($0.uuid) }?
+            .files ?? []
 
         let includeFiles = info.include.map { projectDirectory.appendingPathComponent($0).standardized.path }
         let excludeFiles = info.exclude.map { projectDirectory.appendingPathComponent($0).standardized.path }
 
         let sourceList: [String]
         #if swift(>=4.1)
-        sourceList = fileReferenceList
-            .compactMap { project.pbxproj.objects.buildFiles[$0]?.fileReference }
-            .compactMap { fileDictionary[String($0.hashValue)] }
+        sourceList = fileList
+            .compactMap { fileDictionary[$0.file?.uuid ?? ""] }
         #else
-        sourceList = fileReferenceList
-            .flatMap { project.pbxproj.objects.buildFiles[$0]?.fileReference }
-            .flatMap { fileDictionary[String($0.hashValue)] }
+        sourceList = fileList
+            .flatMap { fileDictionary[$0.file?.uuid ?? ""] }
         #endif
 
         let result = (sourceList + includeFiles)
