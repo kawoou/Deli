@@ -1,7 +1,7 @@
 PODS:
-  - Deli (0.4.0):
-    - DeliBinary (~> 0.4.0)
-  - DeliBinary (0.4.0)
+  - Deli (0.5.0):
+    - DeliBinary (~> 0.5.0)
+  - DeliBinary (0.5.0)
 
 DEPENDENCIES:
   - Deli (from `../../`)
@@ -16,8 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Deli: a81d4f6bd28eeeaf78f2d69356453e0dc5784f23
-  DeliBinary: 436fc858cbd7fd14e88595d4874b4edd1859c7a4
+  DeliBinary: 151f478826a20f05075ad366571fcca2adbc8e18
 
 PODFILE CHECKSUM: ba5521b29df867361772305e5c97d9a87fefbf76
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.1
