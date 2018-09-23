@@ -11,7 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let context = AppContext.load([
+    let context = AppContext.shared.load([
         GitHubFactory.self
     ])
     

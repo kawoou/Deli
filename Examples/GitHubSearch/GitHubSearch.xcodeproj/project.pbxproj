@@ -216,7 +216,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which deli >/dev/null; then\n  deli build\nelse\n  echo \"error: Deli not installed, download from https://github.com/kawoou/Deli\"\nfi";
+			shellScript = "\"${PODS_ROOT}/DeliBinary/deli\" build";
 		};
 		AA528D0E14A7A8CB5B725BC6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
