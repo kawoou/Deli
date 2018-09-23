@@ -5,7 +5,7 @@
 
 /// Resolve Role
 ///
-/// `AppContext` can loaded many `FactoryModule`.
+/// `AppContext` can loaded many `ModuleFactory`.
 /// When call Inject(), get instance by `LoadPriority` order by default.
 public enum ResolveRule {
     
