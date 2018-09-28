@@ -259,7 +259,7 @@ In Deli, can be constructor injection in the below:
 
 ```swift
 class LibraryService: Autowired {
-    let bookcs: [Book]
+    let books: [Book]
 
     required init(Novel books: [Book]) {
         self.books = books
