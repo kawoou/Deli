@@ -258,7 +258,7 @@ Deli에서는 아래와 같이 생성자 주입받을 수 있습니다:
 
 ```swift
 class LibraryService: Autowired {
-    let bookcs: [Book]
+    let books: [Book]
 
     required init(Novel books: [Book]) {
         self.books = books
