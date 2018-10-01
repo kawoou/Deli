@@ -11,6 +11,7 @@ final class ComponentResult: Results {
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
+    var imports: [String]
 
     var linkType: Set<String> = Set()
     
@@ -19,6 +20,7 @@ final class ComponentResult: Results {
         self.scope = scope
         self.qualifier = qualifier
         self.dependencies = []
+        self.imports = []
     }
     func makeSource() -> String? {
         let linkString = linkType

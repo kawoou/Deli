@@ -11,12 +11,14 @@ final class ConfigurationResult: Results {
     var scope: String? = nil
     var qualifier: String? = nil
     var dependencies: [Dependency]
+    var imports: [String]
 
     var linkType: Set<String> = Set()
 
     init(_ instanceType: String) {
         self.instanceType = instanceType
         self.dependencies = []
+        self.imports = []
     }
     func makeSource() -> String? {
         let linkString = linkType

@@ -38,9 +38,9 @@ final class Structure {
 
     func getSourceLine(with content: String? = nil) -> String {
         guard let content = content else { return "\(filePath):1:0" }
-        let beforeIndex = content.index(content.startIndex, offsetBy: Int(offset))
+        let beforeIndex = content.utf8.index(content.utf8.startIndex, offsetBy: Int(offset))
 
-        let lineList: [String] = content[..<beforeIndex]
+        let lineList: [String] = (String(content.utf8[..<beforeIndex]) ?? "")
             .split(separator: "\n", omittingEmptySubsequences: false)
             .map { String($0) }
 

@@ -64,7 +64,7 @@ final class Parser: Runnable {
     }
     
     private func parse(path: String) throws -> [Results] {
-        guard let url = URL(string: "\(FileManager.default.currentDirectoryPath)/\(path)")?.standardized else {
+        guard let url = URL(string: path)?.standardized else {
             Logger.log(.warn("Failed to create URL: \(path)", nil))
             return []
         }

@@ -10,6 +10,11 @@ final class SourceGenerator: Generator {
     // MARK: - Public
 
     func generate() throws -> String {
+        let imports = Set(results.flatMap { $0.imports } + ["Deli"])
+            .sorted()
+            .map { "import \($0)\n" }
+            .joined()
+
         let sourceList: [String]
         #if swift(>=4.1)
         sourceList = results.compactMap { $0.makeSource() }
@@ -27,8 +32,7 @@ final class SourceGenerator: Generator {
         //  Auto generated code.
         //
 
-        import Deli
-
+        \(imports)
         final class \(className): ModuleFactory {
             override func load(context: AppContext) {
                 \(output)

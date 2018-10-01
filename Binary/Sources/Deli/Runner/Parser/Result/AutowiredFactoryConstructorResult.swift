@@ -11,6 +11,7 @@ final class AutowiredFactoryConstructorResult: Results {
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
+    var imports: [String]
     
     var linkType: Set<String> = Set()
     
@@ -22,8 +23,8 @@ final class AutowiredFactoryConstructorResult: Results {
         self.scope = "prototype"
         self.qualifier = qualifier
         self.dependencies = dependencies
-        
         self.instanceDependency = dependencies
+        self.imports = []
         self.payload = payload
     }
     func makeSource() -> String? {
@@ -32,19 +33,21 @@ final class AutowiredFactoryConstructorResult: Results {
             .joined(separator: "")
         
         let dependencyResolve = instanceDependency
-            .map { dependency in
+            .enumerated()
+            .map { (index, dependency) in
                 switch dependency.type {
                 case .single:
-                    return "let _\(dependency.name) = context.get(\(dependency.name).self, qualifier: \"\")!"
+                    return "let _\(index) = context.get(\(dependency.name).self, qualifier: \"\(dependency.qualifier)\")!"
                 case .array:
-                    return "let _\(dependency.name) = context.get([\(dependency.name)].self, qualifier: \"\")"
+                    return "let _\(index) = context.get([\(dependency.name)].self, qualifier: \"\(dependency.qualifier)\")"
                 }
             }
             .joined(separator: "\n        ")
         
         let dependencyInject = instanceDependency
-            .map { dependency in
-                return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(dependency.name)"
+            .enumerated()
+            .map { (index, dependency) in
+                return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(index)"
             }
             .joined(separator: ", ")
         
@@ -53,7 +56,7 @@ final class AutowiredFactoryConstructorResult: Results {
             \(instanceType).self,
             resolver: { payload in
                 \(dependencyResolve)
-                return \(instanceType)(\(dependencyInject), payload: payload as! \(payload.name))
+                return \(instanceType)(\(dependencyInject)\(instanceDependency.count > 0 ? ", " : "")payload: payload as! \(payload.name))
             },
             qualifier: "\(qualifier ?? "")"
         )\(linkString)

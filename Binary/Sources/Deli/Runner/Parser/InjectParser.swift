@@ -34,30 +34,13 @@ final class InjectParser: Parsable {
     private func found(_ source: Structure, root: Structure, fileContent: String) throws -> Dependency? {
         guard let rootName = root.name else { return nil }
         guard let name = source.name else { return nil }
-        guard name == Constant.functionName else { return nil }
+        guard name == Constant.functionName || name.hasSuffix(".\(Constant.functionName)") else { return nil }
         guard source.kind == Constant.functionCallKey else { return nil }
 
-        guard let parent = source.parent else {
-            Logger.log(.assert("Not found the parent of current structure on \(name)."))
-            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
-            throw ParserError.unknown
-        }
-        guard let index = parent.substructures.index(where: { $0 === source }) else {
-            Logger.log(.assert("Not found the index of current structure on \(parent.name!)."))
-            Logger.log(.error("Unknown error in `\(parent.name!)`.", source.getSourceLine(with: fileContent)))
-            throw ParserError.unknown
-        }
-        let callExpr: String = {
-            guard index > 0 else {
-                return fileContent[Int(source.offset)..<Int(source.offset + source.length)]
-                    .replacingOccurrences(of: Constant.typeRefererSuffix, with: "")
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
-            }
-            let prevSource = parent.substructures[index - 1]
-            return fileContent[Int(prevSource.offset)..<Int(source.offset + source.length)]
-                .replacingOccurrences(of: Constant.typeRefererSuffix, with: "")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-        }()
+        let callExpr: String = fileContent
+            .utf8[Int(source.offset)..<Int(source.offset + source.length)]?
+            .replacingOccurrences(of: Constant.typeRefererSuffix, with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
         guard let callExprMatch = Constant.injectFuncRegex.findFirst(in: callExpr)?.group(at: 1) else {
             Logger.log(.assert("Mismatched usage of `\(Constant.functionName)` method on SourceKitten result. \(callExpr)"))
