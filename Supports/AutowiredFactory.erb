@@ -17,6 +17,10 @@ public protocol AutowiredFactory: Factory {<% for dep in 1..9 %>
     /// Since autowiring by Type may lead to multiple candidates.
     /// The `qualifier` property is used to differentiate that.
     var qualifier: String? { get }
+
+    /// Pre-generated initialize method for single payload
+    /// constructor inject.
+    init(payload: _Payload)
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
@@ -31,6 +35,10 @@ public extension AutowiredFactory {
     /// To supports type-inference of the compiler.
     public var payloadType: _Payload.Type { return _Payload.self }
     public var qualifier: String? { return nil }
+
+    init(payload: _Payload) {
+        self.init(payload: payload)
+    }
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }

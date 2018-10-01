@@ -11,11 +11,13 @@ final class InjectProtocolResult: Results {
     var scope: String? = nil
     var qualifier: String? = nil
     var dependencies: [Dependency]
+    var imports: [String]
 
     var linkType: Set<String> = Set()
 
     init(_ instanceType: String, _ dependencies: [Dependency]) {
         self.instanceType = instanceType
         self.dependencies = dependencies
+        self.imports = []
     }
 }

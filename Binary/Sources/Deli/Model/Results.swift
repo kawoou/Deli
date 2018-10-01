@@ -11,6 +11,7 @@ protocol Results: class, CustomStringConvertible, CustomDebugStringConvertible {
     var scope: String? { get set }
     var qualifier: String? { get set }
     var dependencies: [Dependency] { get set }
+    var imports: [String] { get set }
 
     var linkType: Set<String> { get set }
     

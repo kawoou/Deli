@@ -11,13 +11,14 @@ final class ConfigFunctionResult: Results {
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
+    var imports: [String]
 
     var linkType: Set<String> = Set()
 
     var parentInstanceType: String
     var variableName: String
     
-    init(_ instanceType: String, _ scope: String?, _ qualifier: String?, _ dependency: [Dependency], parentInstanceType: String, variableName: String) {
+    init(_ instanceType: String, _ scope: String?, _ qualifier: String?, _ dependency: [Dependency], _ imports: [String], parentInstanceType: String, variableName: String) {
         let parentDependency = Dependency(
             parent: instanceType,
             target: dependency.first?.target,
@@ -28,7 +29,9 @@ final class ConfigFunctionResult: Results {
         self.scope = scope
         self.qualifier = qualifier
         self.dependencies = dependency + [parentDependency]
-        
+
+        self.imports = imports
+
         self.parentInstanceType = parentInstanceType
         self.variableName = variableName
     }
@@ -41,8 +44,8 @@ final class ConfigFunctionResult: Results {
         register(
             \(instanceType).self,
             resolver: {
-                let _\(parentInstanceType) = context.get(\(parentInstanceType).self, qualifier: "")!
-                return _\(parentInstanceType).\(variableName)() as AnyObject
+                let parent = context.get(\(parentInstanceType).self, qualifier: "")!
+                return parent.\(variableName)() as AnyObject
             },
             qualifier: "\(qualifier ?? "")",
             scope: \(scope ?? ".singleton")

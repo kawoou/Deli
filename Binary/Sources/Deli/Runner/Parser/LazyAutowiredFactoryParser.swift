@@ -102,7 +102,8 @@ final class LazyAutowiredFactoryParser: Parsable {
         }
         
         let qualifierList = injector
-            .name?[Constant.injectorPrefix.count...]
+            .name?
+            .utf8[Constant.injectorPrefix.count...]?
             .split(separator: ":")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .map { $0 == "_" ? "" : $0 } ?? []
