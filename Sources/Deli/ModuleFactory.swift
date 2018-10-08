@@ -27,6 +27,12 @@ open class ModuleFactory {
     /// - Parameters:
     ///     - context: Instance of AppContext.
     open func load(context: AppContext) {}
+
+    /// Unload the dependency graph on container.
+    open func unload() {
+        reset()
+        container.unload()
+    }
     
     /// Reset container components.
     public func reset() {
