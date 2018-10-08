@@ -14,6 +14,7 @@ protocol ContainerType {
     func register(_ key: TypeKey, component: _ContainerComponent)
     func link(_ key: TypeKey, children: TypeKey)
     func load()
+    func unload()
     func reset()
 }
 
@@ -142,10 +143,18 @@ final class Container: ContainerType {
                 _ = self?.resolve(component: $0)
             }
     }
-    func reset() {
+    func unload() {
         mutex.sync {
             chainMap = [:]
             map = [:]
+        }
+    }
+    func reset() {
+        mutex.sync {
+            for (_, component) in map {
+                component.cache = nil
+                component.weakCache = nil
+            }
         }
     }
 
