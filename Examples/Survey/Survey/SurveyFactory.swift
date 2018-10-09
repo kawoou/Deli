@@ -10,8 +10,8 @@ final class SurveyFactory: ModuleFactory {
         register(
             SurveyServiceImpl.self,
             resolver: {
-                let _Survey = context.get([Survey].self, qualifier: "")
-                return SurveyServiceImpl(_Survey)
+                let _0 = context.get([Survey].self, qualifier: "")
+                return SurveyServiceImpl(_0)
             },
             qualifier: "",
             scope: .singleton
@@ -43,8 +43,8 @@ final class SurveyFactory: ModuleFactory {
         register(
             ViewModel.self,
             resolver: {
-                let _SurveyService = context.get(SurveyService.self, qualifier: "")!
-                return ViewModel(_SurveyService)
+                let _0 = context.get(SurveyService.self, qualifier: "")!
+                return ViewModel(_0)
             },
             qualifier: "",
             scope: .prototype

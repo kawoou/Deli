@@ -10,8 +10,8 @@ final class GitHubFactory: ModuleFactory {
         register(
             ViewModel.self,
             resolver: {
-                let _GitHubService = context.get(GitHubService.self, qualifier: "")!
-                return ViewModel(_GitHubService)
+                let _0 = context.get(GitHubService.self, qualifier: "")!
+                return ViewModel(_0)
             },
             qualifier: "",
             scope: .prototype
@@ -27,8 +27,8 @@ final class GitHubFactory: ModuleFactory {
         register(
             GitHubServiceImpl.self,
             resolver: {
-                let _NetworkManager = context.get(NetworkManager.self, qualifier: "")!
-                return GitHubServiceImpl(_NetworkManager)
+                let _0 = context.get(NetworkManager.self, qualifier: "")!
+                return GitHubServiceImpl(_0)
             },
             qualifier: "",
             scope: .singleton

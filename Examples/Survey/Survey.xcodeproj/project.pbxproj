@@ -219,7 +219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/DeliBinary/deli\" build";
+			shellScript = "\"${PODS_ROOT}/DeliBinary/deli\" build\n";
 		};
 		DA08BA355E8F52F274FF7431F8F140F0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

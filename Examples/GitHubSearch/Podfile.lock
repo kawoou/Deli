@@ -1,7 +1,7 @@
 PODS:
-  - Deli (0.5.0):
-    - DeliBinary (~> 0.5.0)
-  - DeliBinary (0.5.0)
+  - Deli (0.6.0):
+    - DeliBinary (~> 0.6.0)
+  - DeliBinary (0.6.0)
   - RxCocoa (4.1.2):
     - RxSwift (~> 4.0)
   - RxOptional (3.3.0):
@@ -28,7 +28,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Deli: a81d4f6bd28eeeaf78f2d69356453e0dc5784f23
-  DeliBinary: 151f478826a20f05075ad366571fcca2adbc8e18
+  DeliBinary: 7bf249cffd8e2707a54135c76bf818a4924c670f
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
   RxSwift: e49536837d9901277638493ea537394d4b55f570
