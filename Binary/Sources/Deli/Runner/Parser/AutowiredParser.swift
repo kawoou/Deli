@@ -36,10 +36,12 @@ final class AutowiredParser: Parsable {
         return typeResult
     }
     
-    private func validConstructor(_ source: Structure) -> Bool {
+    private func validConstructor(_ source: Structure, fileContent: String) -> Bool {
         guard let name = source.name else { return false }
-        guard name.hasPrefix(Constant.constructorPrefix) else { return false }
         guard source.attributes.contains(Constant.requiredKey) else { return false }
+        guard let code = fileContent.utf8[Int(source.offset)...Int(source.offset + source.length)] else { return false }
+        guard code.hasPrefix(Constant.constructorPrefix) else { return false }
+        guard name.hasPrefix(Constant.constructorPrefix) else { return false }
         return true
     }
     
@@ -53,7 +55,7 @@ final class AutowiredParser: Parsable {
         guard source.inheritedTypes.contains(Constant.inheritanceName) else { return [] }
         
         let constructorList = source.substructures
-            .filter { validConstructor($0) }
+            .filter { validConstructor($0, fileContent: fileContent) }
 
         guard let constructor = constructorList.first else {
             Logger.log(.error("Not found `\(name)` constructor.", source.getSourceLine(with: fileContent)))
@@ -67,7 +69,8 @@ final class AutowiredParser: Parsable {
         }
         
         let qualifierList = constructor
-            .name?[Constant.constructorPrefix.count...]
+            .name?
+            .utf8[Constant.constructorPrefix.count...]?
             .split(separator: ":")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .map { $0 == "_" ? "" : $0 } ?? []

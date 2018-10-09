@@ -42,6 +42,10 @@ public protocol AutowiredFactory: Factory {
     /// The `qualifier` property is used to differentiate that.
     var qualifier: String? { get }
 
+    /// Pre-generated initialize method for single payload
+    /// constructor inject.
+    init(payload: _Payload)
+
     /// Pre-generated initialize method for 1 dependencies and single payload
     /// constructor inject.
     init(_ dep1: Dep1, payload: _Payload)
@@ -83,6 +87,10 @@ public extension AutowiredFactory {
     /// To supports type-inference of the compiler.
     public var payloadType: _Payload.Type { return _Payload.self }
     public var qualifier: String? { return nil }
+
+    init(payload: _Payload) {
+        self.init(payload: payload)
+    }
 
     init(_ dep1: Dep1, payload: _Payload) {
         self.init(dep1, payload: payload)

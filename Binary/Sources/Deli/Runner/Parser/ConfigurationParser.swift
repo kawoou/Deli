@@ -3,6 +3,7 @@
 //  Deli
 //
 
+import Regex
 import SourceKittenFramework
 
 final class ConfigurationParser: Parsable {
@@ -18,8 +19,10 @@ final class ConfigurationParser: Parsable {
         static let argumentInfoKeyword: Character = ":"
         static let qualifierPrefix = "qualifier:"
         static let scopePrefix = "scope:"
-        
+
         static let qualifierClearRegex = "\"([^\\\"]+)\"".r!
+
+        static let importRegex = "\\nimport ([^\\s]+)".r!
 
         static let availableKinds: [String] = [
             SwiftDeclarationKind.varInstance.rawValue,
@@ -36,11 +39,27 @@ final class ConfigurationParser: Parsable {
             throw ParserError.unknown
         }
 
+        /// Get previous context
+        guard let index = parent.substructures.index(where: { $0 === source }) else {
+            Logger.log(.assert("Not found the index of current structure on \(name)."))
+            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
+            throw ParserError.unknown
+        }
+        guard index > 0 else {
+            Logger.log(.assert("The `\(Constant.functionName)` method call position that can not exist."))
+            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
+            throw ParserError.unknown
+        }
+
+        let prevSource = parent.substructures[index - 1]
+
         /// Raw arguments
         let rawArguments = source.substructures
             .map { info -> String in
-                return fileContent[Int(info.offset)..<Int(info.offset + info.length)]
+                return fileContent
+                    .utf8[Int(info.offset)..<Int(info.offset + info.length)]?
                     .replacingOccurrences(of: Constant.typeRefererSuffix, with: "")
+                    .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
             }
         
         guard let instanceType = rawArguments.first else {
@@ -79,19 +98,6 @@ final class ConfigurationParser: Parsable {
             .replacingOccurrences(of: Constant.scopePrefix, with: "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
 
-        /// Get previous context
-        guard let index = parent.substructures.index(where: { $0 === source }) else {
-            Logger.log(.assert("Not found the index of current structure on \(name)."))
-            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
-            throw ParserError.unknown
-        }
-        guard index > 0 else {
-            Logger.log(.assert("The `\(Constant.functionName)` method call position that can not exist."))
-            Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
-            throw ParserError.unknown
-        }
-
-        let prevSource = parent.substructures[index - 1]
         guard let variableName = prevSource.name else {
             Logger.log(.error("Not found to stored name in `\(name)`.", prevSource.getSourceLine(with: fileContent)))
             throw ParserError.unavailableDeclaration
@@ -101,12 +107,24 @@ final class ConfigurationParser: Parsable {
             throw ParserError.unavailableDeclaration
         }
 
+        let imports: [String]
+        #if swift(>=4.1)
+        imports = Constant.importRegex
+            .findAll(in: fileContent)
+            .compactMap { $0.group(at: 1) }
+        #else
+        imports = Constant.importRegex
+            .findAll(in: fileContent)
+            .flatMap { $0.group(at: 1) }
+        #endif
+
         /// Result
         return ConfigFunctionResult(
             instanceType,
             scope,
             qualifier,
             dependencies,
+            imports,
             parentInstanceType: name,
             variableName: variableName
         )
