@@ -91,6 +91,7 @@ public extension AutowiredFactory {
     init(payload: _Payload) {
         self.init(payload: payload)
     }
+
     init(_ dep1: Dep1, payload: _Payload) {
         self.init(dep1, payload: payload)
     }
