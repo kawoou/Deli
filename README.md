@@ -33,6 +33,7 @@ Deli is an easy-to-use Dependency Injection Container that creates DI containers
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
   - [Command Line](#command-line)
+* [Examples](#examples)
 * [Contributing](#contributing)
 * [Requirements](#requirements)
 * [Attributions](#attributions)
@@ -549,7 +550,7 @@ An example of a test code is `Deli.xcodeproj`.
 Simply add the following line to your Podfile:
 
 ```ruby
-pod 'Deli'
+pod 'Deli', '~> 0.6.0'
 ```
 
 
@@ -575,6 +576,14 @@ Available commands:
    validate   Validate the Dependency Graph.
    version    Display the current version of Deli
 ```
+
+
+
+## Examples
+
+ * [DeliTodo](https://github.com/kawoou/DeliTodo): Todo application for iOS using Deli.
+ * [GitHubSearch](https://github.com/kawoou/Deli/tree/master/Examples/GitHubSearch): GitHub Search example using Deli.
+ * [Survey](https://github.com/kawoou/Deli/tree/master/Examples/Survey): Survey example using Deli.
 
 
 

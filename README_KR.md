@@ -33,6 +33,7 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
   - [Command Line](#command-line)
+* [예제](#예제)
 * [기여 방법](#기여-방법)
 * [요구사항](#요구사항)
 * [Attributions](#attributions)
@@ -548,7 +549,7 @@ class UserTests: QuickSpec {
 Podfile에 아래 라인을 추가하기만 하면 됩니다.
 
 ```ruby
-pod 'Deli'
+pod 'Deli', '~> 0.6.0'
 ```
 
 
@@ -574,6 +575,14 @@ Available commands:
    validate   Validate the Dependency Graph.
    version    Display the current version of Deli
 ```
+
+
+
+## 예제
+
+ * [DeliTodo](https://github.com/kawoou/DeliTodo): Todo application for iOS using Deli.
+ * [GitHubSearch](https://github.com/kawoou/Deli/tree/master/Examples/GitHubSearch): GitHub Search example using Deli.
+ * [Survey](https://github.com/kawoou/Deli/tree/master/Examples/Survey): Survey example using Deli.
 
 
 
