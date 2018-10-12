@@ -15,6 +15,7 @@ final class InjectParser: Parsable {
         static let functionCallKey = "source.lang.swift.expr.call"
 
         static let typeRefererSuffix = ".self"
+        static let injectFuncRegex = "Inject\\(([^\\(]*(\\([^\\)]*\\))*[^\\)]*)\\)".r!
 
         static let qualifierName = "qualifier"
         static let qualifierPrefix = "\(qualifierName):"
@@ -35,22 +36,35 @@ final class InjectParser: Parsable {
         guard name == Constant.functionName || name.hasSuffix(".\(Constant.functionName)") else { return nil }
         guard source.kind == Constant.functionCallKey else { return nil }
 
-        let arguments = source.substructures
-            .map { source in
-                return fileContent.utf8[Int(source.offset)..<Int(source.offset + source.length)] ?? ""
-            }
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        let arguments: [String] = {
+            let list = source.substructures
+                .map { source in
+                    return fileContent.utf8[Int(source.offset)..<Int(source.offset + source.length)] ?? ""
+                }
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+            guard list.isEmpty else { return list }
+
+            /// Bug fixed in the empty substructure of SourceKittenFramework.
+            guard let sourceData = fileContent.utf8[Int(source.offset)..<Int(source.offset + source.length)] else { return [] }
+            guard !sourceData.contains(",") else { return [] }
+            guard let type = Constant.injectFuncRegex.findFirst(in: sourceData)?.group(at: 1) else { return [] }
+            return [type]
+        }()
+        
 
         guard let firstArgument = arguments.first else {
             Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
             throw ParserError.emptyArguments
         }
-        guard firstArgument.hasSuffix(Constant.typeRefererSuffix) else {
-            Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
-            throw ParserError.emptyArguments
-        }
 
-        let typeName = firstArgument[0..<(firstArgument.count - Constant.typeRefererSuffix.count)]
+        let typeName: String = {
+            if firstArgument.hasSuffix(Constant.typeRefererSuffix) {
+                return firstArgument[0..<(firstArgument.count - Constant.typeRefererSuffix.count)]
+            } else {
+                return firstArgument
+            }
+        }()
         
         let qualifier = arguments
             .first { $0.hasPrefix(Constant.qualifierPrefix) }
