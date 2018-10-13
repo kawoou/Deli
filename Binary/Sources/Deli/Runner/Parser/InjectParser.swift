@@ -16,8 +16,7 @@ final class InjectParser: Parsable {
 
         static let typeRefererSuffix = ".self"
         static let injectFuncRegex = "Inject\\(([^\\(]*(\\([^\\)]*\\))*[^\\)]*)\\)".r!
-        static let argumentRegex = ",[\\s]*([^:]+:[\\s]*\\([^\\)]*\\))|[\\s]*([^,]+)".r!
-        
+
         static let qualifierName = "qualifier"
         static let qualifierPrefix = "\(qualifierName):"
         static let qualifierRegex = "\(qualifierName):[\\s]*\"([^\"]*)\"".r!
@@ -37,45 +36,47 @@ final class InjectParser: Parsable {
         guard name == Constant.functionName || name.hasSuffix(".\(Constant.functionName)") else { return nil }
         guard source.kind == Constant.functionCallKey else { return nil }
 
-        let callExpr: String = fileContent
-            .utf8[Int(source.offset)..<Int(source.offset + source.length)]?
-            .replacingOccurrences(of: Constant.typeRefererSuffix, with: "")
-            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        
-        guard let callExprMatch = Constant.injectFuncRegex.findFirst(in: callExpr)?.group(at: 1) else {
-            Logger.log(.assert("Mismatched usage of `\(Constant.functionName)` method on SourceKitten result. \(callExpr)"))
-            Logger.log(.error("Unknown error.", source.getSourceLine(with: fileContent)))
-            throw ParserError.unknown
-        }
-        
-        let arguments = try Constant.argumentRegex
-            .findAll(in: callExprMatch.trimmingCharacters(in: .whitespacesAndNewlines))
-            .map { match -> String in
-                guard let result = match.group(at: 1) ?? match.group(at: 2) else {
-                    Logger.log(.error("Failed to parse argument `\(match.source)`.", source.getSourceLine(with: fileContent)))
-                    throw ParserError.parseErrorArguments
+        let arguments: [String] = {
+            let list = source.substructures
+                .map { source in
+                    return fileContent.utf8[Int(source.offset)..<Int(source.offset + source.length)] ?? ""
                 }
-                return result
-            }
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+            guard list.isEmpty else { return list }
+
+            /// Bug fixed in the empty substructure of SourceKittenFramework.
+            guard let sourceData = fileContent.utf8[Int(source.offset)..<Int(source.offset + source.length)] else { return [] }
+            guard !sourceData.contains(",") else { return [] }
+            guard let type = Constant.injectFuncRegex.findFirst(in: sourceData)?.group(at: 1) else { return [] }
+            return [type]
+        }()
+        
 
         guard let firstArgument = arguments.first else {
             Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))
             throw ParserError.emptyArguments
         }
+
+        let typeName: String = {
+            if firstArgument.hasSuffix(Constant.typeRefererSuffix) {
+                return firstArgument[0..<(firstArgument.count - Constant.typeRefererSuffix.count)]
+            } else {
+                return firstArgument
+            }
+        }()
         
         let qualifier = arguments
-            .first { $0.contains(Constant.qualifierPrefix) }
+            .first { $0.hasPrefix(Constant.qualifierPrefix) }
             .flatMap { result -> String? in
                 guard let match = Constant.qualifierRegex.findFirst(in: result) else { return nil }
                 return match.group(at: 1)
             }?
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
-        let isPayload = arguments.contains { $0.contains(Constant.payloadPrefix) }
+        let isPayload = arguments.contains { $0.hasPrefix(Constant.payloadPrefix) }
 
-        if let arrayMatch = Constant.arrayRegex.findFirst(in: firstArgument), let arrayType = arrayMatch.group(at: 1) {
+        if let arrayMatch = Constant.arrayRegex.findFirst(in: typeName), let arrayType = arrayMatch.group(at: 1) {
             return Dependency(
                 parent: rootName,
                 target: source,
@@ -87,7 +88,7 @@ final class InjectParser: Parsable {
         return Dependency(
             parent: rootName,
             target: source,
-            name: arguments[0],
+            name: typeName,
             rule: isPayload ? .payload : .default,
             qualifier: qualifier
         )
@@ -98,11 +99,10 @@ final class InjectParser: Parsable {
 
         var queue = source.substructures
         while let item = queue.popLast() {
-            guard let dependency = try found(item, root: source, fileContent: fileContent) else {
-                queue.append(contentsOf: item.substructures)
-                continue
+            queue.append(contentsOf: item.substructures)
+            if let dependency = try found(item, root: source, fileContent: fileContent) {
+                dependencyList.append(dependency)
             }
-            dependencyList.append(dependency)
         }
 
         return dependencyList

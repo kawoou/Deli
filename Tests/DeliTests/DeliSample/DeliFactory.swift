@@ -10,8 +10,8 @@ final class DeliFactory: ModuleFactory {
         register(
             AccountService.self,
             resolver: {
-                let _AccountConfiguration = context.get(AccountConfiguration.self, qualifier: "")!
-                return _AccountConfiguration.accountService() as AnyObject
+                let parent = context.get(AccountConfiguration.self, qualifier: "")!
+                return parent.accountService() as AnyObject
             },
             qualifier: "facebook",
             scope: .singleton
@@ -38,24 +38,24 @@ final class DeliFactory: ModuleFactory {
                 return FactoryTest(payload: payload as! TestPayload)
             },
             injector: { instance in
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                instance.inject(facebook: _AccountService)
+                let _0 = context.get(AccountService.self, qualifier: "facebook")!
+                instance.inject(facebook: _0)
             },
             qualifier: ""
         ).link(FactoryTest.self)
         registerFactory(
             FriendInfoViewModel.self,
             resolver: { payload in
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                return FriendInfoViewModel(_AccountService, payload: payload as! FriendPayload)
+                let _0 = context.get(AccountService.self, qualifier: "")!
+                return FriendInfoViewModel(_0, payload: payload as! FriendPayload)
             },
             qualifier: ""
         ).link(FriendInfoViewModel.self)
         register(
             FriendListViewModel.self,
             resolver: {
-                let _FriendService = context.get(FriendService.self, qualifier: "")!
-                return FriendListViewModel(_FriendService)
+                let _0 = context.get(FriendService.self, qualifier: "")!
+                return FriendListViewModel(_0)
             },
             qualifier: "",
             scope: .singleton
@@ -63,8 +63,8 @@ final class DeliFactory: ModuleFactory {
         register(
             FriendServiceImpl.self,
             resolver: {
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                return FriendServiceImpl(_AccountService)
+                let _0 = context.get(AccountService.self, qualifier: "")!
+                return FriendServiceImpl(_0)
             },
             qualifier: "",
             scope: .singleton
@@ -80,9 +80,9 @@ final class DeliFactory: ModuleFactory {
         register(
             LibraryService.self,
             resolver: {
-                let _TestService = context.get(TestService.self, qualifier: "")!
-                let _Book = context.get([Book].self, qualifier: "")
-                return LibraryService(qualifierTest: _TestService, _Book)
+                let _0 = context.get(TestService.self, qualifier: "qualifierTest")!
+                let _1 = context.get([Book].self, qualifier: "")
+                return LibraryService(qualifierTest: _0, _1)
             },
             qualifier: "",
             scope: .singleton
@@ -90,9 +90,9 @@ final class DeliFactory: ModuleFactory {
         register(
             MessageServiceImpl.self,
             resolver: {
-                let _FriendService = context.get(FriendService.self, qualifier: "")!
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                return MessageServiceImpl(_FriendService, _AccountService)
+                let _0 = context.get(FriendService.self, qualifier: "")!
+                let _1 = context.get(AccountService.self, qualifier: "")!
+                return MessageServiceImpl(_0, _1)
             },
             qualifier: "",
             scope: .singleton
@@ -111,8 +111,8 @@ final class DeliFactory: ModuleFactory {
                 return TestService()
             },
             injector: { instance in
-                let _FriendServiceImpl = context.get(FriendServiceImpl.self, qualifier: "")!
-                instance.inject(_FriendServiceImpl)
+                let _0 = context.get(FriendServiceImpl.self, qualifier: "")!
+                instance.inject(_0)
             },
             qualifier: "qualifierTest",
             scope: .singleton
@@ -120,9 +120,9 @@ final class DeliFactory: ModuleFactory {
         register(
             TestViewModel.self,
             resolver: {
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                let _FriendService = context.get(FriendService.self, qualifier: "")!
-                return TestViewModel(_AccountService, _FriendService)
+                let _0 = context.get(AccountService.self, qualifier: "")!
+                let _1 = context.get(FriendService.self, qualifier: "")!
+                return TestViewModel(_0, _1)
             },
             qualifier: "",
             scope: .prototype
@@ -138,8 +138,8 @@ final class DeliFactory: ModuleFactory {
         registerFactory(
             UserViewModel.self,
             resolver: { payload in
-                let _AccountService = context.get(AccountService.self, qualifier: "")!
-                return UserViewModel(_AccountService, payload: payload as! UserPayload)
+                let _0 = context.get(AccountService.self, qualifier: "")!
+                return UserViewModel(_0, payload: payload as! UserPayload)
             },
             qualifier: ""
         ).link(UserViewModel.self)
