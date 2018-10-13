@@ -13,7 +13,10 @@
 		3B7B1139F292080EF521540F9391470A /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67822726F102FDB1F2B850C45137C5C /* MessageService.swift */; };
 		3CCA5AA05E9A868A634A520758C49A30 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4EC4D59E0134CD15CF75197D446FDF /* NetworkManager.swift */; };
 		3E4C2F98762139D930E4E85A72E3DDCD /* DeliFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4302CC5572C63F7B1CCC63B7CC312630 /* DeliFactory.swift */; };
+		5A943B133B41366AD8BA0465FA152D74 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC708552A9FC45FC5477E309B41D859 /* Robot.swift */; };
 		5DD871CBE95361D94A1CAFF96E1E8A63 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EA8FD5A20D5D1D3570FD467C3153B8 /* Book.swift */; };
+		5E76D595327ADD99604FC36CD3D70B08 /* RobotBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88059EDAD8B0BFFDE32D44BB19246D /* RobotBody.swift */; };
+		5FCD2C8AF6ABAEA326D98E8A10FE73D0 /* UnicodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD8F3B1C515D034322D4DBFC255EE5 /* UnicodeTest.swift */; };
 		62BB6F7654F3E856087F2AF7EAEA0753 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A15ECE79CC62F0F9E8120B2EE5F45C /* TestService.swift */; };
 		64585790795092A0E4A440DABFA8CD64 /* TestPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DEA755926A811792ED93BD33CD8531F /* TestPayload.swift */; };
 		64AB9EDB2E447FBC78BE56820AF80297 /* Science.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E870D46039941A96BC2957FA820204 /* Science.swift */; };
@@ -31,8 +34,10 @@
 		C4ED2496D91EABA031B920F48DABE154 /* COSMOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422C76915A7A16F122216E260A135393 /* COSMOS.swift */; };
 		C6ED799BA615FE80EA9F859C814FC9FA /* FriendInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA94B8BAE7BCA971D1E19E94179F4284 /* FriendInfoViewModel.swift */; };
 		D874F4ADAF761AEBC087873F36D6C40C /* TestView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC767322CE91E049C9C477119766C9A5 /* TestView1.swift */; };
+		DFA78DAA082C3CA79DBD53CF39FFD3B2 /* RobotFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BE05E36A0773C2B5C7980D02B91927 /* RobotFactory.swift */; };
 		E7C0CA75A8D3DACE1F187A322686A055 /* Novel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBE21512851B9BAA35F1AB5BA978275 /* Novel.swift */; };
 		E8197E26D9843B1BE5C5CFA1530BA225 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA767072C37295E31B96B283BD14CE26 /* TestView2.swift */; };
+		F7E4D84F5889655A6757AF6C936BEA2C /* RobotHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C2217C70A580CED0CCD0F0578A0CEF /* RobotHead.swift */; };
 		F8991A5C330472B503A9921B43FD0A77 /* TestView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC156798F94B9B69B5F373352324C0E /* TestView3.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		01C2217C70A580CED0CCD0F0578A0CEF /* RobotHead.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotHead.swift; sourceTree = "<group>"; };
 		0DD3140BCC6E05DB4A355FBDA54D26E2 /* FactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryTest.swift; sourceTree = "<group>"; };
 		0EC156798F94B9B69B5F373352324C0E /* TestView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView3.swift; sourceTree = "<group>"; };
 		2A5E203263420E5FD46B47F6E42556E4 /* FriendListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewModel.swift; sourceTree = "<group>"; };
@@ -64,6 +70,9 @@
 		5B5AF2075F3884A53CAE45C2459D8349 /* LibraryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryService.swift; sourceTree = "<group>"; };
 		67E870D46039941A96BC2957FA820204 /* Science.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Science.swift; sourceTree = "<group>"; };
 		69258BBE4BB7303218CE13C62AAD53AF /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		7C88059EDAD8B0BFFDE32D44BB19246D /* RobotBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotBody.swift; sourceTree = "<group>"; };
+		7FC708552A9FC45FC5477E309B41D859 /* Robot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
+		82DD8F3B1C515D034322D4DBFC255EE5 /* UnicodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnicodeTest.swift; sourceTree = "<group>"; };
 		899365E3BF55B8026A44486D11E9EEA6 /* HarryPotter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HarryPotter.swift; sourceTree = "<group>"; };
 		974DF1712AB936440530D258C2283E5C /* AccountService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		AB6B0CDF5DF8CE298E4287A7BE547313 /* UserPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPayload.swift; sourceTree = "<group>"; };
@@ -71,6 +80,7 @@
 		B67822726F102FDB1F2B850C45137C5C /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		BC767322CE91E049C9C477119766C9A5 /* TestView1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestView1.swift; sourceTree = "<group>"; };
 		D1A15ECE79CC62F0F9E8120B2EE5F45C /* TestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
+		D3BE05E36A0773C2B5C7980D02B91927 /* RobotFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotFactory.swift; sourceTree = "<group>"; };
 		D97FFF7E659510B8CDF4DD083BE228C1 /* FriendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendService.swift; sourceTree = "<group>"; };
 		DA94B8BAE7BCA971D1E19E94179F4284 /* FriendInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendInfoViewModel.swift; sourceTree = "<group>"; };
 		E1D7740EC13F0920EEA4F2C8771CC033 /* FriendPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPayload.swift; sourceTree = "<group>"; };
@@ -111,6 +121,17 @@
 			path = Book;
 			sourceTree = "<group>";
 		};
+		0A2AD82E346428915D584F63F7F7656F /* Robot */ = {
+			isa = PBXGroup;
+			children = (
+				7FC708552A9FC45FC5477E309B41D859 /* Robot.swift */,
+				7C88059EDAD8B0BFFDE32D44BB19246D /* RobotBody.swift */,
+				D3BE05E36A0773C2B5C7980D02B91927 /* RobotFactory.swift */,
+				01C2217C70A580CED0CCD0F0578A0CEF /* RobotHead.swift */,
+			);
+			path = Robot;
+			sourceTree = "<group>";
+		};
 		B427B8930AD067E4FAD89A8F8A4AD498 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				779936F84496CB222F99D0207DE76029 /* Book */,
+				0A2AD82E346428915D584F63F7F7656F /* Robot */,
 				4B36BA7AAE60F324DA1EE2D69BA7E1FC /* AccountConfiguration.swift */,
 				974DF1712AB936440530D258C2283E5C /* AccountService.swift */,
 				4302CC5572C63F7B1CCC63B7CC312630 /* DeliFactory.swift */,
@@ -141,6 +163,7 @@
 				EA767072C37295E31B96B283BD14CE26 /* TestView2.swift */,
 				0EC156798F94B9B69B5F373352324C0E /* TestView3.swift */,
 				AB8A423C66F6B5926B7C391999AF2971 /* TestViewModel.swift */,
+				82DD8F3B1C515D034322D4DBFC255EE5 /* UnicodeTest.swift */,
 				AB6B0CDF5DF8CE298E4287A7BE547313 /* UserPayload.swift */,
 				69258BBE4BB7303218CE13C62AAD53AF /* UserViewModel.swift */,
 				2EA02C2D8D630CA651ECFBBF09B5CE27 /* WeakViewModel.swift */,
@@ -222,6 +245,10 @@
 				3B7B1139F292080EF521540F9391470A /* MessageService.swift in Sources */,
 				3CCA5AA05E9A868A634A520758C49A30 /* NetworkManager.swift in Sources */,
 				E7C0CA75A8D3DACE1F187A322686A055 /* Novel.swift in Sources */,
+				5A943B133B41366AD8BA0465FA152D74 /* Robot.swift in Sources */,
+				5E76D595327ADD99604FC36CD3D70B08 /* RobotBody.swift in Sources */,
+				DFA78DAA082C3CA79DBD53CF39FFD3B2 /* RobotFactory.swift in Sources */,
+				F7E4D84F5889655A6757AF6C936BEA2C /* RobotHead.swift in Sources */,
 				64AB9EDB2E447FBC78BE56820AF80297 /* Science.swift in Sources */,
 				64585790795092A0E4A440DABFA8CD64 /* TestPayload.swift in Sources */,
 				62BB6F7654F3E856087F2AF7EAEA0753 /* TestService.swift in Sources */,
@@ -230,6 +257,7 @@
 				F8991A5C330472B503A9921B43FD0A77 /* TestView3.swift in Sources */,
 				349F1C05C22BDDFE30608A860FF9272B /* TestViewModel.swift in Sources */,
 				9D2316F6C0F9555545A5CDB5EFD6022B /* TroisiemeHumanite.swift in Sources */,
+				5FCD2C8AF6ABAEA326D98E8A10FE73D0 /* UnicodeTest.swift in Sources */,
 				7FD9C68CAC03D7C64DC86C557C05A447 /* UserPayload.swift in Sources */,
 				91EFEC2C8D33C9D21DDE9946437CDFDD /* UserViewModel.swift in Sources */,
 				A3C0EED44E76F9896BA33ECC22E51118 /* WeakViewModel.swift in Sources */,

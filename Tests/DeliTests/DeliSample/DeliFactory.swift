@@ -105,6 +105,54 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(NetworkManager.self)
+        registerFactory(
+            Robot.self,
+            resolver: { payload in
+                
+                return Robot(payload: payload as! RobotPayload)
+            },
+            qualifier: ""
+        ).link(Robot.self)
+        register(
+            BlueRobotBody.self,
+            resolver: {
+                return BlueRobotBody()
+            },
+            qualifier: "blue",
+            scope: .singleton
+        )
+        register(
+            RedRobotBody.self,
+            resolver: {
+                return RedRobotBody()
+            },
+            qualifier: "red",
+            scope: .singleton
+        ).link(RobotBody.self)
+        register(
+            RobotFactory.self,
+            resolver: {
+                return RobotFactory()
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        register(
+            HappyRobotHead.self,
+            resolver: {
+                return HappyRobotHead()
+            },
+            qualifier: "happy",
+            scope: .singleton
+        ).link(RobotHead.self)
+        register(
+            AngryRobotHead.self,
+            resolver: {
+                return AngryRobotHead()
+            },
+            qualifier: "angry",
+            scope: .singleton
+        )
         registerLazy(
             TestService.self,
             resolver: {
@@ -135,6 +183,16 @@ final class DeliFactory: ModuleFactory {
             qualifier: "Novel",
             scope: .singleton
         ).link(Book.self)
+        register(
+            UnicodeTest.self,
+            resolver: {
+                let _0 = context.get(FriendService.self, qualifier: "")!
+                let _1 = context.get(LibraryService.self, qualifier: "")!
+                return UnicodeTest(_0, _1)
+            },
+            qualifier: "",
+            scope: .singleton
+        )
         registerFactory(
             UserViewModel.self,
             resolver: { payload in
