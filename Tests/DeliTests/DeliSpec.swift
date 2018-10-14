@@ -222,10 +222,10 @@ class DeliSpec: QuickSpec, Inject {
                     
                     beforeEach {
                         strongInstance1 = appContext.get(WeakViewModel.self)
+                        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
                         strongInstance2 = appContext.get(WeakViewModel.self)
                         
                         strongPointer1 = unsafeBitCast(strongInstance1, to: Int.self)
-                        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
                         strongPointer2 = unsafeBitCast(strongInstance2, to: Int.self)
                     }
                     it("pointer values of each other should equal") {
@@ -233,8 +233,8 @@ class DeliSpec: QuickSpec, Inject {
                     }
                 }
             }
-            describe("when inject by Autowired") {
-                context("FriendService") {
+            context("when inject by Autowired") {
+                describe("FriendService") {
                     var friendService: FriendServiceImpl!
                     
                     beforeEach {
@@ -247,7 +247,7 @@ class DeliSpec: QuickSpec, Inject {
                         expect(friendService.scope) == .singleton
                     }
                 }
-                context("NetworkManager") {
+                describe("NetworkManager") {
                     var networkManager: NetworkManagerImpl!
                     
                     beforeEach {
@@ -261,8 +261,8 @@ class DeliSpec: QuickSpec, Inject {
                     }
                 }
             }
-            describe("when inject by AutowiredFactory") {
-                context("FriendInfoViewModel") {
+            context("when inject by AutowiredFactory") {
+                describe("FriendInfoViewModel") {
                     var sut: TestView3!
                     var friendInfoViewModel: FriendInfoViewModel!
                     
@@ -307,7 +307,7 @@ class DeliSpec: QuickSpec, Inject {
                     }
                 }
             }
-            describe("when inject by LazyAutowiredFactory") {
+            context("when inject by LazyAutowiredFactory") {
                 var factoryTest: FactoryTest!
                 
                 beforeEach {
@@ -444,12 +444,43 @@ class DeliSpec: QuickSpec, Inject {
                     }
                 }
             }
-            describe("when not load example factory") {
+            context("when not load example factory") {
                 it("all instance should be nil") {
                     expect(appContext.get(withoutResolve: AccountService.self, qualifier: "")).to(beNil())
                     expect(appContext.get(withoutResolve: [Book].self, qualifier: "").count) == 0
                     expect(appContext.get(AccountService.self)).notTo(beNil())
                     expect(appContext.get([Book].self).count) == 3
+                }
+            }
+            context("when multi-thread environment") {
+                var list: [AnyObject?] = (0..<60).map { _ in nil }
+
+                beforeEach {
+                    for i in 0..<20 {
+                        DispatchQueue.global().async {
+                            list[i] = appContext.get(NetworkManager.self) as AnyObject
+                        }
+                        DispatchQueue.global().async {
+                            list[i + 20] = appContext.get(AccountService.self, qualifier: "facebook") as AnyObject
+                        }
+                        DispatchQueue.global().async {
+                            list[i + 40] = appContext.get(LibraryService.self) as AnyObject
+                        }
+                    }
+                }
+                it("same objects must have the same pointer") {
+                    expect {
+                        guard !list.contains(where: { $0 == nil }) else { return false }
+
+                        let pointerList: [Int] = list.map {
+                            unsafeBitCast($0!, to: Int.self)
+                        }
+
+                        guard !pointerList[1...19].contains(where: { pointerList[0] != $0 }) else { return false }
+                        guard !pointerList[21...39].contains(where: { pointerList[20] != $0 }) else { return false }
+                        guard !pointerList[41...59].contains(where: { pointerList[40] != $0 }) else { return false }
+                        return true
+                    }.toEventually(beTrue())
                 }
             }
         }
