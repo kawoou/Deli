@@ -34,7 +34,7 @@ public class AppContext {
     
     // MARK: - Private
     
-    private let mutex = Mutex()
+    private let lock = NSRecursiveLock()
     private var loadedList: [LoadInfo] = []
     
     // MARK: - Public
@@ -61,24 +61,25 @@ public class AppContext {
     /// - Returns: Instance of shared application context.
     @discardableResult
     public func load(_ factory: ModuleFactory, priority: LoadPriority = .normal) -> AppContext {
-        return mutex.sync {
-            /// Duplicated load
-            guard !loadedList.contains(where: { $0.factory === factory }) else { return self }
-            
-            factory.load(context: self)
-            loadedList.append(
-                LoadInfo(
-                    factory: factory,
-                    priority: priority
-                )
+        lock.lock()
+        defer { lock.unlock() }
+
+        /// Duplicated load
+        guard !loadedList.contains(where: { $0.factory === factory }) else { return self }
+
+        factory.load(context: self)
+        loadedList.append(
+            LoadInfo(
+                factory: factory,
+                priority: priority
             )
-            loadedList.sort { (a, b) in
-                guard a.priority.rawValue < b.priority.rawValue else { return true }
-                return a.loadedAt < b.loadedAt
-            }
-            factory.container.load()
-            return self
+        )
+        loadedList.sort { (a, b) in
+            guard a.priority.rawValue < b.priority.rawValue else { return true }
+            return a.loadedAt < b.loadedAt
         }
+        factory.container.load()
+        return self
     }
     
     /// Unload container component.
@@ -88,18 +89,19 @@ public class AppContext {
     /// - Returns: Instance of shared application context.
     @discardableResult
     public func unload(_ factory: ModuleFactory) -> AppContext {
-        return mutex.sync {
-            guard let instance = loadedList.first(where: { $0.factory === factory }) else { return self }
-            
-            #if swift(>=4.2)
-            loadedList.removeAll { $0.factory === factory }
-            #else
-            loadedList = loadedList.filter { $0.factory !== factory }
-            #endif
-            instance.factory.reset()
-            
-            return self
-        }
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let instance = loadedList.first(where: { $0.factory === factory }) else { return self }
+
+        #if swift(>=4.2)
+        loadedList.removeAll { $0.factory === factory }
+        #else
+        loadedList = loadedList.filter { $0.factory !== factory }
+        #endif
+        instance.factory.reset()
+
+        return self
     }
     
     /// Unload all container components.

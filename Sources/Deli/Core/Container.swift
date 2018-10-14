@@ -23,9 +23,10 @@ final class Container: ContainerType {
     // MARK: - Public
 
     func get(_ key: TypeKey) throws -> AnyObject? {
-        let component = mutex.sync { map[key] }
-        
-        guard let safeComponent = component else {
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let safeComponent = map[key] else {
             let childKey = TypeKey(type: key.type)
             guard let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }) else {
                 throw ContainerError.unregistered
@@ -38,9 +39,10 @@ final class Container: ContainerType {
         return resolve(component: safeComponent)
     }
     func get(_ key: TypeKey, payload: _Payload) throws -> AnyObject? {
-        let component = mutex.sync { map[key] }
-        
-        guard let safeComponent = component as? FactoryContainerComponent else {
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let safeComponent = map[key] as? FactoryContainerComponent else {
             let childKey = TypeKey(type: key.type)
             guard let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }) else {
                 throw ContainerError.unregistered
@@ -53,10 +55,11 @@ final class Container: ContainerType {
         return resolveWithFactory(component: safeComponent, payload: payload)
     }
     func gets(_ key: TypeKey) throws -> [AnyObject] {
+        lock.lock()
+        defer { lock.unlock() }
+
         let newKey = TypeKey(type: key.type)
-        let list = mutex.sync {
-            return chainMap[newKey] ?? []
-        }
+        let list = chainMap[newKey] ?? []
 
         do {
             return try list
@@ -70,8 +73,11 @@ final class Container: ContainerType {
         }
     }
     func gets(_ key: TypeKey, payload: _Payload?) throws -> [AnyObject] {
+        lock.lock()
+        defer { lock.unlock() }
+
         let newKey = TypeKey(type: key.type)
-        let list = mutex.sync { chainMap[newKey] ?? [] }
+        let list = (chainMap[newKey] ?? [])
             .filter {
                 guard !key.qualifier.isEmpty else { return true }
                 return $0.qualifier == key.qualifier
@@ -87,11 +93,10 @@ final class Container: ContainerType {
         }
     }
     func get(withoutResolve key: TypeKey) throws -> AnyObject? {
-        let component = mutex.sync {
-            return map[key]
-        }
-        
-        guard let safeComponent = component else {
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard let safeComponent = map[key] else {
             let childKey = TypeKey(type: key.type)
             if let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }), let component = map[chain] {
                 return resolveWithoutResolve(component: component)
@@ -101,10 +106,11 @@ final class Container: ContainerType {
         return resolveWithoutResolve(component: safeComponent)
     }
     func gets(withoutResolve key: TypeKey) throws -> [AnyObject] {
+        lock.lock()
+        defer { lock.unlock() }
+
         let newKey = TypeKey(type: key.type)
-        let list = mutex.sync {
-            return chainMap[newKey] ?? []
-        }
+        let list = chainMap[newKey] ?? []
         
         do {
             return try list
@@ -118,23 +124,25 @@ final class Container: ContainerType {
         }
     }
     func register(_ key: TypeKey, component: _ContainerComponent) {
-        mutex.sync {
-            map[key] = component
-        }
+        lock.lock()
+        defer { lock.unlock() }
+
+        map[key] = component
 
         guard !key.qualifier.isEmpty else { return }
         let childKey = TypeKey(type: key.type)
         link(childKey, children: key)
     }
     func link(_ key: TypeKey, children: TypeKey) {
-        mutex.sync {
-            guard var list = chainMap[key] else {
-                chainMap[key] = Set([children])
-                return
-            }
-            list.insert(children)
-            chainMap[key] = list
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard var list = chainMap[key] else {
+            chainMap[key] = Set([children])
+            return
         }
+        list.insert(children)
+        chainMap[key] = list
     }
     func load() {
         map.values
@@ -144,52 +152,53 @@ final class Container: ContainerType {
             }
     }
     func unload() {
-        mutex.sync {
-            chainMap = [:]
-            map = [:]
-        }
+        lock.lock()
+        defer { lock.unlock() }
+
+        chainMap = [:]
+        map = [:]
     }
     func reset() {
-        mutex.sync {
-            for (_, component) in map {
-                component.cache = nil
-                component.weakCache = nil
-            }
+        lock.lock()
+        defer { lock.unlock() }
+
+        for (_, component) in map {
+            component.cache = nil
+            component.weakCache = nil
         }
     }
 
     // MARK: - Private
 
-    private let mutex = Mutex()
+    private let lock = NSRecursiveLock()
 
     private var chainMap = [TypeKey: Set<TypeKey>]()
     private var map = [TypeKey: _ContainerComponent]()
     
     private func resolve(component: _ContainerComponent) -> AnyObject {
+        lock.lock()
+        defer { lock.unlock() }
+
         switch component.scope {
         case .always, .singleton:
-            if let instance = mutex.sync(execute: { component.cache }) {
+            if let instance = component.cache {
                 return instance
             }
             
             let instance = component.resolve()!
-            mutex.sync {
-                component.cache = instance
-            }
+            component.cache = instance
             return instance
 
         case .prototype:
             return component.resolve()!
             
         case .weak:
-            if let instance = mutex.sync(execute: { component.weakCache }) {
+            if let instance = component.weakCache {
                 return instance
             }
             
             let instance = component.resolve()!
-            mutex.sync {
-                component.weakCache = instance
-            }
+            component.weakCache = instance
             return instance
         }
     }
@@ -197,15 +206,18 @@ final class Container: ContainerType {
         return component.resolve(payload: payload)!
     }
     private func resolveWithoutResolve(component: _ContainerComponent) -> AnyObject? {
+        lock.lock()
+        defer { lock.unlock() }
+
         switch component.scope {
         case .always, .singleton:
-            return mutex.sync(execute: { component.cache })
+            return component.cache
             
         case .prototype:
             return component.resolve()!
             
         case .weak:
-            return mutex.sync(execute: { component.weakCache })
+            return component.weakCache
         }
     }
 }
