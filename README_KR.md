@@ -549,7 +549,7 @@ class UserTests: QuickSpec {
 Podfile에 아래 라인을 추가하기만 하면 됩니다.
 
 ```ruby
-pod 'Deli', '~> 0.6.0'
+pod 'Deli', '~> 0.6.2'
 ```
 
 

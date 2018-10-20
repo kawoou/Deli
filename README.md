@@ -550,7 +550,7 @@ An example of a test code is `Deli.xcodeproj`.
 Simply add the following line to your Podfile:
 
 ```ruby
-pod 'Deli', '~> 0.6.0'
+pod 'Deli', '~> 0.6.2'
 ```
 
 
