@@ -19,6 +19,8 @@ public enum Scope {
     
     /// It is similar to `singleton` but uses `weak` caching strategy.
     /// Naturally, if not referenced will be released on memory.
+    ///
+    /// However, if the specified type is a value-type like `struct`, it works the same as prototype.
     case weak
     
 }

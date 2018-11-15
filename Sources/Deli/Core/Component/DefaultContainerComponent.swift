@@ -7,7 +7,7 @@ import Foundation
 
 final class DefaultContainerComponent: ContainerComponent {
     
-    var cache: AnyObject?
+    var cache: Any?
     weak var weakCache: AnyObject?
     let resolver: Resolver
     
@@ -21,7 +21,7 @@ final class DefaultContainerComponent: ContainerComponent {
         self.qualifier = qualifier
         self.scope = scope
     }
-    func resolve() -> AnyObject? {
+    func resolve() -> Any? {
         return resolver()
     }
 }

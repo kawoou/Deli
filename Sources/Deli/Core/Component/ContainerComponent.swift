@@ -6,12 +6,12 @@
 import Foundation
 
 protocol _ContainerComponent: class {
-    var cache: AnyObject? { get set }
+    var cache: Any? { get set }
     var weakCache: AnyObject? { get set }
     var qualifier: String { get }
     var scope: Scope { get }
     
-    func resolve() -> AnyObject?
+    func resolve() -> Any?
 }
 protocol ContainerComponent: _ContainerComponent {
     associatedtype _Resolver

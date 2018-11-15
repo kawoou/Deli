@@ -4,4 +4,4 @@
 //
 
 /// The closure is Resolver.
-public typealias Resolver = () -> AnyObject
+public typealias Resolver = () -> Any

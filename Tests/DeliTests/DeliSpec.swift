@@ -9,6 +9,10 @@ import Nimble
 
 @testable import Deli
 
+func address(_ object: UnsafeRawPointer) -> Int {
+    return Int(bitPattern: object)
+}
+
 class DeliSpec: QuickSpec, Inject {
     override func spec() {
         super.spec()
@@ -132,6 +136,21 @@ class DeliSpec: QuickSpec, Inject {
                         expect(testService.testCount) == 2
                     }
                 }
+                context("test case 4") {
+                    var pointer1: Int = 0
+                    var pointer2: Int = 0
+
+                    beforeEach {
+                        var object = appContext.get(HarryPotter.self)!
+                        pointer1 = address(&object)
+                        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
+                        object = appContext.get(HarryPotter.self)!
+                        pointer2 = address(&object)
+                    }
+                    it("pointer values of each other should equal") {
+                        expect(pointer1) == pointer2
+                    }
+                }
             }
             context("when inject type of array") {
                 var libraryService: LibraryService!
@@ -206,11 +225,12 @@ class DeliSpec: QuickSpec, Inject {
                 
                 beforeEach {
                     weakPointer1 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
-                    RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
-                    weakPointer2 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
+                    DispatchQueue.global().async {
+                        weakPointer2 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
+                    }
                 }
                 it("pointer values of each other should different") {
-                    expect(weakPointer1) != weakPointer2
+                    expect(weakPointer1).toEventuallyNot(equal(weakPointer2))
                 }
                 
                 context("when store variable") {
@@ -469,6 +489,7 @@ class DeliSpec: QuickSpec, Inject {
                     }
                 }
                 it("same objects must have the same pointer") {
+                    expect(list.filter { $0 == nil }.count).toEventually(equal(0), timeout: 4)
                     expect {
                         guard !list.contains(where: { $0 == nil }) else { return false }
 
@@ -480,7 +501,7 @@ class DeliSpec: QuickSpec, Inject {
                         guard !pointerList[21...39].contains(where: { pointerList[20] != $0 }) else { return false }
                         guard !pointerList[41...59].contains(where: { pointerList[40] != $0 }) else { return false }
                         return true
-                    }.toEventually(beTrue())
+                    }.toEventually(beTrue(), timeout: 4)
                 }
             }
         }
