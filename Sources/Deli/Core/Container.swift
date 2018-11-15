@@ -6,11 +6,11 @@
 import Foundation
 
 protocol ContainerType {
-    func get(_ key: TypeKey) throws -> AnyObject?
-    func get(_ key: TypeKey, payload: _Payload) throws -> AnyObject?
-    func gets(_ key: TypeKey, payload: _Payload?) throws -> [AnyObject]
-    func get(withoutResolve key: TypeKey) throws -> AnyObject?
-    func gets(withoutResolve key: TypeKey) throws -> [AnyObject]
+    func get(_ key: TypeKey) throws -> Any?
+    func get(_ key: TypeKey, payload: _Payload) throws -> Any?
+    func gets(_ key: TypeKey, payload: _Payload?) throws -> [Any]
+    func get(withoutResolve key: TypeKey) throws -> Any?
+    func gets(withoutResolve key: TypeKey) throws -> [Any]
     func register(_ key: TypeKey, component: _ContainerComponent)
     func link(_ key: TypeKey, children: TypeKey)
     func load()
@@ -22,7 +22,7 @@ final class Container: ContainerType {
 
     // MARK: - Public
 
-    func get(_ key: TypeKey) throws -> AnyObject? {
+    func get(_ key: TypeKey) throws -> Any? {
         lock.lock()
         defer { lock.unlock() }
 
@@ -38,7 +38,7 @@ final class Container: ContainerType {
         }
         return resolve(component: safeComponent)
     }
-    func get(_ key: TypeKey, payload: _Payload) throws -> AnyObject? {
+    func get(_ key: TypeKey, payload: _Payload) throws -> Any? {
         lock.lock()
         defer { lock.unlock() }
 
@@ -54,7 +54,7 @@ final class Container: ContainerType {
         }
         return resolveWithFactory(component: safeComponent, payload: payload)
     }
-    func gets(_ key: TypeKey) throws -> [AnyObject] {
+    func gets(_ key: TypeKey) throws -> [Any] {
         lock.lock()
         defer { lock.unlock() }
 
@@ -72,7 +72,7 @@ final class Container: ContainerType {
             return []
         }
     }
-    func gets(_ key: TypeKey, payload: _Payload?) throws -> [AnyObject] {
+    func gets(_ key: TypeKey, payload: _Payload?) throws -> [Any] {
         lock.lock()
         defer { lock.unlock() }
 
@@ -92,7 +92,7 @@ final class Container: ContainerType {
             return []
         }
     }
-    func get(withoutResolve key: TypeKey) throws -> AnyObject? {
+    func get(withoutResolve key: TypeKey) throws -> Any? {
         lock.lock()
         defer { lock.unlock() }
 
@@ -105,7 +105,7 @@ final class Container: ContainerType {
         }
         return resolveWithoutResolve(component: safeComponent)
     }
-    func gets(withoutResolve key: TypeKey) throws -> [AnyObject] {
+    func gets(withoutResolve key: TypeKey) throws -> [Any] {
         lock.lock()
         defer { lock.unlock() }
 
@@ -175,7 +175,7 @@ final class Container: ContainerType {
     private var chainMap = [TypeKey: Set<TypeKey>]()
     private var map = [TypeKey: _ContainerComponent]()
     
-    private func resolve(component: _ContainerComponent) -> AnyObject {
+    private func resolve(component: _ContainerComponent) -> Any {
         lock.lock()
         defer { lock.unlock() }
 
@@ -198,14 +198,14 @@ final class Container: ContainerType {
             }
             
             let instance = component.resolve()!
-            component.weakCache = instance
+            component.weakCache = instance as AnyObject
             return instance
         }
     }
-    private func resolveWithFactory(component: FactoryContainerComponent, payload: _Payload) -> AnyObject {
+    private func resolveWithFactory(component: FactoryContainerComponent, payload: _Payload) -> Any {
         return component.resolve(payload: payload)!
     }
-    private func resolveWithoutResolve(component: _ContainerComponent) -> AnyObject? {
+    private func resolveWithoutResolve(component: _ContainerComponent) -> Any? {
         lock.lock()
         defer { lock.unlock() }
 

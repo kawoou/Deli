@@ -23,6 +23,7 @@ final class ConfigurationParser: Parsable {
         static let qualifierClearRegex = "\"([^\\\"]+)\"".r!
 
         static let importRegex = "\\nimport ([^\\s]+)".r!
+        static let arrayRegex = "^\\[[\\s]*([^\\]]+)[\\s]*\\]$".r!
 
         static let availableKinds: [String] = [
             SwiftDeclarationKind.varInstance.rawValue,
@@ -74,10 +75,20 @@ final class ConfigurationParser: Parsable {
         }()
 
         /// Read information
-        let dependencies = arguments
+        let dependencies = try arguments
             /// Remove unnecessary arguments.
             .filter { $0.index(of: Constant.argumentInfoKeyword) == nil }
-            .map { Dependency(parent: name, target: source, name: $0) }
+            .map { dependencyName -> Dependency in
+                if Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) != nil {
+                    Logger.log(.error("Configuration does not support injection for Array type Dependency. Using `Inject(\(dependencyName).self)`.", source.getSourceLine(with: fileContent)))
+                    throw ParserError.configurationCannotSupportArrayType
+                }
+                return Dependency(
+                    parent: name,
+                    target: source,
+                    name: dependencyName
+                )
+            }
 
         let qualifierRaw = arguments
             .first { $0.contains(Constant.qualifierPrefix) }?
