@@ -51,7 +51,9 @@ final class LazyAutowiredFactoryParser: Parsable {
     private func validConstructor(_ source: Structure) -> Bool {
         guard let name = source.name else { return false }
         guard name.hasPrefix(Constant.constructorPrefix) else { return false }
-        guard source.attributes.contains(Constant.requiredKey) else { return false }
+        if source.kind == SwiftDeclarationKind.class.rawValue {
+            guard source.attributes.contains(Constant.requiredKey) else { return false }
+        }
         
         guard let parameter = source.substructures.first else { return false }
         guard parameter.kind == SwiftDeclarationKind.varParameter.rawValue else { return false }
