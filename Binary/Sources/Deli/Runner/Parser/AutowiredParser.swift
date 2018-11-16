@@ -38,7 +38,9 @@ final class AutowiredParser: Parsable {
     
     private func validConstructor(_ source: Structure, fileContent: String) -> Bool {
         guard let name = source.name else { return false }
-        guard source.attributes.contains(Constant.requiredKey) else { return false }
+        if source.kind == SwiftDeclarationKind.class.rawValue {
+            guard source.attributes.contains(Constant.requiredKey) else { return false }
+        }
         guard let code = fileContent.utf8[Int(source.offset)...Int(source.offset + source.length)] else { return false }
         guard code.hasPrefix(Constant.constructorPrefix) else { return false }
         guard name.hasPrefix(Constant.constructorPrefix) else { return false }
