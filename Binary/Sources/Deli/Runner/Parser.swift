@@ -13,7 +13,8 @@ final class Parser: Runnable {
     private struct Constant {
         static let allowKinds = [
             SwiftDeclarationKind.class.rawValue,
-            SwiftDeclarationKind.struct.rawValue
+            SwiftDeclarationKind.struct.rawValue,
+            SwiftDeclarationKind.protocol.rawValue
         ]
         static let allowAccessLevels = [
             Structure.AccessLevel.open,
