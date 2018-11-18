@@ -21,6 +21,13 @@ final class ComponentParser: Parsable {
         
         let scope = try parseScope(source, fileContent: fileContent)
         let qualifier = try parseQualifier(source, fileContent: fileContent)
-        return [ComponentResult(name, scope, qualifier)]
+        return [
+            ComponentResult(
+                name,
+                scope: scope,
+                qualifier: qualifier,
+                valueType: source.kind == SwiftDeclarationKind.struct.rawValue
+            )
+        ]
     }
 }

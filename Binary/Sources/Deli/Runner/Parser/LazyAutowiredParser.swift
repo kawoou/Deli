@@ -94,6 +94,14 @@ final class LazyAutowiredParser: Parsable {
                 )
             }
 
-        return [LazyAutowiredConstructorResult(name, scope, qualifier, dependencies)]
+        return [
+            LazyAutowiredConstructorResult(
+                name,
+                scope: scope,
+                qualifier: qualifier,
+                dependencies: dependencies,
+                valueType: source.kind == SwiftDeclarationKind.struct.rawValue
+            )
+        ]
     }
 }

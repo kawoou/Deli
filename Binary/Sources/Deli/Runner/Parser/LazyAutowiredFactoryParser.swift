@@ -167,7 +167,15 @@ final class LazyAutowiredFactoryParser: Parsable {
             )
         }()
         
-        return [LazyAutowiredFactoryConstructorResult(name, qualifier, dependencies, payload: payload)]
+        return [
+            LazyAutowiredFactoryConstructorResult(
+                name,
+                qualifier: qualifier,
+                dependencies: dependencies,
+                payload: payload,
+                valueType: source.kind == SwiftDeclarationKind.struct.rawValue
+            )
+        ]
     }
     
 }

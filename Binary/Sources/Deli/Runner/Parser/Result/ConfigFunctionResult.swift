@@ -4,6 +4,7 @@
 //
 
 final class ConfigFunctionResult: Results {
+    var valueType: Bool
     var isLazy: Bool { return false }
     var isFactory: Bool { return false }
     var isRegister: Bool { return true }
@@ -18,17 +19,27 @@ final class ConfigFunctionResult: Results {
     var parentInstanceType: String
     var variableName: String
     
-    init(_ instanceType: String, _ scope: String?, _ qualifier: String?, _ dependency: [Dependency], _ imports: [String], parentInstanceType: String, variableName: String) {
+    init(
+        _ instanceType: String,
+        scope: String?,
+        qualifier: String?,
+        dependencies: [Dependency],
+        imports: [String],
+        parentInstanceType: String,
+        variableName: String,
+        valueType: Bool
+    ) {
         let parentDependency = Dependency(
             parent: instanceType,
-            target: dependency.first?.target,
+            target: dependencies.first?.target,
             name: parentInstanceType
         )
-        
+
+        self.valueType = valueType
         self.instanceType = instanceType
         self.scope = scope
         self.qualifier = qualifier
-        self.dependencies = dependency + [parentDependency]
+        self.dependencies = dependencies + [parentDependency]
 
         self.imports = imports
 

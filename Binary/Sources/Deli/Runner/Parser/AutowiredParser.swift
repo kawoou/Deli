@@ -112,6 +112,14 @@ final class AutowiredParser: Parsable {
                 )
             }
         
-        return [AutowiredConstructorResult(name, scope, qualifier, dependencies)]
+        return [
+            AutowiredConstructorResult(
+                name,
+                scope: scope,
+                qualifier: qualifier,
+                dependencies: dependencies,
+                valueType: source.kind == SwiftDeclarationKind.struct.rawValue
+            )
+        ]
     }
 }

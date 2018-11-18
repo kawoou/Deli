@@ -4,6 +4,7 @@
 //
 
 protocol Results: class, CustomStringConvertible, CustomDebugStringConvertible {
+    var valueType: Bool { get }
     var isLazy: Bool { get }
     var isFactory: Bool { get }
     var isRegister: Bool { get }
@@ -33,6 +34,7 @@ extension Results {
         
         return """
         \(instanceType)(
+            valueType: \(valueType),
             isLazy: \(isLazy),
             isFactory: \(isFactory),
             isRegister: \(isRegister),
