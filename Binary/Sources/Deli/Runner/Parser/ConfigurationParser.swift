@@ -34,6 +34,8 @@ final class ConfigurationParser: Parsable {
     }
     
     // MARK: - Private
+
+    private let injectParser = InjectParser()
     
     private func convert(_ source: Structure, parent: Structure, fileContent: String) throws -> ConfigFunctionResult {
         guard let name = parent.name else {
@@ -129,12 +131,14 @@ final class ConfigurationParser: Parsable {
             .flatMap { $0.group(at: 1) }
         #endif
 
+        let injectResults = try injectParser.parse(by: source, fileContent: fileContent, isInheritanceCheck: false)
+
         /// Result
         return ConfigFunctionResult(
             instanceType,
             scope,
             qualifier,
-            dependencies,
+            dependencies + injectResults.flatMap { $0.dependencies },
             imports,
             parentInstanceType: name,
             variableName: variableName
