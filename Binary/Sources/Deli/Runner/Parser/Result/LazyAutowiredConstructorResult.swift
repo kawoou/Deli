@@ -4,6 +4,7 @@
 //
 
 final class LazyAutowiredConstructorResult: Results {
+    var valueType: Bool
     var isLazy: Bool { return true }
     var isFactory: Bool { return false }
     var isRegister: Bool { return true }
@@ -17,7 +18,14 @@ final class LazyAutowiredConstructorResult: Results {
 
     var instanceDependency: [Dependency]
 
-    init(_ instanceType: String, _ scope: String?, _ qualifier: String?, _ dependencies: [Dependency]) {
+    init(
+        _ instanceType: String,
+        scope: String?,
+        qualifier: String?,
+        dependencies: [Dependency],
+        valueType: Bool
+    ) {
+        self.valueType = valueType
         self.instanceType = instanceType
         self.scope = scope
         self.qualifier = qualifier
@@ -55,7 +63,7 @@ final class LazyAutowiredConstructorResult: Results {
             resolver: {
                 return \(instanceType)()
             },
-            injector: { instance in
+            injector: { instance in\(valueType ? "\n        var instance = instance" : "")
                 \(dependencyResolve)
                 instance.inject(\(dependencyInject))
             },

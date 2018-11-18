@@ -123,6 +123,12 @@ final class InjectParser: Parsable {
         }
 
         let dependencyList = try searchInject(source, fileContent: fileContent)
-        return [InjectProtocolResult(name, dependencyList)]
+        return [
+            InjectProtocolResult(
+                name,
+                dependencies: dependencyList,
+                valueType: source.kind == SwiftDeclarationKind.struct.rawValue
+            )
+        ]
     }
 }

@@ -4,6 +4,7 @@
 //
 
 final class InjectProtocolResult: Results {
+    var valueType: Bool
     var isLazy: Bool { return false }
     var isFactory: Bool { return false }
     var isRegister: Bool { return false }
@@ -15,7 +16,12 @@ final class InjectProtocolResult: Results {
 
     var linkType: Set<String> = Set()
 
-    init(_ instanceType: String, _ dependencies: [Dependency]) {
+    init(
+        _ instanceType: String,
+        dependencies: [Dependency],
+        valueType: Bool
+    ) {
+        self.valueType = valueType
         self.instanceType = instanceType
         self.dependencies = dependencies
         self.imports = []

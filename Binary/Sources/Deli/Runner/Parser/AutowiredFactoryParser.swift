@@ -148,7 +148,15 @@ final class AutowiredFactoryParser: Parsable {
             )
         }()
         
-        return [AutowiredFactoryConstructorResult(name, qualifier, dependencies, payload: payload)]
+        return [
+            AutowiredFactoryConstructorResult(
+                name,
+                qualifier: qualifier,
+                dependencies: dependencies,
+                payload: payload,
+                valueType: source.kind == SwiftDeclarationKind.struct.rawValue
+            )
+        ]
     }
     
 }

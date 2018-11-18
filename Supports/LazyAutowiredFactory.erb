@@ -30,7 +30,7 @@ public protocol LazyAutowiredFactory: Factory {<% for dep in 1..9 %>
 %>
     /// Pre-generated initialize method for <%= dep %> dependencies
     /// constructor inject.
-    func inject(<%= params_str %>)
+    mutating func inject(<%= params_str %>)
 <% end %>
 }
 public extension LazyAutowiredFactory {
@@ -45,5 +45,5 @@ public extension LazyAutowiredFactory {
     initializer = (1..dep).map { |i| "dep#{i}" }
     initializer_str = initializer.join(", ")
 %>
-    func inject(<%= params_str %>) {}<% end %>
+    mutating func inject(<%= params_str %>) {}<% end %>
 }

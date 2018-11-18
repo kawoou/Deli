@@ -136,12 +136,13 @@ final class ConfigurationParser: Parsable {
         /// Result
         return ConfigFunctionResult(
             instanceType,
-            scope,
-            qualifier,
-            dependencies + injectResults.flatMap { $0.dependencies },
-            imports,
+            scope: scope,
+            qualifier: qualifier,
+            dependencies: dependencies + injectResults.flatMap { $0.dependencies },
+            imports: imports,
             parentInstanceType: name,
-            variableName: variableName
+            variableName: variableName,
+            valueType: false
         )
     }
     
@@ -163,6 +164,11 @@ final class ConfigurationParser: Parsable {
         return try source.substructures
             .filter { validFunction($0) }
             .map { try convert($0, parent: source, fileContent: fileContent) } +
-            [ConfigurationResult(name)]
+            [
+                ConfigurationResult(
+                    name,
+                    valueType: source.kind == SwiftDeclarationKind.struct.rawValue
+                )
+            ]
     }
 }

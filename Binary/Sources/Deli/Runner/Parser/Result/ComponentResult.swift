@@ -4,6 +4,7 @@
 //
 
 final class ComponentResult: Results {
+    var valueType: Bool
     var isLazy: Bool { return false }
     var isFactory: Bool { return false }
     var isRegister: Bool { return true }
@@ -15,7 +16,13 @@ final class ComponentResult: Results {
 
     var linkType: Set<String> = Set()
     
-    init(_ instanceType: String, _ scope: String?, _ qualifier: String?) {
+    init(
+        _ instanceType: String,
+        scope: String?,
+        qualifier: String?,
+        valueType: Bool
+    ) {
+        self.valueType = valueType
         self.instanceType = instanceType
         self.scope = scope
         self.qualifier = qualifier

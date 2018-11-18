@@ -4,6 +4,7 @@
 //
 
 final class ConfigurationResult: Results {
+    var valueType: Bool
     var isLazy: Bool { return false }
     var isFactory: Bool { return false }
     var isRegister: Bool { return true }
@@ -15,7 +16,11 @@ final class ConfigurationResult: Results {
 
     var linkType: Set<String> = Set()
 
-    init(_ instanceType: String) {
+    init(
+        _ instanceType: String,
+        valueType: Bool
+    ) {
+        self.valueType = valueType
         self.instanceType = instanceType
         self.dependencies = []
         self.imports = []

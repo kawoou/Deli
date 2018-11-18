@@ -45,44 +45,44 @@ public protocol LazyAutowired: Inject {
     init()
 
     /// Pre-generated method for 1 dependencies lazily inject.
-    func inject(_ dep1: Dep1)
+    mutating func inject(_ dep1: Dep1)
 
     /// Pre-generated method for 2 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2)
 
     /// Pre-generated method for 3 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3)
 
     /// Pre-generated method for 4 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4)
 
     /// Pre-generated method for 5 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5)
 
     /// Pre-generated method for 6 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6)
 
     /// Pre-generated method for 7 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7)
 
     /// Pre-generated method for 8 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8)
 
     /// Pre-generated method for 9 dependencies lazily inject.
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8, _ dep9: Dep9)
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8, _ dep9: Dep9)
 
 }
 public extension LazyAutowired {
     public var qualifier: String? { return nil }
     public var scope: Scope { return .singleton }
 
-    func inject(_ dep1: Dep1) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8) {}
-    func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8, _ dep9: Dep9) {}
+    mutating func inject(_ dep1: Dep1) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8) {}
+    mutating func inject(_ dep1: Dep1, _ dep2: Dep2, _ dep3: Dep3, _ dep4: Dep4, _ dep5: Dep5, _ dep6: Dep6, _ dep7: Dep7, _ dep8: Dep8, _ dep9: Dep9) {}
 }
