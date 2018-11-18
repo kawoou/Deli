@@ -111,11 +111,16 @@ final class InjectParser: Parsable {
     // MARK: - Public
 
     func parse(by source: Structure, fileContent: String) throws -> [Results] {
+        return try parse(by: source, fileContent: fileContent, isInheritanceCheck: true)
+    }
+    func parse(by source: Structure, fileContent: String, isInheritanceCheck: Bool) throws -> [Results] {
         guard let name = source.name else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
-        guard source.inheritedTypes.contains(where: { Constant.inheritanceName.contains($0) }) else { return [] }
+        if isInheritanceCheck {
+            guard source.inheritedTypes.contains(where: { Constant.inheritanceName.contains($0) }) else { return [] }
+        }
 
         let dependencyList = try searchInject(source, fileContent: fileContent)
         return [InjectProtocolResult(name, dependencyList)]

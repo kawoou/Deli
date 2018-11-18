@@ -3,8 +3,6 @@
 //  Deli
 //
 
-import Foundation
-
 /// The Inject protocol is the supporter that injects the dependency type.
 ///
 /// It is not registered in IoC conatiner, but is registered in Graph at

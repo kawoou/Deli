@@ -17,6 +17,8 @@ final class CircularDependencyValidator: Validatable {
     var resultMap: [String: [Results]] = [:]
 
     private func testStack() throws {
+        Logger.log(.debug("Test circular dependency: \(chainStack)"))
+
         let stackSet = Set(chainStack)
         guard stackSet.count != chainStack.count else { return }
 
@@ -39,7 +41,8 @@ final class CircularDependencyValidator: Validatable {
                 guard let info = parser.inheritanceList(chain).first else { return nil }
                 return info.structure.getSourceLine(with: info.content)
             }()
-            Logger.log(.error("The circular dependency exists. (\(chainStack.joined(separator: " -> ")))", fileLine))
+            let outputStack = chainStack.joined(separator: " -> ")
+            Logger.log(.error("The circular dependency exists. (\(outputStack))", fileLine))
         }
         throw ValidatorError.circularDependency
     }
