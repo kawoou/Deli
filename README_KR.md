@@ -29,6 +29,7 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
   - [ModuleFactory](#7-modulefactory)
     - [Multi-Container](#71-multi-container)
     - [Unit Test](#72-unit-test)
+  - [Struct](#8-struct)
 * [설치 방법](#설치-방법)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -375,11 +376,9 @@ class LoginView: Inject {
 }
 
 class NovelBookView: Inject {
-    let novels: [Book]!
+    let novels: [Book] = Inject([Book].self, qualifier: "Novel")
 
-    init() {
-        self.novels = Inject([Book].self, qualifier: "Novel")
-    }
+    init() {}
 }
 ```
 
@@ -539,6 +538,43 @@ class UserTests: QuickSpec {
 ```
 
 테스트 코드에 대한 예시는 `Deli.xcodeproj`에서 확인할 수 있습니다.
+
+
+
+#### 8. Struct
+
+버전 `0.7.0`부터 Class 뿐만 아니라 Struct에 대한 지원이 추가되었습니다.
+
+기본적인 동작은 Class일 때와 동일하나, 한가지 차이점은 `weak` Scope를 사용할 수 없다는 점이 있습니다.
+
+아래는 [Moya](https://github.com/Moya/Moya)의 Plugin을 구현한 예시입니다.
+
+```swift
+struct AuthPlugin: PluginType, LazyAutowired {
+
+    var scope: Scope = .weak
+
+    private let authService: AuthService!
+
+    func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
+        var request = request
+
+        if let authToken = authService.authToken {
+            request.addValue(authToken.accessToken, forHTTPHeaderField: "Authorization")
+            request.addValue(authToken.refreshToken, forHTTPHeaderField: "Refresh-Token")
+        }
+
+        return request
+    }
+
+    mutating func inject(_ authService: AuthService) {
+        self.authService = authService
+    }
+
+    init() {}
+}
+```
+
 
 
 
