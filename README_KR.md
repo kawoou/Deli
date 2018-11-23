@@ -12,6 +12,8 @@
 
 Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
 
+> Language Switch: [English](https://github.com/kawoou/Deli/tree/master/README.md), [한국어](https://github.com/kawoou/Deli/tree/master/README_KR.md).
+
 
 
 
