@@ -67,27 +67,11 @@ final class DeliFactory: ModuleFactory {
             },
             qualifier: ""
         ).link(FriendInfoViewModel.self)
-        registerFactory(
-            StructWithAutowiredFactory.self,
-            resolver: { payload in
-                let _0 = context.get(FriendService.self, qualifier: "")!
-                return StructWithAutowiredFactory(_0, payload: payload as! StructPayload)
-            },
-            qualifier: ""
-        )
         register(
             FriendListViewModel.self,
             resolver: {
                 let _0 = context.get(FriendService.self, qualifier: "")!
                 return FriendListViewModel(_0)
-            },
-            qualifier: "",
-            scope: .singleton
-        )
-        register(
-            StructWithComponent.self,
-            resolver: {
-                return StructWithComponent()
             },
             qualifier: "",
             scope: .singleton
@@ -177,6 +161,31 @@ final class DeliFactory: ModuleFactory {
             qualifier: "angry",
             scope: .singleton
         )
+        register(
+            StructWithAutowired.self,
+            resolver: {
+                let _0 = context.get(FriendService.self, qualifier: "")!
+                return StructWithAutowired(_0)
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        registerFactory(
+            StructWithAutowiredFactory.self,
+            resolver: { payload in
+                let _0 = context.get(FriendService.self, qualifier: "")!
+                return StructWithAutowiredFactory(_0, payload: payload as! StructPayload)
+            },
+            qualifier: ""
+        )
+        register(
+            StructWithComponent.self,
+            resolver: {
+                return StructWithComponent()
+            },
+            qualifier: "",
+            scope: .singleton
+        )
         registerLazy(
             TestService.self,
             resolver: {
@@ -198,15 +207,6 @@ final class DeliFactory: ModuleFactory {
             },
             qualifier: "",
             scope: .prototype
-        )
-        register(
-            StructWithAutowired.self,
-            resolver: {
-                let _0 = context.get(FriendService.self, qualifier: "")!
-                return StructWithAutowired(_0)
-            },
-            qualifier: "",
-            scope: .singleton
         )
         register(
             UnicodeTest.self,
