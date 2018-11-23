@@ -56,7 +56,7 @@ final class ConfigFunctionResult: Results {
             \(instanceType).self,
             resolver: {
                 let parent = context.get(\(parentInstanceType).self, qualifier: "")!
-                return parent.\(variableName)() as AnyObject
+                return parent.\(variableName)()
             },
             qualifier: "\(qualifier ?? "")",
             scope: \(scope ?? ".singleton")

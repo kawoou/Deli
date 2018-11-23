@@ -4,4 +4,4 @@
 //
 
 /// The closure is Resolver for the factory.
-public typealias FactoryResolver = (_Payload) -> AnyObject
+public typealias FactoryResolver = (_Payload) -> Any

@@ -1,6 +1,5 @@
 import Deli
 
-struct TroisiemeHumanite: Novel, Component {
-    var qualifier: String? { return "Novel" }
+class TroisiemeHumanite: Novel, Component {
     var scope: Scope { return .singleton }
 }

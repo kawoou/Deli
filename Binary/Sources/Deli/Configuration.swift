@@ -52,7 +52,30 @@ final class Configuration {
         }
     }
 
-    private func findBuildReference(for schemeName: String, project: XcodeProj) -> BuildableReference? {
+    private func findBuildReference(forTarget targetName: String, project: XcodeProj) -> BuildableReference? {
+        let targetList = project.pbxproj.nativeTargets
+            .filter { $0.name == targetName }
+
+        guard let target = targetList.first else {
+            Logger.log(.error("Not found `\(targetName)` target.", nil))
+            return nil
+        }
+        guard targetList.count == 1 else {
+            let targetMessage = targetList
+                .map { $0.uuid }
+                .joined(separator: ", ")
+
+            Logger.log(.debug("Ambiguous build target: \(targetMessage)"))
+            Logger.log(.error("Ambiguous build target.", nil))
+            return nil
+        }
+
+        return (
+            id: target.uuid,
+            name: target.name
+        )
+    }
+    private func findBuildReference(forScheme schemeName: String, project: XcodeProj) -> BuildableReference? {
         let schemeList = project.sharedData?.schemes
             .filter { $0.name == schemeName } ?? []
 
@@ -286,8 +309,10 @@ final class Configuration {
 
         /// Find build reference
         let reference: BuildableReference?
-        if let scheme = info.scheme {
-            reference = findBuildReference(for: scheme, project: project)
+        if let target = info.target {
+            reference = findBuildReference(forTarget: target, project: project)
+        } else if let scheme = info.scheme {
+            reference = findBuildReference(forScheme: scheme, project: project)
         } else {
             reference = findBuildReference(project: project)
         }
@@ -341,7 +366,9 @@ final class Configuration {
             .map { projectDirectory.appendingPathComponent($0).standardized.path }
             .filter { $0.contains(".swift") }
             .filter { $0 != outputPath }
-            .filter { !excludeFiles.contains($0) }
+            .filter { path in
+                return !excludeFiles.contains { path.hasPrefix($0) }
+            }
 
         return result
             .filter { path in

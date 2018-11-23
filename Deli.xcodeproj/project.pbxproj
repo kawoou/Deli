@@ -9,11 +9,11 @@
 /* Begin PBXAggregateTarget section */
 		Deli::DeliPackageTests::ProductTarget /* DeliPackageTests */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_214 /* Build configuration list for PBXAggregateTarget "DeliPackageTests" */;
+			buildConfigurationList = OBJ_219 /* Build configuration list for PBXAggregateTarget "DeliPackageTests" */;
 			buildPhases = (
 			);
 			dependencies = (
-				OBJ_217 /* PBXTargetDependency */,
+				OBJ_222 /* PBXTargetDependency */,
 			);
 			name = DeliPackageTests;
 			productName = DeliPackageTests;
@@ -21,148 +21,152 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		OBJ_183 /* Autowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Autowired.swift */; };
-		OBJ_184 /* AutowiredFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AutowiredFactory.swift */; };
-		OBJ_185 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Component.swift */; };
-		OBJ_186 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Configuration.swift */; };
-		OBJ_187 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AppContext.swift */; };
-		OBJ_188 /* ContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ContainerComponent.swift */; };
-		OBJ_189 /* DefaultContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* DefaultContainerComponent.swift */; };
-		OBJ_190 /* FactoryContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* FactoryContainerComponent.swift */; };
-		OBJ_191 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Container.swift */; };
-		OBJ_192 /* ContainerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* ContainerError.swift */; };
-		OBJ_193 /* FactoryResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* FactoryResolver.swift */; };
-		OBJ_194 /* Linker.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Linker.swift */; };
-		OBJ_195 /* LoadPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* LoadPriority.swift */; };
-		OBJ_196 /* ResolveRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* ResolveRule.swift */; };
-		OBJ_197 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* Resolver.swift */; };
-		OBJ_198 /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* Scope.swift */; };
-		OBJ_199 /* TypeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* TypeKey.swift */; };
-		OBJ_200 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Factory.swift */; };
-		OBJ_201 /* Inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Inject.swift */; };
-		OBJ_202 /* LazyAutowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* LazyAutowired.swift */; };
-		OBJ_203 /* LazyAutowiredFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* LazyAutowiredFactory.swift */; };
-		OBJ_204 /* ModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* ModuleFactory.swift */; };
-		OBJ_205 /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* Payload.swift */; };
-		OBJ_212 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_223 /* AccountConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* AccountConfiguration.swift */; };
-		OBJ_224 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* AccountService.swift */; };
-		OBJ_225 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* Book.swift */; };
-		OBJ_226 /* COSMOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* COSMOS.swift */; };
-		OBJ_227 /* HarryPotter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* HarryPotter.swift */; };
-		OBJ_228 /* Novel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* Novel.swift */; };
-		OBJ_229 /* Science.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* Science.swift */; };
-		OBJ_230 /* TroisiemeHumanite.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* TroisiemeHumanite.swift */; };
-		OBJ_231 /* DeliFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* DeliFactory.swift */; };
-		OBJ_232 /* FactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* FactoryTest.swift */; };
-		OBJ_233 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* Friend.swift */; };
-		OBJ_234 /* FriendInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* FriendInfoViewModel.swift */; };
-		OBJ_235 /* FriendListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* FriendListViewModel.swift */; };
-		OBJ_236 /* FriendPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* FriendPayload.swift */; };
-		OBJ_237 /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* FriendService.swift */; };
-		OBJ_238 /* LibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* LibraryService.swift */; };
-		OBJ_239 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* MessageService.swift */; };
-		OBJ_240 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* NetworkManager.swift */; };
-		OBJ_241 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* Robot.swift */; };
-		OBJ_242 /* RobotBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* RobotBody.swift */; };
-		OBJ_243 /* RobotFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* RobotFactory.swift */; };
-		OBJ_244 /* RobotHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* RobotHead.swift */; };
-		OBJ_245 /* TestPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* TestPayload.swift */; };
-		OBJ_246 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* TestService.swift */; };
-		OBJ_247 /* TestView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* TestView1.swift */; };
-		OBJ_248 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* TestView2.swift */; };
-		OBJ_249 /* TestView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* TestView3.swift */; };
-		OBJ_250 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* TestViewModel.swift */; };
-		OBJ_251 /* UnicodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* UnicodeTest.swift */; };
-		OBJ_252 /* UserPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* UserPayload.swift */; };
-		OBJ_253 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* UserViewModel.swift */; };
-		OBJ_254 /* WeakViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* WeakViewModel.swift */; };
-		OBJ_255 /* DeliSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* DeliSpec.swift */; };
-		OBJ_256 /* MockAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* MockAccountService.swift */; };
-		OBJ_257 /* MockBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* MockBook.swift */; };
-		OBJ_259 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Nimble::Nimble::Product /* Nimble.framework */; };
-		OBJ_260 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Quick::Quick::Product /* Quick.framework */; };
-		OBJ_261 /* QuickSpecBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Quick::QuickSpecBase::Product /* QuickSpecBase.framework */; };
-		OBJ_262 /* Deli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Deli::Deli::Product /* Deli.framework */; };
-		OBJ_274 /* AdapterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* AdapterProtocols.swift */; };
-		OBJ_275 /* AssertionDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* AssertionDispatcher.swift */; };
-		OBJ_276 /* AssertionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_119 /* AssertionRecorder.swift */; };
-		OBJ_277 /* NMBExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_120 /* NMBExpectation.swift */; };
-		OBJ_278 /* NMBObjCMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_121 /* NMBObjCMatcher.swift */; };
-		OBJ_279 /* NimbleEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* NimbleEnvironment.swift */; };
-		OBJ_280 /* NimbleXCTestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* NimbleXCTestHandler.swift */; };
-		OBJ_281 /* ExceptionCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_125 /* ExceptionCapture.swift */; };
-		OBJ_282 /* DSL+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_126 /* DSL+Wait.swift */; };
-		OBJ_283 /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* DSL.swift */; };
-		OBJ_284 /* Expectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* Expectation.swift */; };
-		OBJ_285 /* ExpectationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* ExpectationMessage.swift */; };
-		OBJ_286 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_130 /* Expression.swift */; };
-		OBJ_287 /* FailureMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_131 /* FailureMessage.swift */; };
-		OBJ_288 /* AllPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_133 /* AllPass.swift */; };
-		OBJ_289 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_134 /* Async.swift */; };
-		OBJ_290 /* BeAKindOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* BeAKindOf.swift */; };
-		OBJ_291 /* BeAnInstanceOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_136 /* BeAnInstanceOf.swift */; };
-		OBJ_292 /* BeCloseTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_137 /* BeCloseTo.swift */; };
-		OBJ_293 /* BeEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_138 /* BeEmpty.swift */; };
-		OBJ_294 /* BeGreaterThan.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_139 /* BeGreaterThan.swift */; };
-		OBJ_295 /* BeGreaterThanOrEqualTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_140 /* BeGreaterThanOrEqualTo.swift */; };
-		OBJ_296 /* BeIdenticalTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_141 /* BeIdenticalTo.swift */; };
-		OBJ_297 /* BeLessThan.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_142 /* BeLessThan.swift */; };
-		OBJ_298 /* BeLessThanOrEqual.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_143 /* BeLessThanOrEqual.swift */; };
-		OBJ_299 /* BeLogical.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_144 /* BeLogical.swift */; };
-		OBJ_300 /* BeNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_145 /* BeNil.swift */; };
-		OBJ_301 /* BeVoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_146 /* BeVoid.swift */; };
-		OBJ_302 /* BeginWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_147 /* BeginWith.swift */; };
-		OBJ_303 /* Contain.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_148 /* Contain.swift */; };
-		OBJ_304 /* ContainElementSatisfying.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_149 /* ContainElementSatisfying.swift */; };
-		OBJ_305 /* EndWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_150 /* EndWith.swift */; };
-		OBJ_306 /* Equal.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_151 /* Equal.swift */; };
-		OBJ_307 /* HaveCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_152 /* HaveCount.swift */; };
-		OBJ_308 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_153 /* Match.swift */; };
-		OBJ_309 /* MatchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_154 /* MatchError.swift */; };
-		OBJ_310 /* MatcherFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_155 /* MatcherFunc.swift */; };
-		OBJ_311 /* MatcherProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_156 /* MatcherProtocols.swift */; };
-		OBJ_312 /* PostNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_157 /* PostNotification.swift */; };
-		OBJ_313 /* Predicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_158 /* Predicate.swift */; };
-		OBJ_314 /* RaisesException.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_159 /* RaisesException.swift */; };
-		OBJ_315 /* SatisfyAllOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_160 /* SatisfyAllOf.swift */; };
-		OBJ_316 /* SatisfyAnyOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_161 /* SatisfyAnyOf.swift */; };
-		OBJ_317 /* ThrowAssertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_162 /* ThrowAssertion.swift */; };
-		OBJ_318 /* ThrowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_163 /* ThrowError.swift */; };
-		OBJ_319 /* ToSucceed.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_164 /* ToSucceed.swift */; };
-		OBJ_320 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_166 /* Await.swift */; };
-		OBJ_321 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_167 /* Errors.swift */; };
-		OBJ_322 /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_168 /* Functional.swift */; };
-		OBJ_323 /* SourceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_169 /* SourceLocation.swift */; };
-		OBJ_324 /* Stringers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_170 /* Stringers.swift */; };
-		OBJ_331 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_171 /* Package.swift */; };
-		OBJ_336 /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* Behavior.swift */; };
-		OBJ_337 /* Callsite.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* Callsite.swift */; };
-		OBJ_338 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* Configuration.swift */; };
-		OBJ_339 /* QuickConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* QuickConfiguration.swift */; };
-		OBJ_340 /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* DSL.swift */; };
-		OBJ_341 /* World+DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* World+DSL.swift */; };
-		OBJ_342 /* ErrorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* ErrorUtility.swift */; };
-		OBJ_343 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* Example.swift */; };
-		OBJ_344 /* ExampleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* ExampleGroup.swift */; };
-		OBJ_345 /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* ExampleMetadata.swift */; };
-		OBJ_346 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* Filter.swift */; };
-		OBJ_347 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* Closures.swift */; };
-		OBJ_348 /* ExampleHooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* ExampleHooks.swift */; };
-		OBJ_349 /* HooksPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* HooksPhase.swift */; };
-		OBJ_350 /* SuiteHooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* SuiteHooks.swift */; };
-		OBJ_351 /* NSBundle+CurrentTestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* NSBundle+CurrentTestBundle.swift */; };
-		OBJ_352 /* NSString+C99ExtendedIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* NSString+C99ExtendedIdentifier.swift */; };
-		OBJ_353 /* QuickMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_103 /* QuickMain.swift */; };
-		OBJ_354 /* QuickSelectedTestSuiteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* QuickSelectedTestSuiteBuilder.swift */; };
-		OBJ_355 /* QuickSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* QuickSpec.swift */; };
-		OBJ_356 /* QuickTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* QuickTestSuite.swift */; };
-		OBJ_357 /* URL+FileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* URL+FileName.swift */; };
-		OBJ_358 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* World.swift */; };
-		OBJ_360 /* QuickSpecBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Quick::QuickSpecBase::Product /* QuickSpecBase.framework */; };
-		OBJ_367 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_113 /* Package.swift */; };
-		OBJ_372 /* QuickSpecBase.m in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* QuickSpecBase.m */; };
-		OBJ_374 /* QuickSpecBase.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* QuickSpecBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_188 /* Autowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Autowired.swift */; };
+		OBJ_189 /* AutowiredFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AutowiredFactory.swift */; };
+		OBJ_190 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Component.swift */; };
+		OBJ_191 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Configuration.swift */; };
+		OBJ_192 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AppContext.swift */; };
+		OBJ_193 /* ContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ContainerComponent.swift */; };
+		OBJ_194 /* DefaultContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* DefaultContainerComponent.swift */; };
+		OBJ_195 /* FactoryContainerComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* FactoryContainerComponent.swift */; };
+		OBJ_196 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Container.swift */; };
+		OBJ_197 /* ContainerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* ContainerError.swift */; };
+		OBJ_198 /* FactoryResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* FactoryResolver.swift */; };
+		OBJ_199 /* Linker.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Linker.swift */; };
+		OBJ_200 /* LoadPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* LoadPriority.swift */; };
+		OBJ_201 /* ResolveRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* ResolveRule.swift */; };
+		OBJ_202 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* Resolver.swift */; };
+		OBJ_203 /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* Scope.swift */; };
+		OBJ_204 /* TypeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* TypeKey.swift */; };
+		OBJ_205 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Factory.swift */; };
+		OBJ_206 /* Inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Inject.swift */; };
+		OBJ_207 /* LazyAutowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* LazyAutowired.swift */; };
+		OBJ_208 /* LazyAutowiredFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* LazyAutowiredFactory.swift */; };
+		OBJ_209 /* ModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* ModuleFactory.swift */; };
+		OBJ_210 /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* Payload.swift */; };
+		OBJ_217 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_228 /* AccountConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* AccountConfiguration.swift */; };
+		OBJ_229 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* AccountService.swift */; };
+		OBJ_230 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* Book.swift */; };
+		OBJ_231 /* COSMOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* COSMOS.swift */; };
+		OBJ_232 /* HarryPotter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* HarryPotter.swift */; };
+		OBJ_233 /* Novel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* Novel.swift */; };
+		OBJ_234 /* Science.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* Science.swift */; };
+		OBJ_235 /* TroisiemeHumanite.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* TroisiemeHumanite.swift */; };
+		OBJ_236 /* DeliFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* DeliFactory.swift */; };
+		OBJ_237 /* FactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* FactoryTest.swift */; };
+		OBJ_238 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* Friend.swift */; };
+		OBJ_239 /* FriendInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* FriendInfoViewModel.swift */; };
+		OBJ_240 /* FriendListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_52 /* FriendListViewModel.swift */; };
+		OBJ_241 /* FriendPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* FriendPayload.swift */; };
+		OBJ_242 /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* FriendService.swift */; };
+		OBJ_243 /* LibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* LibraryService.swift */; };
+		OBJ_244 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* MessageService.swift */; };
+		OBJ_245 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* NetworkManager.swift */; };
+		OBJ_246 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* Robot.swift */; };
+		OBJ_247 /* RobotBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* RobotBody.swift */; };
+		OBJ_248 /* RobotFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* RobotFactory.swift */; };
+		OBJ_249 /* RobotHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* RobotHead.swift */; };
+		OBJ_250 /* StructWithAutowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* StructWithAutowired.swift */; };
+		OBJ_251 /* StructWithAutowiredFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* StructWithAutowiredFactory.swift */; };
+		OBJ_252 /* StructWithComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* StructWithComponent.swift */; };
+		OBJ_253 /* StructWithLazyAutowired.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* StructWithLazyAutowired.swift */; };
+		OBJ_254 /* TestPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* TestPayload.swift */; };
+		OBJ_255 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* TestService.swift */; };
+		OBJ_256 /* TestView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* TestView1.swift */; };
+		OBJ_257 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* TestView2.swift */; };
+		OBJ_258 /* TestView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* TestView3.swift */; };
+		OBJ_259 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* TestViewModel.swift */; };
+		OBJ_260 /* UnicodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* UnicodeTest.swift */; };
+		OBJ_261 /* UserPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* UserPayload.swift */; };
+		OBJ_262 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* UserViewModel.swift */; };
+		OBJ_263 /* WeakViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* WeakViewModel.swift */; };
+		OBJ_264 /* DeliSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* DeliSpec.swift */; };
+		OBJ_265 /* MockAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* MockAccountService.swift */; };
+		OBJ_266 /* MockBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* MockBook.swift */; };
+		OBJ_268 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Nimble::Nimble::Product /* Nimble.framework */; };
+		OBJ_269 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Quick::Quick::Product /* Quick.framework */; };
+		OBJ_270 /* QuickSpecBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Quick::QuickSpecBase::Product /* QuickSpecBase.framework */; };
+		OBJ_271 /* Deli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Deli::Deli::Product /* Deli.framework */; };
+		OBJ_283 /* AdapterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* AdapterProtocols.swift */; };
+		OBJ_284 /* AssertionDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* AssertionDispatcher.swift */; };
+		OBJ_285 /* AssertionRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_124 /* AssertionRecorder.swift */; };
+		OBJ_286 /* NMBExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_125 /* NMBExpectation.swift */; };
+		OBJ_287 /* NMBObjCMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_126 /* NMBObjCMatcher.swift */; };
+		OBJ_288 /* NimbleEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* NimbleEnvironment.swift */; };
+		OBJ_289 /* NimbleXCTestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* NimbleXCTestHandler.swift */; };
+		OBJ_290 /* ExceptionCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_130 /* ExceptionCapture.swift */; };
+		OBJ_291 /* DSL+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_131 /* DSL+Wait.swift */; };
+		OBJ_292 /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_132 /* DSL.swift */; };
+		OBJ_293 /* Expectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_133 /* Expectation.swift */; };
+		OBJ_294 /* ExpectationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_134 /* ExpectationMessage.swift */; };
+		OBJ_295 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* Expression.swift */; };
+		OBJ_296 /* FailureMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_136 /* FailureMessage.swift */; };
+		OBJ_297 /* AllPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_138 /* AllPass.swift */; };
+		OBJ_298 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_139 /* Async.swift */; };
+		OBJ_299 /* BeAKindOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_140 /* BeAKindOf.swift */; };
+		OBJ_300 /* BeAnInstanceOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_141 /* BeAnInstanceOf.swift */; };
+		OBJ_301 /* BeCloseTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_142 /* BeCloseTo.swift */; };
+		OBJ_302 /* BeEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_143 /* BeEmpty.swift */; };
+		OBJ_303 /* BeGreaterThan.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_144 /* BeGreaterThan.swift */; };
+		OBJ_304 /* BeGreaterThanOrEqualTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_145 /* BeGreaterThanOrEqualTo.swift */; };
+		OBJ_305 /* BeIdenticalTo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_146 /* BeIdenticalTo.swift */; };
+		OBJ_306 /* BeLessThan.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_147 /* BeLessThan.swift */; };
+		OBJ_307 /* BeLessThanOrEqual.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_148 /* BeLessThanOrEqual.swift */; };
+		OBJ_308 /* BeLogical.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_149 /* BeLogical.swift */; };
+		OBJ_309 /* BeNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_150 /* BeNil.swift */; };
+		OBJ_310 /* BeVoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_151 /* BeVoid.swift */; };
+		OBJ_311 /* BeginWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_152 /* BeginWith.swift */; };
+		OBJ_312 /* Contain.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_153 /* Contain.swift */; };
+		OBJ_313 /* ContainElementSatisfying.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_154 /* ContainElementSatisfying.swift */; };
+		OBJ_314 /* EndWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_155 /* EndWith.swift */; };
+		OBJ_315 /* Equal.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_156 /* Equal.swift */; };
+		OBJ_316 /* HaveCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_157 /* HaveCount.swift */; };
+		OBJ_317 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_158 /* Match.swift */; };
+		OBJ_318 /* MatchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_159 /* MatchError.swift */; };
+		OBJ_319 /* MatcherFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_160 /* MatcherFunc.swift */; };
+		OBJ_320 /* MatcherProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_161 /* MatcherProtocols.swift */; };
+		OBJ_321 /* PostNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_162 /* PostNotification.swift */; };
+		OBJ_322 /* Predicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_163 /* Predicate.swift */; };
+		OBJ_323 /* RaisesException.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_164 /* RaisesException.swift */; };
+		OBJ_324 /* SatisfyAllOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_165 /* SatisfyAllOf.swift */; };
+		OBJ_325 /* SatisfyAnyOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_166 /* SatisfyAnyOf.swift */; };
+		OBJ_326 /* ThrowAssertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_167 /* ThrowAssertion.swift */; };
+		OBJ_327 /* ThrowError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_168 /* ThrowError.swift */; };
+		OBJ_328 /* ToSucceed.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_169 /* ToSucceed.swift */; };
+		OBJ_329 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_171 /* Await.swift */; };
+		OBJ_330 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_172 /* Errors.swift */; };
+		OBJ_331 /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_173 /* Functional.swift */; };
+		OBJ_332 /* SourceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_174 /* SourceLocation.swift */; };
+		OBJ_333 /* Stringers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_175 /* Stringers.swift */; };
+		OBJ_340 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_176 /* Package.swift */; };
+		OBJ_345 /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* Behavior.swift */; };
+		OBJ_346 /* Callsite.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* Callsite.swift */; };
+		OBJ_347 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* Configuration.swift */; };
+		OBJ_348 /* QuickConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* QuickConfiguration.swift */; };
+		OBJ_349 /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* DSL.swift */; };
+		OBJ_350 /* World+DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* World+DSL.swift */; };
+		OBJ_351 /* ErrorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* ErrorUtility.swift */; };
+		OBJ_352 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* Example.swift */; };
+		OBJ_353 /* ExampleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* ExampleGroup.swift */; };
+		OBJ_354 /* ExampleMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* ExampleMetadata.swift */; };
+		OBJ_355 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_100 /* Filter.swift */; };
+		OBJ_356 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* Closures.swift */; };
+		OBJ_357 /* ExampleHooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_103 /* ExampleHooks.swift */; };
+		OBJ_358 /* HooksPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* HooksPhase.swift */; };
+		OBJ_359 /* SuiteHooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* SuiteHooks.swift */; };
+		OBJ_360 /* NSBundle+CurrentTestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* NSBundle+CurrentTestBundle.swift */; };
+		OBJ_361 /* NSString+C99ExtendedIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* NSString+C99ExtendedIdentifier.swift */; };
+		OBJ_362 /* QuickMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* QuickMain.swift */; };
+		OBJ_363 /* QuickSelectedTestSuiteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* QuickSelectedTestSuiteBuilder.swift */; };
+		OBJ_364 /* QuickSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* QuickSpec.swift */; };
+		OBJ_365 /* QuickTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_111 /* QuickTestSuite.swift */; };
+		OBJ_366 /* URL+FileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* URL+FileName.swift */; };
+		OBJ_367 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_113 /* World.swift */; };
+		OBJ_369 /* QuickSpecBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = Quick::QuickSpecBase::Product /* QuickSpecBase.framework */; };
+		OBJ_376 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* Package.swift */; };
+		OBJ_381 /* QuickSpecBase.m in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* QuickSpecBase.m */; };
+		OBJ_383 /* QuickSpecBase.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* QuickSpecBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,75 +174,79 @@
 		Deli::DeliTests::Product /* DeliTests.xctest */ = {isa = PBXFileReference; path = DeliTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		Nimble::Nimble::Product /* Nimble.framework */ = {isa = PBXFileReference; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* AutowiredFactory.swift */ = {isa = PBXFileReference; path = AutowiredFactory.swift; sourceTree = "<group>"; };
-		OBJ_100 /* SuiteHooks.swift */ = {isa = PBXFileReference; path = SuiteHooks.swift; sourceTree = "<group>"; };
-		OBJ_101 /* NSBundle+CurrentTestBundle.swift */ = {isa = PBXFileReference; path = "NSBundle+CurrentTestBundle.swift"; sourceTree = "<group>"; };
-		OBJ_102 /* NSString+C99ExtendedIdentifier.swift */ = {isa = PBXFileReference; path = "NSString+C99ExtendedIdentifier.swift"; sourceTree = "<group>"; };
-		OBJ_103 /* QuickMain.swift */ = {isa = PBXFileReference; path = QuickMain.swift; sourceTree = "<group>"; };
-		OBJ_104 /* QuickSelectedTestSuiteBuilder.swift */ = {isa = PBXFileReference; path = QuickSelectedTestSuiteBuilder.swift; sourceTree = "<group>"; };
-		OBJ_105 /* QuickSpec.swift */ = {isa = PBXFileReference; path = QuickSpec.swift; sourceTree = "<group>"; };
-		OBJ_106 /* QuickTestSuite.swift */ = {isa = PBXFileReference; path = QuickTestSuite.swift; sourceTree = "<group>"; };
-		OBJ_107 /* URL+FileName.swift */ = {isa = PBXFileReference; path = "URL+FileName.swift"; sourceTree = "<group>"; };
-		OBJ_108 /* World.swift */ = {isa = PBXFileReference; path = World.swift; sourceTree = "<group>"; };
+		OBJ_100 /* Filter.swift */ = {isa = PBXFileReference; path = Filter.swift; sourceTree = "<group>"; };
+		OBJ_102 /* Closures.swift */ = {isa = PBXFileReference; path = Closures.swift; sourceTree = "<group>"; };
+		OBJ_103 /* ExampleHooks.swift */ = {isa = PBXFileReference; path = ExampleHooks.swift; sourceTree = "<group>"; };
+		OBJ_104 /* HooksPhase.swift */ = {isa = PBXFileReference; path = HooksPhase.swift; sourceTree = "<group>"; };
+		OBJ_105 /* SuiteHooks.swift */ = {isa = PBXFileReference; path = SuiteHooks.swift; sourceTree = "<group>"; };
+		OBJ_106 /* NSBundle+CurrentTestBundle.swift */ = {isa = PBXFileReference; path = "NSBundle+CurrentTestBundle.swift"; sourceTree = "<group>"; };
+		OBJ_107 /* NSString+C99ExtendedIdentifier.swift */ = {isa = PBXFileReference; path = "NSString+C99ExtendedIdentifier.swift"; sourceTree = "<group>"; };
+		OBJ_108 /* QuickMain.swift */ = {isa = PBXFileReference; path = QuickMain.swift; sourceTree = "<group>"; };
+		OBJ_109 /* QuickSelectedTestSuiteBuilder.swift */ = {isa = PBXFileReference; path = QuickSelectedTestSuiteBuilder.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Component.swift */ = {isa = PBXFileReference; path = Component.swift; sourceTree = "<group>"; };
-		OBJ_110 /* QuickSpecBase.m */ = {isa = PBXFileReference; path = QuickSpecBase.m; sourceTree = "<group>"; };
-		OBJ_112 /* QuickSpecBase.h */ = {isa = PBXFileReference; path = QuickSpecBase.h; sourceTree = "<group>"; };
-		OBJ_113 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/kawoou/GitHub/Deli/.build/checkouts/Quick.git--1364353377145539988/Package.swift"; sourceTree = "<group>"; };
-		OBJ_117 /* AdapterProtocols.swift */ = {isa = PBXFileReference; path = AdapterProtocols.swift; sourceTree = "<group>"; };
-		OBJ_118 /* AssertionDispatcher.swift */ = {isa = PBXFileReference; path = AssertionDispatcher.swift; sourceTree = "<group>"; };
-		OBJ_119 /* AssertionRecorder.swift */ = {isa = PBXFileReference; path = AssertionRecorder.swift; sourceTree = "<group>"; };
+		OBJ_110 /* QuickSpec.swift */ = {isa = PBXFileReference; path = QuickSpec.swift; sourceTree = "<group>"; };
+		OBJ_111 /* QuickTestSuite.swift */ = {isa = PBXFileReference; path = QuickTestSuite.swift; sourceTree = "<group>"; };
+		OBJ_112 /* URL+FileName.swift */ = {isa = PBXFileReference; path = "URL+FileName.swift"; sourceTree = "<group>"; };
+		OBJ_113 /* World.swift */ = {isa = PBXFileReference; path = World.swift; sourceTree = "<group>"; };
+		OBJ_115 /* QuickSpecBase.m */ = {isa = PBXFileReference; path = QuickSpecBase.m; sourceTree = "<group>"; };
+		OBJ_117 /* QuickSpecBase.h */ = {isa = PBXFileReference; path = QuickSpecBase.h; sourceTree = "<group>"; };
+		OBJ_118 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/kawoou/GitHub/Deli/.build/checkouts/Quick.git--1364353377145539988/Package.swift"; sourceTree = "<group>"; };
 		OBJ_12 /* Configuration.swift */ = {isa = PBXFileReference; path = Configuration.swift; sourceTree = "<group>"; };
-		OBJ_120 /* NMBExpectation.swift */ = {isa = PBXFileReference; path = NMBExpectation.swift; sourceTree = "<group>"; };
-		OBJ_121 /* NMBObjCMatcher.swift */ = {isa = PBXFileReference; path = NMBObjCMatcher.swift; sourceTree = "<group>"; };
-		OBJ_122 /* NimbleEnvironment.swift */ = {isa = PBXFileReference; path = NimbleEnvironment.swift; sourceTree = "<group>"; };
-		OBJ_123 /* NimbleXCTestHandler.swift */ = {isa = PBXFileReference; path = NimbleXCTestHandler.swift; sourceTree = "<group>"; };
-		OBJ_125 /* ExceptionCapture.swift */ = {isa = PBXFileReference; path = ExceptionCapture.swift; sourceTree = "<group>"; };
-		OBJ_126 /* DSL+Wait.swift */ = {isa = PBXFileReference; path = "DSL+Wait.swift"; sourceTree = "<group>"; };
-		OBJ_127 /* DSL.swift */ = {isa = PBXFileReference; path = DSL.swift; sourceTree = "<group>"; };
-		OBJ_128 /* Expectation.swift */ = {isa = PBXFileReference; path = Expectation.swift; sourceTree = "<group>"; };
-		OBJ_129 /* ExpectationMessage.swift */ = {isa = PBXFileReference; path = ExpectationMessage.swift; sourceTree = "<group>"; };
-		OBJ_130 /* Expression.swift */ = {isa = PBXFileReference; path = Expression.swift; sourceTree = "<group>"; };
-		OBJ_131 /* FailureMessage.swift */ = {isa = PBXFileReference; path = FailureMessage.swift; sourceTree = "<group>"; };
-		OBJ_133 /* AllPass.swift */ = {isa = PBXFileReference; path = AllPass.swift; sourceTree = "<group>"; };
-		OBJ_134 /* Async.swift */ = {isa = PBXFileReference; path = Async.swift; sourceTree = "<group>"; };
-		OBJ_135 /* BeAKindOf.swift */ = {isa = PBXFileReference; path = BeAKindOf.swift; sourceTree = "<group>"; };
-		OBJ_136 /* BeAnInstanceOf.swift */ = {isa = PBXFileReference; path = BeAnInstanceOf.swift; sourceTree = "<group>"; };
-		OBJ_137 /* BeCloseTo.swift */ = {isa = PBXFileReference; path = BeCloseTo.swift; sourceTree = "<group>"; };
-		OBJ_138 /* BeEmpty.swift */ = {isa = PBXFileReference; path = BeEmpty.swift; sourceTree = "<group>"; };
-		OBJ_139 /* BeGreaterThan.swift */ = {isa = PBXFileReference; path = BeGreaterThan.swift; sourceTree = "<group>"; };
+		OBJ_122 /* AdapterProtocols.swift */ = {isa = PBXFileReference; path = AdapterProtocols.swift; sourceTree = "<group>"; };
+		OBJ_123 /* AssertionDispatcher.swift */ = {isa = PBXFileReference; path = AssertionDispatcher.swift; sourceTree = "<group>"; };
+		OBJ_124 /* AssertionRecorder.swift */ = {isa = PBXFileReference; path = AssertionRecorder.swift; sourceTree = "<group>"; };
+		OBJ_125 /* NMBExpectation.swift */ = {isa = PBXFileReference; path = NMBExpectation.swift; sourceTree = "<group>"; };
+		OBJ_126 /* NMBObjCMatcher.swift */ = {isa = PBXFileReference; path = NMBObjCMatcher.swift; sourceTree = "<group>"; };
+		OBJ_127 /* NimbleEnvironment.swift */ = {isa = PBXFileReference; path = NimbleEnvironment.swift; sourceTree = "<group>"; };
+		OBJ_128 /* NimbleXCTestHandler.swift */ = {isa = PBXFileReference; path = NimbleXCTestHandler.swift; sourceTree = "<group>"; };
+		OBJ_130 /* ExceptionCapture.swift */ = {isa = PBXFileReference; path = ExceptionCapture.swift; sourceTree = "<group>"; };
+		OBJ_131 /* DSL+Wait.swift */ = {isa = PBXFileReference; path = "DSL+Wait.swift"; sourceTree = "<group>"; };
+		OBJ_132 /* DSL.swift */ = {isa = PBXFileReference; path = DSL.swift; sourceTree = "<group>"; };
+		OBJ_133 /* Expectation.swift */ = {isa = PBXFileReference; path = Expectation.swift; sourceTree = "<group>"; };
+		OBJ_134 /* ExpectationMessage.swift */ = {isa = PBXFileReference; path = ExpectationMessage.swift; sourceTree = "<group>"; };
+		OBJ_135 /* Expression.swift */ = {isa = PBXFileReference; path = Expression.swift; sourceTree = "<group>"; };
+		OBJ_136 /* FailureMessage.swift */ = {isa = PBXFileReference; path = FailureMessage.swift; sourceTree = "<group>"; };
+		OBJ_138 /* AllPass.swift */ = {isa = PBXFileReference; path = AllPass.swift; sourceTree = "<group>"; };
+		OBJ_139 /* Async.swift */ = {isa = PBXFileReference; path = Async.swift; sourceTree = "<group>"; };
 		OBJ_14 /* AppContext.swift */ = {isa = PBXFileReference; path = AppContext.swift; sourceTree = "<group>"; };
-		OBJ_140 /* BeGreaterThanOrEqualTo.swift */ = {isa = PBXFileReference; path = BeGreaterThanOrEqualTo.swift; sourceTree = "<group>"; };
-		OBJ_141 /* BeIdenticalTo.swift */ = {isa = PBXFileReference; path = BeIdenticalTo.swift; sourceTree = "<group>"; };
-		OBJ_142 /* BeLessThan.swift */ = {isa = PBXFileReference; path = BeLessThan.swift; sourceTree = "<group>"; };
-		OBJ_143 /* BeLessThanOrEqual.swift */ = {isa = PBXFileReference; path = BeLessThanOrEqual.swift; sourceTree = "<group>"; };
-		OBJ_144 /* BeLogical.swift */ = {isa = PBXFileReference; path = BeLogical.swift; sourceTree = "<group>"; };
-		OBJ_145 /* BeNil.swift */ = {isa = PBXFileReference; path = BeNil.swift; sourceTree = "<group>"; };
-		OBJ_146 /* BeVoid.swift */ = {isa = PBXFileReference; path = BeVoid.swift; sourceTree = "<group>"; };
-		OBJ_147 /* BeginWith.swift */ = {isa = PBXFileReference; path = BeginWith.swift; sourceTree = "<group>"; };
-		OBJ_148 /* Contain.swift */ = {isa = PBXFileReference; path = Contain.swift; sourceTree = "<group>"; };
-		OBJ_149 /* ContainElementSatisfying.swift */ = {isa = PBXFileReference; path = ContainElementSatisfying.swift; sourceTree = "<group>"; };
-		OBJ_150 /* EndWith.swift */ = {isa = PBXFileReference; path = EndWith.swift; sourceTree = "<group>"; };
-		OBJ_151 /* Equal.swift */ = {isa = PBXFileReference; path = Equal.swift; sourceTree = "<group>"; };
-		OBJ_152 /* HaveCount.swift */ = {isa = PBXFileReference; path = HaveCount.swift; sourceTree = "<group>"; };
-		OBJ_153 /* Match.swift */ = {isa = PBXFileReference; path = Match.swift; sourceTree = "<group>"; };
-		OBJ_154 /* MatchError.swift */ = {isa = PBXFileReference; path = MatchError.swift; sourceTree = "<group>"; };
-		OBJ_155 /* MatcherFunc.swift */ = {isa = PBXFileReference; path = MatcherFunc.swift; sourceTree = "<group>"; };
-		OBJ_156 /* MatcherProtocols.swift */ = {isa = PBXFileReference; path = MatcherProtocols.swift; sourceTree = "<group>"; };
-		OBJ_157 /* PostNotification.swift */ = {isa = PBXFileReference; path = PostNotification.swift; sourceTree = "<group>"; };
-		OBJ_158 /* Predicate.swift */ = {isa = PBXFileReference; path = Predicate.swift; sourceTree = "<group>"; };
-		OBJ_159 /* RaisesException.swift */ = {isa = PBXFileReference; path = RaisesException.swift; sourceTree = "<group>"; };
+		OBJ_140 /* BeAKindOf.swift */ = {isa = PBXFileReference; path = BeAKindOf.swift; sourceTree = "<group>"; };
+		OBJ_141 /* BeAnInstanceOf.swift */ = {isa = PBXFileReference; path = BeAnInstanceOf.swift; sourceTree = "<group>"; };
+		OBJ_142 /* BeCloseTo.swift */ = {isa = PBXFileReference; path = BeCloseTo.swift; sourceTree = "<group>"; };
+		OBJ_143 /* BeEmpty.swift */ = {isa = PBXFileReference; path = BeEmpty.swift; sourceTree = "<group>"; };
+		OBJ_144 /* BeGreaterThan.swift */ = {isa = PBXFileReference; path = BeGreaterThan.swift; sourceTree = "<group>"; };
+		OBJ_145 /* BeGreaterThanOrEqualTo.swift */ = {isa = PBXFileReference; path = BeGreaterThanOrEqualTo.swift; sourceTree = "<group>"; };
+		OBJ_146 /* BeIdenticalTo.swift */ = {isa = PBXFileReference; path = BeIdenticalTo.swift; sourceTree = "<group>"; };
+		OBJ_147 /* BeLessThan.swift */ = {isa = PBXFileReference; path = BeLessThan.swift; sourceTree = "<group>"; };
+		OBJ_148 /* BeLessThanOrEqual.swift */ = {isa = PBXFileReference; path = BeLessThanOrEqual.swift; sourceTree = "<group>"; };
+		OBJ_149 /* BeLogical.swift */ = {isa = PBXFileReference; path = BeLogical.swift; sourceTree = "<group>"; };
+		OBJ_150 /* BeNil.swift */ = {isa = PBXFileReference; path = BeNil.swift; sourceTree = "<group>"; };
+		OBJ_151 /* BeVoid.swift */ = {isa = PBXFileReference; path = BeVoid.swift; sourceTree = "<group>"; };
+		OBJ_152 /* BeginWith.swift */ = {isa = PBXFileReference; path = BeginWith.swift; sourceTree = "<group>"; };
+		OBJ_153 /* Contain.swift */ = {isa = PBXFileReference; path = Contain.swift; sourceTree = "<group>"; };
+		OBJ_154 /* ContainElementSatisfying.swift */ = {isa = PBXFileReference; path = ContainElementSatisfying.swift; sourceTree = "<group>"; };
+		OBJ_155 /* EndWith.swift */ = {isa = PBXFileReference; path = EndWith.swift; sourceTree = "<group>"; };
+		OBJ_156 /* Equal.swift */ = {isa = PBXFileReference; path = Equal.swift; sourceTree = "<group>"; };
+		OBJ_157 /* HaveCount.swift */ = {isa = PBXFileReference; path = HaveCount.swift; sourceTree = "<group>"; };
+		OBJ_158 /* Match.swift */ = {isa = PBXFileReference; path = Match.swift; sourceTree = "<group>"; };
+		OBJ_159 /* MatchError.swift */ = {isa = PBXFileReference; path = MatchError.swift; sourceTree = "<group>"; };
 		OBJ_16 /* ContainerComponent.swift */ = {isa = PBXFileReference; path = ContainerComponent.swift; sourceTree = "<group>"; };
-		OBJ_160 /* SatisfyAllOf.swift */ = {isa = PBXFileReference; path = SatisfyAllOf.swift; sourceTree = "<group>"; };
-		OBJ_161 /* SatisfyAnyOf.swift */ = {isa = PBXFileReference; path = SatisfyAnyOf.swift; sourceTree = "<group>"; };
-		OBJ_162 /* ThrowAssertion.swift */ = {isa = PBXFileReference; path = ThrowAssertion.swift; sourceTree = "<group>"; };
-		OBJ_163 /* ThrowError.swift */ = {isa = PBXFileReference; path = ThrowError.swift; sourceTree = "<group>"; };
-		OBJ_164 /* ToSucceed.swift */ = {isa = PBXFileReference; path = ToSucceed.swift; sourceTree = "<group>"; };
-		OBJ_166 /* Await.swift */ = {isa = PBXFileReference; path = Await.swift; sourceTree = "<group>"; };
-		OBJ_167 /* Errors.swift */ = {isa = PBXFileReference; path = Errors.swift; sourceTree = "<group>"; };
-		OBJ_168 /* Functional.swift */ = {isa = PBXFileReference; path = Functional.swift; sourceTree = "<group>"; };
-		OBJ_169 /* SourceLocation.swift */ = {isa = PBXFileReference; path = SourceLocation.swift; sourceTree = "<group>"; };
+		OBJ_160 /* MatcherFunc.swift */ = {isa = PBXFileReference; path = MatcherFunc.swift; sourceTree = "<group>"; };
+		OBJ_161 /* MatcherProtocols.swift */ = {isa = PBXFileReference; path = MatcherProtocols.swift; sourceTree = "<group>"; };
+		OBJ_162 /* PostNotification.swift */ = {isa = PBXFileReference; path = PostNotification.swift; sourceTree = "<group>"; };
+		OBJ_163 /* Predicate.swift */ = {isa = PBXFileReference; path = Predicate.swift; sourceTree = "<group>"; };
+		OBJ_164 /* RaisesException.swift */ = {isa = PBXFileReference; path = RaisesException.swift; sourceTree = "<group>"; };
+		OBJ_165 /* SatisfyAllOf.swift */ = {isa = PBXFileReference; path = SatisfyAllOf.swift; sourceTree = "<group>"; };
+		OBJ_166 /* SatisfyAnyOf.swift */ = {isa = PBXFileReference; path = SatisfyAnyOf.swift; sourceTree = "<group>"; };
+		OBJ_167 /* ThrowAssertion.swift */ = {isa = PBXFileReference; path = ThrowAssertion.swift; sourceTree = "<group>"; };
+		OBJ_168 /* ThrowError.swift */ = {isa = PBXFileReference; path = ThrowError.swift; sourceTree = "<group>"; };
+		OBJ_169 /* ToSucceed.swift */ = {isa = PBXFileReference; path = ToSucceed.swift; sourceTree = "<group>"; };
 		OBJ_17 /* DefaultContainerComponent.swift */ = {isa = PBXFileReference; path = DefaultContainerComponent.swift; sourceTree = "<group>"; };
-		OBJ_170 /* Stringers.swift */ = {isa = PBXFileReference; path = Stringers.swift; sourceTree = "<group>"; };
-		OBJ_171 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/kawoou/GitHub/Deli/.build/checkouts/Nimble.git-3003981226173163515/Package.swift"; sourceTree = "<group>"; };
+		OBJ_171 /* Await.swift */ = {isa = PBXFileReference; path = Await.swift; sourceTree = "<group>"; };
+		OBJ_172 /* Errors.swift */ = {isa = PBXFileReference; path = Errors.swift; sourceTree = "<group>"; };
+		OBJ_173 /* Functional.swift */ = {isa = PBXFileReference; path = Functional.swift; sourceTree = "<group>"; };
+		OBJ_174 /* SourceLocation.swift */ = {isa = PBXFileReference; path = SourceLocation.swift; sourceTree = "<group>"; };
+		OBJ_175 /* Stringers.swift */ = {isa = PBXFileReference; path = Stringers.swift; sourceTree = "<group>"; };
+		OBJ_176 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/kawoou/GitHub/Deli/.build/checkouts/Nimble.git-3003981226173163515/Package.swift"; sourceTree = "<group>"; };
 		OBJ_18 /* FactoryContainerComponent.swift */ = {isa = PBXFileReference; path = FactoryContainerComponent.swift; sourceTree = "<group>"; };
 		OBJ_19 /* Container.swift */ = {isa = PBXFileReference; path = Container.swift; sourceTree = "<group>"; };
 		OBJ_21 /* ContainerError.swift */ = {isa = PBXFileReference; path = ContainerError.swift; sourceTree = "<group>"; };
@@ -278,68 +286,68 @@
 		OBJ_60 /* RobotBody.swift */ = {isa = PBXFileReference; path = RobotBody.swift; sourceTree = "<group>"; };
 		OBJ_61 /* RobotFactory.swift */ = {isa = PBXFileReference; path = RobotFactory.swift; sourceTree = "<group>"; };
 		OBJ_62 /* RobotHead.swift */ = {isa = PBXFileReference; path = RobotHead.swift; sourceTree = "<group>"; };
-		OBJ_63 /* TestPayload.swift */ = {isa = PBXFileReference; path = TestPayload.swift; sourceTree = "<group>"; };
-		OBJ_64 /* TestService.swift */ = {isa = PBXFileReference; path = TestService.swift; sourceTree = "<group>"; };
-		OBJ_65 /* TestView1.swift */ = {isa = PBXFileReference; path = TestView1.swift; sourceTree = "<group>"; };
-		OBJ_66 /* TestView2.swift */ = {isa = PBXFileReference; path = TestView2.swift; sourceTree = "<group>"; };
-		OBJ_67 /* TestView3.swift */ = {isa = PBXFileReference; path = TestView3.swift; sourceTree = "<group>"; };
-		OBJ_68 /* TestViewModel.swift */ = {isa = PBXFileReference; path = TestViewModel.swift; sourceTree = "<group>"; };
-		OBJ_69 /* UnicodeTest.swift */ = {isa = PBXFileReference; path = UnicodeTest.swift; sourceTree = "<group>"; };
-		OBJ_70 /* UserPayload.swift */ = {isa = PBXFileReference; path = UserPayload.swift; sourceTree = "<group>"; };
-		OBJ_71 /* UserViewModel.swift */ = {isa = PBXFileReference; path = UserViewModel.swift; sourceTree = "<group>"; };
-		OBJ_72 /* WeakViewModel.swift */ = {isa = PBXFileReference; path = WeakViewModel.swift; sourceTree = "<group>"; };
-		OBJ_73 /* DeliSpec.swift */ = {isa = PBXFileReference; path = DeliSpec.swift; sourceTree = "<group>"; };
-		OBJ_75 /* MockAccountService.swift */ = {isa = PBXFileReference; path = MockAccountService.swift; sourceTree = "<group>"; };
-		OBJ_76 /* MockBook.swift */ = {isa = PBXFileReference; path = MockBook.swift; sourceTree = "<group>"; };
-		OBJ_77 /* Supports */ = {isa = PBXFileReference; path = Supports; sourceTree = SOURCE_ROOT; };
-		OBJ_78 /* Examples */ = {isa = PBXFileReference; path = Examples; sourceTree = SOURCE_ROOT; };
-		OBJ_79 /* Binary */ = {isa = PBXFileReference; path = Binary; sourceTree = SOURCE_ROOT; };
-		OBJ_83 /* Behavior.swift */ = {isa = PBXFileReference; path = Behavior.swift; sourceTree = "<group>"; };
-		OBJ_84 /* Callsite.swift */ = {isa = PBXFileReference; path = Callsite.swift; sourceTree = "<group>"; };
-		OBJ_86 /* Configuration.swift */ = {isa = PBXFileReference; path = Configuration.swift; sourceTree = "<group>"; };
-		OBJ_87 /* QuickConfiguration.swift */ = {isa = PBXFileReference; path = QuickConfiguration.swift; sourceTree = "<group>"; };
-		OBJ_89 /* DSL.swift */ = {isa = PBXFileReference; path = DSL.swift; sourceTree = "<group>"; };
+		OBJ_64 /* StructWithAutowired.swift */ = {isa = PBXFileReference; path = StructWithAutowired.swift; sourceTree = "<group>"; };
+		OBJ_65 /* StructWithAutowiredFactory.swift */ = {isa = PBXFileReference; path = StructWithAutowiredFactory.swift; sourceTree = "<group>"; };
+		OBJ_66 /* StructWithComponent.swift */ = {isa = PBXFileReference; path = StructWithComponent.swift; sourceTree = "<group>"; };
+		OBJ_67 /* StructWithLazyAutowired.swift */ = {isa = PBXFileReference; path = StructWithLazyAutowired.swift; sourceTree = "<group>"; };
+		OBJ_68 /* TestPayload.swift */ = {isa = PBXFileReference; path = TestPayload.swift; sourceTree = "<group>"; };
+		OBJ_69 /* TestService.swift */ = {isa = PBXFileReference; path = TestService.swift; sourceTree = "<group>"; };
+		OBJ_70 /* TestView1.swift */ = {isa = PBXFileReference; path = TestView1.swift; sourceTree = "<group>"; };
+		OBJ_71 /* TestView2.swift */ = {isa = PBXFileReference; path = TestView2.swift; sourceTree = "<group>"; };
+		OBJ_72 /* TestView3.swift */ = {isa = PBXFileReference; path = TestView3.swift; sourceTree = "<group>"; };
+		OBJ_73 /* TestViewModel.swift */ = {isa = PBXFileReference; path = TestViewModel.swift; sourceTree = "<group>"; };
+		OBJ_74 /* UnicodeTest.swift */ = {isa = PBXFileReference; path = UnicodeTest.swift; sourceTree = "<group>"; };
+		OBJ_75 /* UserPayload.swift */ = {isa = PBXFileReference; path = UserPayload.swift; sourceTree = "<group>"; };
+		OBJ_76 /* UserViewModel.swift */ = {isa = PBXFileReference; path = UserViewModel.swift; sourceTree = "<group>"; };
+		OBJ_77 /* WeakViewModel.swift */ = {isa = PBXFileReference; path = WeakViewModel.swift; sourceTree = "<group>"; };
+		OBJ_78 /* DeliSpec.swift */ = {isa = PBXFileReference; path = DeliSpec.swift; sourceTree = "<group>"; };
+		OBJ_80 /* MockAccountService.swift */ = {isa = PBXFileReference; path = MockAccountService.swift; sourceTree = "<group>"; };
+		OBJ_81 /* MockBook.swift */ = {isa = PBXFileReference; path = MockBook.swift; sourceTree = "<group>"; };
+		OBJ_82 /* Supports */ = {isa = PBXFileReference; path = Supports; sourceTree = SOURCE_ROOT; };
+		OBJ_83 /* Examples */ = {isa = PBXFileReference; path = Examples; sourceTree = SOURCE_ROOT; };
+		OBJ_84 /* Binary */ = {isa = PBXFileReference; path = Binary; sourceTree = SOURCE_ROOT; };
+		OBJ_88 /* Behavior.swift */ = {isa = PBXFileReference; path = Behavior.swift; sourceTree = "<group>"; };
+		OBJ_89 /* Callsite.swift */ = {isa = PBXFileReference; path = Callsite.swift; sourceTree = "<group>"; };
 		OBJ_9 /* Autowired.swift */ = {isa = PBXFileReference; path = Autowired.swift; sourceTree = "<group>"; };
-		OBJ_90 /* World+DSL.swift */ = {isa = PBXFileReference; path = "World+DSL.swift"; sourceTree = "<group>"; };
-		OBJ_91 /* ErrorUtility.swift */ = {isa = PBXFileReference; path = ErrorUtility.swift; sourceTree = "<group>"; };
-		OBJ_92 /* Example.swift */ = {isa = PBXFileReference; path = Example.swift; sourceTree = "<group>"; };
-		OBJ_93 /* ExampleGroup.swift */ = {isa = PBXFileReference; path = ExampleGroup.swift; sourceTree = "<group>"; };
-		OBJ_94 /* ExampleMetadata.swift */ = {isa = PBXFileReference; path = ExampleMetadata.swift; sourceTree = "<group>"; };
-		OBJ_95 /* Filter.swift */ = {isa = PBXFileReference; path = Filter.swift; sourceTree = "<group>"; };
-		OBJ_97 /* Closures.swift */ = {isa = PBXFileReference; path = Closures.swift; sourceTree = "<group>"; };
-		OBJ_98 /* ExampleHooks.swift */ = {isa = PBXFileReference; path = ExampleHooks.swift; sourceTree = "<group>"; };
-		OBJ_99 /* HooksPhase.swift */ = {isa = PBXFileReference; path = HooksPhase.swift; sourceTree = "<group>"; };
+		OBJ_91 /* Configuration.swift */ = {isa = PBXFileReference; path = Configuration.swift; sourceTree = "<group>"; };
+		OBJ_92 /* QuickConfiguration.swift */ = {isa = PBXFileReference; path = QuickConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_94 /* DSL.swift */ = {isa = PBXFileReference; path = DSL.swift; sourceTree = "<group>"; };
+		OBJ_95 /* World+DSL.swift */ = {isa = PBXFileReference; path = "World+DSL.swift"; sourceTree = "<group>"; };
+		OBJ_96 /* ErrorUtility.swift */ = {isa = PBXFileReference; path = ErrorUtility.swift; sourceTree = "<group>"; };
+		OBJ_97 /* Example.swift */ = {isa = PBXFileReference; path = Example.swift; sourceTree = "<group>"; };
+		OBJ_98 /* ExampleGroup.swift */ = {isa = PBXFileReference; path = ExampleGroup.swift; sourceTree = "<group>"; };
+		OBJ_99 /* ExampleMetadata.swift */ = {isa = PBXFileReference; path = ExampleMetadata.swift; sourceTree = "<group>"; };
 		Quick::Quick::Product /* Quick.framework */ = {isa = PBXFileReference; path = Quick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		Quick::QuickSpecBase::Product /* QuickSpecBase.framework */ = {isa = PBXFileReference; path = QuickSpecBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_206 /* Frameworks */ = {
+		OBJ_211 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
 		};
-		OBJ_258 /* Frameworks */ = {
+		OBJ_267 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				OBJ_259 /* Nimble.framework in Frameworks */,
-				OBJ_260 /* Quick.framework in Frameworks */,
-				OBJ_261 /* QuickSpecBase.framework in Frameworks */,
-				OBJ_262 /* Deli.framework in Frameworks */,
+				OBJ_268 /* Nimble.framework in Frameworks */,
+				OBJ_269 /* Quick.framework in Frameworks */,
+				OBJ_270 /* QuickSpecBase.framework in Frameworks */,
+				OBJ_271 /* Deli.framework in Frameworks */,
 			);
 		};
-		OBJ_325 /* Frameworks */ = {
+		OBJ_334 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
 		};
-		OBJ_359 /* Frameworks */ = {
+		OBJ_368 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				OBJ_360 /* QuickSpecBase.framework in Frameworks */,
+				OBJ_369 /* QuickSpecBase.framework in Frameworks */,
 			);
 		};
-		OBJ_375 /* Frameworks */ = {
+		OBJ_384 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
@@ -347,72 +355,84 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		OBJ_109 /* QuickSpecBase */ = {
+		OBJ_101 /* Hooks */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_110 /* QuickSpecBase.m */,
-				OBJ_111 /* include */,
+				OBJ_102 /* Closures.swift */,
+				OBJ_103 /* ExampleHooks.swift */,
+				OBJ_104 /* HooksPhase.swift */,
+				OBJ_105 /* SuiteHooks.swift */,
+			);
+			name = Hooks;
+			path = Hooks;
+			sourceTree = "<group>";
+		};
+		OBJ_114 /* QuickSpecBase */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_115 /* QuickSpecBase.m */,
+				OBJ_116 /* include */,
 			);
 			name = QuickSpecBase;
 			path = ".build/checkouts/Quick.git--1364353377145539988/Sources/QuickSpecBase";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_111 /* include */ = {
+		OBJ_116 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_112 /* QuickSpecBase.h */,
+				OBJ_117 /* QuickSpecBase.h */,
 			);
 			name = include;
 			path = include;
 			sourceTree = "<group>";
 		};
-		OBJ_114 /* Nimble 7.3.1 */ = {
+		OBJ_119 /* Nimble 7.3.1 */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_115 /* Nimble */,
-				OBJ_171 /* Package.swift */,
+				OBJ_120 /* Nimble */,
+				OBJ_176 /* Package.swift */,
 			);
 			name = "Nimble 7.3.1";
 			path = "";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_115 /* Nimble */ = {
+		OBJ_120 /* Nimble */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_116 /* Adapters */,
-				OBJ_126 /* DSL+Wait.swift */,
-				OBJ_127 /* DSL.swift */,
-				OBJ_128 /* Expectation.swift */,
-				OBJ_129 /* ExpectationMessage.swift */,
-				OBJ_130 /* Expression.swift */,
-				OBJ_131 /* FailureMessage.swift */,
-				OBJ_132 /* Matchers */,
-				OBJ_165 /* Utils */,
+				OBJ_121 /* Adapters */,
+				OBJ_131 /* DSL+Wait.swift */,
+				OBJ_132 /* DSL.swift */,
+				OBJ_133 /* Expectation.swift */,
+				OBJ_134 /* ExpectationMessage.swift */,
+				OBJ_135 /* Expression.swift */,
+				OBJ_136 /* FailureMessage.swift */,
+				OBJ_137 /* Matchers */,
+				OBJ_170 /* Utils */,
 			);
 			name = Nimble;
 			path = ".build/checkouts/Nimble.git-3003981226173163515/Sources/Nimble";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_116 /* Adapters */ = {
+		OBJ_121 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_117 /* AdapterProtocols.swift */,
-				OBJ_118 /* AssertionDispatcher.swift */,
-				OBJ_119 /* AssertionRecorder.swift */,
-				OBJ_120 /* NMBExpectation.swift */,
-				OBJ_121 /* NMBObjCMatcher.swift */,
-				OBJ_122 /* NimbleEnvironment.swift */,
-				OBJ_123 /* NimbleXCTestHandler.swift */,
-				OBJ_124 /* NonObjectiveC */,
+				OBJ_122 /* AdapterProtocols.swift */,
+				OBJ_123 /* AssertionDispatcher.swift */,
+				OBJ_124 /* AssertionRecorder.swift */,
+				OBJ_125 /* NMBExpectation.swift */,
+				OBJ_126 /* NMBObjCMatcher.swift */,
+				OBJ_127 /* NimbleEnvironment.swift */,
+				OBJ_128 /* NimbleXCTestHandler.swift */,
+				OBJ_129 /* NonObjectiveC */,
 			);
 			name = Adapters;
 			path = Adapters;
 			sourceTree = "<group>";
 		};
-		OBJ_124 /* NonObjectiveC */ = {
+		OBJ_129 /* NonObjectiveC */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_125 /* ExceptionCapture.swift */,
+				OBJ_130 /* ExceptionCapture.swift */,
 			);
 			name = NonObjectiveC;
 			path = NonObjectiveC;
@@ -431,41 +451,41 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		OBJ_132 /* Matchers */ = {
+		OBJ_137 /* Matchers */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_133 /* AllPass.swift */,
-				OBJ_134 /* Async.swift */,
-				OBJ_135 /* BeAKindOf.swift */,
-				OBJ_136 /* BeAnInstanceOf.swift */,
-				OBJ_137 /* BeCloseTo.swift */,
-				OBJ_138 /* BeEmpty.swift */,
-				OBJ_139 /* BeGreaterThan.swift */,
-				OBJ_140 /* BeGreaterThanOrEqualTo.swift */,
-				OBJ_141 /* BeIdenticalTo.swift */,
-				OBJ_142 /* BeLessThan.swift */,
-				OBJ_143 /* BeLessThanOrEqual.swift */,
-				OBJ_144 /* BeLogical.swift */,
-				OBJ_145 /* BeNil.swift */,
-				OBJ_146 /* BeVoid.swift */,
-				OBJ_147 /* BeginWith.swift */,
-				OBJ_148 /* Contain.swift */,
-				OBJ_149 /* ContainElementSatisfying.swift */,
-				OBJ_150 /* EndWith.swift */,
-				OBJ_151 /* Equal.swift */,
-				OBJ_152 /* HaveCount.swift */,
-				OBJ_153 /* Match.swift */,
-				OBJ_154 /* MatchError.swift */,
-				OBJ_155 /* MatcherFunc.swift */,
-				OBJ_156 /* MatcherProtocols.swift */,
-				OBJ_157 /* PostNotification.swift */,
-				OBJ_158 /* Predicate.swift */,
-				OBJ_159 /* RaisesException.swift */,
-				OBJ_160 /* SatisfyAllOf.swift */,
-				OBJ_161 /* SatisfyAnyOf.swift */,
-				OBJ_162 /* ThrowAssertion.swift */,
-				OBJ_163 /* ThrowError.swift */,
-				OBJ_164 /* ToSucceed.swift */,
+				OBJ_138 /* AllPass.swift */,
+				OBJ_139 /* Async.swift */,
+				OBJ_140 /* BeAKindOf.swift */,
+				OBJ_141 /* BeAnInstanceOf.swift */,
+				OBJ_142 /* BeCloseTo.swift */,
+				OBJ_143 /* BeEmpty.swift */,
+				OBJ_144 /* BeGreaterThan.swift */,
+				OBJ_145 /* BeGreaterThanOrEqualTo.swift */,
+				OBJ_146 /* BeIdenticalTo.swift */,
+				OBJ_147 /* BeLessThan.swift */,
+				OBJ_148 /* BeLessThanOrEqual.swift */,
+				OBJ_149 /* BeLogical.swift */,
+				OBJ_150 /* BeNil.swift */,
+				OBJ_151 /* BeVoid.swift */,
+				OBJ_152 /* BeginWith.swift */,
+				OBJ_153 /* Contain.swift */,
+				OBJ_154 /* ContainElementSatisfying.swift */,
+				OBJ_155 /* EndWith.swift */,
+				OBJ_156 /* Equal.swift */,
+				OBJ_157 /* HaveCount.swift */,
+				OBJ_158 /* Match.swift */,
+				OBJ_159 /* MatchError.swift */,
+				OBJ_160 /* MatcherFunc.swift */,
+				OBJ_161 /* MatcherProtocols.swift */,
+				OBJ_162 /* PostNotification.swift */,
+				OBJ_163 /* Predicate.swift */,
+				OBJ_164 /* RaisesException.swift */,
+				OBJ_165 /* SatisfyAllOf.swift */,
+				OBJ_166 /* SatisfyAnyOf.swift */,
+				OBJ_167 /* ThrowAssertion.swift */,
+				OBJ_168 /* ThrowError.swift */,
+				OBJ_169 /* ToSucceed.swift */,
 			);
 			name = Matchers;
 			path = Matchers;
@@ -482,26 +502,26 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
-		OBJ_165 /* Utils */ = {
+		OBJ_170 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_166 /* Await.swift */,
-				OBJ_167 /* Errors.swift */,
-				OBJ_168 /* Functional.swift */,
-				OBJ_169 /* SourceLocation.swift */,
-				OBJ_170 /* Stringers.swift */,
+				OBJ_171 /* Await.swift */,
+				OBJ_172 /* Errors.swift */,
+				OBJ_173 /* Functional.swift */,
+				OBJ_174 /* SourceLocation.swift */,
+				OBJ_175 /* Stringers.swift */,
 			);
 			name = Utils;
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		OBJ_172 /* Products */ = {
+		OBJ_177 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				Nimble::Nimble::Product /* Nimble.framework */,
+				Deli::DeliTests::Product /* DeliTests.xctest */,
 				Quick::QuickSpecBase::Product /* QuickSpecBase.framework */,
 				Deli::Deli::Product /* Deli.framework */,
-				Deli::DeliTests::Product /* DeliTests.xctest */,
+				Nimble::Nimble::Product /* Nimble.framework */,
 				Quick::Quick::Product /* Quick.framework */,
 			);
 			name = Products;
@@ -545,8 +565,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_38 /* DeliSample */,
-				OBJ_73 /* DeliSpec.swift */,
-				OBJ_74 /* Mock */,
+				OBJ_78 /* DeliSpec.swift */,
+				OBJ_79 /* Mock */,
 			);
 			name = DeliTests;
 			path = Tests/DeliTests;
@@ -569,16 +589,17 @@
 				OBJ_56 /* MessageService.swift */,
 				OBJ_57 /* NetworkManager.swift */,
 				OBJ_58 /* Robot */,
-				OBJ_63 /* TestPayload.swift */,
-				OBJ_64 /* TestService.swift */,
-				OBJ_65 /* TestView1.swift */,
-				OBJ_66 /* TestView2.swift */,
-				OBJ_67 /* TestView3.swift */,
-				OBJ_68 /* TestViewModel.swift */,
-				OBJ_69 /* UnicodeTest.swift */,
-				OBJ_70 /* UserPayload.swift */,
-				OBJ_71 /* UserViewModel.swift */,
-				OBJ_72 /* WeakViewModel.swift */,
+				OBJ_63 /* Struct */,
+				OBJ_68 /* TestPayload.swift */,
+				OBJ_69 /* TestService.swift */,
+				OBJ_70 /* TestView1.swift */,
+				OBJ_71 /* TestView2.swift */,
+				OBJ_72 /* TestView3.swift */,
+				OBJ_73 /* TestViewModel.swift */,
+				OBJ_74 /* UnicodeTest.swift */,
+				OBJ_75 /* UserPayload.swift */,
+				OBJ_76 /* UserViewModel.swift */,
+				OBJ_77 /* WeakViewModel.swift */,
 			);
 			name = DeliSample;
 			path = DeliSample;
@@ -604,11 +625,11 @@
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_36 /* Tests */,
-				OBJ_77 /* Supports */,
-				OBJ_78 /* Examples */,
-				OBJ_79 /* Binary */,
-				OBJ_80 /* Dependencies */,
-				OBJ_172 /* Products */,
+				OBJ_82 /* Supports */,
+				OBJ_83 /* Examples */,
+				OBJ_84 /* Binary */,
+				OBJ_85 /* Dependencies */,
+				OBJ_177 /* Products */,
 			);
 			path = "";
 			sourceTree = "<group>";
@@ -625,6 +646,18 @@
 			path = Robot;
 			sourceTree = "<group>";
 		};
+		OBJ_63 /* Struct */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_64 /* StructWithAutowired.swift */,
+				OBJ_65 /* StructWithAutowiredFactory.swift */,
+				OBJ_66 /* StructWithComponent.swift */,
+				OBJ_67 /* StructWithLazyAutowired.swift */,
+			);
+			name = Struct;
+			path = Struct;
+			sourceTree = "<group>";
+		};
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -634,11 +667,11 @@
 			path = "";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_74 /* Mock */ = {
+		OBJ_79 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_75 /* MockAccountService.swift */,
-				OBJ_76 /* MockBook.swift */,
+				OBJ_80 /* MockAccountService.swift */,
+				OBJ_81 /* MockBook.swift */,
 			);
 			name = Mock;
 			path = Mock;
@@ -663,92 +696,80 @@
 			path = Sources/Deli;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_80 /* Dependencies */ = {
+		OBJ_85 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_81 /* Quick 1.3.2 */,
-				OBJ_114 /* Nimble 7.3.1 */,
+				OBJ_86 /* Quick 1.3.2 */,
+				OBJ_119 /* Nimble 7.3.1 */,
 			);
 			name = Dependencies;
 			path = "";
 			sourceTree = "<group>";
 		};
-		OBJ_81 /* Quick 1.3.2 */ = {
+		OBJ_86 /* Quick 1.3.2 */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_82 /* Quick */,
-				OBJ_109 /* QuickSpecBase */,
-				OBJ_113 /* Package.swift */,
+				OBJ_87 /* Quick */,
+				OBJ_114 /* QuickSpecBase */,
+				OBJ_118 /* Package.swift */,
 			);
 			name = "Quick 1.3.2";
 			path = "";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_82 /* Quick */ = {
+		OBJ_87 /* Quick */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_83 /* Behavior.swift */,
-				OBJ_84 /* Callsite.swift */,
-				OBJ_85 /* Configuration */,
-				OBJ_88 /* DSL */,
-				OBJ_91 /* ErrorUtility.swift */,
-				OBJ_92 /* Example.swift */,
-				OBJ_93 /* ExampleGroup.swift */,
-				OBJ_94 /* ExampleMetadata.swift */,
-				OBJ_95 /* Filter.swift */,
-				OBJ_96 /* Hooks */,
-				OBJ_101 /* NSBundle+CurrentTestBundle.swift */,
-				OBJ_102 /* NSString+C99ExtendedIdentifier.swift */,
-				OBJ_103 /* QuickMain.swift */,
-				OBJ_104 /* QuickSelectedTestSuiteBuilder.swift */,
-				OBJ_105 /* QuickSpec.swift */,
-				OBJ_106 /* QuickTestSuite.swift */,
-				OBJ_107 /* URL+FileName.swift */,
-				OBJ_108 /* World.swift */,
+				OBJ_88 /* Behavior.swift */,
+				OBJ_89 /* Callsite.swift */,
+				OBJ_90 /* Configuration */,
+				OBJ_93 /* DSL */,
+				OBJ_96 /* ErrorUtility.swift */,
+				OBJ_97 /* Example.swift */,
+				OBJ_98 /* ExampleGroup.swift */,
+				OBJ_99 /* ExampleMetadata.swift */,
+				OBJ_100 /* Filter.swift */,
+				OBJ_101 /* Hooks */,
+				OBJ_106 /* NSBundle+CurrentTestBundle.swift */,
+				OBJ_107 /* NSString+C99ExtendedIdentifier.swift */,
+				OBJ_108 /* QuickMain.swift */,
+				OBJ_109 /* QuickSelectedTestSuiteBuilder.swift */,
+				OBJ_110 /* QuickSpec.swift */,
+				OBJ_111 /* QuickTestSuite.swift */,
+				OBJ_112 /* URL+FileName.swift */,
+				OBJ_113 /* World.swift */,
 			);
 			name = Quick;
 			path = ".build/checkouts/Quick.git--1364353377145539988/Sources/Quick";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_85 /* Configuration */ = {
+		OBJ_90 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_86 /* Configuration.swift */,
-				OBJ_87 /* QuickConfiguration.swift */,
+				OBJ_91 /* Configuration.swift */,
+				OBJ_92 /* QuickConfiguration.swift */,
 			);
 			name = Configuration;
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		OBJ_88 /* DSL */ = {
+		OBJ_93 /* DSL */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_89 /* DSL.swift */,
-				OBJ_90 /* World+DSL.swift */,
+				OBJ_94 /* DSL.swift */,
+				OBJ_95 /* World+DSL.swift */,
 			);
 			name = DSL;
 			path = DSL;
 			sourceTree = "<group>";
 		};
-		OBJ_96 /* Hooks */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_97 /* Closures.swift */,
-				OBJ_98 /* ExampleHooks.swift */,
-				OBJ_99 /* HooksPhase.swift */,
-				OBJ_100 /* SuiteHooks.swift */,
-			);
-			name = Hooks;
-			path = Hooks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		OBJ_373 /* Headers */ = {
+		OBJ_382 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			files = (
-				OBJ_374 /* QuickSpecBase.h in Headers */,
+				OBJ_383 /* QuickSpecBase.h in Headers */,
 			);
 		};
 /* End PBXHeadersBuildPhase section */
@@ -756,10 +777,10 @@
 /* Begin PBXNativeTarget section */
 		Deli::Deli /* Deli */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_179 /* Build configuration list for PBXNativeTarget "Deli" */;
+			buildConfigurationList = OBJ_184 /* Build configuration list for PBXNativeTarget "Deli" */;
 			buildPhases = (
-				OBJ_182 /* Sources */,
-				OBJ_206 /* Frameworks */,
+				OBJ_187 /* Sources */,
+				OBJ_211 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -772,18 +793,18 @@
 		};
 		Deli::DeliTests /* DeliTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_219 /* Build configuration list for PBXNativeTarget "DeliTests" */;
+			buildConfigurationList = OBJ_224 /* Build configuration list for PBXNativeTarget "DeliTests" */;
 			buildPhases = (
-				OBJ_222 /* Sources */,
-				OBJ_258 /* Frameworks */,
+				OBJ_227 /* Sources */,
+				OBJ_267 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_263 /* PBXTargetDependency */,
-				OBJ_265 /* PBXTargetDependency */,
-				OBJ_267 /* PBXTargetDependency */,
-				OBJ_269 /* PBXTargetDependency */,
+				OBJ_272 /* PBXTargetDependency */,
+				OBJ_274 /* PBXTargetDependency */,
+				OBJ_276 /* PBXTargetDependency */,
+				OBJ_278 /* PBXTargetDependency */,
 			);
 			name = DeliTests;
 			productName = DeliTests;
@@ -792,9 +813,9 @@
 		};
 		Deli::SwiftPMPackageDescription /* DeliPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_208 /* Build configuration list for PBXNativeTarget "DeliPackageDescription" */;
+			buildConfigurationList = OBJ_213 /* Build configuration list for PBXNativeTarget "DeliPackageDescription" */;
 			buildPhases = (
-				OBJ_211 /* Sources */,
+				OBJ_216 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -806,10 +827,10 @@
 		};
 		Nimble::Nimble /* Nimble */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_270 /* Build configuration list for PBXNativeTarget "Nimble" */;
+			buildConfigurationList = OBJ_279 /* Build configuration list for PBXNativeTarget "Nimble" */;
 			buildPhases = (
-				OBJ_273 /* Sources */,
-				OBJ_325 /* Frameworks */,
+				OBJ_282 /* Sources */,
+				OBJ_334 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -822,9 +843,9 @@
 		};
 		Nimble::SwiftPMPackageDescription /* NimblePackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_327 /* Build configuration list for PBXNativeTarget "NimblePackageDescription" */;
+			buildConfigurationList = OBJ_336 /* Build configuration list for PBXNativeTarget "NimblePackageDescription" */;
 			buildPhases = (
-				OBJ_330 /* Sources */,
+				OBJ_339 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -836,15 +857,15 @@
 		};
 		Quick::Quick /* Quick */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_332 /* Build configuration list for PBXNativeTarget "Quick" */;
+			buildConfigurationList = OBJ_341 /* Build configuration list for PBXNativeTarget "Quick" */;
 			buildPhases = (
-				OBJ_335 /* Sources */,
-				OBJ_359 /* Frameworks */,
+				OBJ_344 /* Sources */,
+				OBJ_368 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_361 /* PBXTargetDependency */,
+				OBJ_370 /* PBXTargetDependency */,
 			);
 			name = Quick;
 			productName = Quick;
@@ -853,11 +874,11 @@
 		};
 		Quick::QuickSpecBase /* QuickSpecBase */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_368 /* Build configuration list for PBXNativeTarget "QuickSpecBase" */;
+			buildConfigurationList = OBJ_377 /* Build configuration list for PBXNativeTarget "QuickSpecBase" */;
 			buildPhases = (
-				OBJ_371 /* Sources */,
-				OBJ_373 /* Headers */,
-				OBJ_375 /* Frameworks */,
+				OBJ_380 /* Sources */,
+				OBJ_382 /* Headers */,
+				OBJ_384 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -870,9 +891,9 @@
 		};
 		Quick::SwiftPMPackageDescription /* QuickPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_363 /* Build configuration list for PBXNativeTarget "QuickPackageDescription" */;
+			buildConfigurationList = OBJ_372 /* Build configuration list for PBXNativeTarget "QuickPackageDescription" */;
 			buildPhases = (
-				OBJ_366 /* Sources */,
+				OBJ_375 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -898,7 +919,7 @@
 				en,
 			);
 			mainGroup = OBJ_5;
-			productRefGroup = OBJ_172 /* Products */;
+			productRefGroup = OBJ_177 /* Products */;
 			projectDirPath = .;
 			targets = (
 				Deli::Deli /* Deli */,
@@ -915,213 +936,217 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_182 /* Sources */ = {
+		OBJ_187 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_183 /* Autowired.swift in Sources */,
-				OBJ_184 /* AutowiredFactory.swift in Sources */,
-				OBJ_185 /* Component.swift in Sources */,
-				OBJ_186 /* Configuration.swift in Sources */,
-				OBJ_187 /* AppContext.swift in Sources */,
-				OBJ_188 /* ContainerComponent.swift in Sources */,
-				OBJ_189 /* DefaultContainerComponent.swift in Sources */,
-				OBJ_190 /* FactoryContainerComponent.swift in Sources */,
-				OBJ_191 /* Container.swift in Sources */,
-				OBJ_192 /* ContainerError.swift in Sources */,
-				OBJ_193 /* FactoryResolver.swift in Sources */,
-				OBJ_194 /* Linker.swift in Sources */,
-				OBJ_195 /* LoadPriority.swift in Sources */,
-				OBJ_196 /* ResolveRule.swift in Sources */,
-				OBJ_197 /* Resolver.swift in Sources */,
-				OBJ_198 /* Scope.swift in Sources */,
-				OBJ_199 /* TypeKey.swift in Sources */,
-				OBJ_200 /* Factory.swift in Sources */,
-				OBJ_201 /* Inject.swift in Sources */,
-				OBJ_202 /* LazyAutowired.swift in Sources */,
-				OBJ_203 /* LazyAutowiredFactory.swift in Sources */,
-				OBJ_204 /* ModuleFactory.swift in Sources */,
-				OBJ_205 /* Payload.swift in Sources */,
+				OBJ_188 /* Autowired.swift in Sources */,
+				OBJ_189 /* AutowiredFactory.swift in Sources */,
+				OBJ_190 /* Component.swift in Sources */,
+				OBJ_191 /* Configuration.swift in Sources */,
+				OBJ_192 /* AppContext.swift in Sources */,
+				OBJ_193 /* ContainerComponent.swift in Sources */,
+				OBJ_194 /* DefaultContainerComponent.swift in Sources */,
+				OBJ_195 /* FactoryContainerComponent.swift in Sources */,
+				OBJ_196 /* Container.swift in Sources */,
+				OBJ_197 /* ContainerError.swift in Sources */,
+				OBJ_198 /* FactoryResolver.swift in Sources */,
+				OBJ_199 /* Linker.swift in Sources */,
+				OBJ_200 /* LoadPriority.swift in Sources */,
+				OBJ_201 /* ResolveRule.swift in Sources */,
+				OBJ_202 /* Resolver.swift in Sources */,
+				OBJ_203 /* Scope.swift in Sources */,
+				OBJ_204 /* TypeKey.swift in Sources */,
+				OBJ_205 /* Factory.swift in Sources */,
+				OBJ_206 /* Inject.swift in Sources */,
+				OBJ_207 /* LazyAutowired.swift in Sources */,
+				OBJ_208 /* LazyAutowiredFactory.swift in Sources */,
+				OBJ_209 /* ModuleFactory.swift in Sources */,
+				OBJ_210 /* Payload.swift in Sources */,
 			);
 		};
-		OBJ_211 /* Sources */ = {
+		OBJ_216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_212 /* Package.swift in Sources */,
+				OBJ_217 /* Package.swift in Sources */,
 			);
 		};
-		OBJ_222 /* Sources */ = {
+		OBJ_227 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_223 /* AccountConfiguration.swift in Sources */,
-				OBJ_224 /* AccountService.swift in Sources */,
-				OBJ_225 /* Book.swift in Sources */,
-				OBJ_226 /* COSMOS.swift in Sources */,
-				OBJ_227 /* HarryPotter.swift in Sources */,
-				OBJ_228 /* Novel.swift in Sources */,
-				OBJ_229 /* Science.swift in Sources */,
-				OBJ_230 /* TroisiemeHumanite.swift in Sources */,
-				OBJ_231 /* DeliFactory.swift in Sources */,
-				OBJ_232 /* FactoryTest.swift in Sources */,
-				OBJ_233 /* Friend.swift in Sources */,
-				OBJ_234 /* FriendInfoViewModel.swift in Sources */,
-				OBJ_235 /* FriendListViewModel.swift in Sources */,
-				OBJ_236 /* FriendPayload.swift in Sources */,
-				OBJ_237 /* FriendService.swift in Sources */,
-				OBJ_238 /* LibraryService.swift in Sources */,
-				OBJ_239 /* MessageService.swift in Sources */,
-				OBJ_240 /* NetworkManager.swift in Sources */,
-				OBJ_241 /* Robot.swift in Sources */,
-				OBJ_242 /* RobotBody.swift in Sources */,
-				OBJ_243 /* RobotFactory.swift in Sources */,
-				OBJ_244 /* RobotHead.swift in Sources */,
-				OBJ_245 /* TestPayload.swift in Sources */,
-				OBJ_246 /* TestService.swift in Sources */,
-				OBJ_247 /* TestView1.swift in Sources */,
-				OBJ_248 /* TestView2.swift in Sources */,
-				OBJ_249 /* TestView3.swift in Sources */,
-				OBJ_250 /* TestViewModel.swift in Sources */,
-				OBJ_251 /* UnicodeTest.swift in Sources */,
-				OBJ_252 /* UserPayload.swift in Sources */,
-				OBJ_253 /* UserViewModel.swift in Sources */,
-				OBJ_254 /* WeakViewModel.swift in Sources */,
-				OBJ_255 /* DeliSpec.swift in Sources */,
-				OBJ_256 /* MockAccountService.swift in Sources */,
-				OBJ_257 /* MockBook.swift in Sources */,
+				OBJ_228 /* AccountConfiguration.swift in Sources */,
+				OBJ_229 /* AccountService.swift in Sources */,
+				OBJ_230 /* Book.swift in Sources */,
+				OBJ_231 /* COSMOS.swift in Sources */,
+				OBJ_232 /* HarryPotter.swift in Sources */,
+				OBJ_233 /* Novel.swift in Sources */,
+				OBJ_234 /* Science.swift in Sources */,
+				OBJ_235 /* TroisiemeHumanite.swift in Sources */,
+				OBJ_236 /* DeliFactory.swift in Sources */,
+				OBJ_237 /* FactoryTest.swift in Sources */,
+				OBJ_238 /* Friend.swift in Sources */,
+				OBJ_239 /* FriendInfoViewModel.swift in Sources */,
+				OBJ_240 /* FriendListViewModel.swift in Sources */,
+				OBJ_241 /* FriendPayload.swift in Sources */,
+				OBJ_242 /* FriendService.swift in Sources */,
+				OBJ_243 /* LibraryService.swift in Sources */,
+				OBJ_244 /* MessageService.swift in Sources */,
+				OBJ_245 /* NetworkManager.swift in Sources */,
+				OBJ_246 /* Robot.swift in Sources */,
+				OBJ_247 /* RobotBody.swift in Sources */,
+				OBJ_248 /* RobotFactory.swift in Sources */,
+				OBJ_249 /* RobotHead.swift in Sources */,
+				OBJ_250 /* StructWithAutowired.swift in Sources */,
+				OBJ_251 /* StructWithAutowiredFactory.swift in Sources */,
+				OBJ_252 /* StructWithComponent.swift in Sources */,
+				OBJ_253 /* StructWithLazyAutowired.swift in Sources */,
+				OBJ_254 /* TestPayload.swift in Sources */,
+				OBJ_255 /* TestService.swift in Sources */,
+				OBJ_256 /* TestView1.swift in Sources */,
+				OBJ_257 /* TestView2.swift in Sources */,
+				OBJ_258 /* TestView3.swift in Sources */,
+				OBJ_259 /* TestViewModel.swift in Sources */,
+				OBJ_260 /* UnicodeTest.swift in Sources */,
+				OBJ_261 /* UserPayload.swift in Sources */,
+				OBJ_262 /* UserViewModel.swift in Sources */,
+				OBJ_263 /* WeakViewModel.swift in Sources */,
+				OBJ_264 /* DeliSpec.swift in Sources */,
+				OBJ_265 /* MockAccountService.swift in Sources */,
+				OBJ_266 /* MockBook.swift in Sources */,
 			);
 		};
-		OBJ_273 /* Sources */ = {
+		OBJ_282 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_274 /* AdapterProtocols.swift in Sources */,
-				OBJ_275 /* AssertionDispatcher.swift in Sources */,
-				OBJ_276 /* AssertionRecorder.swift in Sources */,
-				OBJ_277 /* NMBExpectation.swift in Sources */,
-				OBJ_278 /* NMBObjCMatcher.swift in Sources */,
-				OBJ_279 /* NimbleEnvironment.swift in Sources */,
-				OBJ_280 /* NimbleXCTestHandler.swift in Sources */,
-				OBJ_281 /* ExceptionCapture.swift in Sources */,
-				OBJ_282 /* DSL+Wait.swift in Sources */,
-				OBJ_283 /* DSL.swift in Sources */,
-				OBJ_284 /* Expectation.swift in Sources */,
-				OBJ_285 /* ExpectationMessage.swift in Sources */,
-				OBJ_286 /* Expression.swift in Sources */,
-				OBJ_287 /* FailureMessage.swift in Sources */,
-				OBJ_288 /* AllPass.swift in Sources */,
-				OBJ_289 /* Async.swift in Sources */,
-				OBJ_290 /* BeAKindOf.swift in Sources */,
-				OBJ_291 /* BeAnInstanceOf.swift in Sources */,
-				OBJ_292 /* BeCloseTo.swift in Sources */,
-				OBJ_293 /* BeEmpty.swift in Sources */,
-				OBJ_294 /* BeGreaterThan.swift in Sources */,
-				OBJ_295 /* BeGreaterThanOrEqualTo.swift in Sources */,
-				OBJ_296 /* BeIdenticalTo.swift in Sources */,
-				OBJ_297 /* BeLessThan.swift in Sources */,
-				OBJ_298 /* BeLessThanOrEqual.swift in Sources */,
-				OBJ_299 /* BeLogical.swift in Sources */,
-				OBJ_300 /* BeNil.swift in Sources */,
-				OBJ_301 /* BeVoid.swift in Sources */,
-				OBJ_302 /* BeginWith.swift in Sources */,
-				OBJ_303 /* Contain.swift in Sources */,
-				OBJ_304 /* ContainElementSatisfying.swift in Sources */,
-				OBJ_305 /* EndWith.swift in Sources */,
-				OBJ_306 /* Equal.swift in Sources */,
-				OBJ_307 /* HaveCount.swift in Sources */,
-				OBJ_308 /* Match.swift in Sources */,
-				OBJ_309 /* MatchError.swift in Sources */,
-				OBJ_310 /* MatcherFunc.swift in Sources */,
-				OBJ_311 /* MatcherProtocols.swift in Sources */,
-				OBJ_312 /* PostNotification.swift in Sources */,
-				OBJ_313 /* Predicate.swift in Sources */,
-				OBJ_314 /* RaisesException.swift in Sources */,
-				OBJ_315 /* SatisfyAllOf.swift in Sources */,
-				OBJ_316 /* SatisfyAnyOf.swift in Sources */,
-				OBJ_317 /* ThrowAssertion.swift in Sources */,
-				OBJ_318 /* ThrowError.swift in Sources */,
-				OBJ_319 /* ToSucceed.swift in Sources */,
-				OBJ_320 /* Await.swift in Sources */,
-				OBJ_321 /* Errors.swift in Sources */,
-				OBJ_322 /* Functional.swift in Sources */,
-				OBJ_323 /* SourceLocation.swift in Sources */,
-				OBJ_324 /* Stringers.swift in Sources */,
+				OBJ_283 /* AdapterProtocols.swift in Sources */,
+				OBJ_284 /* AssertionDispatcher.swift in Sources */,
+				OBJ_285 /* AssertionRecorder.swift in Sources */,
+				OBJ_286 /* NMBExpectation.swift in Sources */,
+				OBJ_287 /* NMBObjCMatcher.swift in Sources */,
+				OBJ_288 /* NimbleEnvironment.swift in Sources */,
+				OBJ_289 /* NimbleXCTestHandler.swift in Sources */,
+				OBJ_290 /* ExceptionCapture.swift in Sources */,
+				OBJ_291 /* DSL+Wait.swift in Sources */,
+				OBJ_292 /* DSL.swift in Sources */,
+				OBJ_293 /* Expectation.swift in Sources */,
+				OBJ_294 /* ExpectationMessage.swift in Sources */,
+				OBJ_295 /* Expression.swift in Sources */,
+				OBJ_296 /* FailureMessage.swift in Sources */,
+				OBJ_297 /* AllPass.swift in Sources */,
+				OBJ_298 /* Async.swift in Sources */,
+				OBJ_299 /* BeAKindOf.swift in Sources */,
+				OBJ_300 /* BeAnInstanceOf.swift in Sources */,
+				OBJ_301 /* BeCloseTo.swift in Sources */,
+				OBJ_302 /* BeEmpty.swift in Sources */,
+				OBJ_303 /* BeGreaterThan.swift in Sources */,
+				OBJ_304 /* BeGreaterThanOrEqualTo.swift in Sources */,
+				OBJ_305 /* BeIdenticalTo.swift in Sources */,
+				OBJ_306 /* BeLessThan.swift in Sources */,
+				OBJ_307 /* BeLessThanOrEqual.swift in Sources */,
+				OBJ_308 /* BeLogical.swift in Sources */,
+				OBJ_309 /* BeNil.swift in Sources */,
+				OBJ_310 /* BeVoid.swift in Sources */,
+				OBJ_311 /* BeginWith.swift in Sources */,
+				OBJ_312 /* Contain.swift in Sources */,
+				OBJ_313 /* ContainElementSatisfying.swift in Sources */,
+				OBJ_314 /* EndWith.swift in Sources */,
+				OBJ_315 /* Equal.swift in Sources */,
+				OBJ_316 /* HaveCount.swift in Sources */,
+				OBJ_317 /* Match.swift in Sources */,
+				OBJ_318 /* MatchError.swift in Sources */,
+				OBJ_319 /* MatcherFunc.swift in Sources */,
+				OBJ_320 /* MatcherProtocols.swift in Sources */,
+				OBJ_321 /* PostNotification.swift in Sources */,
+				OBJ_322 /* Predicate.swift in Sources */,
+				OBJ_323 /* RaisesException.swift in Sources */,
+				OBJ_324 /* SatisfyAllOf.swift in Sources */,
+				OBJ_325 /* SatisfyAnyOf.swift in Sources */,
+				OBJ_326 /* ThrowAssertion.swift in Sources */,
+				OBJ_327 /* ThrowError.swift in Sources */,
+				OBJ_328 /* ToSucceed.swift in Sources */,
+				OBJ_329 /* Await.swift in Sources */,
+				OBJ_330 /* Errors.swift in Sources */,
+				OBJ_331 /* Functional.swift in Sources */,
+				OBJ_332 /* SourceLocation.swift in Sources */,
+				OBJ_333 /* Stringers.swift in Sources */,
 			);
 		};
-		OBJ_330 /* Sources */ = {
+		OBJ_339 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_331 /* Package.swift in Sources */,
+				OBJ_340 /* Package.swift in Sources */,
 			);
 		};
-		OBJ_335 /* Sources */ = {
+		OBJ_344 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_336 /* Behavior.swift in Sources */,
-				OBJ_337 /* Callsite.swift in Sources */,
-				OBJ_338 /* Configuration.swift in Sources */,
-				OBJ_339 /* QuickConfiguration.swift in Sources */,
-				OBJ_340 /* DSL.swift in Sources */,
-				OBJ_341 /* World+DSL.swift in Sources */,
-				OBJ_342 /* ErrorUtility.swift in Sources */,
-				OBJ_343 /* Example.swift in Sources */,
-				OBJ_344 /* ExampleGroup.swift in Sources */,
-				OBJ_345 /* ExampleMetadata.swift in Sources */,
-				OBJ_346 /* Filter.swift in Sources */,
-				OBJ_347 /* Closures.swift in Sources */,
-				OBJ_348 /* ExampleHooks.swift in Sources */,
-				OBJ_349 /* HooksPhase.swift in Sources */,
-				OBJ_350 /* SuiteHooks.swift in Sources */,
-				OBJ_351 /* NSBundle+CurrentTestBundle.swift in Sources */,
-				OBJ_352 /* NSString+C99ExtendedIdentifier.swift in Sources */,
-				OBJ_353 /* QuickMain.swift in Sources */,
-				OBJ_354 /* QuickSelectedTestSuiteBuilder.swift in Sources */,
-				OBJ_355 /* QuickSpec.swift in Sources */,
-				OBJ_356 /* QuickTestSuite.swift in Sources */,
-				OBJ_357 /* URL+FileName.swift in Sources */,
-				OBJ_358 /* World.swift in Sources */,
+				OBJ_345 /* Behavior.swift in Sources */,
+				OBJ_346 /* Callsite.swift in Sources */,
+				OBJ_347 /* Configuration.swift in Sources */,
+				OBJ_348 /* QuickConfiguration.swift in Sources */,
+				OBJ_349 /* DSL.swift in Sources */,
+				OBJ_350 /* World+DSL.swift in Sources */,
+				OBJ_351 /* ErrorUtility.swift in Sources */,
+				OBJ_352 /* Example.swift in Sources */,
+				OBJ_353 /* ExampleGroup.swift in Sources */,
+				OBJ_354 /* ExampleMetadata.swift in Sources */,
+				OBJ_355 /* Filter.swift in Sources */,
+				OBJ_356 /* Closures.swift in Sources */,
+				OBJ_357 /* ExampleHooks.swift in Sources */,
+				OBJ_358 /* HooksPhase.swift in Sources */,
+				OBJ_359 /* SuiteHooks.swift in Sources */,
+				OBJ_360 /* NSBundle+CurrentTestBundle.swift in Sources */,
+				OBJ_361 /* NSString+C99ExtendedIdentifier.swift in Sources */,
+				OBJ_362 /* QuickMain.swift in Sources */,
+				OBJ_363 /* QuickSelectedTestSuiteBuilder.swift in Sources */,
+				OBJ_364 /* QuickSpec.swift in Sources */,
+				OBJ_365 /* QuickTestSuite.swift in Sources */,
+				OBJ_366 /* URL+FileName.swift in Sources */,
+				OBJ_367 /* World.swift in Sources */,
 			);
 		};
-		OBJ_366 /* Sources */ = {
+		OBJ_375 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_367 /* Package.swift in Sources */,
+				OBJ_376 /* Package.swift in Sources */,
 			);
 		};
-		OBJ_371 /* Sources */ = {
+		OBJ_380 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				OBJ_372 /* QuickSpecBase.m in Sources */,
+				OBJ_381 /* QuickSpecBase.m in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_217 /* PBXTargetDependency */ = {
+		OBJ_222 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = Deli::DeliTests /* DeliTests */;
 		};
-		OBJ_263 /* PBXTargetDependency */ = {
+		OBJ_272 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = Nimble::Nimble /* Nimble */;
 		};
-		OBJ_265 /* PBXTargetDependency */ = {
+		OBJ_274 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = Quick::Quick /* Quick */;
 		};
-		OBJ_267 /* PBXTargetDependency */ = {
+		OBJ_276 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = Quick::QuickSpecBase /* QuickSpecBase */;
 		};
-		OBJ_269 /* PBXTargetDependency */ = {
+		OBJ_278 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = Deli::Deli /* Deli */;
 		};
-		OBJ_361 /* PBXTargetDependency */ = {
+		OBJ_370 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = Quick::QuickSpecBase /* QuickSpecBase */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_180 /* Debug */ = {
+		OBJ_185 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -1145,7 +1170,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_181 /* Release */ = {
+		OBJ_186 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -1169,7 +1194,7 @@
 			};
 			name = Release;
 		};
-		OBJ_209 /* Debug */ = {
+		OBJ_214 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1178,30 +1203,30 @@
 			};
 			name = Debug;
 		};
-		OBJ_210 /* Release */ = {
+		OBJ_215 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
 				OTHER_SWIFT_FLAGS = "-swift-version 4.2 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
 				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		OBJ_215 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		OBJ_216 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
 			};
 			name = Release;
 		};
 		OBJ_220 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_221 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_225 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1223,7 +1248,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_221 /* Release */ = {
+		OBJ_226 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -1247,7 +1272,7 @@
 			};
 			name = Release;
 		};
-		OBJ_271 /* Debug */ = {
+		OBJ_280 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -1271,7 +1296,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_272 /* Release */ = {
+		OBJ_281 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -1321,7 +1346,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_328 /* Debug */ = {
+		OBJ_337 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1330,7 +1355,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_329 /* Release */ = {
+		OBJ_338 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1339,7 +1364,7 @@
 			};
 			name = Release;
 		};
-		OBJ_333 /* Debug */ = {
+		OBJ_342 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -1366,7 +1391,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_334 /* Release */ = {
+		OBJ_343 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
@@ -1393,7 +1418,7 @@
 			};
 			name = Release;
 		};
-		OBJ_364 /* Debug */ = {
+		OBJ_373 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1402,7 +1427,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_365 /* Release */ = {
+		OBJ_374 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -1411,7 +1436,7 @@
 			};
 			name = Release;
 		};
-		OBJ_369 /* Debug */ = {
+		OBJ_378 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -1439,7 +1464,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_370 /* Release */ = {
+		OBJ_379 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -1490,11 +1515,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_179 /* Build configuration list for PBXNativeTarget "Deli" */ = {
+		OBJ_184 /* Build configuration list for PBXNativeTarget "Deli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_180 /* Debug */,
-				OBJ_181 /* Release */,
+				OBJ_185 /* Debug */,
+				OBJ_186 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1508,25 +1533,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_208 /* Build configuration list for PBXNativeTarget "DeliPackageDescription" */ = {
+		OBJ_213 /* Build configuration list for PBXNativeTarget "DeliPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_209 /* Debug */,
-				OBJ_210 /* Release */,
+				OBJ_214 /* Debug */,
+				OBJ_215 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_214 /* Build configuration list for PBXAggregateTarget "DeliPackageTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_215 /* Debug */,
-				OBJ_216 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_219 /* Build configuration list for PBXNativeTarget "DeliTests" */ = {
+		OBJ_219 /* Build configuration list for PBXAggregateTarget "DeliPackageTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_220 /* Debug */,
@@ -1535,47 +1551,56 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_270 /* Build configuration list for PBXNativeTarget "Nimble" */ = {
+		OBJ_224 /* Build configuration list for PBXNativeTarget "DeliTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_271 /* Debug */,
-				OBJ_272 /* Release */,
+				OBJ_225 /* Debug */,
+				OBJ_226 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_327 /* Build configuration list for PBXNativeTarget "NimblePackageDescription" */ = {
+		OBJ_279 /* Build configuration list for PBXNativeTarget "Nimble" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_328 /* Debug */,
-				OBJ_329 /* Release */,
+				OBJ_280 /* Debug */,
+				OBJ_281 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_332 /* Build configuration list for PBXNativeTarget "Quick" */ = {
+		OBJ_336 /* Build configuration list for PBXNativeTarget "NimblePackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_333 /* Debug */,
-				OBJ_334 /* Release */,
+				OBJ_337 /* Debug */,
+				OBJ_338 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_363 /* Build configuration list for PBXNativeTarget "QuickPackageDescription" */ = {
+		OBJ_341 /* Build configuration list for PBXNativeTarget "Quick" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_364 /* Debug */,
-				OBJ_365 /* Release */,
+				OBJ_342 /* Debug */,
+				OBJ_343 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_368 /* Build configuration list for PBXNativeTarget "QuickSpecBase" */ = {
+		OBJ_372 /* Build configuration list for PBXNativeTarget "QuickPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_369 /* Debug */,
-				OBJ_370 /* Release */,
+				OBJ_373 /* Debug */,
+				OBJ_374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_377 /* Build configuration list for PBXNativeTarget "QuickSpecBase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_378 /* Debug */,
+				OBJ_379 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

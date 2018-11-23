@@ -1,8 +1,9 @@
 import Foundation
 
-protocol Science: Book {}
-
-extension Science {
+class Science: Book {
+    var qualifier: String? {
+        return "Science"
+    }
     var category: String {
         return "Science"
     }

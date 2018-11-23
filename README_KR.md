@@ -55,7 +55,7 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
 
 `deli.yml`이라는 설정 파일을 만들어 봅시다.
 
-만약 설정 파일이 존재하지 않는다면, 현재 폴더의 유일한 프로젝트의 빌드 타겟을 찾습니다. 이것은 `scheme`이나 `output` 필드를 지정하지 않았을 때와 비슷하게 동작합니다.
+만약 설정 파일이 존재하지 않는다면, 현재 폴더의 유일한 프로젝트의 빌드 타겟을 찾습니다. 이것은 `scheme`, `target`, 그리고 `output` 필드를 지정하지 않았을 때와 비슷하게 동작합니다.
 
 ```yaml
 target:
@@ -73,9 +73,11 @@ config:
     output: Sources/DeliFactory.swift
 ```
 
-당신이 지정한 빌드 타겟은 `Shared`로 설정되어야 합니다. Xcode의 `Manage Scheme`에서 `Shared` 영역을 확인합시다:
+당신이 지정한 빌드 Scheme은 `Shared`로 설정되어야 합니다. Xcode의 `Manage Scheme`에서 `Shared` 영역을 확인합시다:
 
 ![shared-build-scheme](https://github.com/kawoou/Deli/raw/screenshot/shared-build-scheme.png)
+
+또 다른 방법으로 `scheme` 대신 `target`을 지정할 수도 있습니다. 이 경우에 Deli는 Build Target을 찾게됩니다.
 
 그리고, 제공된 바이너리를 통해 빌드합니다.
 
