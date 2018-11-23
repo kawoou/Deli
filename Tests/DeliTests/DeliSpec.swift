@@ -310,30 +310,51 @@ class DeliSpec: QuickSpec, Inject {
                 }
             }
             context("when inject by LazyAutowired") {
-                var testService: TestService!
-                var testView3: TestView3!
-                
-                beforeEach {
-                    testService = appContext.get(TestService.self)
-                    testView3 = TestView3()
-                }
-                it("dependency variable should be nil") {
-                    expect(testService.friendService).to(beNil())
-                    expect(testView3.test.accountService).to(beNil())
-                }
-                it("qualifier of testService should be nil") {
-                    expect(testService.qualifier) == "qualifierTest"
-                }
-                it("scope of testService should be FriendPayload") {
-                    expect(testService.scope) == .singleton
-                }
-                
-                context("after running RunLoop once") {
+                describe("TestService") {
+                    var testService: TestService!
+                    var testView3: TestView3!
+
                     beforeEach {
-                        RunLoop.current.run(until: Date())
+                        testService = appContext.get(TestService.self)
+                        testView3 = TestView3()
                     }
-                    it("dependency variable should not be nil") {
-                        expect(testService.friendService).notTo(beNil())
+                    it("dependency variable should be nil") {
+                        expect(testService.friendService).to(beNil())
+                        expect(testView3.test.accountService).to(beNil())
+                    }
+                    it("qualifier of testService should be nil") {
+                        expect(testService.qualifier) == "qualifierTest"
+                    }
+                    it("scope of testService should be FriendPayload") {
+                        expect(testService.scope) == .singleton
+                    }
+
+                    context("after running RunLoop once") {
+                        beforeEach {
+                            RunLoop.current.run(until: Date().addingTimeInterval(0.1))
+                        }
+                        it("dependency variable should not be nil") {
+                            expect(testService.friendService).notTo(beNil())
+                        }
+                    }
+                }
+                describe("LazyAutowiredQualifier") {
+                    var lazyAutowiredQualifier: LazyAutowiredQualifier!
+
+                    beforeEach {
+                        lazyAutowiredQualifier = appContext.get(LazyAutowiredQualifier.self)
+                    }
+                    it("dependency variable should be nil") {
+                        expect(lazyAutowiredQualifier.testService).to(beNil())
+                    }
+
+                    context("after running RunLoop once") {
+                        beforeEach {
+                            RunLoop.current.run(until: Date().addingTimeInterval(0.1))
+                        }
+                        it("dependency variable should not be nil") {
+                            expect(lazyAutowiredQualifier.testService).notTo(beNil())
+                        }
                     }
                 }
             }

@@ -67,13 +67,21 @@ final class LazyAutowiredParser: Parsable {
             Logger.log(.error("`inject()` method cannot specify mutating keyword.", injector.getSourceLine(with: fileContent)))
             throw ParserError.injectorCannotSpecifyMutatingKeyword
         }
+
+        let qualifierList = injector
+            .name?
+            .utf8[Constant.injectorPrefix.count...]?
+            .split(separator: ":")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map { $0 == "_" ? "" : $0 } ?? []
         
         let scope = try parseScope(source, fileContent: fileContent)
         let qualifier = try parseQualifier(source, fileContent: fileContent)
         let dependencies = try injectorList
             .flatMap { $0.substructures }
             .filter { $0.kind == SwiftDeclarationKind.varParameter.rawValue }
-            .map { info -> Dependency in
+            .enumerated()
+            .map { (index, info) -> Dependency in
                 guard let typeName = info.typeName else {
                     Logger.log(.error("Unknown `\(name)` dependency type.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
@@ -83,18 +91,22 @@ final class LazyAutowiredParser: Parsable {
                     throw ParserError.typeNotFound
                 }
 
+                let qualifier = qualifierList[index]
+
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
                     return Dependency(
                         parent: name,
                         target: injector,
                         name: arrayType,
-                        type: .array
+                        type: .array,
+                        qualifier: qualifier
                     )
                 }
                 return Dependency(
                     parent: name,
                     target: injector,
-                    name: dependencyName
+                    name: dependencyName,
+                    qualifier: qualifier
                 )
             }
 

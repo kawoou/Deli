@@ -85,6 +85,18 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(FriendService.self)
+        registerLazy(
+            LazyAutowiredQualifier.self,
+            resolver: {
+                return LazyAutowiredQualifier()
+            },
+            injector: { instance in
+                let _0 = context.get(TestService.self, qualifier: "qualifierTest")!
+                instance.inject(qualifierTest: _0)
+            },
+            qualifier: "",
+            scope: .singleton
+        )
         register(
             LibraryService.self,
             resolver: {
