@@ -56,7 +56,7 @@ In [Spring framework](https://github.com/spring-projects/spring-framework) provi
 
 Simple setup for the automated configuration files, `deli.yml`.
 
-If the configuration file does not exist, find the build target for a unique project in the current folders automatically. It works the same even if no `scheme` or `output` field is specified.
+If the configuration file does not exist, find the build target for a unique project in the current folders automatically. It works the same even if no `scheme`, `target` and `output` field is specified.
 
 ```yaml
 target:
@@ -74,9 +74,11 @@ config:
     output: Sources/DeliFactory.swift
 ```
 
-You’ll have to make your targets `Shared`. To do this `Manage Schemes` and check the `Shared` areas:
+You’ll have to make your scheme `Shared`. To do this `Manage Schemes` and check the `Shared` areas:
 
 ![shared-build-scheme](https://github.com/kawoou/Deli/raw/screenshot/shared-build-scheme.png)
+
+Alternatively, you can specify `target` instead of `scheme`. In this case, Deli will find the Build Target.
 
 Then build with the provided binaries.
 
@@ -541,9 +543,6 @@ class UserTests: QuickSpec {
 An example of a test code is `Deli.xcodeproj`.
 
 
-
-
-#### 8. Struct
 
 #### 8. Struct
 

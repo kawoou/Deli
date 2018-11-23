@@ -11,7 +11,7 @@ final class DeliFactory: ModuleFactory {
             AccountService.self,
             resolver: {
                 let parent = context.get(AccountConfiguration.self, qualifier: "")!
-                return parent.accountService() as AnyObject
+                return parent.accountService()
             },
             qualifier: "facebook",
             scope: .singleton
@@ -30,6 +30,22 @@ final class DeliFactory: ModuleFactory {
                 return COSMOS()
             },
             qualifier: "Science",
+            scope: .singleton
+        ).link(Book.self)
+        register(
+            HarryPotter.self,
+            resolver: {
+                return HarryPotter()
+            },
+            qualifier: "Novel",
+            scope: .singleton
+        ).link(Book.self)
+        register(
+            TroisiemeHumanite.self,
+            resolver: {
+                return TroisiemeHumanite()
+            },
+            qualifier: "Novel",
             scope: .singleton
         ).link(Book.self)
         registerLazyFactory(
@@ -51,11 +67,27 @@ final class DeliFactory: ModuleFactory {
             },
             qualifier: ""
         ).link(FriendInfoViewModel.self)
+        registerFactory(
+            StructWithAutowiredFactory.self,
+            resolver: { payload in
+                let _0 = context.get(FriendService.self, qualifier: "")!
+                return StructWithAutowiredFactory(_0, payload: payload as! StructPayload)
+            },
+            qualifier: ""
+        )
         register(
             FriendListViewModel.self,
             resolver: {
                 let _0 = context.get(FriendService.self, qualifier: "")!
                 return FriendListViewModel(_0)
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        register(
+            StructWithComponent.self,
+            resolver: {
+                return StructWithComponent()
             },
             qualifier: "",
             scope: .singleton
@@ -69,14 +101,6 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(FriendService.self)
-        register(
-            HarryPotter.self,
-            resolver: {
-                return HarryPotter()
-            },
-            qualifier: "Novel",
-            scope: .singleton
-        ).link(Book.self)
         register(
             LibraryService.self,
             resolver: {
@@ -176,13 +200,14 @@ final class DeliFactory: ModuleFactory {
             scope: .prototype
         )
         register(
-            TroisiemeHumanite.self,
+            StructWithAutowired.self,
             resolver: {
-                return TroisiemeHumanite()
+                let _0 = context.get(FriendService.self, qualifier: "")!
+                return StructWithAutowired(_0)
             },
-            qualifier: "Novel",
+            qualifier: "",
             scope: .singleton
-        ).link(Book.self)
+        )
         register(
             UnicodeTest.self,
             resolver: {

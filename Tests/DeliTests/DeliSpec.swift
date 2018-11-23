@@ -32,6 +32,16 @@ class DeliSpec: QuickSpec, Inject {
                     DeliFactory.self
                 ])
             }
+            context("when inject with qualifier") {
+                var sut: [Book] = []
+
+                beforeEach {
+                    sut = appContext.get([Book].self, qualifier: "Novel")
+                }
+                it("sut's qualifier should equal to 'Novel'") {
+                    expect(sut.filter { $0.qualifier != "Novel" }.count) == 0
+                }
+            }
             context("when inject with payload") {
                 context("test case 1") {
                     var sut1: TestView2!
@@ -225,7 +235,7 @@ class DeliSpec: QuickSpec, Inject {
                 
                 beforeEach {
                     weakPointer1 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
-                    DispatchQueue.global().async {
+                    DispatchQueue.global(qos: .userInteractive).async {
                         weakPointer2 = unsafeBitCast(appContext.get(WeakViewModel.self)!, to: Int.self)
                     }
                 }
@@ -358,7 +368,7 @@ class DeliSpec: QuickSpec, Inject {
                     expect(books.count) == 3
                 }
                 
-                describe("when load other ModuleFactory") {
+                context("when load other ModuleFactory") {
                     let testModule: ModuleFactory = {
                         let module = ModuleFactory()
                         module.register(
@@ -473,35 +483,81 @@ class DeliSpec: QuickSpec, Inject {
                 }
             }
             context("when multi-thread environment") {
-                var list: [AnyObject?] = (0..<60).map { _ in nil }
+                var list1: [AnyObject?] = []
+                var list2: [AnyObject?] = []
+                var list3: [AnyObject?] = []
+                var operationQueue: OperationQueue!
 
                 beforeEach {
+                    list1 = (0..<20).map { _ in nil }
+                    list2 = (0..<20).map { _ in nil }
+                    list3 = (0..<20).map { _ in nil }
+
+                    operationQueue = OperationQueue()
+                    operationQueue.maxConcurrentOperationCount = 100
+
                     for i in 0..<20 {
-                        DispatchQueue.global().async {
-                            list[i] = appContext.get(NetworkManager.self) as AnyObject
+                        operationQueue.addOperation {
+                            list1[i] = appContext.get(NetworkManager.self) as AnyObject
                         }
-                        DispatchQueue.global().async {
-                            list[i + 20] = appContext.get(AccountService.self, qualifier: "facebook") as AnyObject
+                        operationQueue.addOperation {
+                            list2[i] = appContext.get(AccountService.self, qualifier: "facebook") as AnyObject
                         }
-                        DispatchQueue.global().async {
-                            list[i + 40] = appContext.get(LibraryService.self) as AnyObject
+                        operationQueue.addOperation {
+                            list3[i] = appContext.get(LibraryService.self) as AnyObject
                         }
                     }
+                    operationQueue.waitUntilAllOperationsAreFinished()
                 }
                 it("same objects must have the same pointer") {
-                    expect(list.filter { $0 == nil }.count).toEventually(equal(0), timeout: 4)
+                    expect(list1.filter { $0 == nil }.count) == 0
+                    expect(list2.filter { $0 == nil }.count) == 0
+                    expect(list3.filter { $0 == nil }.count) == 0
                     expect {
-                        guard !list.contains(where: { $0 == nil }) else { return false }
+                        let pointerList: [Int] = list1.compactMap { $0 }.map { unsafeBitCast($0!, to: Int.self) }
+                        return !pointerList.contains(where: { pointerList[0] != $0 })
+                    } == true
+                    expect {
+                        let pointerList: [Int] = list2.compactMap { $0 }.map { unsafeBitCast($0!, to: Int.self) }
+                        return !pointerList.contains(where: { pointerList[0] != $0 })
+                    } == true
 
-                        let pointerList: [Int] = list.map {
-                            unsafeBitCast($0!, to: Int.self)
-                        }
+                    expect {
+                        let pointerList: [Int] = list3.compactMap { $0 }.map { unsafeBitCast($0!, to: Int.self) }
+                        return !pointerList.contains(where: { pointerList[0] != $0 })
+                    } == true
+                }
+            }
+            describe("struct test") {
+                context("when inject that inherit Component") {
+                    var sut: StructWithComponent!
 
-                        guard !pointerList[1...19].contains(where: { pointerList[0] != $0 }) else { return false }
-                        guard !pointerList[21...39].contains(where: { pointerList[20] != $0 }) else { return false }
-                        guard !pointerList[41...59].contains(where: { pointerList[40] != $0 }) else { return false }
-                        return true
-                    }.toEventually(beTrue(), timeout: 4)
+                    beforeEach {
+                        sut = appContext.get(StructWithComponent.self)
+                    }
+                    it("sut should be not nil") {
+                        expect(sut).notTo(beNil())
+                    }
+                }
+                context("when inject that inherit Autowired") {
+                    var sut: StructWithAutowired!
+
+                    beforeEach {
+                        sut = appContext.get(StructWithAutowired.self)
+                    }
+                    it("sut should be not nil") {
+                        expect(sut).notTo(beNil())
+                    }
+                }
+                context("when inject that inherit AutowiredFactory") {
+                    var sut: StructWithAutowiredFactory!
+
+                    beforeEach {
+                        sut = self.Inject(StructWithAutowiredFactory.self, with: (a: 1, b: false, c: 0.2))
+                    }
+                    it("sut's friendService should be not nil") {
+                        expect(sut).notTo(beNil())
+                    }
                 }
             }
         }

@@ -8,6 +8,7 @@ enum ParserError: Error {
     case constructorAmbiguous
     case injectorNotFound
     case injectorAmbiguous
+    case injectorCannotSpecifyMutatingKeyword
     case scopeAmbiguous
     case qualifierAmbiguous
     case qualifierUnavailable
@@ -31,6 +32,8 @@ enum ParserError: Error {
             return "Not found dependency injector."
         case .injectorAmbiguous:
             return "Ambiguous dependency injector."
+        case .injectorCannotSpecifyMutatingKeyword:
+            return "inject() method cannot specify mutating keyword."
         case .scopeAmbiguous:
             return "Ambiguous scope property."
         case .qualifierAmbiguous:

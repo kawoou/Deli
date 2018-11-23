@@ -63,6 +63,10 @@ final class LazyAutowiredParser: Parsable {
             }
             throw ParserError.injectorAmbiguous
         }
+        if injector.attributes.contains(SwiftDeclarationAttributeKind.mutating.rawValue) {
+            Logger.log(.error("`inject()` method cannot specify mutating keyword.", injector.getSourceLine(with: fileContent)))
+            throw ParserError.injectorCannotSpecifyMutatingKeyword
+        }
         
         let scope = try parseScope(source, fileContent: fileContent)
         let qualifier = try parseQualifier(source, fileContent: fileContent)

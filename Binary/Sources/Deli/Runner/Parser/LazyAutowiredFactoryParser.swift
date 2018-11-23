@@ -102,6 +102,10 @@ final class LazyAutowiredFactoryParser: Parsable {
             }
             throw ParserError.injectorAmbiguous
         }
+        if injector.attributes.contains(SwiftDeclarationAttributeKind.mutating.rawValue) {
+            Logger.log(.error("`inject()` method cannot specify mutating keyword.", injector.getSourceLine(with: fileContent)))
+            throw ParserError.injectorCannotSpecifyMutatingKeyword
+        }
         
         let qualifierList = injector
             .name?

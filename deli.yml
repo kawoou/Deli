@@ -1,13 +1,9 @@
 target:
-  - Sample
+  - Deli
   - GitHubSearch
   - Survey
 
 config:
-  Sample:
-    project: DeliSample
-    scheme: DeliSample
-    output: Tests/DeliTests/DeliSample
   GitHubSearch:
     project: Examples/GitHubSearch/GitHubSearch
     className: GitHubFactory
@@ -15,3 +11,11 @@ config:
   Survey:
     project: Examples/Survey/Survey.xcodeproj
     output: Survey/SurveyFactory.swift
+  Deli:
+    project: Deli
+    target: DeliTests
+    output: Tests/DeliTests/DeliSample
+    exclude:
+      - Tests/DeliTests/Mock
+      - Tests/DeliTests/DeliSpec.swift
+      - Tests/DeliTests/DeliSample/Struct/StructWithLazyAutowired.swift
