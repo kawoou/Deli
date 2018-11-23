@@ -350,8 +350,16 @@ final class Configuration {
             .first { nativeTarget.buildPhases.map { $0.uuid }.contains($0.uuid) }?
             .files ?? []
 
-        let includeFiles = info.include.map { projectDirectory.appendingPathComponent($0).standardized.path }
-        let excludeFiles = info.exclude.map { projectDirectory.appendingPathComponent($0).standardized.path }
+        let includeFiles = info.include.map {
+            projectDirectory.appendingPathComponent($0)
+                .standardized.path
+                .replacingOccurrences(of: "//", with: "/")
+        }
+        let excludeFiles = info.exclude.map {
+            projectDirectory.appendingPathComponent($0)
+                .standardized.path
+                .replacingOccurrences(of: "//", with: "/")
+        }
 
         let sourceList: [String]
         #if swift(>=4.1)
@@ -363,11 +371,15 @@ final class Configuration {
         #endif
 
         let result = (sourceList + includeFiles)
-            .map { projectDirectory.appendingPathComponent($0).standardized.path }
+            .map {
+                projectDirectory.appendingPathComponent($0)
+                    .standardized.path
+                    .replacingOccurrences(of: "//", with: "/")
+            }
             .filter { $0.contains(".swift") }
             .filter { $0 != outputPath }
             .filter { path in
-                return !excludeFiles.contains { path.hasPrefix($0) }
+                !excludeFiles.contains { path.hasPrefix($0) }
             }
 
         return result
