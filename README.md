@@ -12,6 +12,8 @@
 
 Deli is an easy-to-use Dependency Injection Container that creates DI containers with all required registrations and corresponding factories.
 
+> Language Switch: [English](https://github.com/kawoou/Deli/tree/master/README.md), [한국어](https://github.com/kawoou/Deli/tree/master/README_KR.md).
+
 
 
 
