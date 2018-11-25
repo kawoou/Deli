@@ -589,7 +589,7 @@ struct AuthPlugin: PluginType, LazyAutowired {
 Simply add the following line to your Podfile:
 
 ```ruby
-pod 'Deli', '~> 0.6.2'
+pod 'Deli', '~> 0.7.0'
 ```
 
 

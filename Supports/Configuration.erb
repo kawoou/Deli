@@ -4,7 +4,7 @@
 //
 
 /// The Configuration protocol makes the user can register Resolver.
-public protocol Configuration {}
+public protocol Configuration: Inject {}
 public extension Configuration {
 <%
   for dep in 0..9
