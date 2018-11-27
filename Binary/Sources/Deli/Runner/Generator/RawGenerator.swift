@@ -20,10 +20,12 @@ final class RawGenerator: Generator {
     // MARK: - Private
     
     private let results: [Results]
+    private let properties: [String: Any]
     
     // MARK: - Lifecycle
     
-    init(results: [Results]) {
+    init(results: [Results], properties: [String: Any]) {
         self.results = results
+        self.properties = properties
     }
 }

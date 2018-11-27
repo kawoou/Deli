@@ -11,6 +11,8 @@ protocol ContainerType {
     func gets(_ key: TypeKey, payload: _Payload?) throws -> [Any]
     func get(withoutResolve key: TypeKey) throws -> Any?
     func gets(withoutResolve key: TypeKey) throws -> [Any]
+    func getProperty(_ path: String) throws -> Any?
+    func loadProperty(_ properties: [String: Any])
     func register(_ key: TypeKey, component: _ContainerComponent)
     func link(_ key: TypeKey, children: TypeKey)
     func load()
@@ -123,6 +125,86 @@ final class Container: ContainerType {
             return []
         }
     }
+    func getProperty(_ path: String) throws -> Any? {
+        var target: Any = loadedProperty
+        var key = ""
+        var isStartBracket = false
+        var isStartStringKey = false
+        var isStringKey = false
+
+        for character in path {
+            switch character {
+            case ".":
+                guard !key.isEmpty else { continue }
+                guard !isStartStringKey else { throw ContainerError.notEndedColon }
+                guard !isStartBracket else { throw ContainerError.notEndedBracket }
+                guard let oldTarget = target as? [String: Any] else { return nil }
+                guard let newTarget = oldTarget[key] else { return nil }
+                target = newTarget
+                isStartBracket = false
+                isStringKey = false
+                key = ""
+
+            case "\"":
+                if isStartStringKey {
+                    isStartStringKey = false
+                    isStringKey = true
+                } else {
+                    guard key.isEmpty else { throw ContainerError.notEmtpyKey }
+                    isStartStringKey = true
+                }
+
+            case "[":
+                if !key.isEmpty {
+                    guard !isStartStringKey else { throw ContainerError.notEndedColon }
+                    guard let oldTarget = target as? [String: Any] else { return nil }
+                    guard let newTarget = oldTarget[key] else { return nil }
+                    target = newTarget
+                    isStartBracket = false
+                    isStringKey = false
+                    key = ""
+                }
+                guard !isStartBracket else { throw ContainerError.notEndedBracket }
+                isStartBracket = true
+
+            case "]":
+                guard !isStartStringKey else { throw ContainerError.notEndedColon }
+                guard isStartBracket else { throw ContainerError.notStartedBracket }
+                if isStringKey {
+                    guard let oldTarget = target as? [String: Any] else { return nil }
+                    guard let newTarget = oldTarget[key] else { return nil }
+                    target = newTarget
+                } else if let index = Int(key) {
+                    guard let oldTarget = target as? [Any] else { return nil }
+                    guard index >= 0 else { return nil }
+                    guard oldTarget.count > index else { return nil }
+                    target = oldTarget[index]
+                } else {
+                    return nil
+                }
+                isStartBracket = false
+                isStringKey = false
+                key = ""
+
+            default:
+                key += String(character)
+            }
+        }
+        if key.isEmpty {
+            return target
+        } else {
+            guard !isStartStringKey else { throw ContainerError.notEndedColon }
+            guard !isStartBracket else { throw ContainerError.notEndedBracket }
+            guard let oldTarget = target as? [String: Any] else { return nil }
+            return oldTarget[key]
+        }
+    }
+    func loadProperty(_ properties: [String: Any]) {
+        lock.lock()
+        defer { lock.unlock() }
+
+        loadedProperty.merge(properties) { $1 }
+    }
     func register(_ key: TypeKey, component: _ContainerComponent) {
         lock.lock()
         defer { lock.unlock() }
@@ -174,7 +256,9 @@ final class Container: ContainerType {
 
     private var chainMap = [TypeKey: Set<TypeKey>]()
     private var map = [TypeKey: _ContainerComponent]()
-    
+
+    private var loadedProperty: [String: Any] = [:]
+
     private func resolve(component: _ContainerComponent) -> Any {
         lock.lock()
         defer { lock.unlock() }

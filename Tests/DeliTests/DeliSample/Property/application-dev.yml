@@ -1,0 +1,4 @@
+environment: dev
+server:
+    url: http://dev.test.com
+    method: get

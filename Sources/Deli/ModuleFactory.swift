@@ -197,6 +197,14 @@ open class ModuleFactory {
         
         return Linker(container, type: type, qualifier: qualifier)
     }
+
+    /// Load property in container
+    ///
+    /// - Parameters:
+    ///     - properties: Property dictionary.
+    public func loadProperty(_ properties: [String: Any]) {
+        container.loadProperty(properties)
+    }
     
     // MARK: - Lifecycle
     

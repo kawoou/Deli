@@ -37,7 +37,7 @@ final class QualifierCorrector: Correctable {
     
     // MARK: - Lifecycle
     
-    required init(parser: Parser) {
+    init(parser: Parser) {
         self.parser = parser
     }
 }

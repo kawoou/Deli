@@ -238,10 +238,10 @@ final class Configuration {
             }
         }
     }
-    func getConfig(project: String, scheme: String?, output: String?) -> Config? {
+    func getConfig(project: String, scheme: String?, target: String?, output: String?, properties: [String]) -> Config? {
         return Config(
             target: [project],
-            config: [project: ConfigInfo(project: project, scheme: scheme, output: output)]
+            config: [project: ConfigInfo(project: project, scheme: scheme, target: target, output: output, properties: properties)]
         )
     }
 
@@ -286,6 +286,52 @@ final class Configuration {
         #endif
         
         return first + other
+    }
+    func getPropertyList(info: ConfigInfo, properties: [String]) -> [String] {
+        guard let baseURL = URL(string: basePath) else { return [] }
+
+        /// Find properties recursive
+        var propertyList: [String] = []
+        func findProperties(url: URL, target: [String]) {
+            var target = target
+
+            let urlPath = url.standardized.path.replacingOccurrences(of: "//", with: "/")
+
+            guard !target.isEmpty else {
+                if self.fileManager.fileExists(atPath: urlPath) {
+                    propertyList.append(urlPath)
+                }
+                return
+            }
+
+            guard let path = target.popLast() else { return }
+            if path.contains("*") {
+                let newPath = url.appendingPathComponent(path)
+                    .standardized.path
+                    .replacingOccurrences(of: "/", with: "\\/")
+
+                let regex = newPath.split(separator: "*", omittingEmptySubsequences: false)
+                    .map { "(\($0))" }
+                    .joined(separator: "[^\\/]*").r!
+
+                let contents = (try? self.fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? []
+                for content in contents {
+                    guard regex.findFirst(in: content.path) != nil else { continue }
+                    findProperties(url: content, target: target)
+                }
+            } else {
+                findProperties(url: url.appendingPathComponent(path), target: target)
+            }
+        }
+
+        let properties = (info.properties + properties)
+            .map { $0.split(separator: "/").map { String($0) } }
+
+        for propertyPath in properties {
+            findProperties(url: baseURL, target: propertyPath.reversed())
+        }
+
+        return propertyList
     }
     func getSourceList(info: ConfigInfo) throws -> [String] {
         /// Check if project file exists.

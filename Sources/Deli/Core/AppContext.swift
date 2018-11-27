@@ -250,6 +250,28 @@ public class AppContext {
             .flatMap { (try? $0.container.gets(withoutResolve: key)) ?? [] }
             .compactMap { $0 as? T }
     }
+
+    /// Get property using the path.
+    ///
+    /// - Parameters:
+    ///     - path: Property path (ex. "server[0].url")
+    /// - Returns:
+    ///     -
+    public func getProperty(
+        _ path: String,
+        resolveRole: ResolveRule = .default
+    ) -> Any? {
+        let list = resolveRole.findModules(loadedList.map { $0.factory })
+        for factory in list {
+            do {
+                guard let property = try factory.container.getProperty(path) else { continue }
+                return property
+            } catch let error {
+                print(error)
+            }
+        }
+        return nil
+    }
     
     // MARK: - Lifecycle
     

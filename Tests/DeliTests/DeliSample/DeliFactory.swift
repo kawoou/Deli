@@ -7,6 +7,22 @@ import Deli
 
 final class DeliFactory: ModuleFactory {
     override func load(context: AppContext) {
+        loadProperty([
+            "environment": "dev",
+            "server": [
+                "method": "get",
+                "url": "http://dev.test.com"
+            ]
+        ])
+
+        register(
+            AccountConfiguration.self,
+            resolver: {
+                return AccountConfiguration()
+            },
+            qualifier: "",
+            scope: .singleton
+        )
         register(
             AccountService.self,
             resolver: {
@@ -17,11 +33,19 @@ final class DeliFactory: ModuleFactory {
             scope: .singleton
         ).link(AccountService.self)
         register(
-            AccountConfiguration.self,
+            AngryRobotHead.self,
             resolver: {
-                return AccountConfiguration()
+                return AngryRobotHead()
             },
-            qualifier: "",
+            qualifier: "angry",
+            scope: .singleton
+        )
+        register(
+            BlueRobotBody.self,
+            resolver: {
+                return BlueRobotBody()
+            },
+            qualifier: "blue",
             scope: .singleton
         )
         register(
@@ -33,21 +57,21 @@ final class DeliFactory: ModuleFactory {
             scope: .singleton
         ).link(Book.self)
         register(
-            HarryPotter.self,
+            DeleteMethod.self,
             resolver: {
-                return HarryPotter()
+                return DeleteMethod()
             },
-            qualifier: "Novel",
+            qualifier: "delete",
             scope: .singleton
-        ).link(Book.self)
+        )
         register(
-            TroisiemeHumanite.self,
+            DevNetworkProvider.self,
             resolver: {
-                return TroisiemeHumanite()
+                return DevNetworkProvider()
             },
-            qualifier: "Novel",
+            qualifier: "dev",
             scope: .singleton
-        ).link(Book.self)
+        ).link(NetworkProvider.self)
         registerLazyFactory(
             FactoryTest.self,
             resolver: { payload in
@@ -85,6 +109,30 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(FriendService.self)
+        register(
+            GetMethod.self,
+            resolver: {
+                return GetMethod()
+            },
+            qualifier: "get",
+            scope: .singleton
+        ).link(NetworkMethod.self)
+        register(
+            HappyRobotHead.self,
+            resolver: {
+                return HappyRobotHead()
+            },
+            qualifier: "happy",
+            scope: .singleton
+        ).link(RobotHead.self)
+        register(
+            HarryPotter.self,
+            resolver: {
+                return HarryPotter()
+            },
+            qualifier: "Novel",
+            scope: .singleton
+        ).link(Book.self)
         registerLazy(
             LazyAutowiredQualifier.self,
             resolver: {
@@ -125,20 +173,65 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(NetworkManager.self)
+        register(
+            PostMethod.self,
+            resolver: {
+                return PostMethod()
+            },
+            qualifier: "post",
+            scope: .singleton
+        )
+        register(
+            ProdNetworkProvider.self,
+            resolver: {
+                return ProdNetworkProvider()
+            },
+            qualifier: "prod",
+            scope: .singleton
+        )
+        register(
+            PropertyAutowired.self,
+            resolver: {
+                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                return PropertyAutowired(_0)
+            },
+            qualifier: "",
+            scope: .singleton
+        )
         registerFactory(
-            Robot.self,
+            PropertyAutowiredFactory.self,
             resolver: { payload in
-                
-                return Robot(payload: payload as! RobotPayload)
+                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                return PropertyAutowiredFactory(_0, payload: payload as! PropertyAutowiredFactoryPayload)
             },
             qualifier: ""
-        ).link(Robot.self)
+        )
         register(
-            BlueRobotBody.self,
+            PropertyInject.self,
             resolver: {
-                return BlueRobotBody()
+                return PropertyInject()
             },
-            qualifier: "blue",
+            qualifier: "",
+            scope: .singleton
+        )
+        registerLazy(
+            PropertyLazyAutowired.self,
+            resolver: {
+                return PropertyLazyAutowired()
+            },
+            injector: { instance in
+                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                instance.inject(_0)
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        register(
+            PutMethod.self,
+            resolver: {
+                return PutMethod()
+            },
+            qualifier: "put",
             scope: .singleton
         )
         register(
@@ -149,28 +242,20 @@ final class DeliFactory: ModuleFactory {
             qualifier: "red",
             scope: .singleton
         ).link(RobotBody.self)
+        registerFactory(
+            Robot.self,
+            resolver: { payload in
+                
+                return Robot(payload: payload as! RobotPayload)
+            },
+            qualifier: ""
+        ).link(Robot.self)
         register(
             RobotFactory.self,
             resolver: {
                 return RobotFactory()
             },
             qualifier: "",
-            scope: .singleton
-        )
-        register(
-            HappyRobotHead.self,
-            resolver: {
-                return HappyRobotHead()
-            },
-            qualifier: "happy",
-            scope: .singleton
-        ).link(RobotHead.self)
-        register(
-            AngryRobotHead.self,
-            resolver: {
-                return AngryRobotHead()
-            },
-            qualifier: "angry",
             scope: .singleton
         )
         register(
@@ -198,6 +283,14 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         )
+        register(
+            TestNetworkProvider.self,
+            resolver: {
+                return TestNetworkProvider()
+            },
+            qualifier: "test",
+            scope: .singleton
+        )
         registerLazy(
             TestService.self,
             resolver: {
@@ -220,6 +313,14 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .prototype
         )
+        register(
+            TroisiemeHumanite.self,
+            resolver: {
+                return TroisiemeHumanite()
+            },
+            qualifier: "Novel",
+            scope: .singleton
+        ).link(Book.self)
         register(
             UnicodeTest.self,
             resolver: {

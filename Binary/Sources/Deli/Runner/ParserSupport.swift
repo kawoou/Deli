@@ -13,6 +13,8 @@ private struct Constant {
     static let qualifierName = "qualifier"
     static let qualifierRegex = "\(qualifierName)(:[^=]*)?[\\s]*=[\\s]*\"([^\"]*)\"".r!
     static let qualifierClosureRegex = "\(qualifierName)[\\s]*:[\\s]*String\\?[^\\{]*\\{[\\s]*return[\\s]+\"([^\"]*)\"[\\s]*\\}".r!
+
+    static let commentRegex = "\\/\\*([^\\*]+)\\*\\/".r!
 }
 
 func parseScope(_ source: Structure, fileContent: String) throws -> String? {
@@ -102,4 +104,10 @@ func parseQualifier(_ source: Structure, fileContent: String) throws -> String? 
         return nil
     }.first
     #endif
+}
+func parseQualifierBy(_ source: Structure, fileContent: String) throws -> String? {
+    let range = Int(source.offset)..<Int(source.offset + source.length)
+    guard let content = fileContent.utf8[range] else { return nil }
+    guard let match = Constant.commentRegex.findFirst(in: content) else { return nil }
+    return match.group(at: 1)
 }

@@ -75,7 +75,7 @@ final class NotImplementCorrector: Correctable {
 
     // MARK: - Lifecycle
 
-    required init(parser: Parser) {
+    init(parser: Parser) {
         self.parser = parser
     }
 }
