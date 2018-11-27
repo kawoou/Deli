@@ -16,8 +16,9 @@ struct GenerateCommand: CommandProtocol {
 
         let configuration = Configuration()
         let configure: Config
+        let properties = CommandLine.get(forKey: "property")
         if let project = options.project {
-            guard let config = configuration.getConfig(project: project, scheme: options.scheme, output: nil) else {
+            guard let config = configuration.getConfig(project: project, scheme: options.scheme, target: options.target, output: nil, properties: properties) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
@@ -43,7 +44,7 @@ struct GenerateCommand: CommandProtocol {
 
             Logger.log(.info("Set Target `\(target)`"))
             let className = configuration.getClassName(info: info)
-            
+
             guard let sourceFiles = try? configuration.getSourceList(info: info) else { continue }
             if sourceFiles.count == 0 {
                 Logger.log(.warn("Empty source files.", nil))
@@ -53,6 +54,7 @@ struct GenerateCommand: CommandProtocol {
                 Logger.log(.debug(" - \(source)"))
             }
 
+            let propertyParser = PropertyParser()
             let parser = Parser([
                 ComponentParser(),
                 ConfigurationParser(),
@@ -63,6 +65,7 @@ struct GenerateCommand: CommandProtocol {
                 InjectParser()
             ])
             let corrector = Corrector([
+                QualifierByCorrector(parser: parser, propertyParser: propertyParser),
                 QualifierCorrector(parser: parser),
                 ScopeCorrector(parser: parser),
                 NotImplementCorrector(parser: parser)
@@ -71,6 +74,9 @@ struct GenerateCommand: CommandProtocol {
                 FactoryReferenceValidator(parser: parser),
                 CircularDependencyValidator(parser: parser)
             ])
+
+            let propertyFiles = configuration.getPropertyList(info: info, properties: properties)
+            propertyParser.load(propertyFiles)
 
             do {
                 let results = try validator.run(
@@ -82,11 +88,11 @@ struct GenerateCommand: CommandProtocol {
                 let outputData: String
                 switch options.type {
                 case "graph", "html":
-                    outputData = try GraphGenerator(results: results).generate()
+                    outputData = try GraphGenerator(results: results, properties: propertyParser.properties).generate()
                 case "code", "swift":
-                    outputData = try SourceGenerator(className: className, results: results).generate()
+                    outputData = try SourceGenerator(className: className, results: results, properties: propertyParser.properties).generate()
                 case "raw":
-                    outputData = try RawGenerator(results: results).generate()
+                    outputData = try RawGenerator(results: results, properties: propertyParser.properties).generate()
                 default:
                     throw CommandError.unacceptableType
                 }
@@ -118,13 +124,15 @@ struct GenerateOptions: OptionsProtocol {
     let isVerbose: Bool
     let project: String?
     let scheme: String?
+    let target: String?
     let output: String?
+    let properties: String?
     let type: String
 
-    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ output: String?) -> (_ type: String) -> GenerateOptions {
-        return { isVerbose in { project in { scheme in { output in { type in
-            self.init(configFile: configFile, isVerbose: isVerbose, project: project, scheme: scheme, output: output, type: type)
-        }}}}}
+    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ type: String) -> GenerateOptions {
+        return { isVerbose in { project in { scheme in { target in { output in { properties in { type in
+            self.init(configFile: configFile, isVerbose: isVerbose, project: project, scheme: scheme, target: target, output: output, properties: properties, type: type)
+        }}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<GenerateOptions, CommandantError<CommandError>> {
@@ -150,9 +158,19 @@ struct GenerateOptions: OptionsProtocol {
                 usage: "using build scheme name"
             )
             <*> mode <| Option(
+                key: "target",
+                defaultValue: nil,
+                usage: "using build target name"
+            )
+            <*> mode <| Option(
                 key: "output",
                 defaultValue: nil,
                 usage: "the path of output file"
+            )
+            <*> mode <| Option(
+                key: "property",
+                defaultValue: nil,
+                usage: "the path of property file"
             )
             <*> mode <| Option(
                 key: "type",

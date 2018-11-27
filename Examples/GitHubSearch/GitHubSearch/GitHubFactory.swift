@@ -7,23 +7,8 @@ import Deli
 
 final class GitHubFactory: ModuleFactory {
     override func load(context: AppContext) {
-        register(
-            ViewModel.self,
-            resolver: {
-                let _0 = context.get(GitHubService.self, qualifier: "")!
-                return ViewModel(_0)
-            },
-            qualifier: "",
-            scope: .prototype
-        )
-        register(
-            NetworkManagerImpl.self,
-            resolver: {
-                return NetworkManagerImpl()
-            },
-            qualifier: "",
-            scope: .singleton
-        ).link(NetworkManager.self)
+        loadProperty([:])
+
         register(
             GitHubServiceImpl.self,
             resolver: {
@@ -33,5 +18,22 @@ final class GitHubFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         ).link(GitHubService.self)
+        register(
+            NetworkManagerImpl.self,
+            resolver: {
+                return NetworkManagerImpl()
+            },
+            qualifier: "",
+            scope: .singleton
+        ).link(NetworkManager.self)
+        register(
+            ViewModel.self,
+            resolver: {
+                let _0 = context.get(GitHubService.self, qualifier: "")!
+                return ViewModel(_0)
+            },
+            qualifier: "",
+            scope: .prototype
+        )
     }
 }

@@ -107,6 +107,6 @@ final class Parser: Runnable {
     // MARK: - Lifecycle
     
     required init(_ modules: [Parsable]) {
-        moduleList = modules
+        self.moduleList = modules
     }
 }

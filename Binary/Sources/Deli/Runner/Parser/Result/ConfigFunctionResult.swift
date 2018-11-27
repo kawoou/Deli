@@ -12,6 +12,7 @@ final class ConfigFunctionResult: Results {
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
+    var instanceDependency: [Dependency] = []
     var imports: [String]
 
     var linkType: Set<String> = Set()

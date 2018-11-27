@@ -12,6 +12,7 @@ protocol Results: class, CustomStringConvertible, CustomDebugStringConvertible {
     var scope: String? { get set }
     var qualifier: String? { get set }
     var dependencies: [Dependency] { get set }
+    var instanceDependency: [Dependency] { get set }
     var imports: [String] { get set }
 
     var linkType: Set<String> { get set }
@@ -24,9 +25,34 @@ extension Results {
     }
     var description: String {
         let dependenciesString = dependencies
-            .map { dependency in
-                return "\(dependency.name)(type: \(dependency.type), qualifier: \"\(dependency.qualifier)\")"
+            .map {
+                """
+                \($0.name)(
+                    type: \($0.type),
+                    rule: \($0.rule),
+                    qualifier: \"\($0.qualifier)\",
+                    qualifierBy: \"\($0.qualifierBy ?? "")\"
+                )
+                """
             }
+            .joined(separator: ",\n        ")
+            .replacingOccurrences(of: "\n", with: "\n        ")
+
+        let instanceDependenciesString = instanceDependency
+            .map {
+                """
+                \($0.name)(
+                    type: \($0.type),
+                    rule: \($0.rule),
+                    qualifier: \"\($0.qualifier)\",
+                    qualifierBy: \"\($0.qualifierBy ?? "")\"
+                )
+                """
+            }
+            .joined(separator: ",\n        ")
+            .replacingOccurrences(of: "\n", with: "\n        ")
+
+        let importsString = imports
             .joined(separator: ",\n        ")
         
         let linkTypeString = linkType
@@ -41,6 +67,8 @@ extension Results {
             scope: \(scope ?? ".singleton"),
             qualifier: \"\(qualifier ?? "")\",
             dependencies: [\(dependenciesString.isEmpty ? "" : ("\n        " + dependenciesString + "\n    "))],
+            instanceDependency: [\(instanceDependenciesString.isEmpty ? "" : ("\n        " + instanceDependenciesString + "\n    "))],
+            imports: [\(importsString.isEmpty ? "" : ("\n        " + importsString + "\n    "))],
             linkType: [\(linkTypeString.isEmpty ? "" : ("\n        " + linkTypeString + "\n    "))]
         )
         """

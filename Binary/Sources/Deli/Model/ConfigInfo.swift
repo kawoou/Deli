@@ -17,6 +17,7 @@ struct ConfigInfo: Decodable {
         case include
         case exclude
         case output
+        case properties
         case className
     }
 
@@ -28,17 +29,19 @@ struct ConfigInfo: Decodable {
     let include: [String]
     let exclude: [String]
     let output: String?
+    let properties: [String]
     let className: String?
 
     // MARK: - Lifecycle
 
-    init(project: String, scheme: String? = nil, target: String? = nil, output: String? = nil, className: String? = nil) {
+    init(project: String, scheme: String? = nil, target: String? = nil, output: String? = nil, properties: [String] = [], className: String? = nil) {
         self.project = project
         self.scheme = scheme
         self.target = target
         self.include = []
         self.exclude = []
         self.output = output
+        self.properties = properties
         self.className = className
     }
 
@@ -51,6 +54,7 @@ struct ConfigInfo: Decodable {
         include = (try? container.decode([String].self, forKey: .include)) ?? []
         exclude = (try? container.decode([String].self, forKey: .exclude)) ?? []
         output = try? container.decode(String.self, forKey: .output)
+        properties = (try? container.decode([String].self, forKey: .properties)) ?? []
         className = try? container.decode(String.self, forKey: .className)
     }
 }

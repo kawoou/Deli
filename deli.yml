@@ -19,3 +19,6 @@ config:
       - Tests/DeliTests/Mock
       - Tests/DeliTests/DeliSpec.swift
       - Tests/DeliTests/DeliSample/Struct/StructWithLazyAutowired.swift
+    properties:
+      - Tests/DeliTests/DeliSample/Property/Common/*
+      - Tests/DeliTests/DeliSample/Property/application-dev.yml

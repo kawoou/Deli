@@ -1,0 +1,6 @@
+{
+    "server": {
+        "url": "http://www.test.com",
+        "method": "post"
+    }
+}

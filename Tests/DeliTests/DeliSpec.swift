@@ -581,6 +581,38 @@ class DeliSpec: QuickSpec, Inject {
                     }
                 }
             }
+            describe("property test") {
+                describe("by Autowired") {
+                    var sut: PropertyAutowired!
+
+                    beforeEach {
+                        sut = appContext.get(PropertyAutowired.self)
+                    }
+                    it("sut's qualifier of network should be 'dev'") {
+                        expect(sut.network.qualifier) == "dev"
+                    }
+                }
+                describe("by Inject") {
+                    var sut: PropertyInject!
+
+                    beforeEach {
+                        sut = appContext.get(PropertyInject.self)
+                    }
+                    it("sut's qualifier of method should be 'get'") {
+                        expect(sut.method.qualifier) == "get"
+                    }
+                }
+                describe("by single value") {
+                    var sut: String?
+
+                    beforeEach {
+                        sut = appContext.getProperty("server.url") as? String
+                    }
+                    it("sut should be 'http://dev.test.com'") {
+                        expect(sut) == "http://dev.test.com"
+                    }
+                }
+            }
         }
     }
 }

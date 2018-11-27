@@ -16,8 +16,9 @@ struct BuildCommand: CommandProtocol {
 
         let configuration = Configuration()
         let configure: Config
+        let properties = CommandLine.get(forKey: "property")
         if let project = options.project {
-            guard let config = configuration.getConfig(project: project, scheme: options.scheme, output: options.output) else {
+            guard let config = configuration.getConfig(project: project, scheme: options.scheme, target: options.target, output: options.output, properties: properties) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
@@ -51,7 +52,7 @@ struct BuildCommand: CommandProtocol {
                 outputFile = configuration.getOutputPath(info: info)
                 className = configuration.getClassName(info: info)
             }
-            
+
             guard let sourceFiles = try? configuration.getSourceList(info: info) else { continue }
             if sourceFiles.count == 0 {
                 Logger.log(.warn("No source files for processing.", nil))
@@ -61,6 +62,7 @@ struct BuildCommand: CommandProtocol {
                 Logger.log(.debug(" - \(source)"))
             }
 
+            let propertyParser = PropertyParser()
             let parser = Parser([
                 ComponentParser(),
                 ConfigurationParser(),
@@ -71,6 +73,7 @@ struct BuildCommand: CommandProtocol {
                 InjectParser()
             ])
             let corrector = Corrector([
+                QualifierByCorrector(parser: parser, propertyParser: propertyParser),
                 QualifierCorrector(parser: parser),
                 ScopeCorrector(parser: parser),
                 NotImplementCorrector(parser: parser)
@@ -80,13 +83,16 @@ struct BuildCommand: CommandProtocol {
                 CircularDependencyValidator(parser: parser)
             ])
 
+            let propertyFiles = configuration.getPropertyList(info: info, properties: properties)
+            propertyParser.load(propertyFiles)
+
             do {
                 let results = try validator.run(
                     try corrector.run(
                         try parser.run(sourceFiles)
                     )
                 )
-                let outputData = try SourceGenerator(className: className, results: results).generate()
+                let outputData = try SourceGenerator(className: className, results: results, properties: propertyParser.properties).generate()
                 let url = URL(fileURLWithPath: outputFile)
                 
                 var isDirectory: ObjCBool = false
@@ -112,13 +118,23 @@ struct BuildOptions: OptionsProtocol {
     let configFile: String?
     let project: String?
     let scheme: String?
+    let target: String?
     let output: String?
+    let properties: String?
     let isVerbose: Bool
 
-    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ output: String?) -> (_ isVerbose: Bool) -> BuildOptions {
-        return { project in { scheme in { output in { isVerbose in
-            self.init(configFile: configFile, project: project, scheme: scheme, output: output, isVerbose: isVerbose)
-        }}}}
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isVerbose: Bool) -> BuildOptions {
+        return { project in { scheme in { target in { output in { properties in { isVerbose in
+            self.init(
+                configFile: configFile,
+                project: project,
+                scheme: scheme,
+                target: target,
+                output: output,
+                properties: properties,
+                isVerbose: isVerbose
+            )
+        }}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<BuildOptions, CommandantError<CommandError>> {
@@ -139,9 +155,19 @@ struct BuildOptions: OptionsProtocol {
                 usage: "using build scheme name"
             )
             <*> mode <| Option(
+                key: "target",
+                defaultValue: nil,
+                usage: "using build target name"
+            )
+            <*> mode <| Option(
                 key: "output",
                 defaultValue: nil,
                 usage: "the path of output file"
+            )
+            <*> mode <| Option(
+                key: "property",
+                defaultValue: nil,
+                usage: "the path of property file"
             )
             <*> mode <| Option(
                 key: "verbose",

@@ -94,6 +94,7 @@ final class AutowiredParser: Parsable {
                 }
                 
                 let qualifier = qualifierList[index]
+                let qualifierBy = try parseQualifierBy(info, fileContent: fileContent)
 
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
                     return Dependency(
@@ -101,14 +102,16 @@ final class AutowiredParser: Parsable {
                         target: constructor,
                         name: arrayType,
                         type: .array,
-                        qualifier: qualifier
+                        qualifier: qualifier,
+                        qualifierBy: qualifierBy
                     )
                 }
                 return Dependency(
                     parent: name,
                     target: constructor,
                     name: dependencyName,
-                    qualifier: qualifier
+                    qualifier: qualifier,
+                    qualifierBy: qualifierBy
                 )
             }
         

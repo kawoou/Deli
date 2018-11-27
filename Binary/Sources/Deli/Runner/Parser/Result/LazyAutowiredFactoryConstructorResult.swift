@@ -12,12 +12,12 @@ final class LazyAutowiredFactoryConstructorResult: Results {
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
+    var instanceDependency: [Dependency]
     var imports: [String]
     
     var linkType: Set<String> = Set()
     
     var payload: Dependency
-    var instanceDependency: [Dependency]
     
     init(
         _ instanceType: String,
@@ -55,7 +55,11 @@ final class LazyAutowiredFactoryConstructorResult: Results {
         let dependencyInject = instanceDependency
             .enumerated()
             .map { (index, dependency) in
-                return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(index)"
+                if dependency.qualifierBy != nil {
+                    return "_\(index)"
+                } else {
+                    return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(index)"
+                }
             }
             .joined(separator: ", ")
         

@@ -8,5 +8,5 @@ import Foundation
 protocol Generator {
     func generate() throws -> String
 
-    init(results: [Results])
+    init(results: [Results], properties: [String: Any])
 }

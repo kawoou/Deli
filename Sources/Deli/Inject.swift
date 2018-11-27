@@ -72,7 +72,7 @@ public extension Inject {
             resolveRole: resolveRole
         )!
     }
-    
+
     /// Get instance list for type by factory.
     ///
     /// - Parameters:
@@ -94,6 +94,74 @@ public extension Inject {
             payload: payload,
             resolveRole: resolveRole
         )
+    }
+
+    /// Get instance for type.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance.
+    public static func Inject<T>(
+        _ type: T.Type,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .recursive
+    ) -> T {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, qualifier: qualifier, resolveRole: resolveRole)
+    }
+
+    /// Get instance list for type.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The resolved instances, or empty.
+    public static func Inject<T>(
+        _ type: [T].Type,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .default
+    ) -> [T] {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, qualifier: qualifier, resolveRole: resolveRole)
+    }
+
+    /// Get instance for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - argument: User data for resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance.
+    public static func Inject<T: Factory>(
+        _ type: T.Type,
+        with argument: T.RawPayload.Tuple,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .recursive
+    ) -> T {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, with: argument, qualifier: qualifier, resolveRole: resolveRole)
+    }
+
+    /// Get instance list for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - argument: User data for resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The resolved instances, or emtpy.
+    public static func Inject<T: Factory>(
+        _ type: [T].Type,
+        with argument: T.RawPayload.Tuple,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .default
+    ) -> [T] {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, with: argument, qualifier: qualifier, resolveRole: resolveRole)
     }
     
     // MARK: - Public
@@ -178,5 +246,73 @@ public extension Inject {
             qualifier: qualifier,
             resolveRole: resolveRole
         )
+    }
+
+    /// Get instance for type.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance.
+    public func Inject<T>(
+        _ type: T.Type,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .recursive
+    ) -> T {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, qualifier: qualifier, resolveRole: resolveRole)
+    }
+
+    /// Get instance list for type.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The resolved instances, or empty.
+    public func Inject<T>(
+        _ type: [T].Type,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .default
+    ) -> [T] {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, qualifier: qualifier, resolveRole: resolveRole)
+    }
+
+    /// Get instance for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - argument: User data for resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance.
+    public func Inject<T: Factory>(
+        _ type: T.Type,
+        with argument: T.RawPayload.Tuple,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .recursive
+    ) -> T {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, with: argument, qualifier: qualifier, resolveRole: resolveRole)
+    }
+
+    /// Get instance list for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - argument: User data for resolve.
+    ///     - qualifierBy: The registered qualifier by property.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The resolved instances, or emtpy.
+    public func Inject<T: Factory>(
+        _ type: [T].Type,
+        with argument: T.RawPayload.Tuple,
+        qualifierBy: String,
+        resolveRole: ResolveRule = .default
+    ) -> [T] {
+        let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
+        return Inject(type, with: argument, qualifier: qualifier, resolveRole: resolveRole)
     }
 }

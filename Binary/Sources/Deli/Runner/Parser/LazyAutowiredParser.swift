@@ -92,6 +92,7 @@ final class LazyAutowiredParser: Parsable {
                 }
 
                 let qualifier = qualifierList[index]
+                let qualifierBy = try parseQualifierBy(info, fileContent: fileContent)
 
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
                     return Dependency(
@@ -99,14 +100,16 @@ final class LazyAutowiredParser: Parsable {
                         target: injector,
                         name: arrayType,
                         type: .array,
-                        qualifier: qualifier
+                        qualifier: qualifier,
+                        qualifierBy: qualifierBy
                     )
                 }
                 return Dependency(
                     parent: name,
                     target: injector,
                     name: dependencyName,
-                    qualifier: qualifier
+                    qualifier: qualifier,
+                    qualifierBy: qualifierBy
                 )
             }
 

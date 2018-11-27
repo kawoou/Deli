@@ -15,8 +15,9 @@ struct ValidateCommand: CommandProtocol {
 
         let configuration = Configuration()
         let configure: Config
+        let properties = CommandLine.get(forKey: "property")
         if let project = options.project {
-            guard let config = configuration.getConfig(project: project, scheme: options.scheme, output: nil) else {
+            guard let config = configuration.getConfig(project: project, scheme: options.scheme, target: options.target, output: nil, properties: properties) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
@@ -50,6 +51,7 @@ struct ValidateCommand: CommandProtocol {
                 Logger.log(.debug(" - \(source)"))
             }
 
+            let propertyParser = PropertyParser()
             let parser = Parser([
                 ComponentParser(),
                 ConfigurationParser(),
@@ -60,6 +62,7 @@ struct ValidateCommand: CommandProtocol {
                 InjectParser()
             ])
             let corrector = Corrector([
+                QualifierByCorrector(parser: parser, propertyParser: propertyParser),
                 QualifierCorrector(parser: parser),
                 ScopeCorrector(parser: parser),
                 NotImplementCorrector(parser: parser)
@@ -68,6 +71,9 @@ struct ValidateCommand: CommandProtocol {
                 FactoryReferenceValidator(parser: parser),
                 CircularDependencyValidator(parser: parser)
             ])
+
+            let propertyFiles = configuration.getPropertyList(info: info, properties: properties)
+            propertyParser.load(propertyFiles)
 
             do {
                 _ = try validator.run(
@@ -89,12 +95,14 @@ struct ValidateOptions: OptionsProtocol {
     let configFile: String?
     let project: String?
     let scheme: String?
+    let target: String?
+    let properties: String?
     let isVerbose: Bool
 
-    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ isVerbose: Bool) -> ValidateOptions {
-        return { project in { scheme in { isVerbose in
-            self.init(configFile: configFile, project: project, scheme: scheme, isVerbose: isVerbose)
-        }}}
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ properties: String?) -> (_ isVerbose: Bool) -> ValidateOptions {
+        return { project in { scheme in { target in { properties in { isVerbose in
+            self.init(configFile: configFile, project: project, scheme: scheme, target: target, properties: properties, isVerbose: isVerbose)
+        }}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<ValidateOptions, CommandantError<CommandError>> {
@@ -113,6 +121,16 @@ struct ValidateOptions: OptionsProtocol {
                 key: "scheme",
                 defaultValue: nil,
                 usage: "using build scheme name"
+            )
+            <*> mode <| Option(
+                key: "target",
+                defaultValue: nil,
+                usage: "using build target name"
+            )
+            <*> mode <| Option(
+                key: "property",
+                defaultValue: nil,
+                usage: "the path of property file"
             )
             <*> mode <| Option(
                 key: "verbose",

@@ -7,6 +7,8 @@ import Deli
 
 final class SurveyFactory: ModuleFactory {
     override func load(context: AppContext) {
+        loadProperty([:])
+
         register(
             SurveyServiceImpl.self,
             resolver: {

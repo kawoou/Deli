@@ -12,11 +12,10 @@ final class AutowiredConstructorResult: Results {
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
+    var instanceDependency: [Dependency]
     var imports: [String]
 
     var linkType: Set<String> = Set()
-
-    var instanceDependency: [Dependency]
     
     init(
         _ instanceType: String,
@@ -53,7 +52,11 @@ final class AutowiredConstructorResult: Results {
         let dependencyInject = instanceDependency
             .enumerated()
             .map { (index, dependency) in
-                return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(index)"
+                if dependency.qualifierBy != nil {
+                    return "_\(index)"
+                } else {
+                    return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(index)"
+                }
             }
             .joined(separator: ", ")
 

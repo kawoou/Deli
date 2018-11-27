@@ -20,6 +20,10 @@ final class InjectParser: Parsable {
         static let qualifierName = "qualifier"
         static let qualifierPrefix = "\(qualifierName):"
         static let qualifierRegex = "\(qualifierName):[\\s]*\"([^\"]*)\"".r!
+
+        static let qualifierByName = "qualifierBy"
+        static let qualifierByPrefix = "\(qualifierByName):"
+        static let qualifierByRegex = "\(qualifierByName):[\\s]*\"([^\"]*)\"".r!
         
         static let payloadName = "with"
         static let payloadPrefix = "\(payloadName):"
@@ -73,7 +77,15 @@ final class InjectParser: Parsable {
                 return match.group(at: 1)
             }?
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        
+
+        let qualifierBy = arguments
+            .first { $0.hasPrefix(Constant.qualifierByName) }
+            .flatMap { result -> String? in
+                guard let match = Constant.qualifierByRegex.findFirst(in: result) else { return nil }
+                return match.group(at: 1)
+            }?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
         let isPayload = arguments.contains { $0.hasPrefix(Constant.payloadPrefix) }
 
         if let arrayMatch = Constant.arrayRegex.findFirst(in: typeName), let arrayType = arrayMatch.group(at: 1) {
@@ -82,7 +94,9 @@ final class InjectParser: Parsable {
                 target: source,
                 name: arrayType,
                 type: .array,
-                rule: isPayload ? .payload : .default
+                rule: isPayload ? .payload : .default,
+                qualifier: qualifier,
+                qualifierBy: qualifierBy
             )
         }
         return Dependency(
@@ -90,7 +104,8 @@ final class InjectParser: Parsable {
             target: source,
             name: typeName,
             rule: isPayload ? .payload : .default,
-            qualifier: qualifier
+            qualifier: qualifier,
+            qualifierBy: qualifierBy
         )
     }
 

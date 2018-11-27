@@ -5,6 +5,4 @@
 
 protocol Correctable {
     func correct(by results: [Results]) throws -> [Results]
-    
-    init(parser: Parser)
 }
