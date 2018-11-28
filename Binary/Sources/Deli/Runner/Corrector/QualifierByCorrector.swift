@@ -48,6 +48,8 @@ final class QualifierByCorrector: Correctable {
         }
     }
 
+    // MARK: - Lifecycle
+
     init(parser: Parser, propertyParser: PropertyParser) {
         self.parser = parser
         self.propertyParser = propertyParser

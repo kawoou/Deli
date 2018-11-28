@@ -259,6 +259,17 @@ final class DeliFactory: ModuleFactory {
             scope: .singleton
         )
         register(
+            ServerConfig.self,
+            resolver: {
+                return ServerConfig(
+                    method: "get",
+                    url: "http://dev.test.com"
+                )
+            },
+            qualifier: "",
+            scope: .prototype
+        )
+        register(
             StructWithAutowired.self,
             resolver: {
                 let _0 = context.get(FriendService.self, qualifier: "")!

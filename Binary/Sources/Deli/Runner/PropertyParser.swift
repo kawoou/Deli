@@ -71,6 +71,7 @@ final class PropertyParser {
         var isStartBracket = false
         var isStartStringKey = false
         var isStringKey = false
+        var stringStarter: Character = " "
 
         for character in path {
             switch character {
@@ -85,12 +86,15 @@ final class PropertyParser {
                 isStringKey = false
                 key = ""
 
-            case "\"":
+            case "\"", "\'":
                 if isStartStringKey {
+                    guard stringStarter == stringStarter else { throw PropertyParserError.notMatchedColon }
+                    stringStarter = " "
                     isStartStringKey = false
                     isStringKey = true
                 } else {
                     guard key.isEmpty else { throw PropertyParserError.notEmtpyKey }
+                    stringStarter = character
                     isStartStringKey = true
                 }
 
