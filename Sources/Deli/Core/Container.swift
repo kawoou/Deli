@@ -131,6 +131,7 @@ final class Container: ContainerType {
         var isStartBracket = false
         var isStartStringKey = false
         var isStringKey = false
+        var stringStarter: Character = " "
 
         for character in path {
             switch character {
@@ -145,12 +146,15 @@ final class Container: ContainerType {
                 isStringKey = false
                 key = ""
 
-            case "\"":
+            case "\"", "\'":
                 if isStartStringKey {
+                    guard stringStarter == stringStarter else { throw ContainerError.notMatchedColon }
+                    stringStarter = " "
                     isStartStringKey = false
                     isStringKey = true
                 } else {
                     guard key.isEmpty else { throw ContainerError.notEmtpyKey }
+                    stringStarter = character
                     isStartStringKey = true
                 }
 

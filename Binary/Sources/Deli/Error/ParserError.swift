@@ -19,6 +19,7 @@ enum ParserError: Error {
     case unavailableDeclaration
     case payloadNotFound
     case configurationCannotSupportArrayType
+    case targetPropertyNotFound
     case unknownName
     case unknown
     
@@ -54,6 +55,8 @@ enum ParserError: Error {
             return "Not found payload type."
         case .configurationCannotSupportArrayType:
             return "Configuration does not support injection for Array type Dependency."
+        case .targetPropertyNotFound:
+            return "Configuration property does not found."
         case .unknownName:
             return "Unknown structure name."
         case .unknown:

@@ -70,13 +70,15 @@ struct BuildCommand: CommandProtocol {
                 LazyAutowiredParser(),
                 AutowiredFactoryParser(),
                 LazyAutowiredFactoryParser(),
-                InjectParser()
+                InjectParser(),
+                ConfigPropertyParser()
             ])
             let corrector = Corrector([
                 QualifierByCorrector(parser: parser, propertyParser: propertyParser),
                 QualifierCorrector(parser: parser),
                 ScopeCorrector(parser: parser),
-                NotImplementCorrector(parser: parser)
+                NotImplementCorrector(parser: parser),
+                ConfigPropertyCorrector(parser: parser, propertyParser: propertyParser)
             ])
             let validator = Validator([
                 FactoryReferenceValidator(parser: parser),

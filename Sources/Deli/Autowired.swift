@@ -3,7 +3,7 @@
 //  Deli
 //
 
-/// The Autowired protocol is registered automatically, and load the
+/// The `Autowired` protocol is registered automatically, and load the
 /// required dependencies from IoC container.
 public protocol Autowired: Inject {
     /// Associated type for dependency 1.

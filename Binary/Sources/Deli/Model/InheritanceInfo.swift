@@ -1,6 +1,6 @@
 //
 //  InheritanceInfo.swift
-//  deli
+//  Deli
 //
 //  Created by Kawoou on 2018. 4. 13..
 //

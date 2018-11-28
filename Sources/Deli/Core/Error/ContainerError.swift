@@ -11,4 +11,5 @@ enum ContainerError: Error {
     case notEndedColon
     case notEndedBracket
     case notEmtpyKey
+    case notMatchedColon
 }

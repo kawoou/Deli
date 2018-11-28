@@ -612,6 +612,19 @@ class DeliSpec: QuickSpec, Inject {
                         expect(sut) == "http://dev.test.com"
                     }
                 }
+                describe("by ServerConfig") {
+                    var sut: ServerConfig?
+
+                    beforeEach {
+                        sut = appContext.get(ServerConfig.self)
+                    }
+                    it("sut's method should be 'get'") {
+                        expect(sut?.method) == "get"
+                    }
+                    it("sut's url should be 'http://dev.test.com'") {
+                        expect(sut?.url) == "http://dev.test.com"
+                    }
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ enum PropertyParserError: Error {
     case notEndedColon
     case notEndedBracket
     case notEmtpyKey
+    case notMatchedColon
 
     var localizedDescription: String {
         switch self {
@@ -31,6 +32,8 @@ enum PropertyParserError: Error {
             return "Not ended bracket."
         case .notEmtpyKey:
             return "Key is not empty."
+        case .notMatchedColon:
+            return "Not matched colon."
         }
     }
 }
