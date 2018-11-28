@@ -116,7 +116,7 @@ final class CircularDependencyValidator: Validatable {
 
     // MARK: - Lifecycle
 
-    required init(parser: Parser) {
+    init(parser: Parser) {
         self.parser = parser
     }
 }

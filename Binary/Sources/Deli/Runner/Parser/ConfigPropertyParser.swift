@@ -52,8 +52,8 @@ final class ConfigPropertyParser: Parsable {
 
         return ConfigPropertyResult(
             name,
-            targetPath,
-            propertyList,
+            propertyTargetKey: targetPath,
+            propertyKeys: propertyList,
             valueType: source.kind == SwiftDeclarationKind.struct.rawValue
         )
     }

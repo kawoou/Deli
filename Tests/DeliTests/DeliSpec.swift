@@ -625,6 +625,22 @@ class DeliSpec: QuickSpec, Inject {
                         expect(sut?.url) == "http://dev.test.com"
                     }
                 }
+                describe("by InjectProperty") {
+                    var sut: InjectPropertyTest!
+
+                    beforeEach {
+                        sut = appContext.get(InjectPropertyTest.self)
+                    }
+                    it("sut's url should be 'http://dev.test.com'") {
+                        expect(sut.url) == "http://dev.test.com"
+                    }
+                    it("sut's method should be 'get'") {
+                        expect(sut.method) == "get"
+                    }
+                    it("sut's test should be nil") {
+                        expect(sut.test).to(beNil())
+                    }
+                }
             }
         }
     }

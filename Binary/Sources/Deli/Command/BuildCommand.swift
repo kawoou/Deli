@@ -71,6 +71,7 @@ struct BuildCommand: CommandProtocol {
                 AutowiredFactoryParser(),
                 LazyAutowiredFactoryParser(),
                 InjectParser(),
+                InjectPropertyParser(),
                 ConfigPropertyParser()
             ])
             let corrector = Corrector([
@@ -82,7 +83,8 @@ struct BuildCommand: CommandProtocol {
             ])
             let validator = Validator([
                 FactoryReferenceValidator(parser: parser),
-                CircularDependencyValidator(parser: parser)
+                CircularDependencyValidator(parser: parser),
+                InjectPropertyValidator(parser: parser, propertyParser: propertyParser)
             ])
 
             let propertyFiles = configuration.getPropertyList(info: info, properties: properties)
