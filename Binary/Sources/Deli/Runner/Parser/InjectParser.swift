@@ -55,7 +55,6 @@ final class InjectParser: Parsable {
             guard let type = Constant.injectFuncRegex.findFirst(in: sourceData)?.group(at: 1) else { return [] }
             return [type]
         }()
-        
 
         guard let firstArgument = arguments.first else {
             Logger.log(.error("The `\(Constant.functionName)` method in `\(name)` required arguments.", source.getSourceLine(with: fileContent)))

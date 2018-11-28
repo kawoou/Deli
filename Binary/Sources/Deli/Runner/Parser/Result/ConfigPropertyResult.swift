@@ -25,8 +25,8 @@ final class ConfigPropertyResult: Results {
 
     init(
         _ instanceType: String,
-        _ propertyTargetKey: String,
-        _ propertyKeys: [String],
+        propertyTargetKey: String,
+        propertyKeys: [String],
         valueType: Bool
     ) {
         self.valueType = valueType

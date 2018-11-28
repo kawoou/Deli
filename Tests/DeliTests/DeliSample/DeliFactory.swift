@@ -133,6 +133,14 @@ final class DeliFactory: ModuleFactory {
             qualifier: "Novel",
             scope: .singleton
         ).link(Book.self)
+        register(
+            InjectPropertyTest.self,
+            resolver: {
+                return InjectPropertyTest()
+            },
+            qualifier: "",
+            scope: .singleton
+        )
         registerLazy(
             LazyAutowiredQualifier.self,
             resolver: {

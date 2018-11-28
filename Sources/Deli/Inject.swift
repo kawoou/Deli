@@ -163,6 +163,19 @@ public extension Inject {
         let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
         return Inject(type, with: argument, qualifier: qualifier, resolveRole: resolveRole)
     }
+
+    /// Get property.
+    ///
+    /// - Parameters:
+    ///     - path: Property path.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The property.
+    public static func InjectProperty(
+        _ path: String,
+        resolveRole: ResolveRule = .default
+    ) -> String {
+        return AppContext.shared.getProperty(path, resolveRole: resolveRole) as! String
+    }
     
     // MARK: - Public
     
@@ -314,5 +327,18 @@ public extension Inject {
     ) -> [T] {
         let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
         return Inject(type, with: argument, qualifier: qualifier, resolveRole: resolveRole)
+    }
+
+    /// Get property.
+    ///
+    /// - Parameters:
+    ///     - path: Property path.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The property.
+    public func InjectProperty(
+        _ path: String,
+        resolveRole: ResolveRule = .default
+    ) -> String {
+        return AppContext.shared.getProperty(path, resolveRole: resolveRole) as! String
     }
 }

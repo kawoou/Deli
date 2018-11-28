@@ -254,7 +254,7 @@ public class AppContext {
     /// Get property using the path.
     ///
     /// - Parameters:
-    ///     - path: Property path (ex. "server[0].url")
+    ///     - path: Property path.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
     public func getProperty(
