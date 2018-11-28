@@ -592,6 +592,38 @@ class DeliSpec: QuickSpec, Inject {
                         expect(sut.network.qualifier) == "dev"
                     }
                 }
+                describe("by AutowiredFactory") {
+                    var sut: PropertyAutowiredFactory!
+
+                    beforeEach {
+                        sut = self.Inject(PropertyAutowiredFactory.self, with: (a: 0, b: false))
+                    }
+                    it("sut's qualifier of network should be 'dev'") {
+                        expect(sut.network.qualifier) == "dev"
+                    }
+                }
+                describe("by LazyAutowired") {
+                    var sut: PropertyLazyAutowired!
+
+                    beforeEach {
+                        sut = appContext.get(PropertyLazyAutowired.self)
+                        RunLoop.current.run(until: Date().addingTimeInterval(0.1))
+                    }
+                    it("sut's qualifier of network should be 'dev'") {
+                        expect(sut.network.qualifier) == "dev"
+                    }
+                }
+                describe("by LazyAutowiredFactory") {
+                    var sut: PropertyLazyAutowiredFactory!
+
+                    beforeEach {
+                        sut = self.Inject(PropertyLazyAutowiredFactory.self, with: (a: 0, b: false))
+                        RunLoop.current.run(until: Date().addingTimeInterval(0.1))
+                    }
+                    it("sut's qualifier of network should be 'dev'") {
+                        expect(sut.network.qualifier) == "dev"
+                    }
+                }
                 describe("by Inject") {
                     var sut: PropertyInject!
 

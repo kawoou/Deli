@@ -234,6 +234,17 @@ final class DeliFactory: ModuleFactory {
             qualifier: "",
             scope: .singleton
         )
+        registerLazyFactory(
+            PropertyLazyAutowiredFactory.self,
+            resolver: { payload in
+                return PropertyLazyAutowiredFactory(payload: payload as! PropertyAutowiredFactoryPayload)
+            },
+            injector: { instance in
+                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                instance.inject(_0)
+            },
+            qualifier: ""
+        )
         register(
             PutMethod.self,
             resolver: {
