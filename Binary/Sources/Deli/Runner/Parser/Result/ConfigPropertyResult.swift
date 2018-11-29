@@ -2,8 +2,6 @@
 //  ConfigPropertyResult.swift
 //  Deli
 //
-//  Created by Kawoou on 28/11/2018.
-//
 
 final class ConfigPropertyResult: Results {
     var valueType: Bool
@@ -38,9 +36,9 @@ final class ConfigPropertyResult: Results {
         let properties = propertyKeys.enumerated()
             .map { (index, key) in
                 if propertyKeys.count == index + 1 {
-                    return "\(key): \"\(propertyValues[index])\""
+                    return "\(key): context.getProperty(\"\(propertyTargetKey).\(key)\") as! String"
                 } else {
-                    return "\(key): \"\(propertyValues[index])\","
+                    return "\(key): context.getProperty(\"\(propertyTargetKey).\(key)\") as! String,"
                 }
             }
             .joined(separator: "\n            ")

@@ -2,8 +2,6 @@
 //  QualifierByCorrector.swift
 //  Deli
 //
-//  Created by Kawoou on 28/11/2018.
-//
 
 final class QualifierByCorrector: Correctable {
 

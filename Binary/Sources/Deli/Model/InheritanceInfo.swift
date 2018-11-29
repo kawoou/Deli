@@ -2,8 +2,6 @@
 //  InheritanceInfo.swift
 //  Deli
 //
-//  Created by Kawoou on 2018. 4. 13..
-//
 
 import Foundation
 

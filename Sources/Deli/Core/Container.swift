@@ -45,34 +45,9 @@ final class Container: ContainerType {
         defer { lock.unlock() }
 
         guard let safeComponent = map[key] as? FactoryContainerComponent else {
-            let childKey = TypeKey(type: key.type)
-            guard let chain = chainMap[childKey]?.first(where: { key.qualifier.isEmpty || $0.qualifier == key.qualifier }) else {
-                throw ContainerError.unregistered
-            }
-            guard let component = map[chain] as? FactoryContainerComponent else {
-                throw ContainerError.unregistered
-            }
-            return resolveWithFactory(component: component, payload: payload)
+            throw ContainerError.unregistered
         }
         return resolveWithFactory(component: safeComponent, payload: payload)
-    }
-    func gets(_ key: TypeKey) throws -> [Any] {
-        lock.lock()
-        defer { lock.unlock() }
-
-        let newKey = TypeKey(type: key.type)
-        let list = chainMap[newKey] ?? []
-
-        do {
-            return try list
-                .filter {
-                    guard !key.qualifier.isEmpty else { return true }
-                    return $0.qualifier == key.qualifier
-                }
-                .compactMap { try get($0) }
-        } catch {
-            return []
-        }
     }
     func gets(_ key: TypeKey, payload: _Payload?) throws -> [Any] {
         lock.lock()
@@ -80,10 +55,7 @@ final class Container: ContainerType {
 
         let newKey = TypeKey(type: key.type)
         let list = (chainMap[newKey] ?? [])
-            .filter {
-                guard !key.qualifier.isEmpty else { return true }
-                return $0.qualifier == key.qualifier
-            }
+            .filter { key.qualifier.isEmpty || $0.qualifier == key.qualifier }
         
         do {
             guard let payload = payload else {
@@ -116,10 +88,7 @@ final class Container: ContainerType {
         
         do {
             return try list
-                .filter {
-                    guard !key.qualifier.isEmpty else { return true }
-                    return $0.qualifier == key.qualifier
-                }
+                .filter { key.qualifier.isEmpty || $0.qualifier == key.qualifier }
                 .compactMap { try get(withoutResolve: $0) }
         } catch {
             return []
@@ -136,9 +105,9 @@ final class Container: ContainerType {
         for character in path {
             switch character {
             case ".":
-                guard !key.isEmpty else { continue }
                 guard !isStartStringKey else { throw ContainerError.notEndedColon }
                 guard !isStartBracket else { throw ContainerError.notEndedBracket }
+                guard !key.isEmpty else { continue }
                 guard let oldTarget = target as? [String: Any] else { return nil }
                 guard let newTarget = oldTarget[key] else { return nil }
                 target = newTarget
@@ -148,7 +117,7 @@ final class Container: ContainerType {
 
             case "\"", "\'":
                 if isStartStringKey {
-                    guard stringStarter == stringStarter else { throw ContainerError.notMatchedColon }
+                    guard character == stringStarter else { throw ContainerError.notMatchedColon }
                     stringStarter = " "
                     isStartStringKey = false
                     isStringKey = true

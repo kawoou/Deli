@@ -1,8 +1,6 @@
 //
 //  ConfigPropertyCorrector.swift
-//  deli
-//
-//  Created by Kawoou on 28/11/2018.
+//  Deli
 //
 
 final class ConfigPropertyCorrector: Correctable {

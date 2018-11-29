@@ -2,8 +2,6 @@
 //  InjectPropertyResult.swift
 //  Deli
 //
-//  Created by Kawoou on 28/11/2018.
-//
 
 final class InjectPropertyResult: Results {
     var valueType: Bool

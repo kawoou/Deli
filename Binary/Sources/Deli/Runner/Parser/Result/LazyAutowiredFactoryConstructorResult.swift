@@ -42,12 +42,27 @@ final class LazyAutowiredFactoryConstructorResult: Results {
         
         let dependencyResolve = instanceDependency
             .enumerated()
-            .map { (index, dependency) in
-                switch dependency.type {
-                case .single:
-                    return "let _\(index) = context.get(\(dependency.name).self, qualifier: \"\(dependency.qualifier)\")!"
-                case .array:
-                    return "let _\(index) = context.get([\(dependency.name)].self, qualifier: \"\(dependency.qualifier)\")"
+            .flatMap { (index, dependency) -> [String] in
+                if let qualifierBy = dependency.qualifierBy {
+                    switch dependency.type {
+                    case .single:
+                        return [
+                            "let _qualifier\(index) = context.getProperty(\"\(qualifierBy)\") as! String",
+                            "let _\(index) = context.get(\(dependency.name).self, qualifier: _qualifier\(index))!"
+                        ]
+                    case .array:
+                        return [
+                            "let _qualifier\(index) = context.getProperty(\"\(qualifierBy)\") as! String",
+                            "let _\(index) = context.get([\(dependency.name)].self, qualifier: _qualifier\(index))"
+                        ]
+                    }
+                } else {
+                    switch dependency.type {
+                    case .single:
+                        return ["let _\(index) = context.get(\(dependency.name).self, qualifier: \"\(dependency.qualifier)\")!"]
+                    case .array:
+                        return ["let _\(index) = context.get([\(dependency.name)].self, qualifier: \"\(dependency.qualifier)\")"]
+                    }
                 }
             }
             .joined(separator: "\n        ")

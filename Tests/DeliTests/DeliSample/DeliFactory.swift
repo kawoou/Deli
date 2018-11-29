@@ -33,6 +33,14 @@ final class DeliFactory: ModuleFactory {
             scope: .singleton
         ).link(AccountService.self)
         register(
+            AlwaysModel.self,
+            resolver: {
+                return AlwaysModel()
+            },
+            qualifier: "",
+            scope: .always
+        )
+        register(
             AngryRobotHead.self,
             resolver: {
                 return AngryRobotHead()
@@ -200,7 +208,8 @@ final class DeliFactory: ModuleFactory {
         register(
             PropertyAutowired.self,
             resolver: {
-                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                let _qualifier0 = context.getProperty("environment") as! String
+                let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 return PropertyAutowired(_0)
             },
             qualifier: "",
@@ -209,7 +218,8 @@ final class DeliFactory: ModuleFactory {
         registerFactory(
             PropertyAutowiredFactory.self,
             resolver: { payload in
-                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                let _qualifier0 = context.getProperty("environment") as! String
+                let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 return PropertyAutowiredFactory(_0, payload: payload as! PropertyAutowiredFactoryPayload)
             },
             qualifier: ""
@@ -228,7 +238,8 @@ final class DeliFactory: ModuleFactory {
                 return PropertyLazyAutowired()
             },
             injector: { instance in
-                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                let _qualifier0 = context.getProperty("environment") as! String
+                let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 instance.inject(_0)
             },
             qualifier: "",
@@ -237,10 +248,11 @@ final class DeliFactory: ModuleFactory {
         registerLazyFactory(
             PropertyLazyAutowiredFactory.self,
             resolver: { payload in
-                return PropertyLazyAutowiredFactory(payload: payload as! PropertyAutowiredFactoryPayload)
+                return PropertyLazyAutowiredFactory(payload: payload as! PropertyLazyAutowiredFactoryPayload)
             },
             injector: { instance in
-                let _0 = context.get(NetworkProvider.self, qualifier: "dev")!
+                let _qualifier0 = context.getProperty("environment") as! String
+                let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 instance.inject(_0)
             },
             qualifier: ""
@@ -281,8 +293,8 @@ final class DeliFactory: ModuleFactory {
             ServerConfig.self,
             resolver: {
                 return ServerConfig(
-                    method: "get",
-                    url: "http://dev.test.com"
+                    method: context.getProperty("server.method") as! String,
+                    url: context.getProperty("server.url") as! String
                 )
             },
             qualifier: "",
