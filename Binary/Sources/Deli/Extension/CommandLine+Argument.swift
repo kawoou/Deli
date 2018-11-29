@@ -2,8 +2,6 @@
 //  CommandLine+Argument.swift
 //  Deli
 //
-//  Created by Kawoou on 27/11/2018.
-//
 
 import Foundation
 

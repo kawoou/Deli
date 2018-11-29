@@ -7,7 +7,7 @@
 
 import Deli
 
-struct PropertyLazyAutowiredFactoryPyaload: Payload {
+struct PropertyLazyAutowiredFactoryPayload: Payload {
     let a: Int
     let b: Bool
 
@@ -24,7 +24,7 @@ final class PropertyLazyAutowiredFactory: LazyAutowiredFactory {
         self.network = network
     }
 
-    required init(payload: PropertyAutowiredFactoryPayload) {
+    required init(payload: PropertyLazyAutowiredFactoryPayload) {
 
     }
 }

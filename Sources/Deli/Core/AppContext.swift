@@ -38,7 +38,16 @@ public class AppContext {
     private var loadedList: [LoadInfo] = []
     
     // MARK: - Public
-    
+
+    /// Get container components.
+    ///
+    /// - Parameters:
+    ///     - type: Container component type.
+    /// - Returns: Instance of container.
+    public func getFactory<T>(_ type: T.Type) -> [T] {
+        return loadedList.compactMap { $0.factory as? T }
+    }
+
     /// Load container components.
     ///
     /// - Parameters:
@@ -99,7 +108,7 @@ public class AppContext {
         #else
         loadedList = loadedList.filter { $0.factory !== factory }
         #endif
-        instance.factory.reset()
+        instance.factory.unload()
 
         return self
     }
@@ -163,17 +172,15 @@ public class AppContext {
     ///
     /// - Parameters:
     ///     - type: The dependency type to resolve.
-    ///     - qualifier: The registered qualifier.
     ///     - payload: User data for resolve.
     ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance, or nil.
     public func get<T: Factory>(
         _ type: T.Type,
-        qualifier: String,
         payload: T.RawPayload,
         resolveRole: ResolveRule = .recursive
     ) -> T? {
-        let key = TypeKey(type: type, qualifier: qualifier)
+        let key = TypeKey(type: type, qualifier: "")
         
         let list = resolveRole.findModules(loadedList.map { $0.factory })
         for factory in list {
@@ -188,17 +195,15 @@ public class AppContext {
     ///
     /// - Parameters:
     ///     - type: The dependency type to resolve.
-    ///     - qualifier: The registered qualifier.
     ///     - payload: User data for resolve.
     ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or emtpy.
     public func get<T: Factory>(
         _ type: [T].Type,
-        qualifier: String,
         payload: T.RawPayload,
         resolveRole: ResolveRule = .default
     ) -> [T] {
-        let key = TypeKey(type: T.self, qualifier: qualifier)
+        let key = TypeKey(type: T.self, qualifier: "")
         
         return resolveRole
             .findModules(loadedList.map { $0.factory })

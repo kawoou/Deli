@@ -1,8 +1,6 @@
 //
 //  PropertyParserError.swift
-//  deli
-//
-//  Created by Kawoou on 28/11/2018.
+//  Deli
 //
 
 enum PropertyParserError: Error {

@@ -2,8 +2,6 @@
 //  InjectPropertyParser.swift
 //  Deli
 //
-//  Created by Kawoou on 28/11/2018.
-//
 
 import Regex
 import SourceKittenFramework

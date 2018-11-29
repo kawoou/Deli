@@ -1,8 +1,6 @@
 //
 //  PropertyParser.swift
-//  deli
-//
-//  Created by Kawoou on 27/11/2018.
+//  Deli
 //
 
 import Foundation
@@ -76,9 +74,9 @@ final class PropertyParser {
         for character in path {
             switch character {
             case ".":
-                guard !key.isEmpty else { continue }
                 guard !isStartStringKey else { throw PropertyParserError.notEndedColon }
                 guard !isStartBracket else { throw PropertyParserError.notEndedBracket }
+                guard !key.isEmpty else { continue }
                 guard let oldTarget = target as? [String: Any] else { return nil }
                 guard let newTarget = oldTarget[key] else { return nil }
                 target = newTarget
@@ -88,7 +86,7 @@ final class PropertyParser {
 
             case "\"", "\'":
                 if isStartStringKey {
-                    guard stringStarter == stringStarter else { throw PropertyParserError.notMatchedColon }
+                    guard character == stringStarter else { throw PropertyParserError.notMatchedColon }
                     stringStarter = " "
                     isStartStringKey = false
                     isStringKey = true

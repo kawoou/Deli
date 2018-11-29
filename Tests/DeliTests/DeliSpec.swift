@@ -23,14 +23,244 @@ class DeliSpec: QuickSpec, Inject {
             appContext = AppContext.shared
         }
         afterEach {
-            appContext.reset()
             appContext.unloadAll()
+            appContext.reset()
+        }
+        describe("getProperty()") {
+            var sut: Any?
+
+            beforeEach {
+                let module = ModuleFactory()
+                module.loadProperty([
+                    "a": [
+                        [
+                            "b": [
+                                "c": [
+                                    "d": [
+                                        "e": "1"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "f"
+                        ]
+                    ]
+                ])
+                appContext.load(module)
+            }
+            describe("success test") {
+                context("success pattern") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[0]['b'].c.d[\"e\"]")
+                    }
+                    it("sut should be '1'") {
+                        expect(sut as? String) == "1"
+                    }
+                }
+            }
+            describe("error test") {
+                context("case 1") {
+                    beforeEach {
+                        sut = appContext.getProperty("a..b")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 2") {
+                    beforeEach {
+                        sut = appContext.getProperty("a.'1.")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 3") {
+                    beforeEach {
+                        sut = appContext.getProperty("a.\"1.")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 4") {
+                    beforeEach {
+                        sut = appContext.getProperty("a.[1.")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 5") {
+                    beforeEach {
+                        sut = appContext.getProperty("a.b")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 6") {
+                    beforeEach {
+                        sut = appContext.getProperty("a.0.")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 7") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[0].c.")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 8") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[\"']")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 9") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[1'")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 10") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[\"1[")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 11") {
+                    beforeEach {
+                        sut = appContext.getProperty("a.b[")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 12") {
+                    beforeEach {
+                        sut = appContext.getProperty("ab[")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 13") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[[")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 14") {
+                    beforeEach {
+                        sut = appContext.getProperty("\"]")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 15") {
+                    beforeEach {
+                        sut = appContext.getProperty("a]")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 16") {
+                    beforeEach {
+                        sut = appContext.getProperty("a['a']")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 17") {
+                    beforeEach {
+                        sut = appContext.getProperty("['ab']")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 18") {
+                    beforeEach {
+                        sut = appContext.getProperty("[1]")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 19") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[-1]")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 20") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[2]")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 21") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[0].'b")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+                context("case 22") {
+                    beforeEach {
+                        sut = appContext.getProperty("a[0")
+                    }
+                    it("sut should be nil") { expect(sut).to(beNil()) }
+                }
+            }
+        }
+        describe("Empty Deli's") {
+            context("when inject") {
+                var sut: TestView2?
+
+                beforeEach {
+                    sut = appContext.get(TestView2.self)
+                }
+                it("sut should be nil") {
+                    expect(sut).to(beNil())
+                }
+            }
+            context("when inject array") {
+                var sut: [Book] = []
+
+                beforeEach {
+                    sut = appContext.get([Book].self)
+                }
+                it("sut.count should be 0") {
+                    expect(sut.count) == 0
+                }
+            }
+            context("using custom resolve role") {
+                var sut: [Book] = []
+
+                beforeEach {
+                    sut = appContext.get([Book].self, qualifier: "", resolveRole: .custom({ $0 }))
+                }
+                it("sut.count should be 0") {
+                    expect(sut.count) == 0
+                }
+            }
         }
         describe("Deli's") {
             beforeEach {
                 appContext.load([
                     DeliFactory.self
                 ])
+            }
+            context("when inject DeliFactory") {
+                var sut: DeliFactory?
+
+                beforeEach {
+                    sut = appContext.get(DeliFactory.self)
+                }
+                it("sut should be nil") {
+                    expect(sut).to(beNil())
+                }
+            }
+            context("when inject [TestNotRegister]") {
+                var sut: [TestNotRegister] = []
+
+                beforeEach {
+                    sut = appContext.get([TestNotRegister].self)
+                }
+                it("sut should be empty") {
+                    expect(sut.isEmpty) == true
+                }
+            }
+            context("when inject [TestNotRegister] without resolve") {
+                var sut: [TestNotRegister] = []
+
+                beforeEach {
+                    sut = appContext.get(withoutResolve: [TestNotRegister].self, qualifier: "")
+                }
+                it("sut should be empty") {
+                    expect(sut.isEmpty) == true
+                }
             }
             context("when inject with qualifier") {
                 var sut: [Book] = []
@@ -362,11 +592,7 @@ class DeliSpec: QuickSpec, Inject {
                 var factoryTest: FactoryTest!
                 
                 beforeEach {
-                    factoryTest = appContext.get(
-                        FactoryTest.self,
-                        qualifier: "",
-                        payload: TestPayload(with: (test1: false, test2: [1, 2, 3, 4, 5]))
-                    )
+                    factoryTest = self.Inject(FactoryTest.self, with: (test1: false, test2: [1, 2, 3, 4, 5]))
                 }
                 it("qualifier of factoryTest should be nil") {
                     expect(factoryTest.qualifier).to(beNil())
@@ -390,53 +616,139 @@ class DeliSpec: QuickSpec, Inject {
                 }
                 
                 context("when load other ModuleFactory") {
-                    let testModule: ModuleFactory = {
-                        let module = ModuleFactory()
-                        module.register(
-                            AccountService.self,
-                            resolver: {
-                                let networkManager = appContext.get(NetworkManager.self)!
-                                let libraryService = appContext.get(LibraryService.self)!
-                                return MockAccountService(networkManager, libraryService)
-                            },
-                            qualifier: "facebook",
-                            scope: .singleton
-                        )
-                        module.register(
-                            MockBook.self,
-                            resolver: {
-                                return MockBook()
-                            },
-                            qualifier: "Test",
-                            scope: .singleton
-                        ).link(Book.self)
-                        
-                        return module
-                    }()
-                    
+                    var testModule: ModuleFactory!
+
                     beforeEach {
-                        appContext.load(testModule, priority: .high)
-                        
-                        accountService = appContext.get(AccountService.self, qualifier: "facebook")!
-                        books = appContext.get([Book].self, resolveRole: .default)
+                        testModule = {
+                            let module = ModuleFactory()
+                            module.register(
+                                AccountService.self,
+                                resolver: {
+                                    let networkManager = appContext.get(NetworkManager.self)!
+                                    let libraryService = appContext.get(LibraryService.self)!
+                                    return MockAccountService(networkManager, libraryService)
+                                },
+                                qualifier: "facebook",
+                                scope: .singleton
+                            )
+                            module.register(
+                                MockBook.self,
+                                resolver: {
+                                    return MockBook()
+                                },
+                                qualifier: "Test",
+                                scope: .singleton
+                            ).link(Book.self)
+
+                            module.register(
+                                TestRegister.self,
+                                resolver: {
+                                    return TestRegister()
+                                },
+                                qualifier: "Test",
+                                scope: .singleton
+                            )
+                            module.container.link(TypeKey(type: TestRegisterProtocol.self), children: TypeKey(type: TestRegister.self))
+
+                            return module
+                        }()
                     }
-                    it("accountService should be mock instance") {
-                        expect(accountService.logout()) == false
-                        expect(accountService.logoutCount) == 0
-                        expect(books.count) == 1
-                    }
-                    
-                    context("when unload other MoudleFactory") {
+
+                    context("for custom priority") {
                         beforeEach {
-                            appContext.unload(testModule)
-                            
+                            appContext.load(testModule, priority: .priority(501))
+
                             accountService = appContext.get(AccountService.self, qualifier: "facebook")!
-                            books = appContext.get([Book].self, qualifier: "Novel")
+                            books = appContext.get([Book].self)
                         }
-                        it("accountService should be normal instance") {
+                        it("accountService should be mock instance") {
+                            expect(accountService.logout()) == false
+                            expect(accountService.logoutCount) == 0
+                            expect(books.count) == 1
+                        }
+
+                        context("when inject TestRegisterProtocol") {
+                            var sut: TestRegisterProtocol?
+
+                            beforeEach {
+                                sut = appContext.get(TestRegisterProtocol.self)
+                            }
+                            it("sut should be nil") {
+                                expect(sut).to(beNil())
+                            }
+                        }
+                        context("when inject TestRegisterProtocol without resolve") {
+                            var sut: TestRegisterProtocol?
+
+                            beforeEach {
+                                sut = appContext.get(withoutResolve: TestRegisterProtocol.self, qualifier: "")
+                            }
+                            it("sut should be nil") {
+                                expect(sut).to(beNil())
+                            }
+                        }
+
+                        context("when adding custom property") {
+                            var sut: PropertyInject!
+
+                            beforeEach {
+                                let module = appContext.getFactory(DeliFactory.self).first
+                                module?.container.link(
+                                    TypeKey(type: NetworkMethod.self),
+                                    children: TypeKey(type: PutMethod.self, qualifier: "put")
+                                )
+                                testModule.loadProperty([
+                                    "server": [
+                                        "method": "put"
+                                    ]
+                                ])
+                                sut = appContext.get(PropertyInject.self)
+                            }
+                            it("sut's qualifier of method should be 'put'") {
+                                expect(sut.method.qualifier) == "put"
+                            }
+                        }
+                    }
+                    context("for low priority") {
+                        beforeEach {
+                            appContext.load(testModule, priority: .low)
+
+                            accountService = appContext.get(AccountService.self, qualifier: "facebook")!
+                            books = appContext.get([Book].self, resolveRole: .custom({
+                                $0.reversed()
+                            }))
+                        }
+                        it("accountService should be mock instance") {
                             expect(accountService.logout()) == true
                             expect(accountService.logoutCount) == 1
-                            expect(books.count) == 2
+                            expect(books.count) == 4
+                        }
+                    }
+                    context("for high priority") {
+                        beforeEach {
+                            appContext.load(testModule, priority: .high)
+
+                            accountService = appContext.get(AccountService.self, qualifier: "facebook")!
+                            books = appContext.get([Book].self, resolveRole: .default)
+                        }
+                        it("accountService should be mock instance") {
+                            expect(accountService.logout()) == false
+                            expect(accountService.logoutCount) == 0
+                            expect(books.count) == 1
+                        }
+
+                        context("when unload other MoudleFactory") {
+                            beforeEach {
+                                appContext.unload(testModule)
+
+                                accountService = appContext.get(AccountService.self, qualifier: "facebook")!
+                                books = appContext.get([Book].self, qualifier: "Novel")
+                            }
+                            it("accountService should be normal instance") {
+                                expect(accountService.logout()) == true
+                                expect(accountService.logoutCount) == 1
+                                expect(books.count) == 2
+                            }
                         }
                     }
                 }
@@ -492,6 +804,36 @@ class DeliSpec: QuickSpec, Inject {
                     }
                     it("viewModels should equal to 1") {
                         expect(viewModels.count) == 1
+                    }
+                }
+                context("Injet(T, qualifierBy:)") {
+                    var sut: NetworkMethod!
+
+                    beforeEach {
+                        sut = self.Inject(NetworkMethod.self, qualifierBy: "server.method")
+                    }
+                    it("sut's qualifier should be 'get'") {
+                        expect(sut.qualifier) == "get"
+                    }
+                }
+                context("Inject([T], qualifierBy:)") {
+                    var sut: [NetworkMethod] = []
+
+                    beforeEach {
+                        sut = self.Inject([NetworkMethod].self, qualifierBy: "server.method")
+                    }
+                    it("sut's count should be '1'") {
+                        expect(sut.count) == 1
+                    }
+                }
+                context("InjectProperty()") {
+                    var sut: String!
+
+                    beforeEach {
+                        sut = self.InjectProperty("server.method")
+                    }
+                    it("sut should be 'get'") {
+                        expect(sut) == "get"
                     }
                 }
             }
