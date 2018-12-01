@@ -44,7 +44,11 @@ final class SourceGenerator: Generator {
             }
             result += "\(indent)]"
         } else {
-            result += "\"\(target)\""
+            if target is NSNull {
+                result += "\"\""
+            } else {
+                result += "\"\(target)\""
+            }
         }
         return result
     }

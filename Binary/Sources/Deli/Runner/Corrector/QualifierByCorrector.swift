@@ -3,6 +3,8 @@
 //  Deli
 //
 
+import Foundation
+
 final class QualifierByCorrector: Correctable {
 
     // MARK: - Private
@@ -19,11 +21,11 @@ final class QualifierByCorrector: Correctable {
                 Logger.log(.error("Property not found in configuration property(\(qualifierBy))", info.structure.getSourceLine(with: info.content)))
                 throw PropertyParserError.propertyNotFound
             }
-            guard let safeProperty = property as? String else {
-                Logger.log(.error("Property is not string value(\(qualifierBy))", info.structure.getSourceLine(with: info.content)))
-                throw PropertyParserError.propertyIsNotString
+            if property is NSNull {
+                dependency.qualifier = ""
+            } else {
+                dependency.qualifier = "\(property)"
             }
-            dependency.qualifier = safeProperty
         } catch {
             Logger.log(.error("Path not found in configuration property(\(qualifierBy))", info.structure.getSourceLine(with: info.content)))
             throw PropertyParserError.pathNotFound

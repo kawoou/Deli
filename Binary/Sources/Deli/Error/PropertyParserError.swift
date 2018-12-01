@@ -5,7 +5,6 @@
 
 enum PropertyParserError: Error {
     case propertyNotFound
-    case propertyIsNotString
     case pathNotFound
 
     case notStartedBracket
@@ -18,8 +17,6 @@ enum PropertyParserError: Error {
         switch self {
         case .propertyNotFound:
             return "Property not found in configuration property."
-        case .propertyIsNotString:
-            return "Property is not string value."
         case .pathNotFound:
             return "Path not found in configuration property."
         case .notStartedBracket:

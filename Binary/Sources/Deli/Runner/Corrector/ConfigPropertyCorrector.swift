@@ -3,6 +3,8 @@
 //  Deli
 //
 
+import Foundation
+
 final class ConfigPropertyCorrector: Correctable {
 
     // MARK: - Private
@@ -23,11 +25,11 @@ final class ConfigPropertyCorrector: Correctable {
                     Logger.log(.error("Not found configuration property: \(path)", info.structure.getSourceLine(with: info.content)))
                     throw CorrectorError.notFoundConfigurationProperty
                 }
-                guard let safeProperty = property as? String else {
-                    Logger.log(.error("Not found configuration property: \(path)", info.structure.getSourceLine(with: info.content)))
-                    throw CorrectorError.notFoundConfigurationProperty
+                if property is NSNull {
+                    return ""
+                } else {
+                    return "\(property)"
                 }
-                return safeProperty
             }
 
             return result

@@ -18,11 +18,7 @@ final class InjectPropertyValidator: Validatable {
             guard let info = parser.inheritanceList(result.instanceType).first else { continue }
 
             for path in propertyResult.propertyKeys {
-                guard let property = try propertyParser.getProperty(path) else {
-                    Logger.log(.error("Not found configuration property: \(path)", info.structure.getSourceLine(with: info.content)))
-                    throw CorrectorError.notFoundConfigurationProperty
-                }
-                if property as? String == nil {
+                guard try propertyParser.getProperty(path) != nil else {
                     Logger.log(.error("Not found configuration property: \(path)", info.structure.getSourceLine(with: info.content)))
                     throw CorrectorError.notFoundConfigurationProperty
                 }
