@@ -1,0 +1,7 @@
+target:
+  - RobotFactory
+  
+config:
+  RobotFactory:
+    project: RobotFactory
+    output: RobotFactory/DeliFactory.swift

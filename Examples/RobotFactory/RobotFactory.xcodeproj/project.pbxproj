@@ -1,0 +1,459 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		64B2834AEB599C39B22EF2A7 /* Pods_RobotFactory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 263727E8423BB71D94C47E4E /* Pods_RobotFactory.framework */; };
+		9DEC558B21C80EE80051E63A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC558A21C80EE80051E63A /* AppDelegate.swift */; };
+		9DEC558D21C80EE80051E63A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC558C21C80EE80051E63A /* ViewController.swift */; };
+		9DEC559021C80EE80051E63A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DEC558E21C80EE80051E63A /* Main.storyboard */; };
+		9DEC559221C80EE90051E63A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DEC559121C80EE90051E63A /* Assets.xcassets */; };
+		9DEC559521C80EE90051E63A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DEC559321C80EE90051E63A /* LaunchScreen.storyboard */; };
+		9DEC55A121C80F270051E63A /* RobotArm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC559C21C80F260051E63A /* RobotArm.swift */; };
+		9DEC55A221C80F270051E63A /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC559D21C80F260051E63A /* Robot.swift */; };
+		9DEC55A321C80F270051E63A /* RobotHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC559E21C80F260051E63A /* RobotHead.swift */; };
+		9DEC55A421C80F270051E63A /* RobotBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC559F21C80F260051E63A /* RobotBody.swift */; };
+		9DEC55A521C80F270051E63A /* RobotLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC55A021C80F270051E63A /* RobotLeg.swift */; };
+		9DEC55A821C80FA90051E63A /* DeliFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEC55A721C80FA90051E63A /* DeliFactory.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		263727E8423BB71D94C47E4E /* Pods_RobotFactory.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RobotFactory.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FBC12189983E73B58E1F5E6 /* Pods-RobotFactory.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RobotFactory.release.xcconfig"; path = "Target Support Files/Pods-RobotFactory/Pods-RobotFactory.release.xcconfig"; sourceTree = "<group>"; };
+		684F46025AB0195C5D8BD5E1 /* Pods-RobotFactory.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RobotFactory.debug.xcconfig"; path = "Target Support Files/Pods-RobotFactory/Pods-RobotFactory.debug.xcconfig"; sourceTree = "<group>"; };
+		9DEC558721C80EE80051E63A /* RobotFactory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RobotFactory.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DEC558A21C80EE80051E63A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9DEC558C21C80EE80051E63A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9DEC558F21C80EE80051E63A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9DEC559121C80EE90051E63A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9DEC559421C80EE90051E63A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9DEC559621C80EE90051E63A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9DEC559C21C80F260051E63A /* RobotArm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotArm.swift; sourceTree = "<group>"; };
+		9DEC559D21C80F260051E63A /* Robot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
+		9DEC559E21C80F260051E63A /* RobotHead.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotHead.swift; sourceTree = "<group>"; };
+		9DEC559F21C80F260051E63A /* RobotBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotBody.swift; sourceTree = "<group>"; };
+		9DEC55A021C80F270051E63A /* RobotLeg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotLeg.swift; sourceTree = "<group>"; };
+		9DEC55A721C80FA90051E63A /* DeliFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeliFactory.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9DEC558421C80EE80051E63A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64B2834AEB599C39B22EF2A7 /* Pods_RobotFactory.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		591E4676F27C65F37831E016 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				684F46025AB0195C5D8BD5E1 /* Pods-RobotFactory.debug.xcconfig */,
+				5FBC12189983E73B58E1F5E6 /* Pods-RobotFactory.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9DEC557E21C80EE80051E63A = {
+			isa = PBXGroup;
+			children = (
+				9DEC558921C80EE80051E63A /* RobotFactory */,
+				9DEC558821C80EE80051E63A /* Products */,
+				591E4676F27C65F37831E016 /* Pods */,
+				A490DE259E016F03AC57EE9F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9DEC558821C80EE80051E63A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9DEC558721C80EE80051E63A /* RobotFactory.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9DEC558921C80EE80051E63A /* RobotFactory */ = {
+			isa = PBXGroup;
+			children = (
+				9DEC558A21C80EE80051E63A /* AppDelegate.swift */,
+				9DEC55A721C80FA90051E63A /* DeliFactory.swift */,
+				9DEC559D21C80F260051E63A /* Robot.swift */,
+				9DEC559C21C80F260051E63A /* RobotArm.swift */,
+				9DEC559F21C80F260051E63A /* RobotBody.swift */,
+				9DEC559E21C80F260051E63A /* RobotHead.swift */,
+				9DEC55A021C80F270051E63A /* RobotLeg.swift */,
+				9DEC558C21C80EE80051E63A /* ViewController.swift */,
+				9DEC558E21C80EE80051E63A /* Main.storyboard */,
+				9DEC559121C80EE90051E63A /* Assets.xcassets */,
+				9DEC559321C80EE90051E63A /* LaunchScreen.storyboard */,
+				9DEC559621C80EE90051E63A /* Info.plist */,
+			);
+			path = RobotFactory;
+			sourceTree = "<group>";
+		};
+		A490DE259E016F03AC57EE9F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				263727E8423BB71D94C47E4E /* Pods_RobotFactory.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9DEC558621C80EE80051E63A /* RobotFactory */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9DEC559921C80EE90051E63A /* Build configuration list for PBXNativeTarget "RobotFactory" */;
+			buildPhases = (
+				9DEC55A621C80F880051E63A /* Deli */,
+				0DACCD2973634CA744E25A39 /* [CP] Check Pods Manifest.lock */,
+				9DEC558321C80EE80051E63A /* Sources */,
+				9DEC558421C80EE80051E63A /* Frameworks */,
+				9DEC558521C80EE80051E63A /* Resources */,
+				C45E442AA6D43BE2198F3E57 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RobotFactory;
+			productName = RobotFactory;
+			productReference = 9DEC558721C80EE80051E63A /* RobotFactory.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9DEC557F21C80EE80051E63A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = kawoou;
+				TargetAttributes = {
+					9DEC558621C80EE80051E63A = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 9DEC558221C80EE80051E63A /* Build configuration list for PBXProject "RobotFactory" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9DEC557E21C80EE80051E63A;
+			productRefGroup = 9DEC558821C80EE80051E63A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9DEC558621C80EE80051E63A /* RobotFactory */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9DEC558521C80EE80051E63A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DEC559521C80EE90051E63A /* LaunchScreen.storyboard in Resources */,
+				9DEC559221C80EE90051E63A /* Assets.xcassets in Resources */,
+				9DEC559021C80EE80051E63A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0DACCD2973634CA744E25A39 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RobotFactory-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9DEC55A621C80F880051E63A /* Deli */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Deli;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/DeliBinary/deli\" build\n";
+		};
+		C45E442AA6D43BE2198F3E57 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RobotFactory/Pods-RobotFactory-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Deli/Deli.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Deli.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RobotFactory/Pods-RobotFactory-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9DEC558321C80EE80051E63A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DEC55A221C80F270051E63A /* Robot.swift in Sources */,
+				9DEC558D21C80EE80051E63A /* ViewController.swift in Sources */,
+				9DEC55A821C80FA90051E63A /* DeliFactory.swift in Sources */,
+				9DEC558B21C80EE80051E63A /* AppDelegate.swift in Sources */,
+				9DEC55A121C80F270051E63A /* RobotArm.swift in Sources */,
+				9DEC55A421C80F270051E63A /* RobotBody.swift in Sources */,
+				9DEC55A321C80F270051E63A /* RobotHead.swift in Sources */,
+				9DEC55A521C80F270051E63A /* RobotLeg.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9DEC558E21C80EE80051E63A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9DEC558F21C80EE80051E63A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9DEC559321C80EE90051E63A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9DEC559421C80EE90051E63A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9DEC559721C80EE90051E63A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9DEC559821C80EE90051E63A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9DEC559A21C80EE90051E63A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 684F46025AB0195C5D8BD5E1 /* Pods-RobotFactory.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4U2J29Y5X8;
+				INFOPLIST_FILE = RobotFactory/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.kawoou.RobotFactory;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9DEC559B21C80EE90051E63A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FBC12189983E73B58E1F5E6 /* Pods-RobotFactory.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4U2J29Y5X8;
+				INFOPLIST_FILE = RobotFactory/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.kawoou.RobotFactory;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9DEC558221C80EE80051E63A /* Build configuration list for PBXProject "RobotFactory" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DEC559721C80EE90051E63A /* Debug */,
+				9DEC559821C80EE90051E63A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9DEC559921C80EE90051E63A /* Build configuration list for PBXNativeTarget "RobotFactory" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DEC559A21C80EE90051E63A /* Debug */,
+				9DEC559B21C80EE90051E63A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9DEC557F21C80EE80051E63A /* Project object */;
+}

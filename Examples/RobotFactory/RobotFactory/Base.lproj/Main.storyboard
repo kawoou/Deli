@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RobotFactory" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="mK2-Pc-RH3">
+                                <rect key="frame" x="20" y="173" width="335" height="29"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changeSegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="NyP-5t-35X"/>
+                                </connections>
+                            </segmentedControl>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="body-blue" translatesAutoresizingMaskIntoConstraints="NO" id="1CS-ot-kLq">
+                                <rect key="frame" x="135.5" y="287" width="104" height="113"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arm-normal" translatesAutoresizingMaskIntoConstraints="NO" id="6Tp-Bj-EyX">
+                                <rect key="frame" x="107.5" y="285" width="160" height="104"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="leg-normal" translatesAutoresizingMaskIntoConstraints="NO" id="Uaa-Yq-Pra">
+                                <rect key="frame" x="148.5" y="400" width="78" height="80"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="head-happy" translatesAutoresizingMaskIntoConstraints="NO" id="yux-qP-Izg">
+                                <rect key="frame" x="142.5" y="241" width="90" height="46"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Uaa-Yq-Pra" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ahb-CN-oeV"/>
+                            <constraint firstItem="yux-qP-Izg" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Asz-3q-IkQ"/>
+                            <constraint firstItem="mK2-Pc-RH3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="KmR-oc-tHJ"/>
+                            <constraint firstItem="6Tp-Bj-EyX" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="OjY-Zg-7bT"/>
+                            <constraint firstItem="1CS-ot-kLq" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="QG8-li-QZ8"/>
+                            <constraint firstItem="1CS-ot-kLq" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="U9x-O9-klw"/>
+                            <constraint firstItem="1CS-ot-kLq" firstAttribute="top" secondItem="yux-qP-Izg" secondAttribute="bottom" id="ckP-pd-q82"/>
+                            <constraint firstItem="mK2-Pc-RH3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="iSU-DN-RxY"/>
+                            <constraint firstItem="yux-qP-Izg" firstAttribute="top" secondItem="mK2-Pc-RH3" secondAttribute="bottom" constant="40" id="kpz-Gh-YlF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mK2-Pc-RH3" secondAttribute="trailing" constant="20" id="tyG-Xp-l7v"/>
+                            <constraint firstItem="6Tp-Bj-EyX" firstAttribute="top" secondItem="yux-qP-Izg" secondAttribute="bottom" constant="-2" id="vhC-Vs-rqN"/>
+                            <constraint firstItem="Uaa-Yq-Pra" firstAttribute="top" secondItem="1CS-ot-kLq" secondAttribute="bottom" id="yqe-K0-j2y"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="armView" destination="6Tp-Bj-EyX" id="Mwz-Hn-s6o"/>
+                        <outlet property="bodyView" destination="1CS-ot-kLq" id="yyR-rz-A3L"/>
+                        <outlet property="headView" destination="yux-qP-Izg" id="aKh-AU-KAH"/>
+                        <outlet property="legView" destination="Uaa-Yq-Pra" id="Lt1-tL-i1n"/>
+                        <outlet property="segmentedControl" destination="mK2-Pc-RH3" id="Gak-aa-6T6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="arm-normal" width="160" height="104"/>
+        <image name="body-blue" width="104" height="113"/>
+        <image name="head-happy" width="90" height="46"/>
+        <image name="leg-normal" width="78" height="80"/>
+    </resources>
+</document>

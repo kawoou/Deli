@@ -790,6 +790,7 @@ Available commands:
  * [DeliTodo](https://github.com/kawoou/DeliTodo): Todo application for iOS using Deli.
  * [GitHubSearch](https://github.com/kawoou/Deli/tree/master/Examples/GitHubSearch): GitHub Search example using Deli.
  * [Survey](https://github.com/kawoou/Deli/tree/master/Examples/Survey): Survey example using Deli.
+ * [RobotFactory](https://github.com/kawoou/Deli/tree/master/Examples/RobotFactory): RobotFactory example using Deli.
 
 
 
