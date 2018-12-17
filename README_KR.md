@@ -32,6 +32,11 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
     - [Multi-Container](#71-multi-container)
     - [Unit Test](#72-unit-test)
   - [Struct](#8-struct)
+  - [Configuration Property](#9-configuration-property)
+    - [사용법](#91-사용법)
+    - [묶음 값](#92-묶음-값)
+    - [단일 값](#93-단일-값)
+    - [프로퍼티에 의한 주입](#94-프로퍼티에-의한-주입)
 * [설치 방법](#설치-방법)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -545,7 +550,7 @@ class UserTests: QuickSpec {
 
 
 
-#### 8. Struct
+### 8. Struct
 
 버전 `0.7.0`부터 Class 뿐만 아니라 Struct에 대한 지원이 추가되었습니다.
 
@@ -579,6 +584,164 @@ struct AuthPlugin: PluginType, LazyAutowired {
 }
 ```
 
+
+
+### 9. Configuration Property
+
+앱이 실행되는 환경에 따라 다른 구성 값을 사용하는 것이 유용한 경우가 많습니다.
+예를 들면 로그가 저장하는 곳을 개발 빌드에서는 파일로, Release 빌드에서는 저장하지 않도록 해볼수도 있겠죠.
+
+**application-dev.yml:**
+```yaml
+logger:
+    storage: file
+
+server:
+    url: https://dev.example.com/api
+    isDebug: false
+```
+
+**application-prod.yml:**
+```yaml
+logger:
+    storage: default
+
+server:
+    url: https://www.example.com/api
+    isDebug: true
+```
+
+
+
+#### 9.1. 사용법
+
+위에서 만든 Configuration Property 사용을 위해선 `deli.yml`을 변경하거나, 빌드 스크립트를 수정하는 두 가지 방법이 있습니다.
+
+설정 파일을 변경하는 방식은 아래와 같이할 수 있습니다:
+
+```yaml
+target:
+- MyApp
+
+config:
+  MyApp:
+    - project: MyApp
+    - properties:
+      - Configurations/Common/*.yml
+      - Configurations/application-dev.yml
+```
+
+빌드 스크립트로는 이렇게 할 수 있습니다:
+
+```bash
+deli build \
+  --property "Configurations/Common/*.yml" \
+  --property "Configurations/application-dev.yml"
+```
+
+만약 같은 설정 정보가 있는 경우 마지막에 지정된 정보로 덮어쓰기 됩니다.
+
+
+
+#### 9.2. 묶음 값
+
+설정 파일로 지정한 값을 안전하게 받아오기 위해 `ConfigProperty`를 사용할 수 있습니다.
+
+```swift
+struct ServerConfig: ConfigProperty {
+    let target: String = "server"
+
+    let url: String
+    let isDebug: String
+}
+```
+
+위와 같이 모델을 구현한 경우, `ServerConfig`는 IoC Container에 등록되며 주입받을 경우 자동으로 설정 값을 담아서 주입됩니다.
+
+모델을 정의할 때 유의할 점이 있다면, `target`이라는 값을 설정해줘야 한다는 점입니다. 이 Property는 설정 파일에서 받아올 경로를 나타내며 JSONPath 스타일로 입력합니다.
+
+만약 빌드시에 모델에서 요구하는 설정 값이 없다면 컴파일 에러를 볼 수 있습니다.
+
+```swift
+final class NetworkManager: Autowired {
+    let info: ServerConfig
+
+    required init(_ config: ServerConfig) {
+        info = config
+    }
+}
+```
+
+기본적으로 `ConfigProperty`의 프로퍼티는 오직 String 타입으로만 사용할 수 있습니다. 그래서 `isDebug`의 값은 true, false임에도 불구하고 String으로 지정할 수 밖에 없습니다.
+
+이런 경우에는 다음과 같이 생성자를 구현해서 다른 타입으로 변경할 수 있습니다.
+
+```swift
+struct ServerConfig: ConfigProperty {
+    let target: String = "server"
+
+    let url: String
+    let isDebug: Bool
+
+    init(url: String, isDebug: String) {
+        self.url = url
+        self.isDebug = (isDebug == "true" ? true : false)
+    }
+}
+```
+
+
+
+#### 9.3. 단일 값
+
+묶음 값을 받아오는 경우에는 `ConfigProperty`라는 프로토콜을 구현하는 방식으로 처리했다면, 단일 값을 가져올 때는 `InjectProperty`가 있습니다.
+
+```swift
+final class NetworkManager: Inject {
+    let serverUrl = InjectProperty("server.url")
+}
+```
+
+`InjectPropety`도 `ConfigProperty`와 동일하게 빌드 시에 설정 값을 확인하며, String 타입으로 데이터를 주입합니다.
+
+그렇지만 설정 값을 검증없이 Optional 값으로 가져오고 싶다면 적합한 방법이 아닙니다.
+
+이 경우 `AppContext#getProperty()` 메소드를 사용하여 처리하는 것이 좋습니다.
+
+```swift
+final class NetworkManager {
+    let serverUrl = AppContext.getProperty("server.url") ?? "https://wtf.example.com"
+}
+```
+
+
+
+#### 9.4. 프로퍼티에 의한 주입
+
+Deli에서는 Configuration Property의 사용성을 높이기 위해, 설정 값을 `qualifier`로 이용하여 로드하는 방법을 제공합니다.
+
+사용에는 두 가지 방법이 있는데 `Autowired`와 같이 생성자 주입을 하는 경우에 대한 방법을 먼저 설명합니다.
+
+[Autowired](#2-autowired) 단락에서 설명했듯이 `qualifier`를 지정하는 부분에는 `.`를 사용하지 못합니다. 안타깝지만 Annotation와 유사한 기능이 제공되지 않습니다. 그러므로 주석을 이용하는 방법으로 구현되었습니다.
+
+사용법은 아래와 같습니다:
+
+```swift
+final class UserService: Autowired {
+    required init(_/*logger.storage*/ logger: Logger) {
+    }
+}
+```
+
+`Inject` 메소드를 활용할 때는 다음과 같습니다:
+
+```swift
+final class UserService: Inject {
+    func getLogger() -> Logger {
+        return Inject(Logger.self, qualifierBy: "logger.storage")
+    }
+}
+```
 
 
 

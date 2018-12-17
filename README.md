@@ -32,6 +32,11 @@ Deli is an easy-to-use Dependency Injection Container that creates DI containers
     - [Multi-Container](#71-multi-container)
     - [Unit Test](#72-unit-test)
   - [Struct](#8-struct)
+  - [Configuration Property](#9-configuration-property)
+    - [Usage](#91-usage)
+    - [Group Value](#92-group-value)
+    - [Single Value](#93-single-value)
+    - [Qualifier by Property](#94-qualifier-by-property)
 * [Installation](#installation)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -546,7 +551,7 @@ An example of a test code is `Deli.xcodeproj`.
 
 
 
-#### 8. Struct
+### 8. Struct
 
 Support for Struct has been added since version `0.7.0`.
 
@@ -577,6 +582,168 @@ struct AuthPlugin: PluginType, LazyAutowired {
     }
 
     init() {}
+}
+```
+
+
+
+### 9. Configuration Property
+
+It's often profit to use different configuration values depending on the running environment.
+For example, you can specific that save the file log at development build and not save the file log at the Release build.
+
+**application-dev.yml:**
+```yaml
+logger:
+    storage: file
+
+server:
+    url: https://dev.example.com/api
+    isDebug: false
+```
+
+**application-prod.yml:**
+```yaml
+logger:
+    storage: default
+
+server:
+    url: https://www.example.com/api
+    isDebug: true
+```
+
+
+
+#### 9.1. Usage
+
+Two ways solution to use the Configuration Property created above.
+
+ 1. Change `deli.yml`.
+ 2. Modify the build script
+
+Change the configuration file as below:
+
+```yaml
+target:
+- MyApp
+
+config:
+  MyApp:
+    - project: MyApp
+    - properties:
+      - Configurations/Common/*.yml
+      - Configurations/application-dev.yml
+```
+
+Build script can do this:
+
+```bash
+deli build \
+  --property "Configurations/Common/*.yml" \
+  --property "Configurations/application-dev.yml"
+```
+
+If the same configuration information, it's overwritten with the last specified information.
+
+
+
+#### 9.2. Group Value
+
+You can use `ConfigProperty` to safe retrieve the specified value in the configuration file.
+
+```swift
+struct ServerConfig: ConfigProperty {
+    let target: String = "server"
+
+    let url: String
+    let isDebug: String
+}
+```
+
+When implementing the model as above, `ServerConfig` is registered in IoC Container.
+
+One thing to keep in mind when defining the model, need to set the `target` value. This property represents the path to retrieve in the configuration file using JSONPath style.
+
+If you do not have the required configuration values at build time, will occurred a compile error.
+
+```swift
+final class NetworkManager: Autowired {
+    let info: ServerConfig
+
+    required init(_ config: ServerConfig) {
+        info = config
+    }
+}
+```
+
+By default, the `ConfigProperty`'s property can only be used as String type. So `isDebug` must be set String type, even though it is true or false.
+
+In this case, you can implement the constructor that change to another type as below:
+
+```swift
+struct ServerConfig: ConfigProperty {
+    let target: String = "server"
+
+    let url: String
+    let isDebug: Bool
+
+    init(url: String, isDebug: String) {
+        self.url = url
+        self.isDebug = (isDebug == "true" ? true : false)
+    }
+}
+```
+
+
+
+#### 9.3. Single Value
+
+When get a bundle value as above, implement the `ConfigProperty` protocol. So how to get a single value? You can use the `InjectProperty`.
+
+```swift
+final class NetworkManager: Inject {
+    let serverUrl = InjectProperty("server.url")
+}
+```
+
+`InjectProperty` is similar to ` ConfigProperty`. It checks the configuration value at build time and inject data as String type.
+
+If you want to retrive configuration value optionally without validation, this is not a proper way.
+
+In this case, recommend using the `AppContext#getProperty()` method.
+
+```swift
+final class NetworkManager {
+    let serverUrl = AppContext.getProperty("server.url") ?? "https://wtf.example.com"
+}
+```
+
+
+
+#### 9.4. Qualifier by Property
+
+To enhance usability of configuration property, Deli provides a way of injection using `qualifier` as configuration value.
+
+There are two ways to use it. let's look first that constructor injection like `Autowired`.
+
+As mentioned in the [Autowired](#2-autowired) paragraph, you can not use `.` for parts that specify `qualifier`. Unfortunately, swift do not has an annotation-like features. So I implemented to use `comment` as an alternative.
+
+How it works:
+
+```swift
+final class UserService: Autowired {
+    required init(_/*logger.storage*/ logger: Logger) {
+    }
+}
+```
+
+When using the `Inject` method:
+
+```swift
+final class UserService: Inject {
+    func getLogger() -> Logger {
+        return Inject(Logger.self, qualifierBy: "logger.storage")
+    }
 }
 ```
 
