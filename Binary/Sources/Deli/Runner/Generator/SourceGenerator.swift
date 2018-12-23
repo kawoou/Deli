@@ -46,6 +46,8 @@ final class SourceGenerator: Generator {
         } else {
             if target is NSNull {
                 result += "\"\""
+            } else if let stringValue = target as? String {
+                result += "\"\(stringValue.replacingOccurrences(of: "\"", with: "\\\""))\""
             } else {
                 result += "\"\(target)\""
             }
