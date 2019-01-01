@@ -41,6 +41,27 @@ final class PropertyParser {
         }
     }
 
+    private func merge(_ origin: [String: Any], _ target: [String: Any]) -> [String: Any] {
+        var newDict = origin
+
+        for (key, value) in target {
+            guard let oldValue = newDict[key] else {
+                newDict[key] = value
+                continue
+            }
+
+            /// Dictionary
+            if let oldDict = oldValue as? [String: Any], let dict = value as? [String: Any] {
+                newDict[key] = merge(oldDict, dict)
+                continue
+            }
+
+            newDict[key] = value
+        }
+
+        return newDict
+    }
+
     // MARK: - Public
 
     func load(_ fileList: [String]) {
@@ -57,7 +78,7 @@ final class PropertyParser {
                 } else {
                     result = loadYaml(url)
                 }
-                return dict.merging(result) { $1 }
+                return merge(dict, result)
             }
     }
     func reset() {
