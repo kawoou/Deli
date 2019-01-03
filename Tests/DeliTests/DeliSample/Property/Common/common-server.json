@@ -1,6 +1,7 @@
 {
     "server": {
         "url": "http://www.test.com",
-        "method": "post"
+        "method": "post",
+        "port": "8080"
     }
 }

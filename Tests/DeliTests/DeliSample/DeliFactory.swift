@@ -11,6 +11,7 @@ final class DeliFactory: ModuleFactory {
             "environment": "dev",
             "server": [
                 "method": "get",
+                "port": "8080",
                 "url": "http://dev.test.com"
             ]
         ])
@@ -294,7 +295,8 @@ final class DeliFactory: ModuleFactory {
             resolver: {
                 return ServerConfig(
                     method: context.getProperty("server.method") as! String,
-                    url: context.getProperty("server.url") as! String
+                    url: context.getProperty("server.url") as! String,
+                    port: context.getProperty("server.port") as! String
                 )
             },
             qualifier: "",
