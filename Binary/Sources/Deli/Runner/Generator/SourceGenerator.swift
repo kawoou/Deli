@@ -7,54 +7,6 @@ import Foundation
 
 final class SourceGenerator: Generator {
 
-    // MARK: - Private
-
-    private func generateDictionary(_ target: Any, indentDepth: Int) -> String {
-        let indent = (0..<indentDepth)
-            .map { _ in "    " }
-            .joined()
-
-        var result: String = ""
-        if let target = target as? [String: Any] {
-            guard target.count > 0 else { return "[:]" }
-            
-            result += "[\n"
-
-            var index = 0
-            for (key, value) in target.sorted(by: { $0.key < $1.key }) {
-                index += 1
-
-                let content = generateDictionary(value, indentDepth: indentDepth + 1)
-                if target.count == index {
-                    result += "\(indent)    \"\(key)\": \(content)\n"
-                } else {
-                    result += "\(indent)    \"\(key)\": \(content),\n"
-                }
-            }
-            result += "\(indent)]"
-        } else if let target = target as? [Any] {
-            result += "[\n"
-            for (index, value) in target.enumerated() {
-                let content = generateDictionary(value, indentDepth: indentDepth + 1)
-                if target.count == index {
-                    result += "\(indent)    \(content)\n"
-                } else {
-                    result += "\(indent)    \(content),\n"
-                }
-            }
-            result += "\(indent)]"
-        } else {
-            if target is NSNull {
-                result += "\"\""
-            } else if let stringValue = target as? String {
-                result += "\"\(stringValue.replacingOccurrences(of: "\"", with: "\\\""))\""
-            } else {
-                result += "\"\(target)\""
-            }
-        }
-        return result
-    }
-
     // MARK: - Public
 
     func generate() throws -> String {
@@ -99,12 +51,60 @@ final class SourceGenerator: Generator {
     private let results: [Results]
     private let properties: [String: Any]
 
+    private func generateDictionary(_ target: Any, indentDepth: Int) -> String {
+        let indent = (0..<indentDepth)
+            .map { _ in "    " }
+            .joined()
+
+        var result: String = ""
+        if let target = target as? [String: Any] {
+            guard target.count > 0 else { return "[:]" }
+
+            result += "[\n"
+
+            var index = 0
+            for (key, value) in target.sorted(by: { $0.key < $1.key }) {
+                index += 1
+
+                let content = generateDictionary(value, indentDepth: indentDepth + 1)
+                if target.count == index {
+                    result += "\(indent)    \"\(key)\": \(content)\n"
+                } else {
+                    result += "\(indent)    \"\(key)\": \(content),\n"
+                }
+            }
+            result += "\(indent)]"
+        } else if let target = target as? [Any] {
+            result += "[\n"
+            for (index, value) in target.enumerated() {
+                let content = generateDictionary(value, indentDepth: indentDepth + 1)
+                if target.count == index {
+                    result += "\(indent)    \(content)\n"
+                } else {
+                    result += "\(indent)    \(content),\n"
+                }
+            }
+            result += "\(indent)]"
+        } else {
+            if target is NSNull {
+                result += "\"\""
+            } else if let stringValue = target as? String {
+                result += "\"\(stringValue.replacingOccurrences(of: "\"", with: "\\\""))\""
+            } else {
+                result += "\"\(target)\""
+            }
+        }
+        return result
+    }
+
     // MARK: - Lifecycle
     
-    init(results: [Results], properties: [String: Any]) {
-        self.className = "DeliFactory"
-        self.results = results.sorted { $0.instanceType < $1.instanceType }
-        self.properties = properties
+    convenience init(results: [Results], properties: [String: Any]) {
+        self.init(
+            className: "DeliFactory",
+            results: results,
+            properties: properties
+        )
     }
     init(className: String, results: [Results], properties: [String: Any]) {
         self.className = className
