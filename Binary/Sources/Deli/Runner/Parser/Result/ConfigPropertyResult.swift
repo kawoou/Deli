@@ -19,7 +19,6 @@ final class ConfigPropertyResult: Results {
 
     let propertyTargetKey: String
     let propertyKeys: [String]
-    var propertyValues: [String] = []
 
     init(
         _ instanceType: String,

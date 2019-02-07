@@ -35,7 +35,7 @@ extension Results {
                 )
                 """
             }
-            .joined(separator: ",\n        ")
+            .joined(separator: ",\n")
             .replacingOccurrences(of: "\n", with: "\n        ")
 
         let instanceDependenciesString = instanceDependency
@@ -49,7 +49,7 @@ extension Results {
                 )
                 """
             }
-            .joined(separator: ",\n        ")
+            .joined(separator: ",\n")
             .replacingOccurrences(of: "\n", with: "\n        ")
 
         let importsString = imports

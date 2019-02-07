@@ -8,8 +8,25 @@ import Commandant
 import Result
 
 struct BuildCommand: CommandProtocol {
+    struct Constant {
+        static let resolveFile = "Deli.resolved"
+    }
+
     let verb = "build"
     let function = "Build the Dependency Graph."
+
+    func saveOutput(generator: Generator, outputFile: String) throws {
+        let outputData = try generator.generate()
+        let url = URL(fileURLWithPath: outputFile)
+
+        var isDirectory: ObjCBool = false
+        if FileManager.default.fileExists(atPath: outputFile, isDirectory: &isDirectory), isDirectory.boolValue {
+            Logger.log(.error("Cannot overwrite a directory with an output file: \(outputFile)", nil))
+            throw CommandError.cannotOverwriteDirectory
+        }
+        try? FileManager.default.removeItem(at: url)
+        try outputData.write(to: url, atomically: false, encoding: .utf8)
+    }
 
     func run(_ options: BuildOptions) -> Result<(), CommandError> {
         Logger.isVerbose = options.isVerbose
@@ -96,16 +113,18 @@ struct BuildCommand: CommandProtocol {
                         try parser.run(sourceFiles)
                     )
                 )
-                let outputData = try SourceGenerator(className: className, results: results, properties: propertyParser.properties).generate()
-                let url = URL(fileURLWithPath: outputFile)
-                
-                var isDirectory: ObjCBool = false
-                if FileManager.default.fileExists(atPath: outputFile, isDirectory: &isDirectory), isDirectory.boolValue {
-                    Logger.log(.error("Cannot overwrite a directory with an output file: \(outputFile)", nil))
-                    throw CommandError.cannotOverwriteDirectory
-                }
-                try? FileManager.default.removeItem(at: url)
-                try outputData.write(to: url, atomically: false, encoding: .utf8)
+                let generator = SourceGenerator(
+                    className: className,
+                    results: results,
+                    properties: propertyParser.properties
+                )
+                let resolveGenerator = ResolveGenerator(
+                    fileName: info.output ?? "\(className).swift",
+                    results: results,
+                    properties: propertyParser.properties
+                )
+                try saveOutput(generator: generator, outputFile: outputFile)
+                try saveOutput(generator: resolveGenerator, outputFile: Constant.resolveFile)
 
                 Logger.log(.info("Generate file: \(outputFile)"))
             } catch let error {
@@ -125,10 +144,11 @@ struct BuildOptions: OptionsProtocol {
     let target: String?
     let output: String?
     let properties: String?
+    let isResolveFile: Bool
     let isVerbose: Bool
 
-    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isVerbose: Bool) -> BuildOptions {
-        return { project in { scheme in { target in { output in { properties in { isVerbose in
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isResolveFile: Bool) -> (_ isVerbose: Bool) -> BuildOptions {
+        return { project in { scheme in { target in { output in { properties in { isResolveFile in { isVerbose in
             self.init(
                 configFile: configFile,
                 project: project,
@@ -136,9 +156,10 @@ struct BuildOptions: OptionsProtocol {
                 target: target,
                 output: output,
                 properties: properties,
+                isResolveFile: isResolveFile,
                 isVerbose: isVerbose
             )
-        }}}}}}
+        }}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<BuildOptions, CommandantError<CommandError>> {
@@ -172,6 +193,11 @@ struct BuildOptions: OptionsProtocol {
                 key: "property",
                 defaultValue: nil,
                 usage: "the path of property file"
+            )
+            <*> mode <| Option(
+                key: "resolve-file",
+                defaultValue: true,
+                usage: "turn on generate resolved file"
             )
             <*> mode <| Option(
                 key: "verbose",
