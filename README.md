@@ -708,7 +708,7 @@ final class NetworkManager: Inject {
 
 `InjectProperty` is similar to ` ConfigProperty`. It checks the configuration value at build time and inject data as String type.
 
-If you want to retrive configuration value optionally without validation, this is not a proper way.
+If you want to retrieve configuration value optionally without validation, this is not a proper way.
 
 In this case, recommend using the `AppContext#getProperty()` method.
 
