@@ -20,14 +20,16 @@ final class QualifierCorrector: Correctable {
     func correct(by results: [Results]) throws -> [Results] {
         results
             .filter { $0.qualifier == nil }
-            .forEach { info in
-                let typeList = parser.inheritanceList(info.instanceType)
+            .forEach { result in
+                guard !result.isResolved else { return }
+
+                let typeList = parser.inheritanceList(result.instanceType)
                 for type in typeList {
                     guard !Constant.ignoreTypes.contains(type.name) else { continue }
                     guard let qualifier = try? parseQualifier(type.structure, fileContent: type.content) else { continue }
                     guard let safeQualifier = qualifier else { continue }
                     
-                    info.qualifier = safeQualifier
+                    result.qualifier = safeQualifier
                     break
                 }
             }
