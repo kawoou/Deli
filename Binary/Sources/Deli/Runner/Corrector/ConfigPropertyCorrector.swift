@@ -16,6 +16,7 @@ final class ConfigPropertyCorrector: Correctable {
 
     func correct(by results: [Results]) throws -> [Results] {
         return try results.map { result -> Results in
+            guard !result.isResolved else { return result }
             guard let propertyResult = result as? ConfigPropertyResult else { return result }
             guard let info = parser.inheritanceList(result.instanceType).first else { return result }
 

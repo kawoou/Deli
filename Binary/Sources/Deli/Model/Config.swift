@@ -3,7 +3,6 @@
 //  Deli
 //
 
-import Foundation
 import Yams
 
 struct Config: Decodable {
@@ -29,7 +28,6 @@ struct Config: Decodable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
         target = try container.decode(Set<String>.self, forKey: .target)
         config = (try? container.decode([String: ConfigInfo].self, forKey: .config)) ?? [:]
     }

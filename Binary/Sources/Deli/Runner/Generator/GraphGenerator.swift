@@ -179,6 +179,7 @@ final class GraphGenerator: Generator {
 
     init(results: [Results], properties: [String: Any]) {
         self.results = results
+            .filter { !$0.isResolved }
         self.properties = properties
     }
 }

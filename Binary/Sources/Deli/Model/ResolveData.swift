@@ -13,6 +13,7 @@ struct ResolveData: Codable {
         case version = "VERSION"
         case dependency = "DEPENDENCY"
         case properties = "PROPERTY"
+        case projectName = "PROJECT"
         case referenceName = "REFERENCE"
     }
 
@@ -92,13 +93,15 @@ struct ResolveData: Codable {
 
     let dependency: [Dependency]
     let property: [String: Any]
+    let projectName: String
     let referenceName: String
 
     // MARK: - Lifecycle
 
-    init(dependency: [Dependency], property: [String: Any], referenceName: String) {
+    init(dependency: [Dependency], property: [String: Any], projectName: String, referenceName: String) {
         self.dependency = dependency
         self.property = property
+        self.projectName = projectName
         self.referenceName = referenceName
     }
     init(from decoder: Decoder) throws {
@@ -106,6 +109,7 @@ struct ResolveData: Codable {
         //let version = try container.decode(String.self, forKey: .version)
         dependency = try container.decode([Dependency].self, forKey: .dependency)
         property = try container.decode([String: Any].self, forKey: .properties)
+        projectName = try container.decode(String.self, forKey: .projectName)
         referenceName = try container.decode(String.self, forKey: .referenceName)
     }
     func encode(to encoder: Encoder) throws {
@@ -113,6 +117,7 @@ struct ResolveData: Codable {
         try container.encode(Version.current.value, forKey: .version)
         try container.encode(dependency, forKey: .dependency)
         try container.encode(property, forKey: .properties)
+        try container.encode(projectName, forKey: .projectName)
         try container.encode(referenceName, forKey: .referenceName)
     }
 }

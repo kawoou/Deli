@@ -108,7 +108,9 @@ final class SourceGenerator: Generator {
     }
     init(className: String, results: [Results], properties: [String: Any]) {
         self.className = className
-        self.results = results.sorted { $0.instanceType < $1.instanceType }
+        self.results = results
+            .sorted { $0.instanceType < $1.instanceType }
+            .filter { !$0.isResolved } 
         self.properties = properties
     }
 }
