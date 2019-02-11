@@ -17,9 +17,13 @@ final class SourceGenerator: Generator {
 
         let sourceList: [String]
         #if swift(>=4.1)
-        sourceList = results.compactMap { $0.makeSource() }
+        sourceList = results
+            .filter { !$0.isResolved }
+            .compactMap { $0.makeSource() }
         #else
-        sourceList = results.flatMap { $0.makeSource() }
+        sourceList = results
+            .filter { !$0.isResolved }
+            .flatMap { $0.makeSource() }
         #endif
         
         let output = sourceList
@@ -110,7 +114,6 @@ final class SourceGenerator: Generator {
         self.className = className
         self.results = results
             .sorted { $0.instanceType < $1.instanceType }
-            .filter { !$0.isResolved } 
         self.properties = properties
     }
 }
