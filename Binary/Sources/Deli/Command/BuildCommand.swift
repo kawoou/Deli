@@ -30,15 +30,13 @@ struct BuildCommand: CommandProtocol {
         let configuration = Configuration()
         let configure: Config
         let properties = CommandLine.get(forKey: "property")
-        let dependencies = CommandLine.get(forKey: "dependency")
         if let project = options.project {
             guard let config = configuration.getConfig(
                 project: project,
                 scheme: options.scheme,
                 target: options.target,
                 output: options.output,
-                properties: properties,
-                dependencies: dependencies
+                properties: properties
             ) else {
                 return .failure(.failedToLoadConfigFile)
             }
@@ -113,7 +111,7 @@ struct BuildCommand: CommandProtocol {
             propertyParser.load(propertyFiles)
 
             do {
-                try resolveParser.load(info.dependencies + dependencies)
+                try resolveParser.load(info.dependencies)
 
                 let results = try validator.run(
                     try corrector.run(
@@ -156,12 +154,11 @@ struct BuildOptions: OptionsProtocol {
     let target: String?
     let output: String?
     let properties: String?
-    let dependencies: String?
     let isResolveFile: Bool
     let isVerbose: Bool
 
-    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ dependencies: String?) -> (_ isResolveFile: Bool) -> (_ isVerbose: Bool) -> BuildOptions {
-        return { project in { scheme in { target in { output in { properties in { dependencies in { isResolveFile in { isVerbose in
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isResolveFile: Bool) -> (_ isVerbose: Bool) -> BuildOptions {
+        return { project in { scheme in { target in { output in { properties in { isResolveFile in { isVerbose in
             self.init(
                 configFile: configFile,
                 project: project,
@@ -169,11 +166,10 @@ struct BuildOptions: OptionsProtocol {
                 target: target,
                 output: output,
                 properties: properties,
-                dependencies: dependencies,
                 isResolveFile: isResolveFile,
                 isVerbose: isVerbose
             )
-        }}}}}}}}
+        }}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<BuildOptions, CommandantError<CommandError>> {
@@ -207,11 +203,6 @@ struct BuildOptions: OptionsProtocol {
                 key: "property",
                 defaultValue: nil,
                 usage: "the path of property file"
-            )
-            <*> mode <| Option(
-                key: "dependency",
-                defaultValue: nil,
-                usage: "the path of dependency resolved file"
             )
             <*> mode <| Option(
                 key: "resolve-file",

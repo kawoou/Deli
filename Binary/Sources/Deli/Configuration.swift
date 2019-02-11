@@ -238,14 +238,14 @@ final class Configuration {
             }
         }
     }
-    func getConfig(project: String, scheme: String?, target: String?, output: String?, properties: [String], dependencies: [String]) -> Config? {
+    func getConfig(project: String, scheme: String?, target: String?, output: String?, properties: [String]) -> Config? {
         let info = ConfigInfo(
             project: project,
             scheme: scheme,
             target: target,
             output: output,
             properties: properties,
-            dependencies: dependencies
+            dependencies: []
         )
         return Config(
             target: [info.project],

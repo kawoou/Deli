@@ -30,15 +30,13 @@ struct GenerateCommand: CommandProtocol {
         let configuration = Configuration()
         let configure: Config
         let properties = CommandLine.get(forKey: "property")
-        let dependencies = CommandLine.get(forKey: "dependency")
         if let project = options.project {
             guard let config = configuration.getConfig(
                 project: project,
                 scheme: options.scheme,
                 target: options.target,
                 output: nil,
-                properties: properties,
-                dependencies: dependencies
+                properties: properties
             ) else {
                 return .failure(.failedToLoadConfigFile)
             }
@@ -105,7 +103,7 @@ struct GenerateCommand: CommandProtocol {
             propertyParser.load(propertyFiles)
 
             do {
-                try resolveParser.load(info.dependencies + dependencies)
+                try resolveParser.load(info.dependencies)
 
                 let results = try validator.run(
                     try corrector.run(
@@ -151,11 +149,10 @@ struct GenerateOptions: OptionsProtocol {
     let target: String?
     let output: String?
     let properties: String?
-    let dependencies: String?
     let type: String
 
-    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ dependencies: String?) -> (_ type: String) -> GenerateOptions {
-        return { isVerbose in { project in { scheme in { target in { output in { properties in { dependencies in { type in
+    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ type: String) -> GenerateOptions {
+        return { isVerbose in { project in { scheme in { target in { output in { properties in { type in
             self.init(
                 configFile: configFile,
                 isVerbose: isVerbose,
@@ -164,10 +161,9 @@ struct GenerateOptions: OptionsProtocol {
                 target: target,
                 output: output,
                 properties: properties,
-                dependencies: dependencies,
                 type: type
             )
-        }}}}}}}}
+        }}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<GenerateOptions, CommandantError<CommandError>> {
@@ -206,11 +202,6 @@ struct GenerateOptions: OptionsProtocol {
                 key: "property",
                 defaultValue: nil,
                 usage: "the path of property file"
-            )
-            <*> mode <| Option(
-                key: "dependency",
-                defaultValue: nil,
-                usage: "the path of dependency resolved file"
             )
             <*> mode <| Option(
                 key: "type",
