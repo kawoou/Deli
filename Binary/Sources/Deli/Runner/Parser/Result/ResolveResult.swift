@@ -6,12 +6,12 @@
 //
 
 final class ResolveResult: Results {
-    var valueType: Bool
-    var isLazy: Bool
-    var isFactory: Bool
-    var isRegister: Bool
-    var isResolved: Bool = true
-    var instanceType: String
+    let valueType: Bool
+    let isLazy: Bool
+    let isFactory: Bool
+    let isRegister: Bool
+    let isResolved: Bool = true
+    let instanceType: String
     var scope: String?
     var qualifier: String?
     var dependencies: [Dependency]
@@ -19,19 +19,19 @@ final class ResolveResult: Results {
     var imports: [String]
     var linkType: Set<String>
 
-    init(_ data: ResolveData.Dependency) {
-        valueType = data.isValueType
-        isLazy = data.isLazy
-        isFactory = data.isFactory
-        isRegister = true
-        instanceType = data.type
-        scope = "unknown"
-        qualifier = data.qualifier
-        dependencies = data.dependencies.map {
+    init(_ data: ResolveData.Dependency, imports: [String]) {
+        self.valueType = data.isValueType
+        self.isLazy = data.isLazy
+        self.isFactory = data.isFactory
+        self.isRegister = true
+        self.instanceType = data.type
+        self.scope = "unknown"
+        self.qualifier = data.qualifier
+        self.dependencies = data.dependencies.map {
             Dependency(parent: data.type, target: nil, name: $0.type)
         }
-        instanceDependency = dependencies
-        imports = []
-        linkType = Set(data.linkType)
+        self.instanceDependency = self.dependencies
+        self.imports = imports
+        self.linkType = Set(data.linkType)
     }
 }

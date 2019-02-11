@@ -20,31 +20,34 @@ final class ResolveParser {
 
     // NARK: - Public
 
-    func load(_ pathList: [String]) throws {
+    func load(_ infoList: [ConfigDependencyInfo]) throws {
         let decoder = YAMLDecoder()
 
-        dependencies = try pathList
-            .compactMap { path in
-                guard let url = URL(string: path) else { return nil }
+        dependencies = try infoList
+            .compactMap { info -> ConfigDependencyInfo? in
+                guard let url = URL(string: info.path) else { return nil }
 
                 let fileManager = FileManager.default
                 var isDirectory: ObjCBool = false
-                guard fileManager.fileExists(atPath: path, isDirectory: &isDirectory) else {
-                    Logger.log(.warn("Not found dependency resolved file on `\(path)`.", nil))
+                guard fileManager.fileExists(atPath: info.path, isDirectory: &isDirectory) else {
+                    Logger.log(.warn("Not found dependency resolved file on `\(info.path)`.", nil))
                     return nil
                 }
-                guard isDirectory.boolValue else { return path }
+                guard isDirectory.boolValue else { return info }
 
                 let newPath = url.appendingPathComponent(Constant.resolveFile).path
                 guard fileManager.fileExists(atPath: newPath) else {
                     Logger.log(.warn("Not found dependency resolved file on `\(newPath)`.", nil))
                     return nil
                 }
-                return newPath
+                return ConfigDependencyInfo(path: newPath, imports: info.imports)
             }
-            .map { try String(contentsOfFile: $0, encoding: .utf8) }
-            .map { try decoder.decode(ResolveData.self, from: $0) }
-            .flatMap { $0.dependency.map(ResolveResult.init) }
+            .flatMap { info -> [ResolveResult] in
+                let data = try String(contentsOfFile: info.path, encoding: .utf8)
+                let resolveData = try decoder.decode(ResolveData.self, from: data)
+                return resolveData.dependency
+                    .map { ResolveResult($0, imports: info.imports) }
+            }
     }
 
     func run(_ data: [Results]) throws -> [Results] {
