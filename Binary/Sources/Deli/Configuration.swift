@@ -268,6 +268,21 @@ final class Configuration {
             return url.path
         }
     }
+    func getResolvedOutputPath(info: ConfigInfo) -> String {
+        let projectFile = convertToProjectFile(info.project)
+        guard let projectPath = findPath(projectFile) else { return "" }
+        guard let projectURL = URL(string: projectPath) else { return "" }
+
+        let projectDirectory = projectURL.deletingLastPathComponent()
+        let url = projectDirectory.appendingPathComponent(info.resolve?.output ?? ResolveParser.Constant.resolveFile).standardized
+
+        var isDirectory: ObjCBool = false
+        if fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue {
+            return url.appendingPathComponent(ResolveParser.Constant.resolveFile).standardized.path
+        } else {
+            return url.path
+        }
+    }
     func getClassName(info: ConfigInfo) -> String {
         let path = getOutputPath(info: info)
         

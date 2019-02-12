@@ -36,7 +36,38 @@ public class AppContext {
     
     private let lock = NSRecursiveLock()
     private var loadedList: [LoadInfo] = []
-    
+
+    private func load(_ factories: [ModuleFactory], priority: LoadPriority) {
+        lock.lock()
+        defer { lock.unlock() }
+
+        /// Duplicated load
+        let factories = factories
+            .filter { factory in
+                !loadedList.contains(where: { $0.factory === factory })
+            }
+
+        /// Load factory
+        factories.forEach { factory in
+            factory.load(context: self)
+            loadedList.append(
+                LoadInfo(
+                    factory: factory,
+                    priority: priority
+                )
+            )
+        }
+
+        /// Update loaded list
+        loadedList.sort { (a, b) in
+            guard a.priority.rawValue < b.priority.rawValue else { return true }
+            return a.loadedAt < b.loadedAt
+        }
+
+        /// Load container
+        factories.forEach { $0.container.load() }
+    }
+
     // MARK: - Public
 
     /// Get container components.
@@ -56,9 +87,7 @@ public class AppContext {
     /// - Returns: Instance of shared application context.
     @discardableResult
     public func load(_ factories: [ModuleFactory.Type], priority: LoadPriority = .normal) -> AppContext {
-        for type in factories {
-            load(type.init(), priority: priority)
-        }
+        load(factories.map { $0.init() }, priority: priority)
         return self
     }
     
@@ -70,24 +99,7 @@ public class AppContext {
     /// - Returns: Instance of shared application context.
     @discardableResult
     public func load(_ factory: ModuleFactory, priority: LoadPriority = .normal) -> AppContext {
-        lock.lock()
-        defer { lock.unlock() }
-
-        /// Duplicated load
-        guard !loadedList.contains(where: { $0.factory === factory }) else { return self }
-
-        factory.load(context: self)
-        loadedList.append(
-            LoadInfo(
-                factory: factory,
-                priority: priority
-            )
-        )
-        loadedList.sort { (a, b) in
-            guard a.priority.rawValue < b.priority.rawValue else { return true }
-            return a.loadedAt < b.loadedAt
-        }
-        factory.container.load()
+        load([factory], priority: priority)
         return self
     }
     
@@ -256,16 +268,13 @@ public class AppContext {
             .compactMap { $0 as? T }
     }
 
-    /// Get property using the path.
+    /// Get property.
     ///
     /// - Parameters:
     ///     - path: Property path.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(
-        _ path: String,
-        resolveRole: ResolveRule = .default
-    ) -> Any? {
+    public func getProperty(_ path: String, resolveRole: ResolveRule = .default) -> Any? {
         let list = resolveRole.findModules(loadedList.map { $0.factory })
         for factory in list {
             do {

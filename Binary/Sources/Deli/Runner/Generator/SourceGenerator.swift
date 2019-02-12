@@ -39,8 +39,8 @@ final class SourceGenerator: Generator {
         //
 
         \(imports)
-        final class \(className): ModuleFactory {
-            override func load(context: AppContext) {
+        \(accessControl)final class \(className): ModuleFactory {
+            \(accessControl)override func load(context: AppContext) {
                 loadProperty(\(dictionaryData))
         
                 \(output)
@@ -52,6 +52,7 @@ final class SourceGenerator: Generator {
     // MARK: - Private
 
     private let className: String
+    private let accessControl: String
     private let results: [Results]
     private let properties: [String: Any]
 
@@ -106,12 +107,14 @@ final class SourceGenerator: Generator {
     convenience init(results: [Results], properties: [String: Any]) {
         self.init(
             className: "DeliFactory",
+            accessControl: nil,
             results: results,
             properties: properties
         )
     }
-    init(className: String, results: [Results], properties: [String: Any]) {
+    init(className: String, accessControl: String?, results: [Results], properties: [String: Any]) {
         self.className = className
+        self.accessControl = accessControl.map { "\($0) " } ?? ""
         self.results = results
             .sorted { $0.instanceType < $1.instanceType }
         self.properties = properties
