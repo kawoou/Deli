@@ -13,20 +13,24 @@ struct ConfigResolveInfo: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case output
+        case isGenerate = "generate"
     }
 
     // MARK: - Property
 
     let output: String?
+    let isGenerate: Bool
 
     // MARK: - Lifecycle
 
-    init(output: String? = nil) {
+    init(output: String? = nil, isGenerate: Bool = true) {
         self.output = output
+        self.isGenerate = isGenerate
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        output = try? container.decode(String.self, forKey: .output)
+        output = try container.decodeIfPresent(String.self, forKey: .output)
+        isGenerate = try container.decodeIfPresent(Bool.self, forKey: .isGenerate) ?? true
     }
 }

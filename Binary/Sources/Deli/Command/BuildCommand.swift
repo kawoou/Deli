@@ -127,14 +127,15 @@ struct BuildCommand: CommandProtocol {
                     results: results,
                     properties: propertyParser.properties
                 )
-                let resolveGenerator = ResolveGenerator(
-                    projectName: target,
-                    fileName: info.output ?? "\(className).swift",
-                    results: results,
-                    properties: propertyParser.properties
-                )
                 try saveOutput(generator: generator, outputFile: outputFile)
-                if options.isResolveFile {
+
+                if options.isResolveFile, (info.resolve?.isGenerate ?? true) {
+                    let resolveGenerator = ResolveGenerator(
+                        projectName: target,
+                        fileName: info.output ?? "\(className).swift",
+                        results: results,
+                        properties: propertyParser.properties
+                    )
                     try saveOutput(generator: resolveGenerator, outputFile: resolvedOutputFile)
                 }
 

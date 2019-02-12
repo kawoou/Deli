@@ -92,7 +92,7 @@ struct GithubRelease: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
-        name = try? container.decode(String.self, forKey: .name)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
         tagName = try container.decode(String.self, forKey: .tagName)
         assets = try container.decode([Asset].self, forKey: .assets)
         createdAt = try container.decode(Date.self, forKey: .createdAt)

@@ -57,15 +57,15 @@ struct ConfigInfo: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         project = try container.decode(String.self, forKey: .project)
-        scheme = try? container.decode(String.self, forKey: .scheme)
-        target = try? container.decode(String.self, forKey: .target)
-        include = (try? container.decode([String].self, forKey: .include)) ?? []
-        exclude = (try? container.decode([String].self, forKey: .exclude)) ?? []
-        output = try? container.decode(String.self, forKey: .output)
-        resolve = try? container.decode(ConfigResolveInfo.self, forKey: .resolve)
-        properties = (try? container.decode([String].self, forKey: .properties)) ?? []
-        dependencies = (try? container.decode([ConfigDependencyInfo].self, forKey: .dependencies)) ?? []
-        className = try? container.decode(String.self, forKey: .className)
-        accessControl = try? container.decode(String.self, forKey: .accessControl)
+        scheme = try container.decodeIfPresent(String.self, forKey: .scheme)
+        target = try container.decodeIfPresent(String.self, forKey: .target)
+        include = try container.decodeIfPresent([String].self, forKey: .include) ?? []
+        exclude = try container.decodeIfPresent([String].self, forKey: .exclude) ?? []
+        output = try container.decodeIfPresent(String.self, forKey: .output)
+        resolve = try container.decodeIfPresent(ConfigResolveInfo.self, forKey: .resolve)
+        properties = try container.decodeIfPresent([String].self, forKey: .properties) ?? []
+        dependencies = try container.decodeIfPresent([ConfigDependencyInfo].self, forKey: .dependencies) ?? []
+        className = try container.decodeIfPresent(String.self, forKey: .className)
+        accessControl = try container.decodeIfPresent(String.self, forKey: .accessControl)
     }
 }
