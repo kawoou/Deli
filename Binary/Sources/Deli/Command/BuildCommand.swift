@@ -64,6 +64,7 @@ struct BuildCommand: CommandProtocol {
             Logger.log(.info("Set Target `\(target)`"))
             let outputFile: String
             let className: String
+            let resolvedOutputFile = configuration.getResolvedOutputPath(info: info)
             if info.className != nil {
                 className = configuration.getClassName(info: info)
                 outputFile = configuration.getOutputPath(info: info, fileName: "\(className).swift")
@@ -122,6 +123,7 @@ struct BuildCommand: CommandProtocol {
                 )
                 let generator = SourceGenerator(
                     className: className,
+                    accessControl: info.accessControl,
                     results: results,
                     properties: propertyParser.properties
                 )
@@ -133,7 +135,7 @@ struct BuildCommand: CommandProtocol {
                 )
                 try saveOutput(generator: generator, outputFile: outputFile)
                 if options.isResolveFile {
-                    try saveOutput(generator: resolveGenerator, outputFile: ResolveParser.Constant.resolveFile)
+                    try saveOutput(generator: resolveGenerator, outputFile: resolvedOutputFile)
                 }
 
                 Logger.log(.info("Generate file: \(outputFile)"))

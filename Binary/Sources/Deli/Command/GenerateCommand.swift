@@ -116,11 +116,22 @@ struct GenerateCommand: CommandProtocol {
                 let generator: Generator = try {
                     switch options.type {
                     case "graph", "html":
-                        return GraphGenerator(results: results, properties: propertyParser.properties)
+                        return GraphGenerator(
+                            results: results,
+                            properties: propertyParser.properties
+                        )
                     case "code", "swift":
-                        return SourceGenerator(className: className, results: results, properties: propertyParser.properties)
+                        return SourceGenerator(
+                            className: className,
+                            accessControl: info.accessControl,
+                            results: results,
+                            properties: propertyParser.properties
+                        )
                     case "raw", "text":
-                        return RawGenerator(results: results, properties: propertyParser.properties)
+                        return RawGenerator(
+                            results: results,
+                            properties: propertyParser.properties
+                        )
                     default:
                         throw CommandError.unacceptableType
                     }
