@@ -37,6 +37,17 @@ public class AppContext {
     private let lock = NSRecursiveLock()
     private var loadedList: [LoadInfo] = []
 
+    private func getClassFromString(_ className: String) -> AnyClass? {
+        if let classType = NSClassFromString(className) {
+            return classType
+        }
+        if let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
+            let newAppName = appName.replacingOccurrences(of: " ", with: "_", options: .literal, range: nil)
+            return NSClassFromString("\(newAppName).\(className)")
+        }
+        return nil
+    }
+
     private func load(_ factories: [ModuleFactory], priority: LoadPriority) {
         lock.lock()
         defer { lock.unlock() }
@@ -136,7 +147,86 @@ public class AppContext {
     public func reset() {
         loadedList.forEach { $0.factory.reset() }
     }
-    
+
+    /// Get instance from string class.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - className: The dependency class name to resolve.
+    ///     - qualifier: The registered qualifier.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance, or nil.
+    public func get<T>(
+        _ type: T.Type,
+        className: String,
+        qualifier: String = "",
+        resolveRole: ResolveRule = .recursive
+    ) -> T? {
+        guard let classInfo = getClassFromString(className) else { return nil }
+        let key = TypeKey(type: classInfo, qualifier: qualifier)
+
+        let list = resolveRole.findModules(loadedList.map { $0.factory })
+        for factory in list {
+            guard let instance = try? factory.container.get(key) else { continue }
+            guard let result = instance as? T else { continue }
+            return result
+        }
+        return nil
+    }
+
+    /// Get instance from string class by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - className: The dependency class name to resolve.
+    ///     - payload: User data for resolve.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance, or nil.
+    public func get<T: Factory>(
+        _ type: T.Type,
+        className: String,
+        payload: T.RawPayload,
+        resolveRole: ResolveRule = .recursive
+    ) -> T? {
+        guard let classInfo = getClassFromString(className) else { return nil }
+        let key = TypeKey(type: classInfo, qualifier: "")
+
+        let list = resolveRole.findModules(loadedList.map { $0.factory })
+        for factory in list {
+            guard let instance = try? factory.container.get(key, payload: payload) else { continue }
+            guard let result = instance as? T else { continue }
+            return result
+        }
+        return nil
+    }
+
+    /// Get instance from string class without resolve.
+    /// It is used to avoid repetitive resolve if already registered.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - className: The dependency class name to resolve.
+    ///     - qualifier: The registered qualifier.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instances, or nil.
+    public func get<T>(
+        withoutResolve type: T.Type,
+        className: String,
+        qualifier: String,
+        resolveRole: ResolveRule = .recursive
+    ) -> T? {
+        guard let classInfo = getClassFromString(className) else { return nil }
+        let key = TypeKey(type: classInfo, qualifier: qualifier)
+
+        let list = resolveRole.findModules(loadedList.map { $0.factory })
+        for factory in list {
+            guard let instance = try? factory.container.get(withoutResolve: key) else { continue }
+            guard let result = instance as? T else { continue }
+            return result
+        }
+        return nil
+    }
+
     /// Get instance for type.
     ///
     /// - Parameters:
