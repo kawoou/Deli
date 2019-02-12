@@ -30,10 +30,10 @@ struct ConfigDependencyInfo: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         path = try container.decode(String.self, forKey: .path)
-        if let importFramework = try? container.decode(String.self, forKey: .import) {
+        if let importFramework = try container.decodeIfPresent(String.self, forKey: .import) {
             imports = [importFramework]
         } else {
-            imports = (try? container.decode([String].self, forKey: .import)) ?? []
+            imports = try container.decodeIfPresent([String].self, forKey: .import) ?? []
         }
     }
 

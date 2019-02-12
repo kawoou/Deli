@@ -34,7 +34,7 @@ struct ResolveData: Codable {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             type = try container.decode(String.self, forKey: .type)
             qualifier = try container.decode(String.self, forKey: .qualifier)
-            qualifierBy = try? container.decode(String.self, forKey: .qualifierBy)
+            qualifierBy = try container.decodeIfPresent(String.self, forKey: .qualifierBy)
         }
         func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -68,7 +68,7 @@ struct ResolveData: Codable {
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             type = try container.decode(String.self, forKey: .type)
-            qualifier = try? container.decode(String.self, forKey: .qualifier)
+            qualifier = try container.decodeIfPresent(String.self, forKey: .qualifier)
             isLazy = try container.decode(Bool.self, forKey: .isLazy)
             isFactory = try container.decode(Bool.self, forKey: .isFactory)
             isValueType = try container.decode(Bool.self, forKey: .isValueType)
