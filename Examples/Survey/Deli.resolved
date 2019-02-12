@@ -1,0 +1,56 @@
+VERSION: 0.8.1
+DEPENDENCY:
+- TYPE: SurveyServiceImpl
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY:
+  - TYPE: Survey
+    QUALIFIER: 
+  LINK:
+  - SurveyService
+- TYPE: TestSurvey1
+  QUALIFIER: Survey1
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY: []
+  LINK:
+  - Survey
+- TYPE: TestSurvey2
+  QUALIFIER: Survey2
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY: []
+  LINK:
+  - Survey
+- TYPE: TestSurvey3
+  QUALIFIER: Survey3
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY: []
+  LINK:
+  - Survey
+- TYPE: ViewController
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY:
+  - TYPE: Survey
+    QUALIFIER: Survey3
+  - TYPE: ViewModel
+    QUALIFIER: 
+  LINK: []
+- TYPE: ViewModel
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY:
+  - TYPE: SurveyService
+    QUALIFIER: 
+  LINK: []
+PROPERTY: {}
+PROJECT: Survey
+REFERENCE: Survey/SurveyFactory.swift

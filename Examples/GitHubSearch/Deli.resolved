@@ -1,0 +1,37 @@
+VERSION: 0.8.1
+DEPENDENCY:
+- TYPE: GitHubServiceImpl
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY:
+  - TYPE: NetworkManager
+    QUALIFIER: 
+  LINK:
+  - GitHubService
+- TYPE: NetworkManagerImpl
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY: []
+  LINK:
+  - NetworkManager
+- TYPE: ViewController
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY:
+  - TYPE: ViewModel
+    QUALIFIER: 
+  LINK: []
+- TYPE: ViewModel
+  LAZILY: false
+  FACTORY: false
+  VALUE_TYPE: false
+  DEPENDENCY:
+  - TYPE: GitHubService
+    QUALIFIER: 
+  LINK: []
+PROPERTY: {}
+PROJECT: GitHubSearch
+REFERENCE: GitHubSearch
