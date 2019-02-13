@@ -8,12 +8,22 @@ import Deli
 final class DeliFactory: ModuleFactory {
     override func load(context: AppContext) {
         loadProperty([
+            "boolean1": "true",
+            "boolean2": "1",
             "environment": "dev",
+            "int16": "32767",
+            "int32": "2147483647",
+            "int64": "9223372036854775807",
+            "int8": "127",
             "server": [
                 "method": "get",
                 "port": "8080",
                 "url": "http://dev.test.com"
-            ]
+            ],
+            "uint16": "65535",
+            "uint32": "4294967295",
+            "uint64": "18446744073709551615",
+            "uint8": "255"
         ])
 
         register(
