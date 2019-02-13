@@ -41,9 +41,13 @@ public class AppContext {
         if let classType = NSClassFromString(className) {
             return classType
         }
-        if let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String {
+        for bundle in Bundle.allBundles.reversed() {
+            guard let appName = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String else { continue }
+            
             let newAppName = appName.replacingOccurrences(of: " ", with: "_", options: .literal, range: nil)
-            return NSClassFromString("\(newAppName).\(className)")
+            if let classType = NSClassFromString("\(newAppName).\(className)") {
+                return classType
+            }
         }
         return nil
     }
