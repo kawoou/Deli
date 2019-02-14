@@ -219,7 +219,7 @@ final class DeliFactory: ModuleFactory {
         register(
             PropertyAutowired.self,
             resolver: {
-                let _qualifier0 = context.getProperty("environment") as! String
+                let _qualifier0 = context.getProperty("environment", type: String.self)!
                 let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 return PropertyAutowired(_0)
             },
@@ -229,7 +229,7 @@ final class DeliFactory: ModuleFactory {
         registerFactory(
             PropertyAutowiredFactory.self,
             resolver: { payload in
-                let _qualifier0 = context.getProperty("environment") as! String
+                let _qualifier0 = context.getProperty("environment", type: String.self)!
                 let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 return PropertyAutowiredFactory(_0, payload: payload as! PropertyAutowiredFactoryPayload)
             },
@@ -249,7 +249,7 @@ final class DeliFactory: ModuleFactory {
                 return PropertyLazyAutowired()
             },
             injector: { instance in
-                let _qualifier0 = context.getProperty("environment") as! String
+                let _qualifier0 = context.getProperty("environment", type: String.self)!
                 let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 instance.inject(_0)
             },
@@ -262,7 +262,7 @@ final class DeliFactory: ModuleFactory {
                 return PropertyLazyAutowiredFactory(payload: payload as! PropertyLazyAutowiredFactoryPayload)
             },
             injector: { instance in
-                let _qualifier0 = context.getProperty("environment") as! String
+                let _qualifier0 = context.getProperty("environment", type: String.self)!
                 let _0 = context.get(NetworkProvider.self, qualifier: _qualifier0)!
                 instance.inject(_0)
             },
@@ -304,9 +304,9 @@ final class DeliFactory: ModuleFactory {
             ServerConfig.self,
             resolver: {
                 return ServerConfig(
-                    method: context.getProperty("server.method") as! String,
-                    url: context.getProperty("server.url") as! String,
-                    port: context.getProperty("server.port") as! String
+                    method: context.getProperty("server.method", type: String.self),
+                    url: context.getProperty("server.url", type: String.self)!,
+                    port: context.getProperty("server.port", type: Int.self)!
                 )
             },
             qualifier: "",

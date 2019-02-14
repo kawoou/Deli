@@ -553,6 +553,17 @@ public class AppContext {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return UInt64(property)
     }
+
+    /// Get property of ConfigProperty type.
+    ///
+    /// - Parameters:
+    ///     - path: Property path.
+    ///     - type: Property type inherit ConfigProperty.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The property.
+    public func getProperty<T: ConfigProperty>(_ path: String, type: T.Type, resolveRole: ResolveRule = .default) -> T? {
+        return get(type, qualifier: "", resolveRole: resolveRole)
+    }
     
     // MARK: - Lifecycle
     
