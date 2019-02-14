@@ -20,13 +20,15 @@ final class ConfigPropertyCorrector: Correctable {
             guard let propertyResult = result as? ConfigPropertyResult else { return result }
             guard let info = parser.inheritanceList(result.instanceType).first else { return result }
 
-            try propertyResult.propertyKeys.forEach {
-                let path = "\(propertyResult.propertyTargetKey).\($0)"
-                if try propertyParser.getProperty(path) == nil {
-                    Logger.log(.error("Not found configuration property: \(path)", info.structure.getSourceLine(with: info.content)))
-                    throw CorrectorError.notFoundConfigurationProperty
+            try propertyResult.propertyInfos
+                .filter { !$0.isOptional }
+                .map { "\(propertyResult.propertyTargetKey).\($0.name)" }
+                .forEach { path in
+                    if try propertyParser.getProperty(path) == nil {
+                        Logger.log(.error("Not found configuration property: \(path)", info.structure.getSourceLine(with: info.content)))
+                        throw CorrectorError.notFoundConfigurationProperty
+                    }
                 }
-            }
 
             return result
         }

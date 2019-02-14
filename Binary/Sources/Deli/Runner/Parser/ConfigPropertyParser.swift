@@ -45,13 +45,30 @@ final class ConfigPropertyParser: Parsable {
         }
 
         let propertyList = properties
-            .compactMap { $0.name }
-            .filter { $0 != Constant.targetPropertyName }
+            .compactMap { structure -> ConfigPropertyResult.PropertyInfo? in
+                guard let type = structure.typeName else { return nil }
+                guard let name = structure.name else { return nil }
+                guard name != Constant.targetPropertyName else { return nil }
+
+                if type.hasSuffix("?") || type.hasSuffix("!") {
+                    return ConfigPropertyResult.PropertyInfo(
+                        type: String(type[..<type.index(before: type.endIndex)]),
+                        name: name,
+                        isOptional: true
+                    )
+                } else {
+                    return ConfigPropertyResult.PropertyInfo(
+                        type: type,
+                        name: name,
+                        isOptional: false
+                    )
+                }
+            }
 
         return ConfigPropertyResult(
             name,
             propertyTargetKey: targetPath,
-            propertyKeys: propertyList,
+            propertyInfos: propertyList,
             valueType: source.kind == SwiftDeclarationKind.struct.rawValue
         )
     }
