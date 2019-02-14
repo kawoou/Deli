@@ -25,10 +25,4 @@ struct Config: Decodable {
         self.target = target
         self.config = config
     }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        target = try container.decode(Set<String>.self, forKey: .target)
-        config = try container.decodeIfPresent([String: ConfigInfo].self, forKey: .config) ?? [:]
-    }
 }

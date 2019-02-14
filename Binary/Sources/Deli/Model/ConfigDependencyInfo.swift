@@ -11,7 +11,7 @@ struct ConfigDependencyInfo: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case path
-        case `import`
+        case `imports` = "import"
     }
 
     // MARK: - Property
@@ -30,10 +30,10 @@ struct ConfigDependencyInfo: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         path = try container.decode(String.self, forKey: .path)
-        if let importFramework = try container.decodeIfPresent(String.self, forKey: .import) {
+        if let importFramework = try container.decodeIfPresent(String.self, forKey: .imports) {
             imports = [importFramework]
         } else {
-            imports = try container.decodeIfPresent([String].self, forKey: .import) ?? []
+            imports = try container.decodeIfPresent([String].self, forKey: .imports) ?? []
         }
     }
 

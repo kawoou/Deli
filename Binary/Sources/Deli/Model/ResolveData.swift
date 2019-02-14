@@ -29,21 +29,6 @@ struct ResolveData: Codable {
         let type: String
         let qualifier: String
         let qualifierBy: String?
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            type = try container.decode(String.self, forKey: .type)
-            qualifier = try container.decode(String.self, forKey: .qualifier)
-            qualifierBy = try container.decodeIfPresent(String.self, forKey: .qualifierBy)
-        }
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(type, forKey: .type)
-            try container.encode(qualifier, forKey: .qualifier)
-            if let qualifierBy = qualifierBy {
-                try container.encode(qualifierBy, forKey: .qualifierBy)
-            }
-        }
     }
 
     struct Dependency: Codable {
@@ -53,7 +38,7 @@ struct ResolveData: Codable {
             case isLazy = "LAZILY"
             case isFactory = "FACTORY"
             case isValueType = "VALUE_TYPE"
-            case dependency = "DEPENDENCY"
+            case dependencies = "DEPENDENCY"
             case linkType = "LINK"
         }
 
@@ -64,29 +49,6 @@ struct ResolveData: Codable {
         let isValueType: Bool
         var dependencies: [DependencyTarget]
         var linkType: [String]
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            type = try container.decode(String.self, forKey: .type)
-            qualifier = try container.decodeIfPresent(String.self, forKey: .qualifier)
-            isLazy = try container.decode(Bool.self, forKey: .isLazy)
-            isFactory = try container.decode(Bool.self, forKey: .isFactory)
-            isValueType = try container.decode(Bool.self, forKey: .isValueType)
-            dependencies = try container.decode([DependencyTarget].self, forKey: .dependency)
-            linkType = try container.decode([String].self, forKey: .linkType)
-        }
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(type, forKey: .type)
-            if let qualifier = qualifier {
-                try container.encode(qualifier, forKey: .qualifier)
-            }
-            try container.encode(isLazy, forKey: .isLazy)
-            try container.encode(isFactory, forKey: .isFactory)
-            try container.encode(isValueType, forKey: .isValueType)
-            try container.encode(dependencies, forKey: .dependency)
-            try container.encode(linkType, forKey: .linkType)
-        }
     }
 
     // MARK: - Property
