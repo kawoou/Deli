@@ -800,10 +800,10 @@
       "OBJ_194" = {
          isa = "PBXGroup";
          children = (
-            "Deli::DeliTests::Product",
-            "Quick::Quick::Product",
             "Nimble::Nimble::Product",
+            "Deli::DeliTests::Product",
             "Quick::QuickSpecBase::Product",
+            "Quick::Quick::Product",
             "Deli::Deli::Product"
          );
          name = "Products";
@@ -1399,7 +1399,7 @@
       };
       "OBJ_27" = {
          isa = "PBXFileReference";
-         path = "ResolveRule.swift";
+         path = "ResolveRole.swift";
          sourceTree = "<group>";
       };
       "OBJ_270" = {

@@ -164,7 +164,7 @@ public class AppContext {
         _ type: T.Type,
         className: String,
         qualifier: String = "",
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T? {
         guard let classInfo = getClassFromString(className) else { return nil }
         let key = TypeKey(type: classInfo, qualifier: qualifier)
@@ -190,7 +190,7 @@ public class AppContext {
         _ type: T.Type,
         className: String,
         payload: T.RawPayload,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T? {
         guard let classInfo = getClassFromString(className) else { return nil }
         let key = TypeKey(type: classInfo, qualifier: "")
@@ -217,7 +217,7 @@ public class AppContext {
         withoutResolve type: T.Type,
         className: String,
         qualifier: String,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T? {
         guard let classInfo = getClassFromString(className) else { return nil }
         let key = TypeKey(type: classInfo, qualifier: qualifier)
@@ -241,7 +241,7 @@ public class AppContext {
     public func get<T>(
         _ type: T.Type,
         qualifier: String = "",
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T? {
         let key = TypeKey(type: type, qualifier: qualifier)
         
@@ -264,7 +264,7 @@ public class AppContext {
     public func get<T>(
         _ type: [T].Type,
         qualifier: String = "",
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         let key = TypeKey(type: T.self, qualifier: qualifier)
         
@@ -284,7 +284,7 @@ public class AppContext {
     public func get<T: Factory>(
         _ type: T.Type,
         payload: T.RawPayload,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T? {
         let key = TypeKey(type: type, qualifier: "")
         
@@ -307,7 +307,7 @@ public class AppContext {
     public func get<T: Factory>(
         _ type: [T].Type,
         payload: T.RawPayload,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         let key = TypeKey(type: T.self, qualifier: "")
         
@@ -328,7 +328,7 @@ public class AppContext {
     public func get<T>(
         withoutResolve type: T.Type,
         qualifier: String,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T? {
         let key = TypeKey(type: type, qualifier: qualifier)
         
@@ -352,7 +352,7 @@ public class AppContext {
     public func get<T>(
         withoutResolve type: [T].Type,
         qualifier: String,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         let key = TypeKey(type: T.self, qualifier: qualifier)
         
@@ -368,7 +368,7 @@ public class AppContext {
     ///     - path: Property path.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, resolveRole: ResolveRule = .default) -> Any? {
+    public func getProperty(_ path: String, resolveRole: ResolveRole = .default) -> Any? {
         let list = resolveRole.findModules(loadedList.map { $0.factory })
         for factory in list {
             do {
@@ -388,7 +388,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: String.Type, resolveRole: ResolveRule = .default) -> String? {
+    public func getProperty(_ path: String, type: String.Type, resolveRole: ResolveRole = .default) -> String? {
         return AppContext.shared.getProperty(path, resolveRole: resolveRole) as? String
     }
 
@@ -399,7 +399,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Bool.Type, resolveRole: ResolveRule = .default) -> Bool? {
+    public func getProperty(_ path: String, type: Bool.Type, resolveRole: ResolveRole = .default) -> Bool? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         if let result = Bool(property) {
             return result
@@ -417,7 +417,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Double.Type, resolveRole: ResolveRule = .default) -> Double? {
+    public func getProperty(_ path: String, type: Double.Type, resolveRole: ResolveRole = .default) -> Double? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return Double(property)
     }
@@ -429,7 +429,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Float.Type, resolveRole: ResolveRule = .default) -> Float? {
+    public func getProperty(_ path: String, type: Float.Type, resolveRole: ResolveRole = .default) -> Float? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return Float(property)
     }
@@ -441,7 +441,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Int.Type, resolveRole: ResolveRule = .default) -> Int? {
+    public func getProperty(_ path: String, type: Int.Type, resolveRole: ResolveRole = .default) -> Int? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return Int(property)
     }
@@ -453,7 +453,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Int8.Type, resolveRole: ResolveRule = .default) -> Int8? {
+    public func getProperty(_ path: String, type: Int8.Type, resolveRole: ResolveRole = .default) -> Int8? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return Int8(property)
     }
@@ -465,7 +465,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Int16.Type, resolveRole: ResolveRule = .default) -> Int16? {
+    public func getProperty(_ path: String, type: Int16.Type, resolveRole: ResolveRole = .default) -> Int16? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return Int16(property)
     }
@@ -477,7 +477,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Int32.Type, resolveRole: ResolveRule = .default) -> Int32? {
+    public func getProperty(_ path: String, type: Int32.Type, resolveRole: ResolveRole = .default) -> Int32? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return Int32(property)
     }
@@ -489,7 +489,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: Int64.Type, resolveRole: ResolveRule = .default) -> Int64? {
+    public func getProperty(_ path: String, type: Int64.Type, resolveRole: ResolveRole = .default) -> Int64? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return Int64(property)
     }
@@ -501,7 +501,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: UInt.Type, resolveRole: ResolveRule = .default) -> UInt? {
+    public func getProperty(_ path: String, type: UInt.Type, resolveRole: ResolveRole = .default) -> UInt? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return UInt(property)
     }
@@ -513,7 +513,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: UInt8.Type, resolveRole: ResolveRule = .default) -> UInt8? {
+    public func getProperty(_ path: String, type: UInt8.Type, resolveRole: ResolveRole = .default) -> UInt8? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return UInt8(property)
     }
@@ -525,7 +525,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: UInt16.Type, resolveRole: ResolveRule = .default) -> UInt16? {
+    public func getProperty(_ path: String, type: UInt16.Type, resolveRole: ResolveRole = .default) -> UInt16? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return UInt16(property)
     }
@@ -537,7 +537,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: UInt32.Type, resolveRole: ResolveRule = .default) -> UInt32? {
+    public func getProperty(_ path: String, type: UInt32.Type, resolveRole: ResolveRole = .default) -> UInt32? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return UInt32(property)
     }
@@ -549,7 +549,7 @@ public class AppContext {
     ///     - type: Property type.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty(_ path: String, type: UInt64.Type, resolveRole: ResolveRule = .default) -> UInt64? {
+    public func getProperty(_ path: String, type: UInt64.Type, resolveRole: ResolveRole = .default) -> UInt64? {
         guard let property = getProperty(path, type: String.self, resolveRole: resolveRole) else { return nil }
         return UInt64(property)
     }
@@ -561,7 +561,7 @@ public class AppContext {
     ///     - type: Property type inherit ConfigProperty.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func getProperty<T: ConfigProperty>(_ path: String, type: T.Type, resolveRole: ResolveRule = .default) -> T? {
+    public func getProperty<T: ConfigProperty>(_ path: String, type: T.Type, resolveRole: ResolveRole = .default) -> T? {
         return get(type, qualifier: "", resolveRole: resolveRole)
     }
     
