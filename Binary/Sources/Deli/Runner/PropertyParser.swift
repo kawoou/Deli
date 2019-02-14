@@ -42,6 +42,9 @@ final class PropertyParser {
     }
 
     private func merge(_ origin: [String: Any], _ target: [String: Any]) -> [String: Any] {
+        guard !origin.isEmpty else { return target }
+        guard !target.isEmpty else { return origin }
+        
         var newDict = origin
 
         for (key, value) in target {

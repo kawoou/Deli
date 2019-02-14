@@ -172,11 +172,17 @@ final class Container: ContainerType {
             return oldTarget[key]
         }
     }
+    func unloadProperty() {
+        lock.lock()
+        defer { lock.unlock() }
+
+        loadedProperty = [:]
+    }
     func loadProperty(_ properties: [String: Any]) {
         lock.lock()
         defer { lock.unlock() }
 
-        loadedProperty.merge(properties) { $1 }
+        loadedProperty = merge(loadedProperty, properties)
     }
     func register(_ key: TypeKey, component: _ContainerComponent) {
         lock.lock()
@@ -276,5 +282,29 @@ final class Container: ContainerType {
         case .weak:
             return component.weakCache
         }
+    }
+
+    private func merge(_ origin: [String: Any], _ target: [String: Any]) -> [String: Any] {
+        guard !origin.isEmpty else { return target }
+        guard !target.isEmpty else { return origin }
+
+        var newDict = origin
+
+        for (key, value) in target {
+            guard let oldValue = newDict[key] else {
+                newDict[key] = value
+                continue
+            }
+
+            /// Dictionary
+            if let oldDict = oldValue as? [String: Any], let dict = value as? [String: Any] {
+                newDict[key] = merge(oldDict, dict)
+                continue
+            }
+
+            newDict[key] = value
+        }
+
+        return newDict
     }
 }

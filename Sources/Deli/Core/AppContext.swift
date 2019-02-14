@@ -37,6 +37,8 @@ public class AppContext {
     private let lock = NSRecursiveLock()
     private var loadedList: [LoadInfo] = []
 
+    private let propertyContainer = Container()
+
     private func getClassFromString(_ className: String) -> AnyClass? {
         if let classType = NSClassFromString(className) {
             return classType
@@ -362,6 +364,18 @@ public class AppContext {
             .compactMap { $0 as? T }
     }
 
+    /// Load common property.
+    ///
+    /// - Parameters:
+    ///     - properties: Properties.
+    public func loadProperty(_ properties: [String: Any]) {
+        lock.lock()
+        defer { lock.unlock() }
+
+        propertyContainer.unloadProperty()
+        propertyContainer.loadProperty(properties)
+    }
+
     /// Get property.
     ///
     /// - Parameters:
@@ -369,6 +383,14 @@ public class AppContext {
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
     public func getProperty(_ path: String, resolveRole: ResolveRole = .default) -> Any? {
+        do {
+            if let property = try propertyContainer.getProperty(path) {
+                return property
+            }
+        } catch let error {
+            print(error)
+        }
+
         let list = resolveRole.findModules(loadedList.map { $0.factory })
         for factory in list {
             do {
