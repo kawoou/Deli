@@ -27,6 +27,7 @@ final class PropertyParser {
             guard let dict = try Yams.load(yaml: content) as? [String: Any] else { return [:] }
             return dict
         } catch {
+            Logger.log(.warn("Cannot read the property file: \(url.path)", nil))
             return [:]
         }
     }
@@ -37,6 +38,7 @@ final class PropertyParser {
             guard let dict = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any] else { return [:] }
             return dict
         } catch {
+            Logger.log(.warn("Cannot read the property file: \(url.path)", nil))
             return [:]
         }
     }

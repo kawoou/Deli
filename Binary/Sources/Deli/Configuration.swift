@@ -323,6 +323,8 @@ final class Configuration {
             guard !target.isEmpty else {
                 if self.fileManager.fileExists(atPath: urlPath) {
                     propertyList.append(urlPath)
+                } else {
+                    Logger.log(.warn("Not found the property file: \(urlPath)", nil))
                 }
                 return
             }
