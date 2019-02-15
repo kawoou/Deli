@@ -25,7 +25,8 @@ struct GenerateCommand: CommandProtocol {
     }
 
     func run(_ options: GenerateOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isVerbose
+        Logger.isVerbose = options.isDebug || options.isVerbose
+        Logger.isDebug = options.isDebug
 
         let configuration = Configuration()
         let configure: Config
@@ -155,6 +156,7 @@ struct GenerateCommand: CommandProtocol {
 struct GenerateOptions: OptionsProtocol {
     let configFile: String?
     let isVerbose: Bool
+    let isDebug: Bool
     let project: String?
     let scheme: String?
     let target: String?
@@ -162,11 +164,12 @@ struct GenerateOptions: OptionsProtocol {
     let properties: String?
     let type: String
 
-    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ type: String) -> GenerateOptions {
-        return { isVerbose in { project in { scheme in { target in { output in { properties in { type in
+    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ isDebug: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ type: String) -> GenerateOptions {
+        return { isVerbose in { isDebug in { project in { scheme in { target in { output in { properties in { type in
             self.init(
                 configFile: configFile,
                 isVerbose: isVerbose,
+                isDebug: isDebug,
                 project: project,
                 scheme: scheme,
                 target: target,
@@ -174,7 +177,7 @@ struct GenerateOptions: OptionsProtocol {
                 properties: properties,
                 type: type
             )
-        }}}}}}}
+        }}}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<GenerateOptions, CommandantError<CommandError>> {
@@ -188,6 +191,11 @@ struct GenerateOptions: OptionsProtocol {
                 key: "verbose",
                 defaultValue: false,
                 usage: "turn on verbose logging"
+            )
+            <*> mode <| Option(
+                key: "debug",
+                defaultValue: false,
+                usage: "turn on debug logging"
             )
             <*> mode <| Option(
                 key: "project",

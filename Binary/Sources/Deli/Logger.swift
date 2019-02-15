@@ -83,6 +83,7 @@ final class Logger {
     // MARK: - Public
     
     static var isVerbose: Bool = false
+    static var isDebug: Bool = false
 
     static func log(
         _ logging: LoggingType,
@@ -104,7 +105,11 @@ final class Logger {
         switch logging {
         case .fatal:
             let color = color ?? .red
-            print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
+            if isDebug {
+                print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
+            } else {
+                print(color.resolve(output))
+            }
             fatalError()
             
         case .error:
@@ -122,12 +127,20 @@ final class Logger {
         case .debug:
             guard isVerbose else { return }
             let color = color ?? .cyan
-            print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
+            if isDebug {
+                print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
+            } else {
+                print(color.resolve(output))
+            }
 
         case .assert:
             guard isVerbose else { return }
             let color = color ?? .cyan
-            print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
+            if isDebug {
+                print(color.resolve("\(output) [\(file):\(line) (\(function))]"))
+            } else {
+                print(color.resolve(output))
+            }
             assertionFailure()
 
         case .newLine:

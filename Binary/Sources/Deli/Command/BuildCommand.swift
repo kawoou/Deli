@@ -25,7 +25,8 @@ struct BuildCommand: CommandProtocol {
     }
 
     func run(_ options: BuildOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isVerbose
+        Logger.isVerbose = options.isDebug || options.isVerbose
+        Logger.isDebug = options.isDebug
 
         let configuration = Configuration()
         let configure: Config
@@ -159,9 +160,10 @@ struct BuildOptions: OptionsProtocol {
     let properties: String?
     let isResolveFile: Bool
     let isVerbose: Bool
+    let isDebug: Bool
 
-    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isResolveFile: Bool) -> (_ isVerbose: Bool) -> BuildOptions {
-        return { project in { scheme in { target in { output in { properties in { isResolveFile in { isVerbose in
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isResolveFile: Bool) -> (_ isVerbose: Bool) -> (_ isDebug: Bool) -> BuildOptions {
+        return { project in { scheme in { target in { output in { properties in { isResolveFile in { isVerbose in { isDebug in
             self.init(
                 configFile: configFile,
                 project: project,
@@ -170,9 +172,10 @@ struct BuildOptions: OptionsProtocol {
                 output: output,
                 properties: properties,
                 isResolveFile: isResolveFile,
-                isVerbose: isVerbose
+                isVerbose: isVerbose,
+                isDebug: isDebug
             )
-        }}}}}}}
+        }}}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<BuildOptions, CommandantError<CommandError>> {
@@ -216,6 +219,11 @@ struct BuildOptions: OptionsProtocol {
                 key: "verbose",
                 defaultValue: false,
                 usage: "turn on verbose logging"
+            )
+            <*> mode <| Option(
+                key: "debug",
+                defaultValue: false,
+                usage: "turn on debug logging"
             )
     }
 }
