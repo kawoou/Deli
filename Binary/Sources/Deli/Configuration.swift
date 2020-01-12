@@ -152,23 +152,37 @@ final class Configuration {
         for element in group.children {
             guard let group = element as? PBXGroup else {
                 if let path = element.path {
-                    stackedPath.append(path)
-                    filePath[element.uuid] = stackedPath.joined(separator: "/")
-                    _ = stackedPath.popLast()
+                    switch element.sourceTree {
+                    case .sourceRoot, .sdkRoot, .buildProductsDir:
+                        filePath[element.uuid] = path
+
+                    default:
+                        stackedPath.append(path)
+                        filePath[element.uuid] = stackedPath.joined(separator: "/")
+                        _ = stackedPath.popLast()
+                    }
                 }
                 continue
             }
-            
+
             if let path = group.path {
-                stackedPath.append(path)
+                switch element.sourceTree {
+                case .sourceRoot:
+                    stackedPath = [path]
+
+                default:
+                    stackedPath.append(path)
+                }
             }
             
             for (key, value) in parseFileTree(group: group, project: project, stackedPath: stackedPath) {
                 filePath[key] = value
             }
-            
+
             if group.path != nil {
-                _ = stackedPath.popLast()
+                if element.sourceTree != .sourceRoot {
+                    _ = stackedPath.popLast()
+                }
             }
         }
 
@@ -357,8 +371,8 @@ final class Configuration {
         /// Load project file.
         let projectURL = URL(fileURLWithPath: projectPath)
         let projectDirectory = projectURL.deletingLastPathComponent()
-        guard let project = try? XcodeProj(pathString: projectURL.absoluteString) else {
-            Logger.log(.error("Cannnot open the project file: \(projectURL.lastPathComponent)", nil))
+        guard let project = try? XcodeProj(pathString: projectURL.path) else {
+            Logger.log(.error("Cannot open the project file: \(projectURL.lastPathComponent)", nil))
             throw ConfigurationError.projectCannotOpen
         }
 
