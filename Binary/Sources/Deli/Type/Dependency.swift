@@ -40,7 +40,6 @@ struct Dependency {
     }
 }
 extension Dependency: Hashable {
-#if swift(>=4.2)
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
         hasher.combine(type)
@@ -48,13 +47,8 @@ extension Dependency: Hashable {
         hasher.combine(qualifier)
         hasher.combine(qualifierBy)
     }
-#else
-    var hashValue: Int {
-        return name.hashValue ^ type.hashValue ^ rule.hashValue ^ qualifier.hashValue ^ qualifierBy.hashValue
-    }
-#endif
 
-    static func ==(lhs: Dependency, rhs: Dependency) -> Bool {
+    static func == (lhs: Dependency, rhs: Dependency) -> Bool {
         guard lhs.name == rhs.name else { return false }
         guard lhs.type == rhs.type else { return false }
         guard lhs.rule == rhs.rule else { return false }

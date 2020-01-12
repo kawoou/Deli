@@ -25,7 +25,7 @@ final class ResolveParser {
 
         dependencies = try infoList
             .compactMap { info -> ConfigDependencyInfo? in
-                guard let url = URL(string: info.path) else { return nil }
+                let url = URL(fileURLWithPath: info.path)
 
                 let fileManager = FileManager.default
                 var isDirectory: ObjCBool = false

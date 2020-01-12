@@ -71,7 +71,7 @@ final class PropertyParser {
 
     func load(_ fileList: [String]) {
         properties = fileList
-            .compactMap { URL(string: $0) }
+            .map { URL(fileURLWithPath: $0) }
             .reduce([:]) { (dict, url) -> [String: Any] in
                 let ext = url.pathExtension
                 let result: [String: Any]

@@ -15,16 +15,9 @@ final class SourceGenerator: Generator {
             .map { "import \($0)\n" }
             .joined()
 
-        let sourceList: [String]
-        #if swift(>=4.1)
-        sourceList = results
+        let sourceList = results
             .filter { !$0.isResolved }
             .compactMap { $0.makeSource() }
-        #else
-        sourceList = results
-            .filter { !$0.isResolved }
-            .flatMap { $0.makeSource() }
-        #endif
         
         let output = sourceList
             .joined(separator: "\n")

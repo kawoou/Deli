@@ -25,13 +25,8 @@ final class RootStructure {
         self.filePath = filePath
         
         if let substructuresRaw = source[SwiftDocKey.substructure.rawValue] as? [KittenType] {
-            #if swift(>=4.1)
             self.substructures = substructuresRaw
                 .compactMap { Structure(source: $0, filePath: filePath) }
-            #else
-            self.substructures = substructuresRaw
-                .flatMap { Structure(source: $0, filePath: filePath) }
-            #endif
         } else {
             self.substructures = []
         }

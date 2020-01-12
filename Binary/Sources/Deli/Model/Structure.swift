@@ -57,39 +57,24 @@ final class Structure {
         
         /// Inheritances
         if let inheritedTypesRaw = source[SwiftDocKey.inheritedtypes.rawValue] as? [KittenType] {
-            #if swift(>=4.1)
             self.inheritedTypes = inheritedTypesRaw
                 .compactMap { $0[SwiftDocKey.name.rawValue] as? String }
-            #else
-            self.inheritedTypes = inheritedTypesRaw
-                .flatMap { $0[SwiftDocKey.name.rawValue] as? String }
-            #endif
         } else {
             self.inheritedTypes = []
         }
         
         /// Attributes
         if let attributesRaw = source["key.attributes"] as? [KittenType] {
-            #if swift(>=4.1)
             self.attributes = attributesRaw
                 .compactMap { $0["key.attribute"] as? String }
-            #else
-            self.attributes = attributesRaw
-                .flatMap { $0["key.attribute"] as? String }
-            #endif
         } else {
             self.attributes = []
         }
         
         /// Sub-structures
         if let substructuresRaw = source[SwiftDocKey.substructure.rawValue] as? [KittenType] {
-            #if swift(>=4.1)
             self.substructures = substructuresRaw
                 .compactMap { Structure(source: $0, filePath: filePath) }
-            #else
-            self.substructures = substructuresRaw
-                .flatMap { Structure(source: $0, filePath: filePath) }
-            #endif
         } else {
             self.substructures = []
         }
