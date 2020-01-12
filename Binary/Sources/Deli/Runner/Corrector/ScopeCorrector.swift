@@ -27,9 +27,7 @@ final class ScopeCorrector: Correctable {
                 for type in typeList {
                     guard !Constant.ignoreTypes.contains(type.name) else { continue }
                     guard let scope = try? parseScope(type.structure, fileContent: type.content) else { continue }
-                    guard let safeScope = scope else { continue }
-                    
-                    result.scope = safeScope
+                    result.scope = scope
                     break
                 }
             }

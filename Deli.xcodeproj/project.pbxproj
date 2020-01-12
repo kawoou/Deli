@@ -800,11 +800,11 @@
       "OBJ_194" = {
          isa = "PBXGroup";
          children = (
-            "Nimble::Nimble::Product",
-            "Deli::DeliTests::Product",
-            "Quick::QuickSpecBase::Product",
             "Quick::Quick::Product",
-            "Deli::Deli::Product"
+            "Quick::QuickSpecBase::Product",
+            "Deli::DeliTests::Product",
+            "Deli::Deli::Product",
+            "Nimble::Nimble::Product"
          );
          name = "Products";
          path = "";

@@ -43,7 +43,7 @@ final class ConfigurationParser: Parsable {
         }
 
         /// Get previous context
-        guard let index = parent.substructures.index(where: { $0 === source }) else {
+        guard let index = parent.substructures.firstIndex(where: { $0 === source }) else {
             Logger.log(.assert("Not found the index of current structure on \(name)."))
             Logger.log(.error("Unknown error in `\(name)`.", source.getSourceLine(with: fileContent)))
             throw ParserError.unknown
@@ -79,7 +79,7 @@ final class ConfigurationParser: Parsable {
         /// Read information
         let dependencies = try arguments
             /// Remove unnecessary arguments.
-            .filter { $0.index(of: Constant.argumentInfoKeyword) == nil }
+            .filter { $0.firstIndex(of: Constant.argumentInfoKeyword) == nil }
             .map { dependencyName -> Dependency in
                 if Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) != nil {
                     Logger.log(.error("Configuration does not support injection for Array type Dependency. Using `Inject(\(dependencyName).self)`.", source.getSourceLine(with: fileContent)))
@@ -120,16 +120,9 @@ final class ConfigurationParser: Parsable {
             throw ParserError.unavailableDeclaration
         }
 
-        let imports: [String]
-        #if swift(>=4.1)
-        imports = Constant.importRegex
+        let imports = Constant.importRegex
             .findAll(in: fileContent)
             .compactMap { $0.group(at: 1) }
-        #else
-        imports = Constant.importRegex
-            .findAll(in: fileContent)
-            .flatMap { $0.group(at: 1) }
-        #endif
 
         let injectResults = try injectParser.parse(by: source, fileContent: fileContent, isInheritanceCheck: false)
 

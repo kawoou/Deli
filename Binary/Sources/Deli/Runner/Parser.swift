@@ -64,10 +64,7 @@ final class Parser: Runnable {
     }
     
     private func parse(path: String) throws -> [Results] {
-        guard let url = URL(string: path)?.standardized else {
-            Logger.log(.warn("Failed to create URL: \(path)", nil))
-            return []
-        }
+        let url = URL(fileURLWithPath: path).standardized
 
         let content = try String(contentsOfFile: path, encoding: .utf8)
 

@@ -27,9 +27,7 @@ final class QualifierCorrector: Correctable {
                 for type in typeList {
                     guard !Constant.ignoreTypes.contains(type.name) else { continue }
                     guard let qualifier = try? parseQualifier(type.structure, fileContent: type.content) else { continue }
-                    guard let safeQualifier = qualifier else { continue }
-                    
-                    result.qualifier = safeQualifier
+                    result.qualifier = qualifier
                     break
                 }
             }
