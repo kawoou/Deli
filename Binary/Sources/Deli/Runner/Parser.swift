@@ -14,7 +14,8 @@ final class Parser: Runnable {
         static let allowKinds = [
             SwiftDeclarationKind.class.rawValue,
             SwiftDeclarationKind.struct.rawValue,
-            SwiftDeclarationKind.protocol.rawValue
+            SwiftDeclarationKind.protocol.rawValue,
+            SwiftDeclarationKind.typealias.rawValue
         ]
         static let allowAccessLevels = [
             Structure.AccessLevel.open,
@@ -31,14 +32,18 @@ final class Parser: Runnable {
     
     private var inheritanceMap = [String: InheritanceInfo]()
     
-    private func parse(structure: Structure, content: String) throws -> [Results] {
-        guard let name = structure.name else { return [] }
+    private func parse(structure: Structure, content: String, prefix: String = "") throws -> [Results] {
+        guard let name = structure.name.map({ prefix + $0 }) else { return [] }
         
         /// Compare allowed keywords
         guard Constant.allowKinds.contains(structure.kind) else { return [] }
         
         /// Compares allowed AccessLevels
         guard Constant.allowAccessLevels.contains(structure.accessLevel) else { return [] }
+
+        /// Find nested type
+        let results = try structure.substructures
+            .flatMap { try parse(structure: $0, content: content, prefix: "\(name).") }
         
         /// Save inheritance information
         inheritanceMap[name] = InheritanceInfo(
@@ -60,7 +65,7 @@ final class Parser: Runnable {
                         result.dependencies.append(contentsOf: dependencies)
                         return result
                     }
-            }
+            } + results
     }
     
     private func parse(path: String) throws -> [Results] {
