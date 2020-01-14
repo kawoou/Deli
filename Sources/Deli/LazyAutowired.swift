@@ -73,8 +73,8 @@ public protocol LazyAutowired: Inject {
 
 }
 public extension LazyAutowired {
-    public var qualifier: String? { return nil }
-    public var scope: Scope { return .singleton }
+    var qualifier: String? { return nil }
+    var scope: Scope { return .singleton }
 
     func inject(_ dep1: Dep1) {}
     func inject(_ dep1: Dep1, _ dep2: Dep2) {}

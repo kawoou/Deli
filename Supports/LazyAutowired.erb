@@ -29,8 +29,8 @@ public protocol LazyAutowired: Inject {<% for dep in 1..9 %>
 <% end %>
 }
 public extension LazyAutowired {
-    public var qualifier: String? { return nil }
-    public var scope: Scope { return .singleton }
+    var qualifier: String? { return nil }
+    var scope: Scope { return .singleton }
 <%
   for dep in 1..9
     params = (1..dep).map { |i| "_ dep#{i}: Dep#{i}" }
