@@ -87,8 +87,8 @@ public protocol LazyAutowiredFactory: Factory {
 }
 public extension LazyAutowiredFactory {
     /// To supports type-inference of the compiler.
-    public var payloadType: _Payload.Type { return _Payload.self }
-    public var qualifier: String? { return nil }
+    var payloadType: _Payload.Type { return _Payload.self }
+    var qualifier: String? { return nil }
 
     func inject(_ dep1: Dep1) {}
     func inject(_ dep1: Dep1, _ dep2: Dep2) {}

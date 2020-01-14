@@ -18,7 +18,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T>(
+    static func Config<T>(
         _ type: T.Type,
         qualifier: String = "",
         scope: Scope = .singleton,
@@ -44,7 +44,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1>(
+    static func Config<T, Dep1>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         qualifier: String = "",
@@ -73,7 +73,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2>(
+    static func Config<T, Dep1, Dep2>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
@@ -105,7 +105,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2, Dep3>(
+    static func Config<T, Dep1, Dep2, Dep3>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
@@ -140,7 +140,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2, Dep3, Dep4>(
+    static func Config<T, Dep1, Dep2, Dep3, Dep4>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
@@ -178,7 +178,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5>(
+    static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
@@ -219,7 +219,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6>(
+    static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
@@ -263,7 +263,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6, Dep7>(
+    static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6, Dep7>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
@@ -310,7 +310,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6, Dep7, Dep8>(
+    static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6, Dep7, Dep8>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
@@ -360,7 +360,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6, Dep7, Dep8, Dep9>(
+    static func Config<T, Dep1, Dep2, Dep3, Dep4, Dep5, Dep6, Dep7, Dep8, Dep9>(
         _ type: T.Type,
         _ dependency1: Dep1.Type,
         _ dependency2: Dep2.Type,
