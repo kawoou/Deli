@@ -1,14 +1,8 @@
-// swift-tools-version:5.1
+// swift-tools-version:4.0
 import PackageDescription
 
 let package = Package(
     name: "Deli",
-    platforms: [
-        .iOS(.v8),
-        .macOS(.v10_10),
-        .tvOS(.v9),
-        .watchOS(.v2)
-    ],
     products: [
         .library(name: "Deli", targets: ["Deli"])
     ],
@@ -32,5 +26,5 @@ let package = Package(
             path: "Tests/DeliTests"
         )
     ],
-    swiftLanguageVersions: [.v4, .v4_2, .v5]
+    swiftLanguageVersions: [3, 4]
 )
