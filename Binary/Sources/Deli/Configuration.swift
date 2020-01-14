@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import xcodeproj
+import XcodeProj
 import Yams
 
 enum ConfigurationError: Error {

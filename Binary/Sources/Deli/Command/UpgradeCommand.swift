@@ -5,7 +5,6 @@
 
 import Foundation
 import Commandant
-import Result
 
 struct UpgradeCommand: CommandProtocol {
     let verb = "upgrade"
@@ -66,15 +65,7 @@ struct UpgradeOptions: OptionsProtocol {
 
     static func evaluate(_ mode: CommandMode) -> Result<UpgradeOptions, CommandantError<CommandError>> {
         return create
-            <*> mode <| Option(
-                key: "verbose",
-                defaultValue: false,
-                usage: "turn on verbose logging"
-            )
-            <*> mode <| Option(
-                key: "debug",
-                defaultValue: false,
-                usage: "turn on debug logging"
-            )
+            <*> mode <| Option(key: "verbose", defaultValue: false, usage: "turn on verbose logging")
+            <*> mode <| Option(key: "debug", defaultValue: false, usage: "turn on debug logging")
     }
 }

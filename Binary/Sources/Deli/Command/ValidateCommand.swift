@@ -4,7 +4,6 @@
 //
 
 import Commandant
-import Result
 
 struct ValidateCommand: CommandProtocol {
     let verb = "validate"
