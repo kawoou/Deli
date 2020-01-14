@@ -12,15 +12,14 @@ struct BuildCommand: CommandProtocol {
 
     func saveOutput(generator: Generator, outputFile: String) throws {
         let outputData = try generator.generate()
-        let url = URL(fileURLWithPath: outputFile)
 
         var isDirectory: ObjCBool = false
         if FileManager.default.fileExists(atPath: outputFile, isDirectory: &isDirectory), isDirectory.boolValue {
             Logger.log(.error("Cannot overwrite a directory with an output file: \(outputFile)", nil))
             throw CommandError.cannotOverwriteDirectory
         }
-        try? FileManager.default.removeItem(at: url)
-        try outputData.write(to: url, atomically: false, encoding: .utf8)
+        try? FileManager.default.removeItem(atPath: outputFile)
+        try outputData.write(toFile: outputFile, atomically: false, encoding: .utf8)
     }
 
     func run(_ options: BuildOptions) -> Result<(), CommandError> {
