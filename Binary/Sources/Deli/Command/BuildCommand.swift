@@ -5,7 +5,6 @@
 
 import Foundation
 import Commandant
-import Result
 
 struct BuildCommand: CommandProtocol {
     let verb = "build"

@@ -5,7 +5,6 @@
 
 import Foundation
 import Commandant
-import Result
 
 struct GenerateCommand: CommandProtocol {
     let verb = "generate"
