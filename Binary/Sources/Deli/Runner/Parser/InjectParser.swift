@@ -34,7 +34,12 @@ final class InjectParser: Parsable {
 
     // MARK: - Private
 
-    private func found(_ source: Structure, root: Structure, fileContent: String) throws -> Dependency? {
+    private func found(
+        _ source: Structure,
+        root: Structure,
+        fileContent: String,
+        typealiasMap: [String: String]
+    ) throws -> Dependency? {
         guard let rootName = root.name else { return nil }
         guard let name = source.name else { return nil }
         guard name == Constant.functionName || name.hasSuffix(".\(Constant.functionName)") else { return nil }
@@ -91,7 +96,7 @@ final class InjectParser: Parsable {
             return Dependency(
                 parent: rootName,
                 target: source,
-                name: arrayType,
+                name: typealiasMap[arrayType] ?? arrayType,
                 type: .array,
                 rule: isPayload ? .payload : .default,
                 qualifier: qualifier,
@@ -101,22 +106,30 @@ final class InjectParser: Parsable {
         return Dependency(
             parent: rootName,
             target: source,
-            name: typeName,
+            name: typealiasMap[typeName] ?? typeName,
             rule: isPayload ? .payload : .default,
             qualifier: qualifier,
             qualifierBy: qualifierBy
         )
     }
 
-    private func searchInject(_ source: Structure, fileContent: String) throws -> [Dependency] {
+    private func searchInject(
+        _ source: Structure,
+        fileContent: String,
+        typealiasMap: [String: String]
+    ) throws -> [Dependency] {
         var dependencyList = [Dependency]()
 
         var queue = source.substructures
         while let item = queue.popLast() {
             queue.append(contentsOf: item.substructures)
-            if let dependency = try found(item, root: source, fileContent: fileContent) {
-                dependencyList.append(dependency)
-            }
+
+            try found(
+                item,
+                root: source,
+                fileContent: fileContent,
+                typealiasMap: typealiasMap
+            ).map { dependencyList.append($0) }
         }
 
         return dependencyList
@@ -124,11 +137,28 @@ final class InjectParser: Parsable {
 
     // MARK: - Public
 
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
-        return try parse(by: source, fileContent: fileContent, isInheritanceCheck: true)
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        return try parse(
+            by: source,
+            fileContent: fileContent,
+            isInheritanceCheck: true,
+            typePrefix: typePrefix,
+            typealiasMap: typealiasMap
+        )
     }
-    func parse(by source: Structure, fileContent: String, isInheritanceCheck: Bool) throws -> [Results] {
-        guard let name = source.name else {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        isInheritanceCheck: Bool,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
@@ -136,7 +166,11 @@ final class InjectParser: Parsable {
             guard source.inheritedTypes.contains(where: { Constant.inheritanceName.contains($0) }) else { return [] }
         }
 
-        let dependencyList = try searchInject(source, fileContent: fileContent)
+        let dependencyList = try searchInject(
+            source,
+            fileContent: fileContent,
+            typealiasMap: typealiasMap
+        )
         return [
             InjectProtocolResult(
                 name,

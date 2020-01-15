@@ -37,7 +37,13 @@ final class ConfigurationParser: Parsable {
 
     private let injectParser = InjectParser()
     
-    private func convert(_ source: Structure, parent: Structure, fileContent: String) throws -> ConfigFunctionResult {
+    private func convert(
+        _ source: Structure,
+        parent: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> ConfigFunctionResult {
         guard let name = parent.name else {
             throw ParserError.unknown
         }
@@ -88,7 +94,7 @@ final class ConfigurationParser: Parsable {
                 return Dependency(
                     parent: name,
                     target: source,
-                    name: dependencyName
+                    name: typealiasMap[dependencyName] ?? dependencyName
                 )
             }
 
@@ -124,7 +130,13 @@ final class ConfigurationParser: Parsable {
             .findAll(in: fileContent)
             .compactMap { $0.group(at: 1) }
 
-        let injectResults = try injectParser.parse(by: source, fileContent: fileContent, isInheritanceCheck: false)
+        let injectResults = try injectParser.parse(
+            by: source,
+            fileContent: fileContent,
+            isInheritanceCheck: false,
+            typePrefix: typePrefix,
+            typealiasMap: typealiasMap
+        )
 
         /// Result
         return ConfigFunctionResult(
@@ -147,8 +159,13 @@ final class ConfigurationParser: Parsable {
     
     // MARK: - Public
     
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
-        guard let name = source.name else {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
@@ -156,7 +173,15 @@ final class ConfigurationParser: Parsable {
         
         return try source.substructures
             .filter { validFunction($0) }
-            .map { try convert($0, parent: source, fileContent: fileContent) } +
+            .map {
+                try convert(
+                    $0,
+                    parent: source,
+                    fileContent: fileContent,
+                    typePrefix: typePrefix,
+                    typealiasMap: typealiasMap
+                )
+            } +
             [
                 ConfigurationResult(
                     name,

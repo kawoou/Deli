@@ -15,8 +15,13 @@ final class ComponentParser: Parsable {
 
     // MARK: - Public
     
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
-        guard let name = source.name else { return [] }
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        guard let name = source.name.map({ typePrefix + $0 }) else { return [] }
         guard source.inheritedTypes.contains(Constant.inheritanceName) else { return [] }
         
         let scope = try parseScope(source, fileContent: fileContent)

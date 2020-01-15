@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Regex
 import SourceKittenFramework
 
 final class Parser: Runnable {
@@ -14,14 +15,15 @@ final class Parser: Runnable {
         static let allowKinds = [
             SwiftDeclarationKind.class.rawValue,
             SwiftDeclarationKind.struct.rawValue,
-            SwiftDeclarationKind.protocol.rawValue,
-            SwiftDeclarationKind.typealias.rawValue
+            SwiftDeclarationKind.protocol.rawValue
         ]
         static let allowAccessLevels = [
             Structure.AccessLevel.open,
             Structure.AccessLevel.public,
             Structure.AccessLevel.internal
         ]
+
+        static let typealiasRegex = "typealias[\\s]+([^\\s=]+)[\\s]*=[\\s]*([^\\n]+)".r!
     }
     
     // MARK: - Property
@@ -31,9 +33,32 @@ final class Parser: Runnable {
     // MARK: - Private
     
     private var inheritanceMap = [String: InheritanceInfo]()
+
+    private func parseTypealias(structure: Structure, content: String) -> String? {
+        guard let data = content.utf8[Int(structure.offset)..<Int(structure.offset + structure.length)] else { return nil }
+        guard let typeMatch = Constant.typealiasRegex.findFirst(in: data) else {
+            Logger.log(.debug("Failed to parse file content for 'typealias' keyword"))
+            return nil
+        }
+        guard let typeName = typeMatch.group(at: 1) else { return nil }
+        guard let typeResult = typeMatch.group(at: 2) else { return nil }
+        guard typeName == structure.name else {
+            Logger.log(.debug(
+                "Type dismatch between SourceKitten and file content " +
+                "(SourceKitten: \(structure.name ?? ""), file content: \(typeName))"
+            ))
+            return nil
+        }
+        return typeResult
+    }
     
-    private func parse(structure: Structure, content: String, prefix: String = "") throws -> [Results] {
-        guard let name = structure.name.map({ prefix + $0 }) else { return [] }
+    private func parse(
+        structure: Structure,
+        content: String,
+        typePrefix: String = "",
+        typealiasMap: [String: String] = [:]
+    ) throws -> [Results] {
+        guard let name = structure.name.map({ typePrefix + $0 }) else { return [] }
         
         /// Compare allowed keywords
         guard Constant.allowKinds.contains(structure.kind) else { return [] }
@@ -41,10 +66,29 @@ final class Parser: Runnable {
         /// Compares allowed AccessLevels
         guard Constant.allowAccessLevels.contains(structure.accessLevel) else { return [] }
 
+        /// Saved typealias
+        var typealiasMap = typealiasMap
+        structure.substructures
+            .filter { $0.kind == SwiftDeclarationKind.typealias.rawValue }
+            .forEach { structure in
+                guard let typeName = structure.name else { return }
+                guard let typeResult = parseTypealias(structure: structure, content: content) else { return }
+
+                typealiasMap[typeName] = typeResult
+                typealiasMap["\(name).\(typeName)"] = typeResult
+            }
+
         /// Find nested type
         let results = try structure.substructures
-            .flatMap { try parse(structure: $0, content: content, prefix: "\(name).") }
-        
+            .flatMap {
+                try parse(
+                    structure: $0,
+                    content: content,
+                    typePrefix: "\(name).",
+                    typealiasMap: typealiasMap
+                )
+            }
+
         /// Save inheritance information
         inheritanceMap[name] = InheritanceInfo(
             name: name,
@@ -54,18 +98,32 @@ final class Parser: Runnable {
         )
         
         /// Parsing
-        return try moduleList
+        let parseResults = try moduleList
             .flatMap { parsable -> [Results] in
                 let dependencies = try parsable.dependency
-                    .flatMap { try $0.parse(by: structure, fileContent: content) }
+                    .flatMap {
+                        try $0.parse(
+                            by: structure,
+                            fileContent: content,
+                            typePrefix: typePrefix,
+                            typealiasMap: typealiasMap
+                        )
+                    }
                 
                 return try parsable
-                    .parse(by: structure, fileContent: content)
+                    .parse(
+                        by: structure,
+                        fileContent: content,
+                        typePrefix: typePrefix,
+                        typealiasMap: typealiasMap
+                    )
                     .map { result in
                         result.dependencies.append(contentsOf: dependencies)
                         return result
                     }
             } + results
+
+        return parseResults
     }
     
     private func parse(path: String) throws -> [Results] {

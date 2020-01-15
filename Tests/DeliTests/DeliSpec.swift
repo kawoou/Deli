@@ -1306,6 +1306,16 @@ class DeliSpec: QuickSpec, Inject {
                     }
                 }
             }
+            context("when inject nested type") {
+                var sut: NestedTestClass?
+
+                beforeEach {
+                    sut = appContext.get(NestedTestClass.self)
+                }
+                it("sut should be nil") {
+                    expect(sut).toNot(beNil())
+                }
+            }
         }
     }
 }
