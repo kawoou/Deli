@@ -23,7 +23,11 @@ final class LazyAutowiredParser: Parsable {
 
     // MARK: - Private
 
-    private func convert(name: String, fileContent: String) -> String? {
+    private func convert(
+        name: String,
+        fileContent: String,
+        typealiasMap: [String: String]
+    ) -> String? {
         guard let nameMatch = Constant.typeRegex.findFirst(in: name) else { return name }
         guard let nameResult = nameMatch.group(at: 2) else { return name }
 
@@ -43,8 +47,13 @@ final class LazyAutowiredParser: Parsable {
 
     // MARK: - Public
 
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
-        guard let name = source.name else {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
@@ -86,7 +95,7 @@ final class LazyAutowiredParser: Parsable {
                     Logger.log(.error("Unknown `\(name)` dependency type.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
-                guard let dependencyName = convert(name: typeName, fileContent: fileContent) else {
+                guard let dependencyName = convert(name: typeName, fileContent: fileContent, typealiasMap: typealiasMap) else {
                     Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
@@ -98,7 +107,7 @@ final class LazyAutowiredParser: Parsable {
                     return Dependency(
                         parent: name,
                         target: injector,
-                        name: arrayType,
+                        name: typealiasMap[arrayType] ?? arrayType,
                         type: .array,
                         qualifier: qualifier,
                         qualifierBy: qualifierBy
@@ -107,7 +116,7 @@ final class LazyAutowiredParser: Parsable {
                 return Dependency(
                     parent: name,
                     target: injector,
-                    name: dependencyName,
+                    name: typealiasMap[dependencyName] ?? dependencyName,
                     qualifier: qualifier,
                     qualifierBy: qualifierBy
                 )

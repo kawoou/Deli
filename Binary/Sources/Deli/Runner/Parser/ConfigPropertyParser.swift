@@ -19,7 +19,11 @@ final class ConfigPropertyParser: Parsable {
 
     // MARK: - Private
 
-    private func convert(_ source: Structure, fileContent: String) throws -> ConfigPropertyResult {
+    private func convert(
+        _ source: Structure,
+        fileContent: String,
+        typealiasMap: [String: String]
+    ) throws -> ConfigPropertyResult {
         guard let name = source.name else {
             throw ParserError.unknown
         }
@@ -75,13 +79,24 @@ final class ConfigPropertyParser: Parsable {
 
     // MARK: - Public
 
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
         guard source.name != nil else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
         guard source.inheritedTypes.contains(Constant.inheritanceName) else { return [] }
 
-        return [try convert(source, fileContent: fileContent)]
+        return [
+            try convert(
+                source,
+                fileContent: fileContent,
+                typealiasMap: typealiasMap
+            )
+        ]
     }
 }

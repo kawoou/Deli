@@ -193,6 +193,41 @@ final class DeliFactory: ModuleFactory {
             scope: .singleton
         )
         register(
+            NestedClass.NestedStruct.self,
+            resolver: {
+                return NestedClass.NestedStruct()
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        register(
+            NestedStruct.NestedClass.self,
+            resolver: {
+                return NestedStruct.NestedClass()
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        register(
+            NestedStruct.NestedClass.NestedStruct.NestedClass.self,
+            resolver: {
+                return NestedStruct.NestedClass.NestedStruct.NestedClass()
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        register(
+            NestedTestClass.self,
+            resolver: {
+                let _0 = context.get(NestedClass.NestedStruct.self, qualifier: "")!
+                let _1 = context.get(NestedStruct.NestedClass.self, qualifier: "")!
+                let _2 = context.get(NestedStruct.NestedClass.NestedStruct.NestedClass.self, qualifier: "")!
+                return NestedTestClass(_0, _1, _2)
+            },
+            qualifier: "",
+            scope: .singleton
+        )
+        register(
             NetworkManagerImpl.self,
             resolver: {
                 return NetworkManagerImpl()
