@@ -6,5 +6,5 @@
 struct Version {
     let value: String
 
-    static let current = Version(value: "0.8.1")
+    static let current = Version(value: "0.9.0")
 }
