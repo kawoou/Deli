@@ -17,7 +17,7 @@ class MessageServiceImpl: MessageService, Autowired {
         return []
     }
     
-    required init(_ dep1: MessageServiceImpl.Dep1, _ dep2: Dep2) {
+    required init(_ dep1: MessageServiceImpl.Dep1, facebook dep2: Dep2) {
         friendService = dep1
         accountService = dep2
     }

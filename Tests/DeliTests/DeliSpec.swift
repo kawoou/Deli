@@ -573,11 +573,11 @@ class DeliSpec: QuickSpec, Inject {
                         accountConfiguration = appContext.get(AccountConfiguration.self)
                         networkManager = appContext.get(NetworkManager.self)
                         
-                        sut = appContext.get(AccountService.self)
+                        sut = appContext.get(AccountService.self, qualifier: "facebook")
                         
                         networkManager.request()
                         sut.networkManager.request()
-                        accountConfiguration.accountService().networkManager.request()
+                        accountConfiguration.facebookAccountService().networkManager.request()
                     }
                     it("requestCount of networkManager should equal to 3") {
                         expect(networkManager.requestCount) == 3
@@ -592,7 +592,7 @@ class DeliSpec: QuickSpec, Inject {
                     var testView2: TestView2!
                     
                     beforeEach {
-                        accountService = appContext.get(AccountService.self)
+                        accountService = appContext.get(AccountService.self, qualifier: "facebook")
                         friendService = appContext.get(FriendService.self)
                         messageService = appContext.get(MessageServiceImpl.self)
                         testViewModel = appContext.get(TestViewModel.self)
@@ -1131,7 +1131,7 @@ class DeliSpec: QuickSpec, Inject {
                 it("all instance should be nil") {
                     expect(appContext.get(withoutResolve: AccountService.self, qualifier: "")).to(beNil())
                     expect(appContext.get(withoutResolve: [Book].self, qualifier: "").count) == 0
-                    expect(appContext.get(AccountService.self)).notTo(beNil())
+                    expect(appContext.get(AccountService.self, qualifier: "facebook")).notTo(beNil())
                     expect(appContext.get([Book].self).count) == 3
                 }
             }
@@ -1303,6 +1303,69 @@ class DeliSpec: QuickSpec, Inject {
                     }
                     it("sut's test should be nil") {
                         expect(sut.test).to(beNil())
+                    }
+                }
+            }
+            describe("PropertyWrapper test") {
+                describe("by @Dependency") {
+                    var sut: DependencyTestModel!
+
+                    beforeEach {
+                        sut = DependencyTestModel()
+                    }
+                    context("test case 1") {
+                        beforeEach {
+                            sut.test1.test()
+                        }
+                        it("sut's test1.testCount should be 1") {
+                            expect(sut.test1.testCount) == 1
+                        }
+                    }
+                    context("test case 2") {
+                        beforeEach {
+                            sut.googleAccountService.logout()
+                        }
+                        it("sut's googleAccountService.logoutCount should be 1") {
+                            expect(sut.googleAccountService.logoutCount) == 1
+                        }
+                    }
+                    context("test case 3") {
+                        it("sut's method.qualifier should be 'get'") {
+                            expect(sut.method.qualifier) == "get"
+                        }
+                    }
+                }
+                describe("by @DependencyArray") {
+                    var sut: DependencyTestModel!
+
+                    beforeEach {
+                        sut = DependencyTestModel()
+                    }
+                    context("test case 1") {
+                        it("sut's test2.count should be 2") {
+                            expect(sut.test2.count) == 2
+                        }
+                    }
+                    context("test case 2") {
+                        it("sut's accountServices.count should be 1") {
+                            expect(sut.accountServices.count) == 1
+                        }
+                    }
+                    context("test case 3") {
+                        it("sut's methods.count should be 1") {
+                            expect(sut.methods.count) == 1
+                        }
+                    }
+                }
+                describe("by @PropertyValue") {
+                    var sut: DependencyTestModel!
+
+                    beforeEach {
+                        sut = DependencyTestModel()
+                    }
+
+                    it("sut's propertyValue should be 'http://dev.test.com'") {
+                        expect(sut.propertyValue) == "http://dev.test.com"
                     }
                 }
             }

@@ -92,6 +92,8 @@ struct BuildCommand: CommandProtocol {
                 LazyAutowiredFactoryParser(),
                 InjectParser(),
                 InjectPropertyParser(),
+                DependencyParser(),
+                PropertyValueParser(),
                 ConfigPropertyParser()
             ])
             let corrector = Corrector([
