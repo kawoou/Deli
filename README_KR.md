@@ -37,6 +37,9 @@ Deli는 쉽게 사용할 수 있는 DI Container 프로젝트입니다.
     - [묶음 값](#92-묶음-값)
     - [단일 값](#93-단일-값)
     - [프로퍼티에 의한 주입](#94-프로퍼티에-의한-주입)
+  - [Property Wrapper](#10-propertywrapper)
+    - [Dependency](#101-dependecy)
+    - [PropertyValue](#102-propertyvalue)
 * [설치 방법](#설치-방법)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -78,6 +81,13 @@ config:
       - 제외할 파일들...
     className: DeilFactory
     output: Sources/DeliFactory.swift
+    resolve:
+      output: Deli.resolved
+      generate: true
+    dependencies:
+      - path: Resolved 파일들...
+        imports: UIKit
+    accessControl: public
 ```
 
 당신이 지정한 빌드 Scheme은 `Shared`로 설정되어야 합니다. Xcode의 `Manage Scheme`에서 `Shared` 영역을 확인합시다:
@@ -652,7 +662,7 @@ struct ServerConfig: ConfigProperty {
     let target: String = "server"
 
     let url: String
-    let isDebug: String
+    let isDebug: Bool
 }
 ```
 
@@ -668,24 +678,6 @@ final class NetworkManager: Autowired {
 
     required init(_ config: ServerConfig) {
         info = config
-    }
-}
-```
-
-기본적으로 `ConfigProperty`의 프로퍼티는 오직 String 타입으로만 사용할 수 있습니다. 그래서 `isDebug`의 값은 true, false임에도 불구하고 String으로 지정할 수 밖에 없습니다.
-
-이런 경우에는 다음과 같이 생성자를 구현해서 다른 타입으로 변경할 수 있습니다.
-
-```swift
-struct ServerConfig: ConfigProperty {
-    let target: String = "server"
-
-    let url: String
-    let isDebug: Bool
-
-    init(url: String, isDebug: String) {
-        self.url = url
-        self.isDebug = (isDebug == "true" ? true : false)
     }
 }
 ```
@@ -710,7 +702,7 @@ final class NetworkManager: Inject {
 
 ```swift
 final class NetworkManager {
-    let serverUrl = AppContext.getProperty("server.url") ?? "https://wtf.example.com"
+    let serverUrl = AppContext.getProperty("server.url", type: String.self) ?? "https://wtf.example.com"
 }
 ```
 
@@ -740,6 +732,43 @@ final class UserService: Inject {
     func getLogger() -> Logger {
         return Inject(Logger.self, qualifierBy: "logger.storage")
     }
+}
+```
+
+
+
+### 10. PropertyWrapper
+
+좀 더 간편한 사용을 위해 Swift 5.1에 추가된 [@propertyWrapper](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md)를 지원합니다.
+
+지원하는 기능은 크게 두 가지가 있는데, 의존성을 주입받는 것과 [Configuration Property](#9-configuration-property)를 주입받는 것 두 가지입니다.
+
+
+
+#### 10.1. Dependency
+
+의존성에 대한 주입은 크게 `@Dependency`와 `@DependencyArray`로 나눠집니다.
+
+```swift
+class Library {
+    @Dependency(qualifier "logger.storage")
+    var logger: Logger
+
+    @DependencyArray(qualifier: "novel")
+    var novels: [Book]
+}
+```
+
+
+
+#### 10.2. PropertyValue
+
+`@PropertyValue`는 [Configuration Property](#9-configuration-property)와 동일하며 사용법은 아래와 같습니다.
+
+```swift
+final class NetworkManager: Inject {
+    @PropertyValue("server.url")
+    let serverUrl: String
 }
 ```
 
