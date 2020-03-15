@@ -13,6 +13,7 @@ final class GraphGenerator: Generator {
 
     func generate() throws -> String {
         let output = results
+            .filter { !$0.isResolved }
             .flatMap { (result: Results) -> [GraphInfo] in
                 let dependencies = result.dependencies
                     .map { (result.instanceType, $0.name, "dependency") }

@@ -4,20 +4,26 @@
 //
 
 import Commandant
-import Result
 
 struct ValidateCommand: CommandProtocol {
     let verb = "validate"
     let function = "Validate the Dependency Graph."
 
     func run(_ options: ValidateOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isVerbose
+        Logger.isVerbose = options.isDebug || options.isVerbose
+        Logger.isDebug = options.isDebug
 
         let configuration = Configuration()
         let configure: Config
         let properties = CommandLine.get(forKey: "property")
         if let project = options.project {
-            guard let config = configuration.getConfig(project: project, scheme: options.scheme, target: options.target, output: nil, properties: properties) else {
+            guard let config = configuration.getConfig(
+                project: project,
+                scheme: options.scheme,
+                target: options.target,
+                output: nil,
+                properties: properties
+            ) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
@@ -52,6 +58,7 @@ struct ValidateCommand: CommandProtocol {
             }
 
             let propertyParser = PropertyParser()
+            let resolveParser = ResolveParser()
             let parser = Parser([
                 ComponentParser(),
                 ConfigurationParser(),
@@ -61,6 +68,8 @@ struct ValidateCommand: CommandProtocol {
                 LazyAutowiredFactoryParser(),
                 InjectParser(),
                 InjectPropertyParser(),
+                DependencyParser(),
+                PropertyValueParser(),
                 ConfigPropertyParser()
             ])
             let corrector = Corrector([
@@ -80,9 +89,13 @@ struct ValidateCommand: CommandProtocol {
             propertyParser.load(propertyFiles)
 
             do {
+                try resolveParser.load(info.dependencies)
+
                 _ = try validator.run(
                     try corrector.run(
-                        try parser.run(sourceFiles)
+                        try resolveParser.run(
+                            try parser.run(sourceFiles)
+                        )
                     )
                 )
 
@@ -102,11 +115,20 @@ struct ValidateOptions: OptionsProtocol {
     let target: String?
     let properties: String?
     let isVerbose: Bool
+    let isDebug: Bool
 
-    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ properties: String?) -> (_ isVerbose: Bool) -> ValidateOptions {
-        return { project in { scheme in { target in { properties in { isVerbose in
-            self.init(configFile: configFile, project: project, scheme: scheme, target: target, properties: properties, isVerbose: isVerbose)
-        }}}}}
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ properties: String?) -> (_ isVerbose: Bool) -> (_ isDebug: Bool) -> ValidateOptions {
+        return { project in { scheme in { target in { properties in { isVerbose in { isDebug in
+            self.init(
+                configFile: configFile,
+                project: project,
+                scheme: scheme,
+                target: target,
+                properties: properties,
+                isVerbose: isVerbose,
+                isDebug: isDebug
+            )
+        }}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<ValidateOptions, CommandantError<CommandError>> {
@@ -140,6 +162,11 @@ struct ValidateOptions: OptionsProtocol {
                 key: "verbose",
                 defaultValue: false,
                 usage: "turn on verbose logging"
+            )
+            <*> mode <| Option(
+                key: "debug",
+                defaultValue: false,
+                usage: "turn on debug logging"
             )
     }
 }

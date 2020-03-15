@@ -58,8 +58,13 @@ final class AutowiredFactoryParser: Parsable {
     
     // MARK: - Public
     
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
-        guard let name = source.name else {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
@@ -111,7 +116,7 @@ final class AutowiredFactoryParser: Parsable {
                     return Dependency(
                         parent: name,
                         target: constructor,
-                        name: arrayType,
+                        name: typealiasMap[arrayType] ?? arrayType,
                         type: .array,
                         qualifier: qualifier,
                         qualifierBy: qualifierBy
@@ -120,7 +125,7 @@ final class AutowiredFactoryParser: Parsable {
                 return Dependency(
                     parent: name,
                     target: constructor,
-                    name: dependencyName,
+                    name: typealiasMap[dependencyName] ?? dependencyName,
                     qualifier: qualifier,
                     qualifierBy: qualifierBy
                 )

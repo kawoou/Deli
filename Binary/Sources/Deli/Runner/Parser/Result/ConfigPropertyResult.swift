@@ -4,6 +4,12 @@
 //
 
 final class ConfigPropertyResult: Results {
+    struct PropertyInfo {
+        let type: String
+        let name: String
+        let isOptional: Bool
+    }
+
     var valueType: Bool
     var isLazy: Bool { return false }
     var isFactory: Bool { return false }
@@ -18,28 +24,25 @@ final class ConfigPropertyResult: Results {
     var linkType: Set<String> = Set()
 
     let propertyTargetKey: String
-    let propertyKeys: [String]
-    var propertyValues: [String] = []
+    let propertyInfos: [PropertyInfo]
 
     init(
         _ instanceType: String,
         propertyTargetKey: String,
-        propertyKeys: [String],
+        propertyInfos: [PropertyInfo],
         valueType: Bool
     ) {
         self.valueType = valueType
         self.instanceType = instanceType
         self.propertyTargetKey = propertyTargetKey
-        self.propertyKeys = propertyKeys
+        self.propertyInfos = propertyInfos
     }
     func makeSource() -> String? {
-        let properties = propertyKeys.enumerated()
+        let properties = propertyInfos.enumerated()
             .map { (index, key) in
-                if propertyKeys.count == index + 1 {
-                    return "\(key): context.getProperty(\"\(propertyTargetKey).\(key)\") as! String"
-                } else {
-                    return "\(key): context.getProperty(\"\(propertyTargetKey).\(key)\") as! String,"
-                }
+                let unwrappingCharacter = (key.isOptional) ? "" : "!"
+                let nextCharacter = (propertyInfos.count == index + 1) ? "" : ","
+                return "\(key.name): context.getProperty(\"\(propertyTargetKey).\(key.name)\", type: \(key.type).self)\(unwrappingCharacter)\(nextCharacter)"
             }
             .joined(separator: "\n            ")
 

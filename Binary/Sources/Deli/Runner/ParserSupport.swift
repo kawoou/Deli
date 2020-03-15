@@ -33,34 +33,21 @@ func parseScope(_ source: Structure, fileContent: String) throws -> String? {
         }
         throw ParserError.scopeAmbiguous
     }
-    
-    #if swift(>=4.1)
-    return scopeList.compactMap { info in
-        guard let data = fileContent.utf8[Int(info.offset)..<Int(info.offset + info.length)] else {
+
+    return scopeList
+        .compactMap { info in
+            guard let data = fileContent.utf8[Int(info.offset)..<Int(info.offset + info.length)] else {
+                return nil
+            }
+            if let match = Constant.scopeRegex.findFirst(in: data) {
+                return match.group(at: 2)
+            }
+            if let match = Constant.scopeClosureRegex.findFirst(in: data) {
+                return match.group(at: 2)
+            }
             return nil
         }
-        if let match = Constant.scopeRegex.findFirst(in: data) {
-            return match.group(at: 2)
-        }
-        if let match = Constant.scopeClosureRegex.findFirst(in: data) {
-            return match.group(at: 2)
-        }
-        return nil
-    }.first
-    #else
-    return scopeList.flatMap { info in
-        guard let data = fileContent.utf8[Int(info.offset)..<Int(info.offset + info.length)] else {
-            return nil
-        }
-        if let match = Constant.scopeRegex.findFirst(in: data) {
-            return match.group(at: 2)
-        }
-        if let match = Constant.scopeClosureRegex.findFirst(in: data) {
-            return match.group(at: 2)
-        }
-        return nil
-    }.first
-    #endif
+        .first
 }
 func parseQualifier(_ source: Structure, fileContent: String) throws -> String? {
     guard let name = source.name else {
@@ -78,32 +65,21 @@ func parseQualifier(_ source: Structure, fileContent: String) throws -> String? 
         }
         throw ParserError.qualifierAmbiguous
     }
-    
-    #if swift(>=4.1)
-    return qualifierList.compactMap { info in
-        guard let data = fileContent.utf8[Int(info.offset)..<Int(info.offset + info.length)] else {
+
+    return qualifierList
+        .compactMap { info in
+            guard let data = fileContent.utf8[Int(info.offset)..<Int(info.offset + info.length)] else {
+                return nil
+            }
+            if let match = Constant.qualifierRegex.findFirst(in: data) {
+                return match.group(at: 2)
+            }
+            if let match = Constant.qualifierClosureRegex.findFirst(in: data) {
+                return match.group(at: 1)
+            }
             return nil
         }
-        if let match = Constant.qualifierRegex.findFirst(in: data) {
-            return match.group(at: 2)
-        }
-        if let match = Constant.qualifierClosureRegex.findFirst(in: data) {
-            return match.group(at: 1)
-        }
-        return nil
-    }.first
-    #else
-    return qualifierList.flatMap { info in
-        let data = fileContent[Int(info.offset)..<Int(info.offset + info.length)]
-        if let match = Constant.qualifierRegex.findFirst(in: data) {
-            return match.group(at: 2)
-        }
-        if let match = Constant.qualifierClosureRegex.findFirst(in: data) {
-            return match.group(at: 1)
-        }
-        return nil
-    }.first
-    #endif
+        .first
 }
 func parseQualifierBy(_ source: Structure, fileContent: String) throws -> String? {
     let range = Int(source.offset)..<Int(source.offset + source.length)

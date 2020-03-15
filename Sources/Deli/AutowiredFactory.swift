@@ -85,8 +85,8 @@ public protocol AutowiredFactory: Factory {
 }
 public extension AutowiredFactory {
     /// To supports type-inference of the compiler.
-    public var payloadType: _Payload.Type { return _Payload.self }
-    public var qualifier: String? { return nil }
+    var payloadType: _Payload.Type { return _Payload.self }
+    var qualifier: String? { return nil }
 
     init(payload: _Payload) {
         self.init(payload: payload)

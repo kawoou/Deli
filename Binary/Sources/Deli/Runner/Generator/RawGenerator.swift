@@ -11,9 +11,8 @@ final class RawGenerator: Generator {
     
     func generate() throws -> String {
         return results
-            .map { (result: Results) -> String in
-                return result.description
-            }
+            .filter { !$0.isResolved }
+            .map { $0.description }
             .joined(separator: "\n\n")
     }
     

@@ -7,7 +7,47 @@ import Foundation
 
 final class SourceGenerator: Generator {
 
+    // MARK: - Public
+
+    func generate() throws -> String {
+        let imports = Set(results.flatMap { $0.imports } + ["Deli"])
+            .sorted()
+            .map { "import \($0)\n" }
+            .joined()
+
+        let sourceList = results
+            .filter { !$0.isResolved }
+            .compactMap { $0.makeSource() }
+        
+        let output = sourceList
+            .joined(separator: "\n")
+            .replacingOccurrences(of: "\n", with: "\n        ")
+
+        let dictionaryData = generateDictionary(properties, indentDepth: 2)
+
+        return """
+        //
+        //  \(className).swift
+        //  Auto generated code.
+        //
+
+        \(imports)
+        \(accessControl)final class \(className): ModuleFactory {
+            \(accessControl)override func load(context: AppContext) {
+                loadProperty(\(dictionaryData))
+        
+                \(output)
+            }
+        }
+        """
+    }
+
     // MARK: - Private
+
+    private let className: String
+    private let accessControl: String
+    private let results: [Results]
+    private let properties: [String: Any]
 
     private func generateDictionary(_ target: Any, indentDepth: Int) -> String {
         let indent = (0..<indentDepth)
@@ -17,7 +57,7 @@ final class SourceGenerator: Generator {
         var result: String = ""
         if let target = target as? [String: Any] {
             guard target.count > 0 else { return "[:]" }
-            
+
             result += "[\n"
 
             var index = 0
@@ -55,60 +95,21 @@ final class SourceGenerator: Generator {
         return result
     }
 
-    // MARK: - Public
-
-    func generate() throws -> String {
-        let imports = Set(results.flatMap { $0.imports } + ["Deli"])
-            .sorted()
-            .map { "import \($0)\n" }
-            .joined()
-
-        let sourceList: [String]
-        #if swift(>=4.1)
-        sourceList = results.compactMap { $0.makeSource() }
-        #else
-        sourceList = results.flatMap { $0.makeSource() }
-        #endif
-        
-        let output = sourceList
-            .joined(separator: "\n")
-            .replacingOccurrences(of: "\n", with: "\n        ")
-
-        let dictionaryData = generateDictionary(properties, indentDepth: 2)
-
-        return """
-        //
-        //  \(className).swift
-        //  Auto generated code.
-        //
-
-        \(imports)
-        final class \(className): ModuleFactory {
-            override func load(context: AppContext) {
-                loadProperty(\(dictionaryData))
-        
-                \(output)
-            }
-        }
-        """
-    }
-
-    // MARK: - Private
-
-    private let className: String
-    private let results: [Results]
-    private let properties: [String: Any]
-
     // MARK: - Lifecycle
     
-    init(results: [Results], properties: [String: Any]) {
-        self.className = "DeliFactory"
-        self.results = results.sorted { $0.instanceType < $1.instanceType }
-        self.properties = properties
+    convenience init(results: [Results], properties: [String: Any]) {
+        self.init(
+            className: "DeliFactory",
+            accessControl: nil,
+            results: results,
+            properties: properties
+        )
     }
-    init(className: String, results: [Results], properties: [String: Any]) {
+    init(className: String, accessControl: String?, results: [Results], properties: [String: Any]) {
         self.className = className
-        self.results = results.sorted { $0.instanceType < $1.instanceType }
+        self.accessControl = accessControl.map { "\($0) " } ?? ""
+        self.results = results
+            .sorted { $0.instanceType < $1.instanceType }
         self.properties = properties
     }
 }

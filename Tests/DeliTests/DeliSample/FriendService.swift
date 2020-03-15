@@ -33,7 +33,7 @@ class FriendServiceImpl: FriendService, Autowired {
         return friendList[id]
     }
 
-    required init(_ accountService: AccountService) {
+    required init(facebook accountService: AccountService) {
         self.accountService = accountService
     }
 }

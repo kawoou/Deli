@@ -1,0 +1,4 @@
+module CwlCatchExceptionSupport {
+    umbrella "/Users/kawoou/GitHub/Deli/.build/checkouts/CwlCatchException/Sources/CwlCatchExceptionSupport/include"
+    export *
+}

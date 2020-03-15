@@ -26,6 +26,255 @@ class DeliSpec: QuickSpec, Inject {
             appContext.unloadAll()
             appContext.reset()
         }
+        describe("getProperty() when multi-module environment") {
+            beforeEach {
+                appContext.load([
+                    TestDeliFactory.self,
+                    DeliFactory.self
+                ])
+            }
+            it("TestDeliObject's 'a' property value should be DeliFactory's 'server.port' property") {
+                let object = appContext.get(TestDeliObject.self)!
+                expect(object.a) == appContext.getProperty("server.port", type: Int.self)
+            }
+            it("TestDeliObject's 'b' property value should be DeliFactory's 'server.url' property") {
+                let object = appContext.get(TestDeliObject.self)!
+                expect(object.b) == appContext.getProperty("server.url", type: String.self)
+            }
+        }
+        describe("getProperty()") {
+            beforeEach {
+                appContext.load([
+                    DeliFactory.self
+                ])
+            }
+            context("for String type") {
+                var value: String?
+                beforeEach {
+                    value = appContext.getProperty("server.url", type: String.self)
+                }
+                it("value should be 'http://dev.test.com'") {
+                    expect(value) == "http://dev.test.com"
+                }
+            }
+            context("for Bool type") {
+                var value: Bool?
+                context("when original value is string") {
+                    beforeEach {
+                        value = appContext.getProperty("boolean1", type: Bool.self)
+                    }
+                    it("value should be true") {
+                        expect(value) == true
+                    }
+                }
+                context("when original value is number") {
+                    beforeEach {
+                        value = appContext.getProperty("boolean2", type: Bool.self)
+                    }
+                    it("value should be true") {
+                        expect(value) == true
+                    }
+                }
+            }
+            context("for Double type") {
+                var value: Double?
+                beforeEach {
+                    value = appContext.getProperty("int32", type: Double.self)
+                }
+                it("value should be 2147483647.0") {
+                    expect(value) == 2147483647.0
+                }
+            }
+            context("for Float type") {
+                var value: Float?
+                beforeEach {
+                    value = appContext.getProperty("int32", type: Float.self)
+                }
+                it("value should be Float(2147483647)") {
+                    expect(value) == Float(2147483647)
+                }
+            }
+            context("for Int type") {
+                var value: Int?
+                context("failure test") {
+                    beforeEach {
+                        value = appContext.getProperty("server.url", type: Int.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("server.port", type: Int.self)
+                    }
+                    it("value should be 8080") {
+                        expect(value) == 8080
+                    }
+                }
+            }
+            context("for Int8 type") {
+                var value: Int8?
+                context("overflow test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint8", type: Int8.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("int8", type: Int8.self)
+                    }
+                    it("value should be 127") {
+                        expect(value) == 127
+                    }
+                }
+            }
+            context("for Int16 type") {
+                var value: Int16?
+                context("overflow test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint16", type: Int16.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("int16", type: Int16.self)
+                    }
+                    it("value should be 32767") {
+                        expect(value) == 32767
+                    }
+                }
+            }
+            context("for Int32 type") {
+                var value: Int32?
+                context("overflow test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint32", type: Int32.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("int32", type: Int32.self)
+                    }
+                    it("value should be 2147483647") {
+                        expect(value) == 2147483647
+                    }
+                }
+            }
+            context("for Int64 type") {
+                var value: Int64?
+                context("overflow test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint64", type: Int64.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("int64", type: Int64.self)
+                    }
+                    it("value should be 9223372036854775807") {
+                        expect(value) == 9223372036854775807
+                    }
+                }
+            }
+            context("for UInt type") {
+                var value: UInt?
+                context("failure test") {
+                    beforeEach {
+                        value = appContext.getProperty("server.url", type: UInt.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("server.port", type: UInt.self)
+                    }
+                    it("value should be 8080") {
+                        expect(value) == 8080
+                    }
+                }
+            }
+            context("for UInt8 type") {
+                var value: UInt8?
+                context("overflow test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint16", type: UInt8.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint8", type: UInt8.self)
+                    }
+                    it("value should be 255") {
+                        expect(value) == 255
+                    }
+                }
+            }
+            context("for UInt16 type") {
+                var value: UInt16?
+                context("overflow test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint32", type: UInt16.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint16", type: UInt16.self)
+                    }
+                    it("value should be 65535") {
+                        expect(value) == 65535
+                    }
+                }
+            }
+            context("for UInt32 type") {
+                var value: UInt32?
+                context("overflow test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint64", type: UInt32.self)
+                    }
+                    it("value should be nil") {
+                        expect(value).to(beNil())
+                    }
+                }
+                context("success test") {
+                    beforeEach {
+                        value = appContext.getProperty("uint32", type: UInt32.self)
+                    }
+                    it("value should be 4294967295") {
+                        expect(value) == 4294967295
+                    }
+                }
+            }
+            context("for UInt64 type") {
+                var value: UInt64?
+                beforeEach {
+                    value = appContext.getProperty("uint64", type: UInt64.self)
+                }
+                it("value should be 18446744073709551615") {
+                    expect(value) == 18446744073709551615
+                }
+            }
+        }
         describe("getProperty()") {
             var sut: Any?
 
@@ -324,11 +573,11 @@ class DeliSpec: QuickSpec, Inject {
                         accountConfiguration = appContext.get(AccountConfiguration.self)
                         networkManager = appContext.get(NetworkManager.self)
                         
-                        sut = appContext.get(AccountService.self)
+                        sut = appContext.get(AccountService.self, qualifier: "facebook")
                         
                         networkManager.request()
                         sut.networkManager.request()
-                        accountConfiguration.accountService().networkManager.request()
+                        accountConfiguration.facebookAccountService().networkManager.request()
                     }
                     it("requestCount of networkManager should equal to 3") {
                         expect(networkManager.requestCount) == 3
@@ -343,7 +592,7 @@ class DeliSpec: QuickSpec, Inject {
                     var testView2: TestView2!
                     
                     beforeEach {
-                        accountService = appContext.get(AccountService.self)
+                        accountService = appContext.get(AccountService.self, qualifier: "facebook")
                         friendService = appContext.get(FriendService.self)
                         messageService = appContext.get(MessageServiceImpl.self)
                         testViewModel = appContext.get(TestViewModel.self)
@@ -601,6 +850,47 @@ class DeliSpec: QuickSpec, Inject {
                     expect(String(describing: factoryTest.payloadType)) == String(describing: TestPayload.self)
                 }
             }
+            context("when inject from string class") {
+                var accountConfiguration: Any?
+                beforeEach {
+                    accountConfiguration = appContext.get(Any.self, className: "AccountConfiguration")
+                }
+                it("accountConfiguration should inhertiance AccountConfiguration") {
+                    expect { accountConfiguration is AccountConfiguration } == true
+                }
+            }
+            context("when inject from string class with payload") {
+                var userViewModel: UserViewModel?
+                beforeEach {
+                    userViewModel = appContext.get(UserViewModel.self, className: "UserViewModel", payload: UserPayload(with: ("UserID")))
+                }
+                it("userViewModel should not be nil") {
+                    expect(userViewModel).notTo(beNil())
+                }
+            }
+            context("when inject from string class without resolve") {
+                var sut1: Any?
+                var sut2: Any?
+                var sut3: Any?
+
+                beforeEach {
+                    sut1 = appContext.get(withoutResolve: Any.self, className: "AccountConfiguration", qualifier: "")
+                    sut2 = appContext.get(Any.self, className: "AccountConfiguration")
+                    sut3 = appContext.get(withoutResolve: Any.self, className: "AccountConfiguration", qualifier: "")
+                }
+                it("sut1 should be nil") {
+                    expect(sut1 as? AccountConfiguration).to(beNil())
+                }
+                it("sut2 should not to be nil") {
+                    expect(sut2).notTo(beNil())
+                }
+                it("sut3 should not to be nil") {
+                    expect(sut3).notTo(beNil())
+                }
+                it("sut2 should be sut3") {
+                    expect(sut2) === sut3
+                }
+            }
             describe("multi-container test") {
                 var accountService: AccountService!
                 var books: [Book] = []
@@ -841,7 +1131,7 @@ class DeliSpec: QuickSpec, Inject {
                 it("all instance should be nil") {
                     expect(appContext.get(withoutResolve: AccountService.self, qualifier: "")).to(beNil())
                     expect(appContext.get(withoutResolve: [Book].self, qualifier: "").count) == 0
-                    expect(appContext.get(AccountService.self)).notTo(beNil())
+                    expect(appContext.get(AccountService.self, qualifier: "facebook")).notTo(beNil())
                     expect(appContext.get([Book].self).count) == 3
                 }
             }
@@ -1014,6 +1304,79 @@ class DeliSpec: QuickSpec, Inject {
                     it("sut's test should be nil") {
                         expect(sut.test).to(beNil())
                     }
+                }
+            }
+            describe("PropertyWrapper test") {
+                describe("by @Dependency") {
+                    var sut: DependencyTestModel!
+
+                    beforeEach {
+                        sut = DependencyTestModel()
+                    }
+                    context("test case 1") {
+                        beforeEach {
+                            sut.test1.test()
+                        }
+                        it("sut's test1.testCount should be 1") {
+                            expect(sut.test1.testCount) == 1
+                        }
+                    }
+                    context("test case 2") {
+                        beforeEach {
+                            sut.googleAccountService.logout()
+                        }
+                        it("sut's googleAccountService.logoutCount should be 1") {
+                            expect(sut.googleAccountService.logoutCount) == 1
+                        }
+                    }
+                    context("test case 3") {
+                        it("sut's method.qualifier should be 'get'") {
+                            expect(sut.method.qualifier) == "get"
+                        }
+                    }
+                }
+                describe("by @DependencyArray") {
+                    var sut: DependencyTestModel!
+
+                    beforeEach {
+                        sut = DependencyTestModel()
+                    }
+                    context("test case 1") {
+                        it("sut's test2.count should be 2") {
+                            expect(sut.test2.count) == 2
+                        }
+                    }
+                    context("test case 2") {
+                        it("sut's accountServices.count should be 1") {
+                            expect(sut.accountServices.count) == 1
+                        }
+                    }
+                    context("test case 3") {
+                        it("sut's methods.count should be 1") {
+                            expect(sut.methods.count) == 1
+                        }
+                    }
+                }
+                describe("by @PropertyValue") {
+                    var sut: DependencyTestModel!
+
+                    beforeEach {
+                        sut = DependencyTestModel()
+                    }
+
+                    it("sut's propertyValue should be 'http://dev.test.com'") {
+                        expect(sut.propertyValue) == "http://dev.test.com"
+                    }
+                }
+            }
+            context("when inject nested type") {
+                var sut: NestedTestClass?
+
+                beforeEach {
+                    sut = appContext.get(NestedTestClass.self)
+                }
+                it("sut should be nil") {
+                    expect(sut).toNot(beNil())
                 }
             }
         }

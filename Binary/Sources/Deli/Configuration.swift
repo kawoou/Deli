@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import xcodeproj
+import XcodeProj
 import Yams
 
 enum ConfigurationError: Error {
@@ -36,7 +36,7 @@ final class Configuration {
     private lazy var basePath = self.fileManager.currentDirectoryPath
 
     private func findPath(_ fileName: String) -> String? {
-        guard let baseURL = URL(string: basePath) else { return nil }
+        let baseURL = URL(fileURLWithPath: basePath)
 
         let fileURL = baseURL.appendingPathComponent(fileName).standardized
         guard fileManager.fileExists(atPath: fileURL.path) else { return nil }
@@ -152,23 +152,37 @@ final class Configuration {
         for element in group.children {
             guard let group = element as? PBXGroup else {
                 if let path = element.path {
-                    stackedPath.append(path)
-                    filePath[element.uuid] = stackedPath.joined(separator: "/")
-                    _ = stackedPath.popLast()
+                    switch element.sourceTree {
+                    case .sourceRoot, .sdkRoot, .buildProductsDir:
+                        filePath[element.uuid] = path
+
+                    default:
+                        stackedPath.append(path)
+                        filePath[element.uuid] = stackedPath.joined(separator: "/")
+                        _ = stackedPath.popLast()
+                    }
                 }
                 continue
             }
-            
+
             if let path = group.path {
-                stackedPath.append(path)
+                switch element.sourceTree {
+                case .sourceRoot:
+                    stackedPath = [path]
+
+                default:
+                    stackedPath.append(path)
+                }
             }
             
             for (key, value) in parseFileTree(group: group, project: project, stackedPath: stackedPath) {
                 filePath[key] = value
             }
-            
+
             if group.path != nil {
-                _ = stackedPath.popLast()
+                if element.sourceTree != .sourceRoot {
+                    _ = stackedPath.popLast()
+                }
             }
         }
 
@@ -181,15 +195,9 @@ final class Configuration {
         guard let path = configPath ?? findPath(Constant.configFile) else {
             /// Not exist configuration file.
             /// Find to project file in current directory.
-            #if swift(>=4.1)
             let projectList = (try? fileManager.contentsOfDirectory(atPath: basePath))?
-                .compactMap { URL(string: $0) }
+                .map { URL(fileURLWithPath: $0) }
                 .filter { $0.pathExtension == Constant.xcodeProjectExtension } ?? []
-            #else
-            let projectList = (try? fileManager.contentsOfDirectory(atPath: basePath))?
-                .flatMap { URL(string: $0) }
-                .filter { $0.pathExtension == Constant.xcodeProjectExtension } ?? []
-            #endif
 
             guard let projectURL = projectList.first else {
                 Logger.log(.error("Not found project file.", nil))
@@ -239,23 +247,46 @@ final class Configuration {
         }
     }
     func getConfig(project: String, scheme: String?, target: String?, output: String?, properties: [String]) -> Config? {
+        let info = ConfigInfo(
+            project: project,
+            scheme: scheme,
+            target: target,
+            output: output,
+            properties: properties,
+            dependencies: []
+        )
         return Config(
-            target: [project],
-            config: [project: ConfigInfo(project: project, scheme: scheme, target: target, output: output, properties: properties)]
+            target: [info.project],
+            config: [info.project: info]
         )
     }
 
     func getOutputPath(info: ConfigInfo, fileName: String? = nil) -> String {
         let projectFile = convertToProjectFile(info.project)
         guard let projectPath = findPath(projectFile) else { return "" }
-        guard let projectURL = URL(string: projectPath) else { return "" }
 
+        let projectURL = URL(fileURLWithPath: projectPath)
         let projectDirectory = projectURL.deletingLastPathComponent()
         let url = projectDirectory.appendingPathComponent(info.output ?? fileName ?? Constant.outputFile).standardized
 
         var isDirectory: ObjCBool = false
         if fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue {
             return url.appendingPathComponent(fileName ?? Constant.outputFile).standardized.path
+        } else {
+            return url.path
+        }
+    }
+    func getResolvedOutputPath(info: ConfigInfo) -> String {
+        let projectFile = convertToProjectFile(info.project)
+        guard let projectPath = findPath(projectFile) else { return "" }
+
+        let projectURL = URL(fileURLWithPath: projectPath)
+        let projectDirectory = projectURL.deletingLastPathComponent()
+        let url = projectDirectory.appendingPathComponent(info.resolve?.output ?? ResolveParser.Constant.resolveFile).standardized
+
+        var isDirectory: ObjCBool = false
+        if fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue {
+            return url.appendingPathComponent(ResolveParser.Constant.resolveFile).standardized.path
         } else {
             return url.path
         }
@@ -267,7 +298,8 @@ final class Configuration {
             if let name = info.className {
                 return name
             }
-            guard let url = URL(string: path) else { return Constant.className }
+
+            let url = URL(fileURLWithPath: path)
             guard let match = "(.+)\\.swift$".r?.findFirst(in: url.lastPathComponent) else { return Constant.className }
             return match.group(at: 1) ?? Constant.className
         }()
@@ -275,20 +307,13 @@ final class Configuration {
         let nameReplaceRegex = "(^[^a-zA-Z_]+|[^a-zA-Z0-9_]+)".r!
         let newClassName = nameReplaceRegex.replaceAll(in: className, with: "_")
         
-        let first: String
-        let other: String
-        #if swift(>=4.0)
-            first = newClassName.prefix(1).uppercased()
-            other = String(newClassName.dropFirst())
-        #else
-            first = String(newClassName.characters.prefix(1)).capitalized
-            other = String(newClassName.characters.dropFirst())
-        #endif
+        let first = newClassName.prefix(1).uppercased()
+        let other = String(newClassName.dropFirst())
         
         return first + other
     }
     func getPropertyList(info: ConfigInfo, properties: [String]) -> [String] {
-        guard let baseURL = URL(string: basePath) else { return [] }
+        let baseURL = URL(fileURLWithPath: basePath)
 
         /// Find properties recursive
         var propertyList: [String] = []
@@ -300,6 +325,8 @@ final class Configuration {
             guard !target.isEmpty else {
                 if self.fileManager.fileExists(atPath: urlPath) {
                     propertyList.append(urlPath)
+                } else {
+                    Logger.log(.warn("Not found the property file: \(urlPath)", nil))
                 }
                 return
             }
@@ -342,14 +369,10 @@ final class Configuration {
         }
 
         /// Load project file.
-        guard let projectURL = URL(string: projectPath) else {
-            Logger.log(.error("Cannnot open the project file: \(projectFile)", nil))
-            throw ConfigurationError.projectCannotOpen
-        }
-
+        let projectURL = URL(fileURLWithPath: projectPath)
         let projectDirectory = projectURL.deletingLastPathComponent()
-        guard let project = try? XcodeProj(pathString: projectURL.absoluteString) else {
-            Logger.log(.error("Cannnot open the project file: \(projectURL.lastPathComponent)", nil))
+        guard let project = try? XcodeProj(pathString: projectURL.path) else {
+            Logger.log(.error("Cannot open the project file: \(projectURL.lastPathComponent)", nil))
             throw ConfigurationError.projectCannotOpen
         }
 
@@ -387,8 +410,7 @@ final class Configuration {
         guard let nativeTarget = target else { return [] }
 
         /// Find root group
-        guard let group = try? project.pbxproj.rootGroup() else { return [] }
-        guard let rootGroup = group else { return [] }
+        guard let rootGroup = try? project.pbxproj.rootGroup() else { return [] }
         let fileDictionary = parseFileTree(group: rootGroup, project: project)
         let outputPath = getOutputPath(info: info)
 
@@ -407,14 +429,8 @@ final class Configuration {
                 .replacingOccurrences(of: "//", with: "/")
         }
 
-        let sourceList: [String]
-        #if swift(>=4.1)
-        sourceList = fileList
+        let sourceList = fileList
             .compactMap { fileDictionary[$0.file?.uuid ?? ""] }
-        #else
-        sourceList = fileList
-            .flatMap { fileDictionary[$0.file?.uuid ?? ""] }
-        #endif
 
         let result = (sourceList + includeFiles)
             .map {

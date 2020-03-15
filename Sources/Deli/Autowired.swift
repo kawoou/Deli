@@ -3,7 +3,7 @@
 //  Deli
 //
 
-/// The `Autowired` protocol is registered automatically, and load the
+/// The Autowired protocol is registered automatically, and load the
 /// required dependencies from IoC container.
 public protocol Autowired: Inject {
     /// Associated type for dependency 1.
@@ -70,8 +70,8 @@ public protocol Autowired: Inject {
 
 }
 public extension Autowired {
-    public var qualifier: String? { return nil }
-    public var scope: Scope { return .singleton }
+    var qualifier: String? { return nil }
+    var scope: Scope { return .singleton }
 
     init(_ dep1: Dep1) {
         self.init(dep1)

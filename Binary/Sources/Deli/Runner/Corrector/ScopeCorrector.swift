@@ -20,14 +20,14 @@ final class ScopeCorrector: Correctable {
     func correct(by results: [Results]) throws -> [Results] {
         results
             .filter { $0.scope == nil }
-            .forEach { info in
-                let typeList = parser.inheritanceList(info.instanceType)
+            .forEach { result in
+                guard !result.isResolved else { return }
+
+                let typeList = parser.inheritanceList(result.instanceType)
                 for type in typeList {
                     guard !Constant.ignoreTypes.contains(type.name) else { continue }
                     guard let scope = try? parseScope(type.structure, fileContent: type.content) else { continue }
-                    guard let safeScope = scope else { continue }
-                    
-                    info.scope = safeScope
+                    result.scope = scope
                     break
                 }
             }

@@ -5,20 +5,39 @@
 
 import Foundation
 import Commandant
-import Result
 
 struct GenerateCommand: CommandProtocol {
     let verb = "generate"
     let function = "Generate the Dependency Graph."
 
+    func saveOutput(generator: Generator, outputFile: String) throws {
+        let outputData = try generator.generate()
+        let url = URL(fileURLWithPath: outputFile)
+
+        var isDirectory: ObjCBool = false
+        if FileManager.default.fileExists(atPath: outputFile, isDirectory: &isDirectory), isDirectory.boolValue {
+            Logger.log(.error("Cannot overwrite a directory with an output file: \(outputFile)", nil))
+            throw CommandError.cannotOverwriteDirectory
+        }
+        try? FileManager.default.removeItem(at: url)
+        try outputData.write(to: url, atomically: false, encoding: .utf8)
+    }
+
     func run(_ options: GenerateOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isVerbose
+        Logger.isVerbose = options.isDebug || options.isVerbose
+        Logger.isDebug = options.isDebug
 
         let configuration = Configuration()
         let configure: Config
         let properties = CommandLine.get(forKey: "property")
         if let project = options.project {
-            guard let config = configuration.getConfig(project: project, scheme: options.scheme, target: options.target, output: nil, properties: properties) else {
+            guard let config = configuration.getConfig(
+                project: project,
+                scheme: options.scheme,
+                target: options.target,
+                output: nil,
+                properties: properties
+            ) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
@@ -55,6 +74,7 @@ struct GenerateCommand: CommandProtocol {
             }
 
             let propertyParser = PropertyParser()
+            let resolveParser = ResolveParser()
             let parser = Parser([
                 ComponentParser(),
                 ConfigurationParser(),
@@ -64,6 +84,8 @@ struct GenerateCommand: CommandProtocol {
                 LazyAutowiredFactoryParser(),
                 InjectParser(),
                 InjectPropertyParser(),
+                DependencyParser(),
+                PropertyValueParser(),
                 ConfigPropertyParser()
             ])
             let corrector = Corrector([
@@ -83,37 +105,46 @@ struct GenerateCommand: CommandProtocol {
             propertyParser.load(propertyFiles)
 
             do {
+                try resolveParser.load(info.dependencies)
+
                 let results = try validator.run(
                     try corrector.run(
-                        try parser.run(sourceFiles)
+                        try resolveParser.run(
+                            try parser.run(sourceFiles)
+                        )
                     )
                 )
 
-                let outputData: String
-                switch options.type {
-                case "graph", "html":
-                    outputData = try GraphGenerator(results: results, properties: propertyParser.properties).generate()
-                case "code", "swift":
-                    outputData = try SourceGenerator(className: className, results: results, properties: propertyParser.properties).generate()
-                case "raw":
-                    outputData = try RawGenerator(results: results, properties: propertyParser.properties).generate()
-                default:
-                    throw CommandError.unacceptableType
-                }
+                let generator: Generator = try {
+                    switch options.type {
+                    case "graph", "html":
+                        return GraphGenerator(
+                            results: results,
+                            properties: propertyParser.properties
+                        )
+                    case "code", "swift":
+                        return SourceGenerator(
+                            className: className,
+                            accessControl: info.accessControl,
+                            results: results,
+                            properties: propertyParser.properties
+                        )
+                    case "raw", "text":
+                        return RawGenerator(
+                            results: results,
+                            properties: propertyParser.properties
+                        )
+                    default:
+                        throw CommandError.unacceptableType
+                    }
+                }()
 
                 if let path = options.output {
-                    let url = URL(fileURLWithPath: path)
-                    
-                    var isDirectory: ObjCBool = false
-                    if FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue {
-                        Logger.log(.error("Cannot overwrite a directory with an output file: \(path)", nil))
-                        throw CommandError.cannotOverwriteDirectory
-                    }
-                    try outputData.write(to: url, atomically: false, encoding: .utf8)
-
+                    try saveOutput(generator: generator, outputFile: path)
                     Logger.log(.info("Generate file: \(path)"))
                 } else {
-                    print(outputData)
+                    print()
+                    print(try generator.generate())
                 }
             } catch let error {
                 return .failure(.runner(error))
@@ -126,6 +157,7 @@ struct GenerateCommand: CommandProtocol {
 struct GenerateOptions: OptionsProtocol {
     let configFile: String?
     let isVerbose: Bool
+    let isDebug: Bool
     let project: String?
     let scheme: String?
     let target: String?
@@ -133,10 +165,20 @@ struct GenerateOptions: OptionsProtocol {
     let properties: String?
     let type: String
 
-    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ type: String) -> GenerateOptions {
-        return { isVerbose in { project in { scheme in { target in { output in { properties in { type in
-            self.init(configFile: configFile, isVerbose: isVerbose, project: project, scheme: scheme, target: target, output: output, properties: properties, type: type)
-        }}}}}}}
+    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ isDebug: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ type: String) -> GenerateOptions {
+        return { isVerbose in { isDebug in { project in { scheme in { target in { output in { properties in { type in
+            self.init(
+                configFile: configFile,
+                isVerbose: isVerbose,
+                isDebug: isDebug,
+                project: project,
+                scheme: scheme,
+                target: target,
+                output: output,
+                properties: properties,
+                type: type
+            )
+        }}}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<GenerateOptions, CommandantError<CommandError>> {
@@ -150,6 +192,11 @@ struct GenerateOptions: OptionsProtocol {
                 key: "verbose",
                 defaultValue: false,
                 usage: "turn on verbose logging"
+            )
+            <*> mode <| Option(
+                key: "debug",
+                defaultValue: false,
+                usage: "turn on debug logging"
             )
             <*> mode <| Option(
                 key: "project",

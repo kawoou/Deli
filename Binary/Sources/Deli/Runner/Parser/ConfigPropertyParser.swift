@@ -19,7 +19,11 @@ final class ConfigPropertyParser: Parsable {
 
     // MARK: - Private
 
-    private func convert(_ source: Structure, fileContent: String) throws -> ConfigPropertyResult {
+    private func convert(
+        _ source: Structure,
+        fileContent: String,
+        typealiasMap: [String: String]
+    ) throws -> ConfigPropertyResult {
         guard let name = source.name else {
             throw ParserError.unknown
         }
@@ -45,26 +49,54 @@ final class ConfigPropertyParser: Parsable {
         }
 
         let propertyList = properties
-            .compactMap { $0.name }
-            .filter { $0 != Constant.targetPropertyName }
+            .compactMap { structure -> ConfigPropertyResult.PropertyInfo? in
+                guard let type = structure.typeName else { return nil }
+                guard let name = structure.name else { return nil }
+                guard name != Constant.targetPropertyName else { return nil }
+
+                if type.hasSuffix("?") || type.hasSuffix("!") {
+                    return ConfigPropertyResult.PropertyInfo(
+                        type: String(type[..<type.index(before: type.endIndex)]),
+                        name: name,
+                        isOptional: true
+                    )
+                } else {
+                    return ConfigPropertyResult.PropertyInfo(
+                        type: type,
+                        name: name,
+                        isOptional: false
+                    )
+                }
+            }
 
         return ConfigPropertyResult(
             name,
             propertyTargetKey: targetPath,
-            propertyKeys: propertyList,
+            propertyInfos: propertyList,
             valueType: source.kind == SwiftDeclarationKind.struct.rawValue
         )
     }
 
     // MARK: - Public
 
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
         guard source.name != nil else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
         guard source.inheritedTypes.contains(Constant.inheritanceName) else { return [] }
 
-        return [try convert(source, fileContent: fileContent)]
+        return [
+            try convert(
+                source,
+                fileContent: fileContent,
+                typealiasMap: typealiasMap
+            )
+        ]
     }
 }

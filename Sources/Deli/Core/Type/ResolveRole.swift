@@ -1,13 +1,16 @@
 //
-//  ResolveScope.swift
+//  ResolveRole.swift
 //  Deli
 //
+
+@available(*, deprecated, renamed: "ResolveRole")
+public typealias ResolveRule = ResolveRole
 
 /// Resolve Role
 ///
 /// `AppContext` can loaded many `ModuleFactory`.
 /// When call Inject(), get instance by `LoadPriority` order by default.
-public enum ResolveRule {
+public enum ResolveRole {
     
     // MARK: - Type
     

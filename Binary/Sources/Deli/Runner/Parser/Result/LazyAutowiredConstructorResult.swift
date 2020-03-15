@@ -44,12 +44,12 @@ final class LazyAutowiredConstructorResult: Results {
                     switch dependency.type {
                     case .single:
                         return [
-                            "let _qualifier\(index) = context.getProperty(\"\(qualifierBy)\") as! String",
+                            "let _qualifier\(index) = context.getProperty(\"\(qualifierBy)\", type: String.self)!",
                             "let _\(index) = context.get(\(dependency.name).self, qualifier: _qualifier\(index))!"
                         ]
                     case .array:
                         return [
-                            "let _qualifier\(index) = context.getProperty(\"\(qualifierBy)\") as! String",
+                            "let _qualifier\(index) = context.getProperty(\"\(qualifierBy)\", type: String.self)!",
                             "let _\(index) = context.get([\(dependency.name)].self, qualifier: _qualifier\(index))"
                         ]
                     }

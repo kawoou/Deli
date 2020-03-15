@@ -26,7 +26,7 @@ public extension Configuration {
     ///       dependencies of the type.
     ///       It is invoked when needs to instantiate the instance.
     /// - Returns: The closure that resolve dependency type.
-    public static func Config<T<% if dep > 0 %>, <% end %><%= generics_str %>>(
+    static func Config<T<% if dep > 0 %>, <% end %><%= generics_str %>>(
         _ type: T.Type,<% for arg in (1..dep) %>
         _ dependency<%= arg %>: Dep<%= arg %>.Type,<% end %>
         qualifier: String = "",

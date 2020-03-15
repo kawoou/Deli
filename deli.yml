@@ -22,3 +22,5 @@ config:
     properties:
       - Tests/DeliTests/DeliSample/Property/Common/*
       - Tests/DeliTests/DeliSample/Property/application-dev.yml
+    resolve:
+      generate: false

@@ -14,7 +14,7 @@ class TestViewModel: Autowired {
         testCount += 1
     }
 
-    required init(_ accountService: AccountService, _ friendService: FriendService) {
+    required init(facebook accountService: AccountService, _ friendService: FriendService) {
         self.accountService = accountService
         self.friendService = friendService
     }

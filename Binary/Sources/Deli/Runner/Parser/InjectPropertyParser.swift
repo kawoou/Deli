@@ -20,7 +20,11 @@ final class InjectPropertyParser: Parsable {
 
     // MARK: - Private
 
-    private func found(_ source: Structure, root: Structure, fileContent: String) throws -> String? {
+    private func found(
+        _ source: Structure,
+        root: Structure,
+        fileContent: String
+    ) throws -> String? {
         guard let name = source.name else { return nil }
         guard name == Constant.functionName || name.hasSuffix(".\(Constant.functionName)") else { return nil }
         guard source.kind == Constant.functionCallKey else { return nil }
@@ -36,7 +40,10 @@ final class InjectPropertyParser: Parsable {
         return path
     }
 
-    private func searchInjectProperty(_ source: Structure, fileContent: String) throws -> [String] {
+    private func searchInjectProperty(
+        _ source: Structure,
+        fileContent: String
+    ) throws -> [String] {
         var pathList = [String]()
 
         var queue = source.substructures
@@ -52,8 +59,13 @@ final class InjectPropertyParser: Parsable {
 
     // MARK: - Public
 
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
-        guard let name = source.name else {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }

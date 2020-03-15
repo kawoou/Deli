@@ -5,14 +5,14 @@
 
 import Foundation
 import Commandant
-import Result
 
 struct UpgradeCommand: CommandProtocol {
     let verb = "upgrade"
     let function = "Upgrade outdated."
 
     func run(_ options: UpgradeOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isVerbose
+        Logger.isVerbose = options.isDebug || options.isVerbose
+        Logger.isDebug = options.isDebug
 
         guard let latestVersion = VersionManager.shared.getLatestVersion() else {
             return .failure(.notFoundLatestVersion)
@@ -52,17 +52,20 @@ struct UpgradeCommand: CommandProtocol {
 
 struct UpgradeOptions: OptionsProtocol {
     let isVerbose: Bool
+    let isDebug: Bool
 
-    static func create(isVerbose: Bool) -> UpgradeOptions {
-        return self.init(isVerbose: isVerbose)
+    static func create(isVerbose: Bool) -> (_ isDebug: Bool) -> UpgradeOptions {
+        return { isDebug in
+            self.init(
+                isVerbose: isVerbose,
+                isDebug: isDebug
+            )
+        }
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<UpgradeOptions, CommandantError<CommandError>> {
         return create
-            <*> mode <| Option(
-                key: "verbose",
-                defaultValue: false,
-                usage: "turn on verbose logging"
-            )
+            <*> mode <| Option(key: "verbose", defaultValue: false, usage: "turn on verbose logging")
+            <*> mode <| Option(key: "debug", defaultValue: false, usage: "turn on debug logging")
     }
 }

@@ -5,20 +5,38 @@
 
 import Foundation
 import Commandant
-import Result
 
 struct BuildCommand: CommandProtocol {
     let verb = "build"
     let function = "Build the Dependency Graph."
 
+    func saveOutput(generator: Generator, outputFile: String) throws {
+        let outputData = try generator.generate()
+
+        var isDirectory: ObjCBool = false
+        if FileManager.default.fileExists(atPath: outputFile, isDirectory: &isDirectory), isDirectory.boolValue {
+            Logger.log(.error("Cannot overwrite a directory with an output file: \(outputFile)", nil))
+            throw CommandError.cannotOverwriteDirectory
+        }
+        try? FileManager.default.removeItem(atPath: outputFile)
+        try outputData.write(toFile: outputFile, atomically: false, encoding: .utf8)
+    }
+
     func run(_ options: BuildOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isVerbose
+        Logger.isVerbose = options.isDebug || options.isVerbose
+        Logger.isDebug = options.isDebug
 
         let configuration = Configuration()
         let configure: Config
         let properties = CommandLine.get(forKey: "property")
         if let project = options.project {
-            guard let config = configuration.getConfig(project: project, scheme: options.scheme, target: options.target, output: options.output, properties: properties) else {
+            guard let config = configuration.getConfig(
+                project: project,
+                scheme: options.scheme,
+                target: options.target,
+                output: options.output,
+                properties: properties
+            ) else {
                 return .failure(.failedToLoadConfigFile)
             }
             configure = config
@@ -45,6 +63,7 @@ struct BuildCommand: CommandProtocol {
             Logger.log(.info("Set Target `\(target)`"))
             let outputFile: String
             let className: String
+            let resolvedOutputFile = configuration.getResolvedOutputPath(info: info)
             if info.className != nil {
                 className = configuration.getClassName(info: info)
                 outputFile = configuration.getOutputPath(info: info, fileName: "\(className).swift")
@@ -63,6 +82,7 @@ struct BuildCommand: CommandProtocol {
             }
 
             let propertyParser = PropertyParser()
+            let resolveParser = ResolveParser()
             let parser = Parser([
                 ComponentParser(),
                 ConfigurationParser(),
@@ -72,6 +92,8 @@ struct BuildCommand: CommandProtocol {
                 LazyAutowiredFactoryParser(),
                 InjectParser(),
                 InjectPropertyParser(),
+                DependencyParser(),
+                PropertyValueParser(),
                 ConfigPropertyParser()
             ])
             let corrector = Corrector([
@@ -91,21 +113,32 @@ struct BuildCommand: CommandProtocol {
             propertyParser.load(propertyFiles)
 
             do {
+                try resolveParser.load(info.dependencies)
+
                 let results = try validator.run(
                     try corrector.run(
-                        try parser.run(sourceFiles)
+                        try resolveParser.run(
+                            try parser.run(sourceFiles)
+                        )
                     )
                 )
-                let outputData = try SourceGenerator(className: className, results: results, properties: propertyParser.properties).generate()
-                let url = URL(fileURLWithPath: outputFile)
-                
-                var isDirectory: ObjCBool = false
-                if FileManager.default.fileExists(atPath: outputFile, isDirectory: &isDirectory), isDirectory.boolValue {
-                    Logger.log(.error("Cannot overwrite a directory with an output file: \(outputFile)", nil))
-                    throw CommandError.cannotOverwriteDirectory
+                let generator = SourceGenerator(
+                    className: className,
+                    accessControl: info.accessControl,
+                    results: results,
+                    properties: propertyParser.properties
+                )
+                try saveOutput(generator: generator, outputFile: outputFile)
+
+                if options.isResolveFile, (info.resolve?.isGenerate ?? true) {
+                    let resolveGenerator = ResolveGenerator(
+                        projectName: target,
+                        fileName: info.output ?? "\(className).swift",
+                        results: results,
+                        properties: propertyParser.properties
+                    )
+                    try saveOutput(generator: resolveGenerator, outputFile: resolvedOutputFile)
                 }
-                try? FileManager.default.removeItem(at: url)
-                try outputData.write(to: url, atomically: false, encoding: .utf8)
 
                 Logger.log(.info("Generate file: \(outputFile)"))
             } catch let error {
@@ -125,10 +158,12 @@ struct BuildOptions: OptionsProtocol {
     let target: String?
     let output: String?
     let properties: String?
+    let isResolveFile: Bool
     let isVerbose: Bool
+    let isDebug: Bool
 
-    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isVerbose: Bool) -> BuildOptions {
-        return { project in { scheme in { target in { output in { properties in { isVerbose in
+    static func create(configFile: String?) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ isResolveFile: Bool) -> (_ isVerbose: Bool) -> (_ isDebug: Bool) -> BuildOptions {
+        return { project in { scheme in { target in { output in { properties in { isResolveFile in { isVerbose in { isDebug in
             self.init(
                 configFile: configFile,
                 project: project,
@@ -136,9 +171,11 @@ struct BuildOptions: OptionsProtocol {
                 target: target,
                 output: output,
                 properties: properties,
-                isVerbose: isVerbose
+                isResolveFile: isResolveFile,
+                isVerbose: isVerbose,
+                isDebug: isDebug
             )
-        }}}}}}
+        }}}}}}}}
     }
 
     static func evaluate(_ mode: CommandMode) -> Result<BuildOptions, CommandantError<CommandError>> {
@@ -174,9 +211,19 @@ struct BuildOptions: OptionsProtocol {
                 usage: "the path of property file"
             )
             <*> mode <| Option(
+                key: "resolve-file",
+                defaultValue: true,
+                usage: "turn on generate resolved file"
+            )
+            <*> mode <| Option(
                 key: "verbose",
                 defaultValue: false,
                 usage: "turn on verbose logging"
+            )
+            <*> mode <| Option(
+                key: "debug",
+                defaultValue: false,
+                usage: "turn on debug logging"
             )
     }
 }

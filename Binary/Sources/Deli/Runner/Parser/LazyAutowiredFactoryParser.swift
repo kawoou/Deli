@@ -29,7 +29,11 @@ final class LazyAutowiredFactoryParser: Parsable {
     
     // MARK: - Private
     
-    private func convert(name: String, fileContent: String) -> String? {
+    private func convert(
+        name: String,
+        fileContent: String,
+        typealiasMap: [String: String]
+    ) -> String? {
         guard let nameMatch = Constant.typeRegex.findFirst(in: name) else { return name }
         guard let nameResult = nameMatch.group(at: 2) else { return name }
         
@@ -39,7 +43,11 @@ final class LazyAutowiredFactoryParser: Parsable {
         guard let typeResult = typeMatch.group(at: 1) else { return nil }
         return typeResult
     }
-    private func convertPayload(name: String, fileContent: String) -> String? {
+    private func convertPayload(
+        name: String,
+        fileContent: String,
+        typealiasMap: [String: String]
+    ) -> String? {
         guard let nameMatch = Constant.payloadTypeRegex.findFirst(in: name) else { return name }
         guard let payloadName = nameMatch.group(at: 2) else { return name }
         
@@ -69,8 +77,13 @@ final class LazyAutowiredFactoryParser: Parsable {
     
     // MARK: - Public
     
-    func parse(by source: Structure, fileContent: String) throws -> [Results] {
-        guard let name = source.name else {
+    func parse(
+        by source: Structure,
+        fileContent: String,
+        typePrefix: String,
+        typealiasMap: [String: String]
+    ) throws -> [Results] {
+        guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
             return []
         }
@@ -126,7 +139,7 @@ final class LazyAutowiredFactoryParser: Parsable {
                     Logger.log(.error("Unknown `\(name)` dependency type.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
-                guard let dependencyName = convert(name: typeName, fileContent: fileContent) else {
+                guard let dependencyName = convert(name: typeName, fileContent: fileContent, typealiasMap: typealiasMap) else {
                     Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
                 }
@@ -138,7 +151,7 @@ final class LazyAutowiredFactoryParser: Parsable {
                     return Dependency(
                         parent: name,
                         target: injector,
-                        name: arrayType,
+                        name: typealiasMap[arrayType] ?? arrayType,
                         type: .array,
                         qualifier: qualifier,
                         qualifierBy: qualifierBy
@@ -147,7 +160,7 @@ final class LazyAutowiredFactoryParser: Parsable {
                 return Dependency(
                     parent: name,
                     target: injector,
-                    name: dependencyName,
+                    name: typealiasMap[dependencyName] ?? dependencyName,
                     qualifier: qualifier,
                     qualifierBy: qualifierBy
                 )
@@ -162,7 +175,7 @@ final class LazyAutowiredFactoryParser: Parsable {
                 Logger.log(.error("Not found payload type.", info.getSourceLine(with: fileContent)))
                 throw ParserError.payloadNotFound
             }
-            guard let payloadName = convertPayload(name: typeName, fileContent: fileContent) else {
+            guard let payloadName = convertPayload(name: typeName, fileContent: fileContent, typealiasMap: typealiasMap) else {
                 Logger.log(.error("Not found an aliased type named `\(name).\(typeName)`.", info.getSourceLine(with: fileContent)))
                 throw ParserError.payloadNotFound
             }
@@ -170,7 +183,7 @@ final class LazyAutowiredFactoryParser: Parsable {
             return Dependency(
                 parent: name,
                 target: constructor,
-                name: payloadName
+                name: typealiasMap[payloadName] ?? payloadName
             )
         }()
         

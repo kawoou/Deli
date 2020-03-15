@@ -19,10 +19,10 @@ public extension Inject {
     ///     - qualifier: The registered qualifier.
     ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance.
-    public static func Inject<T>(
+    static func Inject<T>(
         _ type: T.Type,
         qualifier: String? = nil,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T {
         return AppContext.shared.get(
             type,
@@ -38,10 +38,10 @@ public extension Inject {
     ///     - qualifier: The registered qualifier.
     ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or empty.
-    public static func Inject<T>(
+    static func Inject<T>(
         _ type: [T].Type,
         qualifier: String? = nil,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         return AppContext.shared.get(
             type,
@@ -57,10 +57,10 @@ public extension Inject {
     ///     - argument: User data for resolve.
     ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance.
-    public static func Inject<T: Factory>(
+    static func Inject<T: Factory>(
         _ type: T.Type,
         with argument: T.RawPayload.Tuple,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T {
         let payload = T.RawPayload(with: argument)
         return AppContext.shared.get(
@@ -77,10 +77,10 @@ public extension Inject {
     ///     - argument: User data for resolve.
     ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or emtpy.
-    public static func Inject<T: Factory>(
+    static func Inject<T: Factory>(
         _ type: [T].Type,
         with argument: T.RawPayload.Tuple,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         let payload = T.RawPayload(with: argument)
         return AppContext.shared.get(
@@ -97,10 +97,10 @@ public extension Inject {
     ///     - qualifierBy: The registered qualifier by property.
     ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance.
-    public static func Inject<T>(
+    static func Inject<T>(
         _ type: T.Type,
         qualifierBy: String,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T {
         let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
         return Inject(type, qualifier: qualifier, resolveRole: resolveRole)
@@ -113,10 +113,10 @@ public extension Inject {
     ///     - qualifierBy: The registered qualifier by property.
     ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or empty.
-    public static func Inject<T>(
+    static func Inject<T>(
         _ type: [T].Type,
         qualifierBy: String,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         let qualifier = AppContext.shared.getProperty(qualifierBy) as! String
         return Inject(type, qualifier: qualifier, resolveRole: resolveRole)
@@ -128,9 +128,9 @@ public extension Inject {
     ///     - path: Property path.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public static func InjectProperty(
+    static func InjectProperty(
         _ path: String,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> String {
         return AppContext.shared.getProperty(path, resolveRole: resolveRole) as! String
     }
@@ -144,10 +144,10 @@ public extension Inject {
     ///     - qualifier: The registered qualifier.
     ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance.
-    public func Inject<T>(
+    func Inject<T>(
         _ type: T.Type,
         qualifier: String? = nil,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T {
         return Self.Inject(
             type,
@@ -163,10 +163,10 @@ public extension Inject {
     ///     - qualifier: The registered qualifier.
     ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or empty.
-    public func Inject<T>(
+    func Inject<T>(
         _ type: [T].Type,
         qualifier: String? = nil,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         return Self.Inject(
             type,
@@ -182,10 +182,10 @@ public extension Inject {
     ///     - argument: User data for resolve.
     ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance.
-    public func Inject<T: Factory>(
+    func Inject<T: Factory>(
         _ type: T.Type,
         with argument: T.RawPayload.Tuple,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T {
         return Self.Inject(
             type,
@@ -201,10 +201,10 @@ public extension Inject {
     ///     - argument: User data for resolve.
     ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or emtpy.
-    public func Inject<T: Factory>(
+    func Inject<T: Factory>(
         _ type: [T].Type,
         with argument: T.RawPayload.Tuple,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         return Self.Inject(
             type,
@@ -220,10 +220,10 @@ public extension Inject {
     ///     - qualifierBy: The registered qualifier by property.
     ///     - resolveRole: The resolve role(default: recursive)
     /// - Returns: The resolved instance.
-    public func Inject<T>(
+    func Inject<T>(
         _ type: T.Type,
         qualifierBy: String,
-        resolveRole: ResolveRule = .recursive
+        resolveRole: ResolveRole = .recursive
     ) -> T {
         return Self.Inject(type, qualifierBy: qualifierBy, resolveRole: resolveRole)
     }
@@ -235,10 +235,10 @@ public extension Inject {
     ///     - qualifierBy: The registered qualifier by property.
     ///     - resolveRole: The resolve role.
     /// - Returns: The resolved instances, or empty.
-    public func Inject<T>(
+    func Inject<T>(
         _ type: [T].Type,
         qualifierBy: String,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> [T] {
         return Self.Inject(type, qualifierBy: qualifierBy, resolveRole: resolveRole)
     }
@@ -249,9 +249,9 @@ public extension Inject {
     ///     - path: Property path.
     ///     - resolveRole: The resolve role.
     /// - Returns: The property.
-    public func InjectProperty(
+    func InjectProperty(
         _ path: String,
-        resolveRole: ResolveRule = .default
+        resolveRole: ResolveRole = .default
     ) -> String {
         return Self.InjectProperty(path, resolveRole: resolveRole)
     }
