@@ -29,6 +29,8 @@ final class Structure {
     let typeName: String?
     let inheritedTypes: [String]
     let attributes: [String]
+    let attributeOffsets: [Int64]
+    let attributeLengths: [Int64]
     let substructures: [Structure]
     let offset: Int64
     let length: Int64
@@ -67,8 +69,14 @@ final class Structure {
         if let attributesRaw = source["key.attributes"] as? [KittenType] {
             self.attributes = attributesRaw
                 .compactMap { $0["key.attribute"] as? String }
+            self.attributeOffsets = attributesRaw
+                .compactMap { $0["key.offset"] as? Int64 }
+            self.attributeLengths = attributesRaw
+                .compactMap { $0["key.length"] as? Int64 }
         } else {
             self.attributes = []
+            self.attributeOffsets = []
+            self.attributeLengths = []
         }
         
         /// Sub-structures

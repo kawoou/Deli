@@ -38,9 +38,18 @@ final class DeliFactory: ModuleFactory {
             AccountService.self,
             resolver: {
                 let parent = context.get(AccountConfiguration.self, qualifier: "")!
-                return parent.accountService()
+                return parent.facebookAccountService()
             },
             qualifier: "facebook",
+            scope: .singleton
+        )
+        register(
+            AccountService.self,
+            resolver: {
+                let parent = context.get(AccountConfiguration.self, qualifier: "")!
+                return parent.googleAccountService()
+            },
+            qualifier: "google",
             scope: .singleton
         ).link(AccountService.self)
         register(
@@ -105,8 +114,8 @@ final class DeliFactory: ModuleFactory {
         registerFactory(
             FriendInfoViewModel.self,
             resolver: { payload in
-                let _0 = context.get(AccountService.self, qualifier: "")!
-                return FriendInfoViewModel(_0, payload: payload as! FriendPayload)
+                let _0 = context.get(AccountService.self, qualifier: "facebook")!
+                return FriendInfoViewModel(facebook: _0, payload: payload as! FriendPayload)
             },
             qualifier: ""
         ).link(FriendInfoViewModel.self)
@@ -122,8 +131,8 @@ final class DeliFactory: ModuleFactory {
         register(
             FriendServiceImpl.self,
             resolver: {
-                let _0 = context.get(AccountService.self, qualifier: "")!
-                return FriendServiceImpl(_0)
+                let _0 = context.get(AccountService.self, qualifier: "facebook")!
+                return FriendServiceImpl(facebook: _0)
             },
             qualifier: "",
             scope: .singleton
@@ -186,8 +195,8 @@ final class DeliFactory: ModuleFactory {
             MessageServiceImpl.self,
             resolver: {
                 let _0 = context.get(FriendService.self, qualifier: "")!
-                let _1 = context.get(AccountService.self, qualifier: "")!
-                return MessageServiceImpl(_0, _1)
+                let _1 = context.get(AccountService.self, qualifier: "facebook")!
+                return MessageServiceImpl(_0, facebook: _1)
             },
             qualifier: "",
             scope: .singleton
@@ -304,6 +313,32 @@ final class DeliFactory: ModuleFactory {
             qualifier: ""
         )
         register(
+            PropertyWrapperTest1.self,
+            resolver: {
+                let _0 = context.get(AccountService.self, qualifier: "google")!
+                let _1 = context.get(FriendService.self, qualifier: "")!
+                return PropertyWrapperTest1(google: _0, _1)
+            },
+            qualifier: "",
+            scope: .prototype
+        )
+        register(
+            PropertyWrapperTest3.self,
+            resolver: {
+                return PropertyWrapperTest3()
+            },
+            qualifier: "",
+            scope: .prototype
+        ).link(PropertyWrapperTest2.self)
+        register(
+            PropertyWrapperTest4.self,
+            resolver: {
+                return PropertyWrapperTest4()
+            },
+            qualifier: "",
+            scope: .prototype
+        ).link(PropertyWrapperTest2.self)
+        register(
             PutMethod.self,
             resolver: {
                 return PutMethod()
@@ -395,9 +430,9 @@ final class DeliFactory: ModuleFactory {
         register(
             TestViewModel.self,
             resolver: {
-                let _0 = context.get(AccountService.self, qualifier: "")!
+                let _0 = context.get(AccountService.self, qualifier: "facebook")!
                 let _1 = context.get(FriendService.self, qualifier: "")!
-                return TestViewModel(_0, _1)
+                return TestViewModel(facebook: _0, _1)
             },
             qualifier: "",
             scope: .prototype
@@ -423,8 +458,8 @@ final class DeliFactory: ModuleFactory {
         registerFactory(
             UserViewModel.self,
             resolver: { payload in
-                let _0 = context.get(AccountService.self, qualifier: "")!
-                return UserViewModel(_0, payload: payload as! UserPayload)
+                let _0 = context.get(AccountService.self, qualifier: "facebook")!
+                return UserViewModel(facebook: _0, payload: payload as! UserPayload)
             },
             qualifier: ""
         ).link(UserViewModel.self)
