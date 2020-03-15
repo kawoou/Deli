@@ -37,6 +37,9 @@ Deli is an easy-to-use Dependency Injection Container that creates DI containers
     - [Group Value](#92-group-value)
     - [Single Value](#93-single-value)
     - [Qualifier by Property](#94-qualifier-by-property)
+  - [Property Wrapper](#10-propertywrapper)
+    - [Dependency](#101-dependecy)
+    - [PropertyValue](#102-propertyvalue)
 * [Installation](#installation)
   - [Cocoapods](#cocoapods)
   - [Carthage](#carthage)
@@ -79,6 +82,13 @@ config:
       - Exclude files...
     className: DeilFactory
     output: Sources/DeliFactory.swift
+    resolve:
+      output: Deli.resolved
+      generate: true
+    dependencies:
+      - path: Resolved files...
+        imports: UIKit
+    accessControl: public
 ```
 
 You’ll have to make your scheme `Shared`. To do this `Manage Schemes` and check the `Shared` areas:
@@ -656,7 +666,7 @@ struct ServerConfig: ConfigProperty {
     let target: String = "server"
 
     let url: String
-    let isDebug: String
+    let isDebug: Bool
 }
 ```
 
@@ -672,24 +682,6 @@ final class NetworkManager: Autowired {
 
     required init(_ config: ServerConfig) {
         info = config
-    }
-}
-```
-
-By default, the `ConfigProperty`'s property can only be used as String type. So `isDebug` must be set String type, even though it is true or false.
-
-In this case, you can implement the constructor that change to another type as below:
-
-```swift
-struct ServerConfig: ConfigProperty {
-    let target: String = "server"
-
-    let url: String
-    let isDebug: Bool
-
-    init(url: String, isDebug: String) {
-        self.url = url
-        self.isDebug = (isDebug == "true" ? true : false)
     }
 }
 ```
@@ -714,7 +706,7 @@ In this case, recommend using the `AppContext#getProperty()` method.
 
 ```swift
 final class NetworkManager {
-    let serverUrl = AppContext.getProperty("server.url") ?? "https://wtf.example.com"
+    let serverUrl = AppContext.getProperty("server.url", type: String.self) ?? "https://wtf.example.com"
 }
 ```
 
@@ -744,6 +736,43 @@ final class UserService: Inject {
     func getLogger() -> Logger {
         return Inject(Logger.self, qualifierBy: "logger.storage")
     }
+}
+```
+
+
+
+### 10. PropertyWrapper
+
+For easier use, supports the [@propertyWrapper](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md) added in Swift 5.1.
+
+There are two main features to be supported: dependency injection and [Configuration Property](#9-configuration-property).
+
+
+
+#### 10.1. Dependency
+
+There are `@Dependency` and `@DependencyArray` for injection of dependencies.
+
+```swift
+class Library {
+    @Dependency(qualifier "logger.storage")
+    var logger: Logger
+
+    @DependencyArray(qualifier: "novel")
+    var novels: [Book]
+}
+```
+
+
+
+#### 10.2. PropertyValue
+
+`@PropertyValue` is the same as [Configuration Property](#9-configuration-property) and the usage as below:
+
+```swift
+final class NetworkManager: Inject {
+    @PropertyValue("server.url")
+    let serverUrl: String
 }
 ```
 
