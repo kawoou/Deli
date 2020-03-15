@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Deli  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="Deli  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">Deli Docs</a> (94% documented)</p>
+        <p class="header-right"><a href="https://github.com/kawoou/Deli"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">Deli Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Deli  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/AppContext.html">AppContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Linker.html">Linker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ModuleFactory.html">ModuleFactory</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/LoadPriority.html">LoadPriority</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/ResolveRole.html">ResolveRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/Scope.html">Scope</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/Autowired.html">Autowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/AutowiredFactory.html">AutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Component.html">Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ConfigProperty.html">ConfigProperty</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Factory.html">Factory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Inject.html">Inject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/LazyAutowired.html">LazyAutowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/LazyAutowiredFactory.html">LazyAutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Payload.html">Payload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols.html#/s:4Deli8_PayloadP">_Payload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/Dependency.html">Dependency</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/DependencyArray.html">DependencyArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PropertyValue.html">PropertyValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:4Deli15FactoryResolvera">FactoryResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:4Deli11ResolveRulea">ResolveRule</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:4Deli8Resolvera">Resolver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p><img src="https://github.com/kawoou/Deli/raw/screenshot/deli.png" alt="Deli"></p>
+
+<p align="center">
+<a href="#"><img src="https://img.shields.io/badge/Swift-5.1-orange.svg" alt="Swift"/></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/></a>
+<a href="http://cocoadocs.org/docsets/Deli"><img src="https://img.shields.io/cocoapods/v/Deli.svg?style=flat" alt="Version"/></a>
+<a href="https://github.com/kawoou/Deli/blob/master/LICENSE"><img src="https://img.shields.io/cocoapods/l/Deli.svg?style=flat" alt="License"/></a>
+<a href="https://travis-ci.org/kawoou/Deli"><img src="https://travis-ci.org/kawoou/Deli.svg?branch=master" alt="CI Status"/></a>
+<a href="http://kawoou.kr/Deli"><img src="http://kawoou.kr/Deli/badge.svg" alt="Jazzy"/></a>
+<a href="http://cocoadocs.org/docsets/Deli"><img src="https://img.shields.io/cocoapods/p/Deli.svg?style=flat" alt="Platform"/></a>
+</p>
+
+<p>Deli is an easy-to-use Dependency Injection Container that creates DI containers with all required registrations and corresponding factories.</p>
+
+<blockquote>
+<p>Language Switch: <a href="https://github.com/kawoou/Deli/tree/master/README.md">English</a>, <a href="https://github.com/kawoou/Deli/tree/master/README_KR.md">한국어</a>.</p>
+</blockquote>
+<h2 id='table-of-contents' class='heading'>Table of Contents</h2>
+
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#getting-started">Getting Started</a>
+
+<ul>
+<li><a href="#build-phases">Build Phases</a></li>
+</ul></li>
+<li><a href="#features">Features</a>
+
+<ul>
+<li><a href="#1-component">Component</a></li>
+<li><a href="#2-autowired">Autowired</a></li>
+<li><a href="#3-lazyautowired">LazyAutowired</a></li>
+<li><a href="#4-configuration">Configuration</a></li>
+<li><a href="#5-inject">Inject</a></li>
+<li><a href="#6-factory">Factory</a></li>
+<li><a href="#7-modulefactory">ModuleFactory</a></li>
+<li><a href="#71-multi-container">Multi-Container</a></li>
+<li><a href="#72-unit-test">Unit Test</a></li>
+<li><a href="#8-struct">Struct</a></li>
+<li><a href="#9-configuration-property">Configuration Property</a></li>
+<li><a href="#91-usage">Usage</a></li>
+<li><a href="#92-group-value">Group Value</a></li>
+<li><a href="#93-single-value">Single Value</a></li>
+<li><a href="#94-qualifier-by-property">Qualifier by Property</a></li>
+<li><a href="#10-propertywrapper">Property Wrapper</a></li>
+<li><a href="#101-dependecy">Dependency</a></li>
+<li><a href="#102-propertyvalue">PropertyValue</a></li>
+</ul></li>
+<li><a href="#installation">Installation</a>
+
+<ul>
+<li><a href="#cocoapods">Cocoapods</a></li>
+<li><a href="#carthage">Carthage</a></li>
+<li><a href="#command-line">Command Line</a></li>
+</ul></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#attributions">Attributions</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<h2 id='overview' class='heading'>Overview</h2>
+
+<p>Wanna spaghetti? or not.
+As your project grows, will experience a complex. We can write the wrong code by mistake.</p>
+
+<p>In <a href="https://github.com/spring-projects/spring-framework">Spring framework</a> provides automatic registration using some code rules and throws the wrong Dependency Graph before running. I wanted these features to be in Swift.</p>
+<h2 id='getting-started' class='heading'>Getting Started</h2>
+
+<p>Simple setup for the automated configuration files, <code>deli.yml</code>.</p>
+
+<p>If the configuration file does not exist, find the build target for a unique project in the current folders automatically. It works the same even if no <code>scheme</code>, <code>target</code> and <code>output</code> field is specified.</p>
+<pre class="highlight yaml"><code><span class="na">target</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">MyProject</span>
+
+<span class="na">config</span><span class="pi">:</span>
+  <span class="na">MyProject</span><span class="pi">:</span>
+    <span class="na">project</span><span class="pi">:</span> <span class="s">MyProject</span>
+    <span class="na">scheme</span><span class="pi">:</span> <span class="s">MyScheme</span>
+    <span class="na">include</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">Include files...</span>
+    <span class="na">exclude</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">Exclude files...</span>
+    <span class="na">className</span><span class="pi">:</span> <span class="s">DeilFactory</span>
+    <span class="na">output</span><span class="pi">:</span> <span class="s">Sources/DeliFactory.swift</span>
+    <span class="na">resolve</span><span class="pi">:</span>
+      <span class="na">output</span><span class="pi">:</span> <span class="s">Deli.resolved</span>
+      <span class="na">generate</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">dependencies</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">Resolved files...</span>
+        <span class="na">imports</span><span class="pi">:</span> <span class="s">UIKit</span>
+    <span class="na">accessControl</span><span class="pi">:</span> <span class="s">public</span>
+</code></pre>
+
+<p>You’ll have to make your scheme <code>Shared</code>. To do this <code>Manage Schemes</code> and check the <code>Shared</code> areas:</p>
+
+<p><img src="https://github.com/kawoou/Deli/raw/screenshot/shared-build-scheme.png" alt="shared-build-scheme"></p>
+
+<p>Alternatively, you can specify <code>target</code> instead of <code>scheme</code>. In this case, Deli will find the Build Target.</p>
+
+<p>Then build with the provided binaries.</p>
+<pre class="highlight shell"><code><span class="nv">$ </span>deli build
+</code></pre>
+
+<p>Dependency Graph is configured through source code analysis. It is saved as the file you specified earlier.</p>
+
+<p>File contents as below:</p>
+<pre class="highlight swift"><code><span class="c1">//</span>
+<span class="c1">//  DeliFactory.swift</span>
+<span class="c1">//  Auto generated code.</span>
+<span class="c1">//</span>
+
+<span class="kd">import</span> <span class="kt">Deli</span>
+
+<span class="kd">final</span> <span class="kd">class</span> <span class="kt">DeliFactory</span><span class="p">:</span> <span class="kt">ModuleFactory</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">(</span><span class="nv">context</span><span class="p">:</span> <span class="kt">AppContextType</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Add the generated file to the project and call it from the app&rsquo;s launch point.</p>
+
+<p><img src="https://github.com/kawoou/Deli/raw/screenshot/drag-and-drop-deli-factory.png" alt="drag-and-drop"></p>
+
+<p>AppDelegate.swift:</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">UIKit</span>
+<span class="kd">import</span> <span class="kt">Deli</span>
+
+<span class="kd">class</span> <span class="kt">AppDelegate</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">?</span>
+
+    <span class="k">let</span> <span class="nv">context</span> <span class="o">=</span> <span class="kt">AppContext</span><span class="o">.</span><span class="nf">load</span><span class="p">([</span>
+        <span class="kt">DeliFactory</span><span class="o">.</span><span class="k">self</span>
+    <span class="p">])</span>
+
+    <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplicationLaunchOptionsKey</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='build-phases' class='heading'>Build Phases</h3>
+
+<p>Integrate Deli into an Xcode scheme to get warnings and errors displayed in the IDE.
+Just add a new &ldquo;Run Script Phase&rdquo; with:</p>
+<pre class="highlight shell"><code><span class="k">if </span>which deli <span class="o">&gt;</span>/dev/null<span class="p">;</span> <span class="k">then
+  </span>deli build
+<span class="k">else
+  </span><span class="nb">echo</span> <span class="s2">"error: Deli not installed, download from https://github.com/kawoou/Deli"</span>
+<span class="k">fi</span>
+</code></pre>
+
+<p><img src="https://github.com/kawoou/Deli/raw/screenshot/xcode-run-script.png" alt="Build Phase"></p>
+
+<p>Alternatively, if you&rsquo;ve installed Deli via CocoaPods the script should look like this:</p>
+<pre class="highlight shell"><code><span class="s2">"</span><span class="k">${</span><span class="nv">PODS_ROOT</span><span class="k">}</span><span class="s2">/DeliBinary/deli"</span> build
+</code></pre>
+<h2 id='features' class='heading'>Features</h2>
+<h3 id='1-component' class='heading'>1. Component</h3>
+
+<p>The class, struct, and protocol can extend the <code><a href="Protocols/Component.html">Component</a></code> protocol and will be registered automatically in the DI container.</p>
+
+<p><code><a href="Protocols/Component.html">Component</a></code> can be used as below:</p>
+<pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">UserService</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">User</span><span class="p">?</span>
+    <span class="kd">func</span> <span class="nf">logout</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">UserServiceImpl</span><span class="p">:</span> <span class="kt">UserService</span><span class="p">,</span> <span class="kt">Component</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">User</span><span class="p">?</span> <span class="p">{</span>
+        <span class="o">...</span>
+    <span class="p">}</span>
+    <span class="kd">func</span> <span class="nf">logout</span><span class="p">()</span> <span class="p">{</span>
+        <span class="o">...</span>
+    <span class="p">}</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>If the above code is written, you can use the <code>UserService</code> or <code>UserServiceImpl</code> type to load the dependency instance.</p>
+<h3 id='2-autowired' class='heading'>2. Autowired</h3>
+
+<p>The <code><a href="Protocols/Autowired.html">Autowired</a></code> protocol is registered automatically, same as <code><a href="Protocols/Component.html">Component</a></code> protocol. A difference, you can load the required dependencies from DI container.</p>
+
+<p><code><a href="Protocols/Autowired.html">Autowired</a></code> can be used as below:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">LoginViewModel</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserService</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">userService</span> <span class="o">=</span> <span class="n">userService</span> 
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Easy right? So let&rsquo;s look at the code below.</p>
+<pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">Book</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+    <span class="k">var</span> <span class="nv">author</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+    <span class="k">var</span> <span class="nv">category</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Novel</span><span class="p">:</span> <span class="kt">Book</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"Novel"</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">""</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nv">author</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">""</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nv">category</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"Novel"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">HarryPotter</span><span class="p">:</span> <span class="kt">Novel</span><span class="p">,</span> <span class="kt">Component</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"Harry Potter"</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">var</span> <span class="nv">author</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"J. K. Rowling"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">TroisiemeHumanite</span><span class="p">:</span> <span class="kt">Novel</span><span class="p">,</span> <span class="kt">Component</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"Troisième humanité"</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">var</span> <span class="nv">author</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"Bernard Werber"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>This code arranged the books through inheritance. You can get all of <code>Book</code> instances like below:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">LibraryService</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">books</span><span class="p">:</span> <span class="p">[</span><span class="kt">Book</span><span class="p">]</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">books</span><span class="p">:</span> <span class="p">[</span><span class="kt">Book</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">books</span> <span class="o">=</span> <span class="n">books</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Furthermore, What should do to get the books with the &ldquo;Novel&rdquo; qualifier?
+In Deli, can be constructor injection in the below:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">LibraryService</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">books</span><span class="p">:</span> <span class="p">[</span><span class="kt">Book</span><span class="p">]</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="kt">Novel</span> <span class="nv">books</span><span class="p">:</span> <span class="p">[</span><span class="kt">Book</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">books</span> <span class="o">=</span> <span class="n">books</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='3-lazyautowired' class='heading'>3. LazyAutowired</h3>
+
+<p>If we can remove whole Circular Dependency cases, the world will be better than before, but it cannot be ruled completely.
+A simple way to solve this problem is to initialize one of the dependency lazily.</p>
+
+<p>Let&rsquo;s try <code><a href="Protocols/LazyAutowired.html">LazyAutowired</a></code> protocol:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">UserService</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">messageService</span><span class="p">:</span> <span class="kt">MessageService</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">messageService</span><span class="p">:</span> <span class="kt">MessageService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">messageService</span> <span class="o">=</span> <span class="n">messageService</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="kt">FriendService</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserService</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">userService</span> <span class="o">=</span> <span class="n">userService</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="kt">MessageService</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">friendService</span><span class="p">:</span> <span class="kt">FriendService</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">friendService</span><span class="p">:</span> <span class="kt">FriendService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">friendService</span> <span class="o">=</span> <span class="n">friendService</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>If you try to inject a MessageService, Circular Dependency will occurred.</p>
+<pre class="highlight shell"><code><span class="nv">$ </span>deli validate
+
+Error: The circular dependency exists. <span class="o">(</span>MessageService -&gt; FriendService -&gt; UserService -&gt; MessageService<span class="o">)</span>
+</code></pre>
+
+<p>What if UserService extends <code><a href="Protocols/LazyAutowired.html">LazyAutowired</a></code>?</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">UserService</span><span class="p">:</span> <span class="kt">LazyAutowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">messageService</span><span class="p">:</span> <span class="kt">MessageService</span><span class="o">!</span>
+
+    <span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">messageService</span><span class="p">:</span> <span class="kt">MessageService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">messageService</span> <span class="o">=</span> <span class="n">messageService</span>
+    <span class="p">}</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>The cycle was broken and the issue was resolved!
+After MessageService instance successfully created, dependencies can be injected via <code>inject()</code> that UserService needed.</p>
+
+<p>In addition, LazyAutowired can be specified qualifier like Autowired.
+Below code injects a UserService instance with the &ldquo;facebook&rdquo; qualifier specified:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">FacebookViewModel</span><span class="p">:</span> <span class="kt">LazyAutowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserService</span><span class="o">!</span>
+
+    <span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">facebook</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">userService</span> <span class="o">=</span> <span class="n">userService</span>
+    <span class="p">}</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='4-configuration' class='heading'>4. Configuration</h3>
+
+<p>The <code><a href="Protocols/Configuration.html">Configuration</a></code> protocol makes the user can register <code><a href="Typealiases.html#/s:4Deli8Resolvera">Resolver</a></code> directly.</p>
+
+<p>Let&rsquo;s look at the code:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">UserConfiguration</span><span class="p">:</span> <span class="kt">Configuration</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">networkManager</span> <span class="o">=</span> <span class="kt">Config</span><span class="p">(</span><span class="kt">NetworkManager</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="kt">ConfigurationManager</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">configurationManager</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="nv">privateKey</span> <span class="o">=</span> <span class="s">"1234QwEr!@#$"</span>
+        <span class="k">return</span> <span class="n">configurationManager</span><span class="o">.</span><span class="nf">make</span><span class="p">(</span><span class="nv">privateKey</span><span class="p">:</span> <span class="n">privateKey</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>You can see privateKey is passed to ConfigurationManager on NetworkManager creation.</p>
+
+<p>This NetworkManager instance is registered in DI container, and it will be managed as singleton.
+(However, instance behavior can be changed by updating scope argument.)</p>
+<h3 id='5-inject' class='heading'>5. Inject</h3>
+
+<p>As written, <code><a href="Protocols/Autowired.html">Autowired</a></code> is registered in DI container. But you may want to use without registration. That&rsquo;s an <code><a href="Protocols/Inject.html">Inject</a></code>.</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">LoginView</span><span class="p">:</span> <span class="kt">Inject</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">viewModel</span> <span class="o">=</span> <span class="kt">Inject</span><span class="p">(</span><span class="kt">LoginViewModel</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">NovelBookView</span><span class="p">:</span> <span class="kt">Inject</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">novels</span><span class="p">:</span> <span class="p">[</span><span class="kt">Book</span><span class="p">]</span> <span class="o">=</span> <span class="kt">Inject</span><span class="p">([</span><span class="kt">Book</span><span class="p">]</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">qualifier</span><span class="p">:</span> <span class="s">"Novel"</span><span class="p">)</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='6-factory' class='heading'>6. Factory</h3>
+
+<p>In the front-end, often dynamically generating a model using the user&rsquo;s data. Let&rsquo;s take an example.</p>
+
+<p>You must implement a friend list. When you select a cell from friends list, you need to present modal view of friend&rsquo;s information.
+In this case, The friend data must be passed in the <code>Info Modal</code>.</p>
+
+<p>This happens very often, <code><a href="Protocols/Factory.html">Factory</a></code> will help them.</p>
+
+<p>Let&rsquo;s try <code><a href="Protocols/AutowiredFactory.html">AutowiredFactory</a></code> protocol:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">FriendPayload</span><span class="p">:</span> <span class="kt">Payload</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">userID</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">cachedName</span><span class="p">:</span> <span class="kt">String</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">with</span> <span class="nv">argument</span><span class="p">:</span> <span class="p">(</span><span class="nv">userID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">cachedName</span><span class="p">:</span> <span class="kt">String</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">userID</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="n">userID</span>
+        <span class="n">cachedName</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="n">cachedName</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">FriendInfoViewModel</span><span class="p">:</span> <span class="kt">AutowiredFactory</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">accountService</span><span class="p">:</span> <span class="kt">AccountService</span>
+
+    <span class="k">let</span> <span class="nv">userID</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">accountService</span><span class="p">:</span> <span class="kt">AccountService</span><span class="p">,</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">FriendPayload</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">accountService</span> <span class="o">=</span> <span class="n">accountService</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">userID</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">userID</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">cachedName</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>To pass a user-argument, you must implement a <code><a href="Protocols/Payload.html">Payload</a></code> protocol.
+(Naturally, factories work by prototype scope)</p>
+
+<p>Implemented <code>FriendInfoViewModel</code> can be used as below:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">FriendListViewModel</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">friendService</span><span class="p">:</span> <span class="kt">FriendService</span>
+
+    <span class="kd">func</span> <span class="nf">generateInfo</span><span class="p">(</span><span class="n">by</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">FriendInfoViewModel</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">friend</span> <span class="o">=</span> <span class="n">friendService</span><span class="o">.</span><span class="nf">getFriend</span><span class="p">(</span><span class="nv">by</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kt">Inject</span><span class="p">(</span>
+            <span class="kt">FriendInfoViewModel</span><span class="o">.</span><span class="k">self</span><span class="p">,</span>
+            <span class="nv">with</span><span class="p">:</span> <span class="p">(</span>
+                <span class="nv">userID</span><span class="p">:</span> <span class="n">friend</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="nv">cachedName</span><span class="p">:</span> <span class="n">friend</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">friendService</span><span class="p">:</span> <span class="kt">FriendService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">friendService</span> <span class="o">=</span> <span class="n">friendService</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Next <code><a href="Protocols/LazyAutowiredFactory.html">LazyAutowiredFactory</a></code> protocol:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">FriendInfoViewModel</span><span class="p">:</span> <span class="kt">LazyAutowiredFactory</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">accountService</span><span class="p">:</span> <span class="kt">AccountService</span><span class="o">!</span>
+
+    <span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">facebook</span> <span class="nv">accountService</span><span class="p">:</span> <span class="kt">AccountService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">accountService</span> <span class="o">=</span> <span class="n">accountService</span>
+    <span class="p">}</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="nv">payload</span><span class="p">:</span> <span class="kt">TestPayload</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>The difference between an AutowiredFactory and a LazyAutowiredFactory is that it is lazy injected with the relationship between Autowired and LazyAutowired.
+However, payload injects by the constructor because passed by the user.</p>
+<h3 id='7-modulefactory' class='heading'>7. ModuleFactory</h3>
+
+<p>When injecting the dependency, required blueprint.
+As above, This blueprint is generated at <code>build</code>(ex. DeliFactory).
+When calling <code>AppContext#load()</code>, load container of generated class that inherited <code><a href="Classes/ModuleFactory.html">ModuleFactory</a></code>.</p>
+
+<p>Deli supports Multi-Container.
+Can be used <code><a href="Classes/ModuleFactory.html">ModuleFactory</a></code> as below.</p>
+<h4 id='7-1-multi-container' class='heading'>7.1. Multi-Container</h4>
+
+<p>When calling <code>AppContext#load()</code>, also load the <code><a href="Classes/ModuleFactory.html">ModuleFactory</a></code> in the module.</p>
+
+<p>Can specify <code><a href="Enums/LoadPriority.html">LoadPriority</a></code> in this situation. This is the order for selecting the container to be used in dependency injection.</p>
+
+<p>Priority are <code>normal(500)</code> defaultly. Container&rsquo;s order for selecting as below:</p>
+
+<ol>
+<li>High priority first.</li>
+</ol>
+<pre class="highlight swift"><code><span class="kt">AppContext</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">load</span><span class="p">([</span>
+    <span class="kt">OtherModule</span><span class="o">.</span><span class="kt">DeliFactory</span><span class="o">.</span><span class="k">self</span><span class="p">,</span>
+    <span class="kt">DeliFactory</span><span class="o">.</span><span class="k">self</span>
+<span class="p">])</span>
+</code></pre>
+
+<ol>
+<li>If priority is same, In the loaded order.</li>
+</ol>
+<pre class="highlight swift"><code><span class="kt">AppContext</span><span class="o">.</span><span class="n">shared</span>
+    <span class="o">.</span><span class="nf">load</span><span class="p">(</span><span class="kt">DeliFactory</span><span class="p">())</span>
+    <span class="o">.</span><span class="nf">load</span><span class="p">(</span><span class="kt">OtherModule</span><span class="o">.</span><span class="kt">DeliFactory</span><span class="p">(),</span> <span class="nv">priority</span><span class="p">:</span> <span class="o">.</span><span class="n">high</span><span class="p">)</span>
+</code></pre>
+<h4 id='7-2-unit-test' class='heading'>7.2. Unit Test</h4>
+
+<p>Priority loading that same as <a href="#71-multi-container">7.1</a> used be Unit Test, too.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Quick</span>
+<span class="kd">import</span> <span class="kt">Nimble</span>
+
+<span class="kd">@testable</span> <span class="kd">import</span> <span class="kt">MyApp</span>
+
+<span class="kd">class</span> <span class="kt">UserTests</span><span class="p">:</span> <span class="kt">QuickSpec</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">spec</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">spec</span><span class="p">()</span>
+
+        <span class="k">let</span> <span class="nv">testModule</span><span class="p">:</span> <span class="kt">ModuleFactory</span><span class="o">!</span>
+        <span class="n">testModule</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="kt">UserService</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="kt">MockUserService</span><span class="p">()</span> <span class="p">}</span>
+
+        <span class="k">let</span> <span class="nv">appContext</span> <span class="o">=</span> <span class="kt">AppContext</span><span class="o">.</span><span class="n">shared</span>
+        <span class="n">beforeEach</span> <span class="p">{</span>
+            <span class="n">appContext</span><span class="o">.</span><span class="nf">load</span><span class="p">(</span><span class="n">testModule</span><span class="p">,</span> <span class="nv">priority</span><span class="p">:</span> <span class="o">.</span><span class="n">high</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">afterEach</span> <span class="p">{</span>
+            <span class="n">appContext</span><span class="o">.</span><span class="nf">unload</span><span class="p">(</span><span class="n">testModule</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="o">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>An example of a test code is <code>Deli.xcodeproj</code>.</p>
+<h3 id='8-struct' class='heading'>8. Struct</h3>
+
+<p>Support for Struct has been added since version <code>0.7.0</code>.</p>
+
+<p>The basic behavior is the same as Class, but one difference is that cannot use <code>weak</code> Scope.</p>
+
+<p>Below is an example of <a href="https://github.com/Moya/Moya">Moya</a>&rsquo;s plugin implementation.</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">AuthPlugin</span><span class="p">:</span> <span class="kt">PluginType</span><span class="p">,</span> <span class="kt">LazyAutowired</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="nv">scope</span><span class="p">:</span> <span class="kt">Scope</span> <span class="o">=</span> <span class="o">.</span><span class="k">weak</span>
+
+    <span class="kd">private</span> <span class="k">let</span> <span class="nv">authService</span><span class="p">:</span> <span class="kt">AuthService</span><span class="o">!</span>
+
+    <span class="kd">func</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">_</span> <span class="nv">request</span><span class="p">:</span> <span class="kt">URLRequest</span><span class="p">,</span> <span class="nv">target</span><span class="p">:</span> <span class="kt">TargetType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URLRequest</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">request</span> <span class="o">=</span> <span class="n">request</span>
+
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">authToken</span> <span class="o">=</span> <span class="n">authService</span><span class="o">.</span><span class="n">authToken</span> <span class="p">{</span>
+            <span class="n">request</span><span class="o">.</span><span class="nf">addValue</span><span class="p">(</span><span class="n">authToken</span><span class="o">.</span><span class="n">accessToken</span><span class="p">,</span> <span class="nv">forHTTPHeaderField</span><span class="p">:</span> <span class="s">"Authorization"</span><span class="p">)</span>
+            <span class="n">request</span><span class="o">.</span><span class="nf">addValue</span><span class="p">(</span><span class="n">authToken</span><span class="o">.</span><span class="n">refreshToken</span><span class="p">,</span> <span class="nv">forHTTPHeaderField</span><span class="p">:</span> <span class="s">"Refresh-Token"</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">request</span>
+    <span class="p">}</span>
+
+    <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">authService</span><span class="p">:</span> <span class="kt">AuthService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">authService</span> <span class="o">=</span> <span class="n">authService</span>
+    <span class="p">}</span>
+
+    <span class="nf">init</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='9-configuration-property' class='heading'>9. Configuration Property</h3>
+
+<p>It&rsquo;s often profit to use different configuration values depending on the running environment.
+For example, you can specific that save the file log at development build and not save the file log at the Release build.</p>
+
+<p><strong>application-dev.yml:</strong></p>
+<pre class="highlight yaml"><code><span class="na">logger</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span> <span class="s">file</span>
+
+<span class="na">server</span><span class="pi">:</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">https://dev.example.com/api</span>
+    <span class="na">isDebug</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre>
+
+<p><strong>application-prod.yml:</strong></p>
+<pre class="highlight yaml"><code><span class="na">logger</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span> <span class="s">default</span>
+
+<span class="na">server</span><span class="pi">:</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">https://www.example.com/api</span>
+    <span class="na">isDebug</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre>
+<h4 id='9-1-usage' class='heading'>9.1. Usage</h4>
+
+<p>Two ways solution to use the Configuration Property created above.</p>
+
+<ol>
+<li>Change <code>deli.yml</code>.</li>
+<li>Modify the build script</li>
+</ol>
+
+<p>Change the configuration file as below:</p>
+<pre class="highlight yaml"><code><span class="na">target</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">MyApp</span>
+
+<span class="na">config</span><span class="pi">:</span>
+  <span class="na">MyApp</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">project</span><span class="pi">:</span> <span class="s">MyApp</span>
+    <span class="pi">-</span> <span class="na">properties</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">Configurations/Common/*.yml</span>
+      <span class="pi">-</span> <span class="s">Configurations/application-dev.yml</span>
+</code></pre>
+
+<p>Build script can do this:</p>
+<pre class="highlight shell"><code>deli build <span class="se">\</span>
+  <span class="nt">--property</span> <span class="s2">"Configurations/Common/*.yml"</span> <span class="se">\</span>
+  <span class="nt">--property</span> <span class="s2">"Configurations/application-dev.yml"</span>
+</code></pre>
+
+<p>If the same configuration information, it&rsquo;s overwritten with the last specified information.</p>
+<h4 id='9-2-group-value' class='heading'>9.2. Group Value</h4>
+
+<p>You can use <code><a href="Protocols/ConfigProperty.html">ConfigProperty</a></code> to safe retrieve the specified value in the configuration file.</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ServerConfig</span><span class="p">:</span> <span class="kt">ConfigProperty</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">target</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"server"</span>
+
+    <span class="k">let</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">isDebug</span><span class="p">:</span> <span class="kt">Bool</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>When implementing the model as above, <code>ServerConfig</code> is registered in IoC Container.</p>
+
+<p>One thing to keep in mind when defining the model, need to set the <code>target</code> value. This property represents the path to retrieve in the configuration file using JSONPath style.</p>
+
+<p>If you do not have the required configuration values at build time, will occurred a compile error.</p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">NetworkManager</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">info</span><span class="p">:</span> <span class="kt">ServerConfig</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">config</span><span class="p">:</span> <span class="kt">ServerConfig</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">config</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id='9-3-single-value' class='heading'>9.3. Single Value</h4>
+
+<p>When get a bundle value as above, implement the <code><a href="Protocols/ConfigProperty.html">ConfigProperty</a></code> protocol. So how to get a single value? You can use the <code>InjectProperty</code>.</p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">NetworkManager</span><span class="p">:</span> <span class="kt">Inject</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">serverUrl</span> <span class="o">=</span> <span class="kt">InjectProperty</span><span class="p">(</span><span class="s">"server.url"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><code>InjectProperty</code> is similar to <code><a href="Protocols/ConfigProperty.html">ConfigProperty</a></code>. It checks the configuration value at build time and inject data as String type.</p>
+
+<p>If you want to retrieve configuration value optionally without validation, this is not a proper way.</p>
+
+<p>In this case, recommend using the <code>AppContext#getProperty()</code> method.</p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">NetworkManager</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">serverUrl</span> <span class="o">=</span> <span class="kt">AppContext</span><span class="o">.</span><span class="nf">getProperty</span><span class="p">(</span><span class="s">"server.url"</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">??</span> <span class="s">"https://wtf.example.com"</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id='9-4-qualifier-by-property' class='heading'>9.4. Qualifier by Property</h4>
+
+<p>To enhance usability of configuration property, Deli provides a way of injection using <code>qualifier</code> as configuration value.</p>
+
+<p>There are two ways to use it. let&rsquo;s look first that constructor injection like <code><a href="Protocols/Autowired.html">Autowired</a></code>.</p>
+
+<p>As mentioned in the <a href="#2-autowired">Autowired</a> paragraph, you can not use <code>.</code> for parts that specify <code>qualifier</code>. Unfortunately, swift do not has an annotation-like features. So I implemented to use <code>comment</code> as an alternative.</p>
+
+<p>How it works:</p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">UserService</span><span class="p">:</span> <span class="kt">Autowired</span> <span class="p">{</span>
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span><span class="cm">/*logger.storage*/</span> <span class="nv">logger</span><span class="p">:</span> <span class="kt">Logger</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>When using the <code><a href="Protocols/Inject.html">Inject</a></code> method:</p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">UserService</span><span class="p">:</span> <span class="kt">Inject</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">getLogger</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Logger</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Inject</span><span class="p">(</span><span class="kt">Logger</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">qualifierBy</span><span class="p">:</span> <span class="s">"logger.storage"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='10-propertywrapper' class='heading'>10. PropertyWrapper</h3>
+
+<p>For easier use, supports the <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md">@propertyWrapper</a> added in Swift 5.1.</p>
+
+<p>There are two main features to be supported: dependency injection and <a href="#9-configuration-property">Configuration Property</a>.</p>
+<h4 id='10-1-dependency' class='heading'>10.1. Dependency</h4>
+
+<p>There are <code>@Dependency</code> and <code>@DependencyArray</code> for injection of dependencies.</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">Library</span> <span class="p">{</span>
+    <span class="kd">@Dependency</span><span class="p">(</span><span class="n">qualifier</span> <span class="s">"logger.storage"</span><span class="p">)</span>
+    <span class="k">var</span> <span class="nv">logger</span><span class="p">:</span> <span class="kt">Logger</span>
+
+    <span class="kd">@DependencyArray</span><span class="p">(</span><span class="nv">qualifier</span><span class="p">:</span> <span class="s">"novel"</span><span class="p">)</span>
+    <span class="k">var</span> <span class="nv">novels</span><span class="p">:</span> <span class="p">[</span><span class="kt">Book</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id='10-2-propertyvalue' class='heading'>10.2. PropertyValue</h4>
+
+<p><code>@PropertyValue</code> is the same as <a href="#9-configuration-property">Configuration Property</a> and the usage as below:</p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">NetworkManager</span><span class="p">:</span> <span class="kt">Inject</span> <span class="p">{</span>
+    <span class="kd">@PropertyValue</span><span class="p">(</span><span class="s">"server.url"</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">serverUrl</span><span class="p">:</span> <span class="kt">String</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='a-href-https-cocoapods-org-cocoapods-a' class='heading'><a href="https://cocoapods.org/">Cocoapods</a>:</h3>
+
+<p>Simply add the following line to your Podfile:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'Deli'</span><span class="p">,</span> <span class="s1">'~&gt; 0.8.1'</span>
+</code></pre>
+<h3 id='a-href-https-github-com-carthage-carthage-carthage-a' class='heading'><a href="https://github.com/Carthage/Carthage">Carthage</a>:</h3>
+<pre class="highlight plaintext"><code>github "kawoou/Deli"
+</code></pre>
+<h3 id='command-line' class='heading'>Command Line</h3>
+<pre class="highlight plaintext"><code>$ deli help
+Available commands:
+
+   build      Build the Dependency Graph.
+   generate   Generate the Dependency Graph.
+   help       Display general or command-specific help
+   upgrade    Upgrade outdated.
+   validate   Validate the Dependency Graph.
+   version    Display the current version of Deli
+</code></pre>
+<h2 id='examples' class='heading'>Examples</h2>
+
+<ul>
+<li><a href="https://github.com/kawoou/DeliTodo">DeliTodo</a>: Todo application for iOS using Deli.</li>
+<li><a href="https://github.com/kawoou/Deli/tree/master/Examples/GitHubSearch">GitHubSearch</a>: GitHub Search example using Deli.</li>
+<li><a href="https://github.com/kawoou/Deli/tree/master/Examples/Survey">Survey</a>: Survey example using Deli.</li>
+<li><a href="https://github.com/kawoou/Deli/tree/master/Examples/RobotFactory">RobotFactory</a>: RobotFactory example using Deli.</li>
+</ul>
+<h2 id='contributing' class='heading'>Contributing</h2>
+
+<p>Any discussions and pull requests are welcomed.</p>
+
+<p>If you want to contribute, <a href="https://github.com/kawoou/Deli/compare">submit a pull request</a>.</p>
+<h2 id='requirements' class='heading'>Requirements</h2>
+
+<ul>
+<li>Swift 3.1+</li>
+</ul>
+<h2 id='attributions' class='heading'>Attributions</h2>
+
+<p>This project is powered by</p>
+
+<ul>
+<li><a href="https://github.com/jpsim/SourceKitten">SourceKitten</a>
+
+<ul>
+<li>MIT License</li>
+<li>Created by <a href="https://github.com/jpsim">JP Simard</a></li>
+</ul></li>
+<li><a href="https://github.com/jpsim/Yams">Yams</a>
+
+<ul>
+<li>MIT License</li>
+<li>Created by <a href="https://github.com/jpsim">JP Simard</a></li>
+</ul></li>
+<li><a href="https://github.com/crossroadlabs/Regex">Regex</a>
+
+<ul>
+<li>Apache License 2.0</li>
+<li>Created by <a href="https://github.com/crossroadlabs">Crossroad Labs</a></li>
+</ul></li>
+<li><a href="https://github.com/xcodeswift/xcproj">Xcproj</a>
+
+<ul>
+<li>MIT License</li>
+<li>Created by <a href="https://github.com/xcodeswift">xcode.swift</a></li>
+</ul></li>
+<li><a href="https://github.com/Carthage/Commandant">Commandant</a>
+
+<ul>
+<li>MIT License</li>
+<li>Created by <a href="https://github.com/Carthage">Carthage</a></li>
+</ul></li>
+<li><a href="https://github.com/Quick/Quick">Quick</a>
+
+<ul>
+<li>Apache License 2.0</li>
+<li>Created by <a href="https://github.com/Quick">Quick Team</a></li>
+</ul></li>
+<li><a href="https://github.com/Quick/Nimble">Nimble</a>
+
+<ul>
+<li>Apache License 2.0</li>
+<li>Created by <a href="https://github.com/Quick">Quick Team</a></li>
+</ul></li>
+</ul>
+<h2 id='license' class='heading'>License</h2>
+
+<p>Deli is under MIT license. See the <a href="https://github.com/kawoou/Deli/blob/master/LICENSE">LICENSE</a> file for more info.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="http://www.kawoou.kr" target="_blank" rel="external">Jungwon An</a>. All rights reserved. (Last updated: 2020-03-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

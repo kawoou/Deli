@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>LazyAutowiredFactory Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/LazyAutowiredFactory" class="dashAnchor"></a>
+    <a title="LazyAutowiredFactory Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Deli Docs</a> (94% documented)</p>
+        <p class="header-right"><a href="https://github.com/kawoou/Deli"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Deli Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        LazyAutowiredFactory Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AppContext.html">AppContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Linker.html">Linker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ModuleFactory.html">ModuleFactory</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LoadPriority.html">LoadPriority</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResolveRole.html">ResolveRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Scope.html">Scope</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Autowired.html">Autowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AutowiredFactory.html">AutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Component.html">Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigProperty.html">ConfigProperty</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factory.html">Factory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Inject.html">Inject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LazyAutowired.html">LazyAutowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LazyAutowiredFactory.html">LazyAutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Payload.html">Payload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:4Deli8_PayloadP">_Payload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Dependency.html">Dependency</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DependencyArray.html">DependencyArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PropertyValue.html">PropertyValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli15FactoryResolvera">FactoryResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli11ResolveRulea">ResolveRule</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli8Resolvera">Resolver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>LazyAutowiredFactory</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">LazyAutowiredFactory</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Factory.html">Factory</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>The AutowiredFactory protocol is registered automatically, and lazily load
+the required dependencies from IoC container.</p>
+
+<p>It requires a payload, so is registered as a <code>prototype</code> scope.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep1Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep1" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 1.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep1</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep2Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep2" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 2.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep2</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep3Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep3" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 3.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep3</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep4Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep4" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep4Qa">Dep4</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 4.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep4</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep5Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep5" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep5Qa">Dep5</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 5.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep5</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep6Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep6" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep6Qa">Dep6</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 6.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep6</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep7Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep7" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep7Qa">Dep7</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 7.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep7</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep8Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep8" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep8Qa">Dep8</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 8.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep8</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP4Dep9Qa"></a>
+                    <a name="//apple_ref/swift/Alias/Dep9" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP4Dep9Qa">Dep9</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for dependency 9.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Dep9</span> <span class="o">=</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP8_PayloadQa"></a>
+                    <a name="//apple_ref/swift/Alias/_Payload" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP8_PayloadQa">_Payload</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Associated type for payload.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="nv">_Payload</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Payload.html">Payload</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP9qualifierSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/qualifier" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP9qualifierSSSgvp">qualifier</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Since autowiring by Type may lead to multiple candidates.
+The <code>qualifier</code> property is used to differentiate that.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP7payloadx8_PayloadQz_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(payload:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP7payloadx8_PayloadQz_tcfc">init(payload:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for instantiating.</p>
+
+<p>A payload already existed when instantiate, so injected into
+the constructor.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">payload</span><span class="p">:</span> <span class="n"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP8_PayloadQa">_Payload</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1QzF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1QzF">inject(_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 1 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2QztF">inject(_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 2 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3QztF">inject(_:_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 3 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep3</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4QztF">inject(_:_:_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 4 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep3</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep4</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep4Qa">Dep4</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5QztF">inject(_:_:_:_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 5 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep3</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep4</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep4Qa">Dep4</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep5</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep5Qa">Dep5</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:_:_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6QztF">inject(_:_:_:_:_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 6 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep3</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep4</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep4Qa">Dep4</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep5</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep5Qa">Dep5</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep6</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep6Qa">Dep6</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6Qz4Dep7QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:_:_:_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6Qz4Dep7QztF">inject(_:_:_:_:_:_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 7 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep3</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep4</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep4Qa">Dep4</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep5</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep5Qa">Dep5</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep6</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep6Qa">Dep6</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep7</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep7Qa">Dep7</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6Qz4Dep7Qz4Dep8QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:_:_:_:_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6Qz4Dep7Qz4Dep8QztF">inject(_:_:_:_:_:_:_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 8 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep3</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep4</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep4Qa">Dep4</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep5</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep5Qa">Dep5</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep6</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep6Qa">Dep6</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep7</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep7Qa">Dep7</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep8</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep8Qa">Dep8</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6Qz4Dep7Qz4Dep8Qz4Dep9QztF"></a>
+                    <a name="//apple_ref/swift/Method/inject(_:_:_:_:_:_:_:_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryP6injectyy4Dep1Qz_4Dep2Qz4Dep3Qz4Dep4Qz4Dep5Qz4Dep6Qz4Dep7Qz4Dep8Qz4Dep9QztF">inject(_:_:_:_:_:_:_:_:_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for 9 dependencies
+constructor inject.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">inject</span><span class="p">(</span><span class="n">_</span> <span class="nv">dep1</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep1Qa">Dep1</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep2</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep2Qa">Dep2</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep3</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep3Qa">Dep3</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep4</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep4Qa">Dep4</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep5</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep5Qa">Dep5</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep6</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep6Qa">Dep6</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep7</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep7Qa">Dep7</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep8</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep8Qa">Dep8</a></span><span class="p">,</span> <span class="n">_</span> <span class="nv">dep9</span><span class="p">:</span> <span class="kt"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP4Dep9Qa">Dep9</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli20LazyAutowiredFactoryPAAE11payloadType8_PayloadQzmvp"></a>
+                    <a name="//apple_ref/swift/Property/payloadType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli20LazyAutowiredFactoryPAAE11payloadType8_PayloadQzmvp">payloadType</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>To supports type-inference of the compiler.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">payloadType</span><span class="p">:</span> <span class="n"><a href="../Protocols/LazyAutowiredFactory.html#/s:4Deli20LazyAutowiredFactoryP8_PayloadQa">_Payload</a></span><span class="o">.</span><span class="k">Type</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="http://www.kawoou.kr" target="_blank" rel="external">Jungwon An</a>. All rights reserved. (Last updated: 2020-03-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Configuration Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/Configuration" class="dashAnchor"></a>
+    <a title="Configuration Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Deli Docs</a> (94% documented)</p>
+        <p class="header-right"><a href="https://github.com/kawoou/Deli"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Deli Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Configuration Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AppContext.html">AppContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Linker.html">Linker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ModuleFactory.html">ModuleFactory</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LoadPriority.html">LoadPriority</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResolveRole.html">ResolveRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Scope.html">Scope</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Autowired.html">Autowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AutowiredFactory.html">AutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Component.html">Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigProperty.html">ConfigProperty</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factory.html">Factory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Inject.html">Inject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LazyAutowired.html">LazyAutowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LazyAutowiredFactory.html">LazyAutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Payload.html">Payload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:4Deli8_PayloadP">_Payload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Dependency.html">Dependency</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DependencyArray.html">DependencyArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PropertyValue.html">PropertyValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli15FactoryResolvera">FactoryResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli11ResolveRulea">ResolveRule</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli8Resolvera">Resolver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Configuration</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Configuration</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Inject.html">Inject</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>The Configuration protocol makes the user can register Resolver.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config_9qualifier5scope8resolverqd__ycqd__m_SSAA5ScopeOqd__yctlFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config_9qualifier5scope8resolverqd__ycqd__m_SSAA5ScopeOqd__yctlFZ">Config(_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config__9qualifier5scope8resolverqd__ycqd__m_qd_0_mSSAA5ScopeOqd__qd_0_ctr0_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config__9qualifier5scope8resolverqd__ycqd__m_qd_0_mSSAA5ScopeOqd__qd_0_ctr0_lFZ">Config(_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config___9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mSSAA5ScopeOqd__qd_0__qd_1_tctr1_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config___9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mSSAA5ScopeOqd__qd_0__qd_1_tctr1_lFZ">Config(_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config____9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_tctr2_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config____9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_tctr2_lFZ">Config(_:_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency3</span><span class="p">:</span> <span class="kt">Dep3</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency3</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 3</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config_____9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_tctr3_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config_____9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_tctr3_lFZ">Config(_:_:_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency3</span><span class="p">:</span> <span class="kt">Dep3</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency4</span><span class="p">:</span> <span class="kt">Dep4</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency3</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 3</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency4</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 4</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config______9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_tctr4_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config______9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_tctr4_lFZ">Config(_:_:_:_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency3</span><span class="p">:</span> <span class="kt">Dep3</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency4</span><span class="p">:</span> <span class="kt">Dep4</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency5</span><span class="p">:</span> <span class="kt">Dep5</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency3</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 3</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency4</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 4</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency5</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 5</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config_______9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_tctr5_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:_:_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config_______9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_tctr5_lFZ">Config(_:_:_:_:_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency3</span><span class="p">:</span> <span class="kt">Dep3</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency4</span><span class="p">:</span> <span class="kt">Dep4</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency5</span><span class="p">:</span> <span class="kt">Dep5</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency6</span><span class="p">:</span> <span class="kt">Dep6</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency3</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 3</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency4</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 4</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency5</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 5</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency6</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 6</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config________9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mqd_6_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_qd_6_tctr6_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:_:_:_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config________9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mqd_6_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_qd_6_tctr6_lFZ">Config(_:_:_:_:_:_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="p">,</span> <span class="kt">Dep7</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency3</span><span class="p">:</span> <span class="kt">Dep3</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency4</span><span class="p">:</span> <span class="kt">Dep4</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency5</span><span class="p">:</span> <span class="kt">Dep5</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency6</span><span class="p">:</span> <span class="kt">Dep6</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency7</span><span class="p">:</span> <span class="kt">Dep7</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="p">,</span> <span class="kt">Dep7</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency3</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 3</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency4</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 4</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency5</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 5</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency6</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 6</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency7</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 7</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config_________9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mqd_6_mqd_7_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_qd_6_qd_7_tctr7_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:_:_:_:_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config_________9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mqd_6_mqd_7_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_qd_6_qd_7_tctr7_lFZ">Config(_:_:_:_:_:_:_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="p">,</span> <span class="kt">Dep7</span><span class="p">,</span> <span class="kt">Dep8</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency3</span><span class="p">:</span> <span class="kt">Dep3</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency4</span><span class="p">:</span> <span class="kt">Dep4</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency5</span><span class="p">:</span> <span class="kt">Dep5</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency6</span><span class="p">:</span> <span class="kt">Dep6</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency7</span><span class="p">:</span> <span class="kt">Dep7</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency8</span><span class="p">:</span> <span class="kt">Dep8</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="p">,</span> <span class="kt">Dep7</span><span class="p">,</span> <span class="kt">Dep8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency3</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 3</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency4</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 4</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency5</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 5</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency6</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 6</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency7</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 7</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency8</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 8</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ConfigurationPAAE6Config__________9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mqd_6_mqd_7_mqd_8_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_qd_6_qd_7_qd_8_tctr8_lFZ"></a>
+                    <a name="//apple_ref/swift/Method/Config(_:_:_:_:_:_:_:_:_:_:qualifier:scope:resolver:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ConfigurationPAAE6Config__________9qualifier5scope8resolverqd__ycqd__m_qd_0_mqd_1_mqd_2_mqd_3_mqd_4_mqd_5_mqd_6_mqd_7_mqd_8_mSSAA5ScopeOqd__qd_0__qd_1_qd_2_qd_3_qd_4_qd_5_qd_6_qd_7_qd_8_tctr8_lFZ">Config(_:_:_:_:_:_:_:_:_:_:qualifier:scope:resolver:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register custom Resolver by developers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="kt">Config</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="p">,</span> <span class="kt">Dep7</span><span class="p">,</span> <span class="kt">Dep8</span><span class="p">,</span> <span class="kt">Dep9</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency1</span><span class="p">:</span> <span class="kt">Dep1</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency2</span><span class="p">:</span> <span class="kt">Dep2</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency3</span><span class="p">:</span> <span class="kt">Dep3</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency4</span><span class="p">:</span> <span class="kt">Dep4</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency5</span><span class="p">:</span> <span class="kt">Dep5</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency6</span><span class="p">:</span> <span class="kt">Dep6</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency7</span><span class="p">:</span> <span class="kt">Dep7</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency8</span><span class="p">:</span> <span class="kt">Dep8</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="n">_</span> <span class="nv">dependency9</span><span class="p">:</span> <span class="kt">Dep9</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">singleton</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Dep1</span><span class="p">,</span> <span class="kt">Dep2</span><span class="p">,</span> <span class="kt">Dep3</span><span class="p">,</span> <span class="kt">Dep4</span><span class="p">,</span> <span class="kt">Dep5</span><span class="p">,</span> <span class="kt">Dep6</span><span class="p">,</span> <span class="kt">Dep7</span><span class="p">,</span> <span class="kt">Dep8</span><span class="p">,</span> <span class="kt">Dep9</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency1</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 1</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency2</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 2</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency3</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 3</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency4</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 4</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency5</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 5</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency6</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 6</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency7</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 7</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency8</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 8</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dependency9</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required dependency 9</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.
+(default is .singleton)</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The closure that resolve dependency type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="http://www.kawoou.kr" target="_blank" rel="external">Jungwon An</a>. All rights reserved. (Last updated: 2020-03-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

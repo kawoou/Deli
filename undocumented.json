@@ -1,0 +1,103 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/Core/Type/ResolveRole.swift",
+      "line": 7,
+      "symbol": "ResolveRule",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/Dependency.swift",
+      "line": 9,
+      "symbol": "Dependency",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/Dependency.swift",
+      "line": 13,
+      "symbol": "Dependency.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/Dependency.swift",
+      "line": 21,
+      "symbol": "Dependency.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/Dependency.swift",
+      "line": 25,
+      "symbol": "Dependency.init(qualifier:resolveRole:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/Dependency.swift",
+      "line": 36,
+      "symbol": "Dependency.init(qualifierBy:resolveRole:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/DependencyArray.swift",
+      "line": 9,
+      "symbol": "DependencyArray",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/DependencyArray.swift",
+      "line": 13,
+      "symbol": "DependencyArray.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/DependencyArray.swift",
+      "line": 21,
+      "symbol": "DependencyArray.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/DependencyArray.swift",
+      "line": 25,
+      "symbol": "DependencyArray.init(qualifier:resolveRole:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/DependencyArray.swift",
+      "line": 36,
+      "symbol": "DependencyArray.init(qualifierBy:resolveRole:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/PropertyValue.swift",
+      "line": 9,
+      "symbol": "PropertyValue",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/PropertyValue.swift",
+      "line": 13,
+      "symbol": "PropertyValue.wrappedValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/Deli/Sources/Deli/PropertyValue.swift",
+      "line": 21,
+      "symbol": "PropertyValue.init(_:resolveRole:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/kawoou/GitHub/Deli"
+}

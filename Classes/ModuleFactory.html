@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ModuleFactory Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/ModuleFactory" class="dashAnchor"></a>
+    <a title="ModuleFactory Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Deli Docs</a> (94% documented)</p>
+        <p class="header-right"><a href="https://github.com/kawoou/Deli"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Deli Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ModuleFactory Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AppContext.html">AppContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Linker.html">Linker</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ModuleFactory.html">ModuleFactory</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LoadPriority.html">LoadPriority</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ResolveRole.html">ResolveRole</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Scope.html">Scope</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Autowired.html">Autowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AutowiredFactory.html">AutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Component.html">Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConfigProperty.html">ConfigProperty</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Configuration.html">Configuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Factory.html">Factory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Inject.html">Inject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LazyAutowired.html">LazyAutowired</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LazyAutowiredFactory.html">LazyAutowiredFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Payload.html">Payload</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:4Deli8_PayloadP">_Payload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Dependency.html">Dependency</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DependencyArray.html">DependencyArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PropertyValue.html">PropertyValue</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli15FactoryResolvera">FactoryResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli11ResolveRulea">ResolveRule</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Deli8Resolvera">Resolver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ModuleFactory</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">ModuleFactory</span></code></pre>
+
+                </div>
+              </div>
+            <p>The ModuleFactory protocol is a factory of that loads dependency graph.</p>
+
+<p>The code that generates dependency graph should be written on
+load() method.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public"></a>
+                <a name="//apple_ref/swift/Section/Public" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public"></a>
+                  <h3 class="section-name"><p>Public</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC4load7contextyAA10AppContextC_tF"></a>
+                    <a name="//apple_ref/swift/Method/load(context:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC4load7contextyAA10AppContextC_tF">load(context:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Load the dependency graph on container.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">(</span><span class="nv">context</span><span class="p">:</span> <span class="kt"><a href="../Classes/AppContext.html">AppContext</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Instance of AppContext.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC6unloadyyF"></a>
+                    <a name="//apple_ref/swift/Method/unload()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC6unloadyyF">unload()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unload the dependency graph on container.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">unload</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC5resetyyF"></a>
+                    <a name="//apple_ref/swift/Method/reset()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC5resetyyF">reset()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reset container components.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">reset</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC8register_8resolver9qualifier5scopeAA6LinkerCyxGxm_ypycSSAA5ScopeOtlF"></a>
+                    <a name="//apple_ref/swift/Method/register(_:resolver:qualifier:scope:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC8register_8resolver9qualifier5scopeAA6LinkerCyxGxm_ypycSSAA5ScopeOtlF">register(_:resolver:qualifier:scope:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register in DI graph.</p>
+
+<p>By default, it is called from automatically generated code via
+Deli binary.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="n">register</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4Deli8Resolvera">Resolver</a></span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Linker.html">Linker</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns a Linker for specifying the Type to allow access to
+resolve the registered type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC12registerLazy_8resolver8injector9qualifier5scopeAA6LinkerCyxGxm_ypycyxcSSAA5ScopeOtlF"></a>
+                    <a name="//apple_ref/swift/Method/registerLazy(_:resolver:injector:qualifier:scope:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC12registerLazy_8resolver8injector9qualifier5scopeAA6LinkerCyxGxm_ypycyxcSSAA5ScopeOtlF">registerLazy(_:resolver:injector:qualifier:scope:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Lazy register in DI graph.</p>
+
+<p>By default, it is called from automatically generated code via
+Deli binary.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="n">registerLazy</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4Deli8Resolvera">Resolver</a></span><span class="p">,</span>
+    <span class="nv">injector</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(),</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">scope</span><span class="p">:</span> <span class="kt"><a href="../Enums/Scope.html">Scope</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Linker.html">Linker</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>injector</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to inject with the
+dependencies of the type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scope</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>It is specify the way that manages the lifecycle.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns a Linker for specifying the Type to allow access to
+resolve the registered type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC08registerC0_8resolver9qualifierAA6LinkerCyxGxm_ypAA8_Payload_pcSStlF"></a>
+                    <a name="//apple_ref/swift/Method/registerFactory(_:resolver:qualifier:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC08registerC0_8resolver9qualifierAA6LinkerCyxGxm_ypAA8_Payload_pcSStlF">registerFactory(_:resolver:qualifier:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Register factory in DI graph.</p>
+
+<p>It is automatically managed as a prototype scope.
+By default, it is called from automatically generated code via
+Deli binary.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="n">registerFactory</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4Deli15FactoryResolvera">FactoryResolver</a></span><span class="p">,</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Linker.html">Linker</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to resolve with the
+dependencies of the type.
+It is invoked when needs to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns a Linker for specifying the Type to allow access to
+resolve the registered type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC012registerLazyC0_8resolver8injector9qualifierAA6LinkerCyxGxm_ypAA8_Payload_pcyxcSStlF"></a>
+                    <a name="//apple_ref/swift/Method/registerLazyFactory(_:resolver:injector:qualifier:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC012registerLazyC0_8resolver8injector9qualifierAA6LinkerCyxGxm_ypAA8_Payload_pcyxcSStlF">registerLazyFactory(_:resolver:injector:qualifier:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Lazy register factory in DI graph.</p>
+
+<p>It is automatically managed as a prototype scope.
+By default, it is called from automatically generated code via
+Deli binary.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="n">registerLazyFactory</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span>
+    <span class="nv">resolver</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:4Deli15FactoryResolvera">FactoryResolver</a></span><span class="p">,</span>
+    <span class="nv">injector</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(),</span>
+    <span class="nv">qualifier</span><span class="p">:</span> <span class="kt">String</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Linker.html">Linker</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The dependency type to resolve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resolver</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to instantiate the instance.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>injector</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to specify how to inject with the
+dependencies of the type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qualifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The qualifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns a Linker for specifying the Type to allow access to
+resolve the registered type.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryC12loadPropertyyySDySSypGF"></a>
+                    <a name="//apple_ref/swift/Method/loadProperty(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryC12loadPropertyyySDySSypGF">loadProperty(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Load property in container</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">loadProperty</span><span class="p">(</span><span class="n">_</span> <span class="nv">properties</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>properties</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Property dictionary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Lifecycle"></a>
+                <a name="//apple_ref/swift/Section/Lifecycle" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Lifecycle"></a>
+                  <h3 class="section-name"><p>Lifecycle</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Deli13ModuleFactoryCACycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Deli13ModuleFactoryCACycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pre-generated initialize method for instantiating.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="http://www.kawoou.kr" target="_blank" rel="external">Jungwon An</a>. All rights reserved. (Last updated: 2020-03-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
