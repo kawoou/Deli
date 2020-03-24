@@ -10,105 +10,30 @@ struct ValidateCommand: CommandProtocol {
     let function = "Validate the Dependency Graph."
 
     func run(_ options: ValidateOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isDebug || options.isVerbose
-        Logger.isDebug = options.isDebug
+        do {
+            LoggerProcess(options: options).process()
 
-        let configuration = Configuration()
-        let configure: Config
-        let properties = CommandLine.get(forKey: "property")
-        if let project = options.project {
-            guard let config = configuration.getConfig(
-                project: project,
-                scheme: options.scheme,
-                target: options.target,
-                output: nil,
-                properties: properties
-            ) else {
-                return .failure(.failedToLoadConfigFile)
-            }
-            configure = config
-        } else {
-            guard options.scheme == nil else {
-                return .failure(.mustBeUsedWithProjectArguments)
-            }
-            guard let config = configuration.getConfig(configPath: options.configFile) else {
-                return .failure(.failedToLoadConfigFile)
-            }
-            configure = config
-        }
-
-        guard configure.target.count > 0 else {
-            Logger.log(.warn("No targets are active.", nil))
-            return .success(())
-        }
-        for target in configure.target {
-            guard let info = configure.config[target] else {
-                Logger.log(.warn("Target not found: `\(target)`", nil))
-                continue
-            }
-
-            Logger.log(.info("Set Target `\(target)`"))
-            guard let sourceFiles = try? configuration.getSourceList(info: info) else { continue }
-            if sourceFiles.count == 0 {
-                Logger.log(.warn("No source files for processing.", nil))
-            }
-            Logger.log(.debug("Source files:"))
-            for source in sourceFiles {
-                Logger.log(.debug(" - \(source)"))
-            }
-
-            let propertyParser = PropertyParser()
-            let resolveParser = ResolveParser()
-            let parser = Parser([
-                ComponentParser(),
-                ConfigurationParser(),
-                AutowiredParser(),
-                LazyAutowiredParser(),
-                AutowiredFactoryParser(),
-                LazyAutowiredFactoryParser(),
-                InjectParser(),
-                InjectPropertyParser(),
-                DependencyParser(),
-                PropertyValueParser(),
-                ConfigPropertyParser()
-            ])
-            let corrector = Corrector([
-                QualifierByCorrector(parser: parser, propertyParser: propertyParser),
-                QualifierCorrector(parser: parser),
-                ScopeCorrector(parser: parser),
-                NotImplementCorrector(parser: parser),
-                ConfigPropertyCorrector(parser: parser, propertyParser: propertyParser)
-            ])
-            let validator = Validator([
-                FactoryReferenceValidator(parser: parser),
-                CircularDependencyValidator(parser: parser),
-                InjectPropertyValidator(parser: parser, propertyParser: propertyParser)
-            ])
-
-            let propertyFiles = configuration.getPropertyList(info: info, properties: properties)
-            propertyParser.load(propertyFiles)
-
-            do {
-                try resolveParser.load(info.dependencies)
-
-                _ = try validator.run(
-                    try corrector.run(
-                        try resolveParser.run(
-                            try parser.run(sourceFiles)
-                        )
-                    )
-                )
+            let buildProcess = try BuildProcess(options: options, output: nil)
+            while let result = try buildProcess.processNext() {
+                guard result.isSuccess else { continue }
 
                 Logger.log(.info("Validate success."))
-            } catch let error {
+                Logger.log(.newLine)
+            }
+        } catch let error {
+            switch error {
+            case let error as CommandError:
+                return .failure(error)
+            default:
                 return .failure(.runner(error))
             }
         }
+
         return .success(())
     }
 }
 
-struct ValidateOptions: OptionsProtocol {
+struct ValidateOptions: OptionsProtocol, BuildProcessOptions, LoggerProcessOptions {
     let configFile: String?
     let project: String?
     let scheme: String?

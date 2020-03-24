@@ -20,11 +20,15 @@ final class ResolveParser {
 
     // NARK: - Public
 
-    func load(_ infoList: [ConfigDependencyInfo]) throws {
+    func load(_ resultList: [ResolveData.Dependency], imports: [String]) {
+        dependencies += resultList.map { ResolveResult($0, imports: imports) }
+    }
+
+    func load(_ infoList: [ConfigDependencyResolveFile]) throws {
         let decoder = YAMLDecoder()
 
-        dependencies = try infoList
-            .compactMap { info -> ConfigDependencyInfo? in
+        dependencies += try infoList
+            .compactMap { info -> ConfigDependencyResolveFile? in
                 let url = URL(fileURLWithPath: info.path)
 
                 let fileManager = FileManager.default
@@ -40,7 +44,7 @@ final class ResolveParser {
                     Logger.log(.warn("Not found dependency resolved file on `\(newPath)`.", nil))
                     return nil
                 }
-                return ConfigDependencyInfo(path: newPath, imports: info.imports)
+                return ConfigDependencyResolveFile(path: newPath, imports: info.imports)
             }
             .flatMap { info -> [ResolveResult] in
                 let data = try String(contentsOfFile: info.path, encoding: .utf8)

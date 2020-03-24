@@ -24,115 +24,31 @@ struct GenerateCommand: CommandProtocol {
     }
 
     func run(_ options: GenerateOptions) -> Result<(), CommandError> {
-        Logger.isVerbose = options.isDebug || options.isVerbose
-        Logger.isDebug = options.isDebug
+        do {
+            LoggerProcess(options: options).process()
 
-        let configuration = Configuration()
-        let configure: Config
-        let properties = CommandLine.get(forKey: "property")
-        if let project = options.project {
-            guard let config = configuration.getConfig(
-                project: project,
-                scheme: options.scheme,
-                target: options.target,
-                output: nil,
-                properties: properties
-            ) else {
-                return .failure(.failedToLoadConfigFile)
-            }
-            configure = config
-        } else {
-            guard options.scheme == nil else {
-                return .failure(.mustBeUsedWithProjectArguments)
-            }
-            guard let config = configuration.getConfig(configPath: options.configFile) else {
-                return .failure(.failedToLoadConfigFile)
-            }
-            configure = config
-        }
-
-        guard configure.target.count > 0 else {
-            Logger.log(.warn("No targets are active.", nil))
-            return .success(())
-        }
-        for target in configure.target {
-            guard let info = configure.config[target] else {
-                Logger.log(.warn("Target not found: `\(target)`", nil))
-                continue
-            }
-
-            Logger.log(.info("Set Target `\(target)`"))
-            let className = configuration.getClassName(info: info)
-
-            guard let sourceFiles = try? configuration.getSourceList(info: info) else { continue }
-            if sourceFiles.count == 0 {
-                Logger.log(.warn("Empty source files.", nil))
-            }
-            Logger.log(.debug("Source files:"))
-            for source in sourceFiles {
-                Logger.log(.debug(" - \(source)"))
-            }
-
-            let propertyParser = PropertyParser()
-            let resolveParser = ResolveParser()
-            let parser = Parser([
-                ComponentParser(),
-                ConfigurationParser(),
-                AutowiredParser(),
-                LazyAutowiredParser(),
-                AutowiredFactoryParser(),
-                LazyAutowiredFactoryParser(),
-                InjectParser(),
-                InjectPropertyParser(),
-                DependencyParser(),
-                PropertyValueParser(),
-                ConfigPropertyParser()
-            ])
-            let corrector = Corrector([
-                QualifierByCorrector(parser: parser, propertyParser: propertyParser),
-                QualifierCorrector(parser: parser),
-                ScopeCorrector(parser: parser),
-                NotImplementCorrector(parser: parser),
-                ConfigPropertyCorrector(parser: parser, propertyParser: propertyParser)
-            ])
-            let validator = Validator([
-                FactoryReferenceValidator(parser: parser),
-                CircularDependencyValidator(parser: parser),
-                InjectPropertyValidator(parser: parser, propertyParser: propertyParser)
-            ])
-
-            let propertyFiles = configuration.getPropertyList(info: info, properties: properties)
-            propertyParser.load(propertyFiles)
-
-            do {
-                try resolveParser.load(info.dependencies)
-
-                let results = try validator.run(
-                    try corrector.run(
-                        try resolveParser.run(
-                            try parser.run(sourceFiles)
-                        )
-                    )
-                )
-
+            let buildProcess = try BuildProcess(options: options, output: options.output)
+            while let result = try buildProcess.processNext() {
+                guard result.isSuccess else { continue }
+                
                 let generator: Generator = try {
                     switch options.type {
                     case "graph", "html":
                         return GraphGenerator(
-                            results: results,
-                            properties: propertyParser.properties
+                            results: result.results,
+                            properties: result.properties
                         )
                     case "code", "swift":
                         return SourceGenerator(
-                            className: className,
-                            accessControl: info.accessControl,
-                            results: results,
-                            properties: propertyParser.properties
+                            className: result.className,
+                            accessControl: result.accessControl,
+                            results: result.results,
+                            properties: result.properties
                         )
                     case "raw", "text":
                         return RawGenerator(
-                            results: results,
-                            properties: propertyParser.properties
+                            results: result.results,
+                            properties: result.properties
                         )
                     default:
                         throw CommandError.unacceptableType
@@ -142,31 +58,47 @@ struct GenerateCommand: CommandProtocol {
                 if let path = options.output {
                     try saveOutput(generator: generator, outputFile: path)
                     Logger.log(.info("Generate file: \(path)"))
+                    Logger.log(.newLine)
                 } else {
                     print()
                     print(try generator.generate())
                 }
-            } catch let error {
+            }
+        } catch let error {
+            switch error {
+            case let error as CommandError:
+                return .failure(error)
+            default:
                 return .failure(.runner(error))
             }
         }
+
         return .success(())
     }
 }
 
-struct GenerateOptions: OptionsProtocol {
+struct GenerateOptions: OptionsProtocol, BuildProcessOptions, LoggerProcessOptions {
     let configFile: String?
     let isVerbose: Bool
     let isDebug: Bool
     let project: String?
     let scheme: String?
     let target: String?
-    let output: String?
     let properties: String?
+
+    let output: String?
     let type: String
 
-    static func create(configFile: String?) -> (_ isVerbose: Bool) -> (_ isDebug: Bool) -> (_ project: String?) -> (_ scheme: String?) -> (_ target: String?) -> (_ output: String?) -> (_ properties: String?) -> (_ type: String) -> GenerateOptions {
-        return { isVerbose in { isDebug in { project in { scheme in { target in { output in { properties in { type in
+    static func create(configFile: String?) ->
+        (_ isVerbose: Bool) ->
+        (_ isDebug: Bool) ->
+        (_ project: String?) ->
+        (_ scheme: String?) ->
+        (_ target: String?) ->
+        (_ properties: String?) ->
+        (_ output: String?) ->
+        (_ type: String) -> GenerateOptions {
+        return { isVerbose in { isDebug in { project in { scheme in { target in { properties in { output in { type in
             self.init(
                 configFile: configFile,
                 isVerbose: isVerbose,
@@ -174,8 +106,8 @@ struct GenerateOptions: OptionsProtocol {
                 project: project,
                 scheme: scheme,
                 target: target,
-                output: output,
                 properties: properties,
+                output: output,
                 type: type
             )
         }}}}}}}}
@@ -214,14 +146,14 @@ struct GenerateOptions: OptionsProtocol {
                 usage: "using build target name"
             )
             <*> mode <| Option(
-                key: "output",
-                defaultValue: nil,
-                usage: "the path of output file"
-            )
-            <*> mode <| Option(
                 key: "property",
                 defaultValue: nil,
                 usage: "the path of property file"
+            )
+            <*> mode <| Option(
+                key: "output",
+                defaultValue: nil,
+                usage: "the path of output file"
             )
             <*> mode <| Option(
                 key: "type",

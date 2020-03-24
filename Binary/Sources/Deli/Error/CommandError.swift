@@ -11,6 +11,8 @@ enum CommandError: Error {
     case unacceptableType
     case mustBeUsedWithProjectArguments
     case cannotOverwriteDirectory
+    case circularDependencyBetweenTargetsExists
+    case notFoundResolvedTarget
     case unknown
 
     var localizedDescription: String {
@@ -29,6 +31,10 @@ enum CommandError: Error {
             return "Must be used with project arguments."
         case .cannotOverwriteDirectory:
             return "Cannot overwrite a directory with an output file."
+        case .circularDependencyBetweenTargetsExists:
+            return "The circular dependency between targets exists."
+        case .notFoundResolvedTarget:
+            return "Not found resolved target"
         case .unknown:
             return "Unknown error."
         }

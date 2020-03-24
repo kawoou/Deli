@@ -32,6 +32,7 @@ final class SourceGenerator: Generator {
         //
 
         \(imports)
+        // swiftlint:disable all
         \(accessControl)final class \(className): ModuleFactory {
             \(accessControl)override func load(context: AppContext) {
                 loadProperty(\(dictionaryData))
