@@ -70,19 +70,57 @@ public extension Inject {
         )!
     }
 
+    /// Get instance for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - payload: User payload for resolve.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance.
+    static func Inject<T: Factory>(
+        _ type: T.Type,
+        with payload: T.RawPayload,
+        resolveRole: ResolveRole = .recursive
+    ) -> T {
+        return AppContext.shared.get(
+            type,
+            payload: payload,
+            resolveRole: resolveRole
+        )!
+    }
+
     /// Get instance list for type by factory.
     ///
     /// - Parameters:
     ///     - type: The dependency type to resolve.
     ///     - argument: User data for resolve.
     ///     - resolveRole: The resolve role.
-    /// - Returns: The resolved instances, or emtpy.
+    /// - Returns: The resolved instances, or empty.
     static func Inject<T: Factory>(
         _ type: [T].Type,
         with argument: T.RawPayload.Tuple,
         resolveRole: ResolveRole = .default
     ) -> [T] {
         let payload = T.RawPayload(with: argument)
+        return AppContext.shared.get(
+            type,
+            payload: payload,
+            resolveRole: resolveRole
+        )
+    }
+
+    /// Get instance list for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - payload: User payload for resolve.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The resolved instances, or empty.
+    static func Inject<T: Factory>(
+        _ type: [T].Type,
+        with payload: T.RawPayload,
+        resolveRole: ResolveRole = .default
+    ) -> [T] {
         return AppContext.shared.get(
             type,
             payload: payload,
@@ -193,6 +231,25 @@ public extension Inject {
             resolveRole: resolveRole
         )
     }
+
+    /// Get instance for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - argument: User payload for resolve.
+    ///     - resolveRole: The resolve role(default: recursive)
+    /// - Returns: The resolved instance.
+    func Inject<T: Factory>(
+        _ type: T.Type,
+        with payload: T.RawPayload,
+        resolveRole: ResolveRole = .recursive
+    ) -> T {
+        return Self.Inject(
+            type,
+            with: payload,
+            resolveRole: resolveRole
+        )
+    }
     
     /// Get instance list for type by factory.
     ///
@@ -200,7 +257,7 @@ public extension Inject {
     ///     - type: The dependency type to resolve.
     ///     - argument: User data for resolve.
     ///     - resolveRole: The resolve role.
-    /// - Returns: The resolved instances, or emtpy.
+    /// - Returns: The resolved instances, or empty.
     func Inject<T: Factory>(
         _ type: [T].Type,
         with argument: T.RawPayload.Tuple,
@@ -209,6 +266,25 @@ public extension Inject {
         return Self.Inject(
             type,
             with: argument,
+            resolveRole: resolveRole
+        )
+    }
+
+    /// Get instance list for type by factory.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - payload: User payload for resolve.
+    ///     - resolveRole: The resolve role.
+    /// - Returns: The resolved instances, or empty.
+    func Inject<T: Factory>(
+        _ type: [T].Type,
+        with payload: T.RawPayload,
+        resolveRole: ResolveRole = .default
+    ) -> [T] {
+        return Self.Inject(
+            type,
+            with: payload,
             resolveRole: resolveRole
         )
     }
