@@ -43,7 +43,20 @@ open class ModuleFactory {
         
         container.reset()
     }
-    
+
+    /// Link the connected type.
+    ///
+    /// - Parameters:
+    ///     - type: The dependency type to resolve.
+    ///     - qualifier: The qualifier.
+    ///     - children: The access type.
+    public func link<U>(_ type: AnyClass, qualifier: String, children: U.Type) {
+        container.link(
+            TypeKey(type: children, qualifier: ""),
+            children: TypeKey(type: type, qualifier: qualifier)
+        )
+    }
+
     /// Register in DI graph.
     ///
     /// By default, it is called from automatically generated code via
@@ -196,14 +209,6 @@ open class ModuleFactory {
         container.register(key, component: component)
         
         return Linker(container, type: type, qualifier: qualifier)
-    }
-
-    /// Load property in container
-    ///
-    /// - Parameters:
-    ///     - properties: Property dictionary.
-    public func loadProperty(_ properties: [String: Any]) {
-        container.loadProperty(properties)
     }
     
     // MARK: - Lifecycle

@@ -17,7 +17,37 @@ final class BuildProcess {
 
     private let configure: Config
 
+    private var resolveFactoryMap = [String: String]()
     private var resolvedMap = [String: [ResolveData.Dependency]]()
+
+    private func loadDependencies(
+        _ info: ConfigInfo,
+        resolveParser: ResolveParser,
+        resolveFactories: inout [String: String]
+    ) throws {
+        for dependency in info.dependencies {
+            switch dependency {
+            case let .target(target):
+                if let resolvedData = resolvedMap[target.target],
+                    let factory = resolveFactoryMap[target.target],
+                    let parentTarget = configure.config[target.target] {
+                    try loadDependencies(
+                        parentTarget,
+                        resolveParser: resolveParser,
+                        resolveFactories: &resolveFactories
+                    )
+
+                    resolveFactories[target.target] = factory
+                    resolveParser.load(resolvedData, imports: target.imports, module: target.target)
+                } else {
+                    Logger.log(.error("Not found resolved target: \(target.target)", nil))
+                    throw CommandError.notFoundResolvedTarget
+                }
+            case let .resolveFile(resolveFile):
+                try resolveParser.load([resolveFile])
+            }
+        }
+    }
 
     // MARK: - Public
 
@@ -48,6 +78,7 @@ final class BuildProcess {
                 isGenerateResolveFile: info.resolve?.isGenerate ?? true,
                 results: [],
                 properties: [:],
+                resolveFactories: [:],
                 isSuccess: false
             )
         }
@@ -78,10 +109,11 @@ final class BuildProcess {
             ConfigPropertyParser()
         ])
         let corrector = Corrector([
+            InheritanceCorrector(parser: parser),
             QualifierByCorrector(parser: parser, propertyParser: propertyParser),
             QualifierCorrector(parser: parser),
             ScopeCorrector(parser: parser),
-            NotImplementCorrector(parser: parser),
+            NotImplementCorrector(parser: parser, resolveParser: resolveParser),
             ConfigPropertyCorrector(parser: parser, propertyParser: propertyParser)
         ])
         let validator = Validator([
@@ -94,19 +126,8 @@ final class BuildProcess {
         propertyParser.load(propertyFiles)
 
         do {
-            for dependency in info.dependencies {
-                switch dependency {
-                case let .target(target):
-                    if let resolvedData = resolvedMap[target.target] {
-                        resolveParser.load(resolvedData, imports: target.imports)
-                    } else {
-                        Logger.log(.error("Not found resolved target: \(target.target)", nil))
-                        throw CommandError.notFoundResolvedTarget
-                    }
-                case let .resolveFile(resolveFile):
-                    try resolveParser.load([resolveFile])
-                }
-            }
+            var resolveFactories = [String: String]()
+            try loadDependencies(info, resolveParser: resolveParser, resolveFactories: &resolveFactories)
 
             let results = try validator.run(
                 try corrector.run(
@@ -116,18 +137,20 @@ final class BuildProcess {
                 )
             )
 
+            resolveFactoryMap[target] = className
             resolvedMap[target] = {
                 var newDict = [String: ResolveData.Dependency]()
-                results.filter { !$0.isResolved }.forEach { result in
-                    let dependency = ResolveData.Dependency(result: result)
+                results.filter { !$0.isResolved }
+                    .forEach { result in
+                        let dependency = ResolveData.Dependency(result: result)
 
-                    if var oldValue = newDict[dependency.type] {
-                        oldValue.merging(dependency)
-                        newDict[dependency.type] = oldValue
-                    } else {
-                        newDict[dependency.type] = dependency
+                        if var oldValue = newDict[dependency.type] {
+                            oldValue.merging(dependency)
+                            newDict[dependency.type] = oldValue
+                        } else {
+                            newDict[dependency.type] = dependency
+                        }
                     }
-                }
 
                 return Array(newDict.values).sorted { $0.type < $1.type }
             }()
@@ -142,6 +165,7 @@ final class BuildProcess {
                 isGenerateResolveFile: info.resolve?.isGenerate ?? true,
                 results: results,
                 properties: propertyParser.properties,
+                resolveFactories: resolveFactories,
                 isSuccess: true
             )
         } catch let error {

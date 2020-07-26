@@ -15,5 +15,6 @@ struct BuildProcessResult {
     let isGenerateResolveFile: Bool
     let results: [Results]
     let properties: [String: Any]
+    let resolveFactories: [String: String]
     let isSuccess: Bool
 }

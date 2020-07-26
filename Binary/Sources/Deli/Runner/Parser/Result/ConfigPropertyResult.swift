@@ -19,7 +19,9 @@ final class ConfigPropertyResult: Results {
     var qualifier: String? = nil
     var dependencies: [Dependency] = []
     var instanceDependency: [Dependency] = []
+    var inheritanceList: [String] = []
     var imports: [String] = []
+    var module: String?
 
     var linkType: Set<String> = Set()
 

@@ -20,6 +20,8 @@ final class DependencyTree {
             guard findRecursive(dependency, travelInstance: &travelInstance) else { return false }
         }
 
+        travelInstance.remove(target)
+
         return true
     }
 

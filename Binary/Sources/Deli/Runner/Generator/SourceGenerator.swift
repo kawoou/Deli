@@ -10,7 +10,7 @@ final class SourceGenerator: Generator {
     // MARK: - Public
 
     func generate() throws -> String {
-        let imports = Set(results.flatMap { $0.imports } + ["Deli"])
+        let imports = Set(results.flatMap { $0.imports } + Array(resolveFactories.keys) + ["Deli"])
             .sorted()
             .map { "import \($0)\n" }
             .joined()
@@ -25,6 +25,53 @@ final class SourceGenerator: Generator {
 
         let dictionaryData = generateDictionary(properties, indentDepth: 2)
 
+        let loadList = ("\n" + resolveFactories.map { "\($0.key).\($0.value).self" }
+            .sorted { $0 < $1 }
+            .joined(separator: ",\n"))
+            .replacingOccurrences(of: "\n", with: "\n            ")
+
+        let loadScript: String = {
+            guard !resolveFactories.isEmpty else { return "" }
+            return "context.load([\(loadList)\n        ])\n\n        "
+        }()
+
+        let linkData = Dictionary(grouping: results.compactMap { $0 as? ResolveLinkerResult }) { $0.module }
+            .compactMap { (module, results) -> String? in
+                guard let module = module else { return nil }
+                guard let moduleFactory = resolveFactories[module] else { return nil }
+
+                let linkData = results
+                    .flatMap { result -> [String] in
+                        let className = "\(module).\(result.instanceType)"
+                        return result.linkType.map { children in
+                            """
+                            $0.link(
+                                NSClassFromString("\(className)")!,
+                                qualifier: "\(result.qualifier ?? "")",
+                                children: \(children).self
+                            )
+                            """
+                        }
+                    }
+                    .joined(separator: "\n")
+                    .replacingOccurrences(of: "\n", with: "\n    ")
+
+                let factoryName = "\(module).\(moduleFactory)"
+                return """
+                context.getFactory(\(factoryName).self).forEach {
+                    \(linkData)
+                }
+                """
+            }
+            .joined(separator: "\n")
+            .replacingOccurrences(of: "\n", with: "\n        ")
+
+        let innerScript = """
+                context.loadProperty(\(dictionaryData))
+
+                \(loadScript)\(linkData.isEmpty ? "" : linkData + "\n\n        ")\(output)
+        """.trimmingCharacters(in: .whitespacesAndNewlines)
+
         return """
         //
         //  \(className).swift
@@ -35,9 +82,7 @@ final class SourceGenerator: Generator {
         // swiftlint:disable all
         \(accessControl)final class \(className): ModuleFactory {
             \(accessControl)override func load(context: AppContext) {
-                loadProperty(\(dictionaryData))
-        
-                \(output)
+                \(innerScript)
             }
         }
         """
@@ -49,6 +94,7 @@ final class SourceGenerator: Generator {
     private let accessControl: String
     private let results: [Results]
     private let properties: [String: Any]
+    private let resolveFactories: [String: String]
 
     private func generateDictionary(_ target: Any, indentDepth: Int) -> String {
         let indent = (0..<indentDepth)
@@ -103,14 +149,23 @@ final class SourceGenerator: Generator {
             className: "DeliFactory",
             accessControl: nil,
             results: results,
-            properties: properties
+            properties: properties,
+            resolveFactories: [:]
         )
     }
-    init(className: String, accessControl: String?, results: [Results], properties: [String: Any]) {
+
+    init(
+        className: String,
+        accessControl: String?,
+        results: [Results],
+        properties: [String: Any],
+        resolveFactories: [String: String]
+    ) {
         self.className = className
         self.accessControl = accessControl.map { "\($0) " } ?? ""
         self.results = results
             .sorted { $0.instanceType < $1.instanceType }
         self.properties = properties
+        self.resolveFactories = resolveFactories
     }
 }

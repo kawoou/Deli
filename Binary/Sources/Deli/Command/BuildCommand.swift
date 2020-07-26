@@ -34,7 +34,8 @@ struct BuildCommand: CommandProtocol {
                     className: result.className,
                     accessControl: result.accessControl,
                     results: result.results,
-                    properties: result.properties
+                    properties: result.properties,
+                    resolveFactories: result.resolveFactories
                 )
                 try saveOutput(generator: generator, outputFile: result.outputFile)
 

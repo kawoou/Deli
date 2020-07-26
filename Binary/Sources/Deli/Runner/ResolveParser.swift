@@ -20,8 +20,10 @@ final class ResolveParser {
 
     // NARK: - Public
 
-    func load(_ resultList: [ResolveData.Dependency], imports: [String]) {
-        dependencies += resultList.map { ResolveResult($0, imports: imports) }
+    func load(_ resultList: [ResolveData.Dependency], imports: [String], module: String) {
+        dependencies += resultList.map {
+            ResolveResult($0, imports: imports, module: module)
+        }
     }
 
     func load(_ infoList: [ConfigDependencyResolveFile]) throws {
@@ -50,7 +52,7 @@ final class ResolveParser {
                 let data = try String(contentsOfFile: info.path, encoding: .utf8)
                 let resolveData = try decoder.decode(ResolveData.self, from: data)
                 return resolveData.dependency
-                    .map { ResolveResult($0, imports: info.imports) }
+                    .map { ResolveResult($0, imports: info.imports, module: resolveData.projectName) }
             }
     }
 
@@ -59,6 +61,10 @@ final class ResolveParser {
     }
     func reset() {
         dependencies = []
+    }
+
+    func inheritanceList(_ name: String) -> [String] {
+        dependencies.first { $0.instanceType == name }?.inheritanceList ?? []
     }
 
     // MARK: - Private

@@ -15,12 +15,19 @@ final class Parser: Runnable {
         static let allowKinds = [
             SwiftDeclarationKind.class.rawValue,
             SwiftDeclarationKind.struct.rawValue,
-            SwiftDeclarationKind.protocol.rawValue
+            SwiftDeclarationKind.protocol.rawValue,
+            SwiftDeclarationKind.extension.rawValue
         ]
         static let allowAccessLevels = [
             Structure.AccessLevel.open,
             Structure.AccessLevel.public,
             Structure.AccessLevel.internal
+        ]
+
+        static let parseKinds = [
+            SwiftDeclarationKind.class.rawValue,
+            SwiftDeclarationKind.struct.rawValue,
+            SwiftDeclarationKind.protocol.rawValue
         ]
 
         static let typealiasRegex = "typealias[\\s]+([^\\s=]+)[\\s]*=[\\s]*([^\\n]+)".r!
@@ -89,6 +96,9 @@ final class Parser: Runnable {
                 )
             }
 
+        /// Compare allowed keywords
+        guard Constant.parseKinds.contains(structure.kind) else { return results }
+
         /// Save inheritance information
         inheritanceMap[name] = InheritanceInfo(
             name: name,
@@ -121,9 +131,9 @@ final class Parser: Runnable {
                         result.dependencies.append(contentsOf: dependencies)
                         return result
                     }
-            } + results
+            }
 
-        return parseResults
+        return parseResults + results
     }
     
     private func parse(path: String) throws -> [Results] {

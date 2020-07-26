@@ -43,7 +43,8 @@ struct GenerateCommand: CommandProtocol {
                             className: result.className,
                             accessControl: result.accessControl,
                             results: result.results,
-                            properties: result.properties
+                            properties: result.properties,
+                            resolveFactories: result.resolveFactories
                         )
                     case "raw", "text":
                         return RawGenerator(

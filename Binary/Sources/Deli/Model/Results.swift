@@ -14,7 +14,9 @@ protocol Results: class, CustomStringConvertible, CustomDebugStringConvertible {
     var qualifier: String? { get set }
     var dependencies: [Dependency] { get set }
     var instanceDependency: [Dependency] { get set }
+    var inheritanceList: [String] { get set }
     var imports: [String] { get set }
+    var module: String? { get set }
 
     var linkType: Set<String> { get set }
     
@@ -55,6 +57,9 @@ extension Results {
             .joined(separator: ",\n")
             .replacingOccurrences(of: "\n", with: "\n        ")
 
+        let inheritanceListString = inheritanceList
+            .joined(separator: ",\n        ")
+
         let importsString = imports
             .joined(separator: ",\n        ")
         
@@ -72,6 +77,7 @@ extension Results {
             qualifier: \"\(qualifier ?? "")\",
             dependencies: [\(dependenciesString.isEmpty ? "" : ("\n        " + dependenciesString + "\n    "))],
             instanceDependency: [\(instanceDependenciesString.isEmpty ? "" : ("\n        " + instanceDependenciesString + "\n    "))],
+            inheritanceList: [\(inheritanceListString.isEmpty ? "" : ("\n        " + inheritanceListString + "\n    "))],
             imports: [\(importsString.isEmpty ? "" : ("\n        " + importsString + "\n    "))],
             linkType: [\(linkTypeString.isEmpty ? "" : ("\n        " + linkTypeString + "\n    "))]
         )

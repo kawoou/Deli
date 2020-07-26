@@ -53,6 +53,13 @@ final class AutowiredFactoryParser: Parsable {
         guard let code = fileContent.utf8[Int(source.offset)...Int(source.offset + source.length)] else { return false }
         guard code.hasPrefix(Constant.constructorPrefix) else { return false }
         guard name.hasPrefix(Constant.constructorPrefix) else { return false }
+
+        let parameters = source.substructures
+            .filter { $0.kind == SwiftDeclarationKind.varParameter.rawValue }
+
+        guard !parameters.isEmpty else { return false }
+        guard let payloadStructure = parameters.last else { return false }
+        guard payloadStructure.name == Constant.payloadKey else { return false }
         return true
     }
     

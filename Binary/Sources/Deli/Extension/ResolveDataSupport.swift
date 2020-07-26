@@ -21,6 +21,8 @@ extension ResolveData.Dependency {
         dependencies = result.dependencies
             .map { ResolveData.DependencyTarget(dependency: $0) }
         linkType = Array(result.linkType)
+        imports = result.imports
+        inheritanceType = result.inheritanceList
     }
 
     mutating func merging(_ data: ResolveData.Dependency) {

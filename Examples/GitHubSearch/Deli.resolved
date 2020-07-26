@@ -9,12 +9,18 @@ DEPENDENCY:
     QUALIFIER: 
   LINK:
   - GitHubService
+  INHERITED:
+  - GitHubServiceImpl
+  - GitHubService
 - TYPE: NetworkManagerImpl
   LAZILY: false
   FACTORY: false
   VALUE_TYPE: false
   DEPENDENCY: []
   LINK:
+  - NetworkManager
+  INHERITED:
+  - NetworkManagerImpl
   - NetworkManager
 - TYPE: ViewController
   LAZILY: false
@@ -24,6 +30,8 @@ DEPENDENCY:
   - TYPE: ViewModel
     QUALIFIER: 
   LINK: []
+  INHERITED:
+  - ViewController
 - TYPE: ViewModel
   LAZILY: false
   FACTORY: false
@@ -32,6 +40,8 @@ DEPENDENCY:
   - TYPE: GitHubService
     QUALIFIER: 
   LINK: []
+  INHERITED:
+  - ViewModel
 PROPERTY: {}
 PROJECT: GitHubSearch
 REFERENCE: GitHubSearch
