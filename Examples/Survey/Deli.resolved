@@ -9,7 +9,8 @@ DEPENDENCY:
     QUALIFIER: 
   LINK:
   - SurveyService
-  INHERITED:
+  IMPORT: []
+  INHERIT:
   - SurveyServiceImpl
   - SurveyService
 - TYPE: TestSurvey1
@@ -20,7 +21,8 @@ DEPENDENCY:
   DEPENDENCY: []
   LINK:
   - Survey
-  INHERITED:
+  IMPORT: []
+  INHERIT:
   - TestSurvey1
   - Survey
 - TYPE: TestSurvey2
@@ -31,7 +33,8 @@ DEPENDENCY:
   DEPENDENCY: []
   LINK:
   - Survey
-  INHERITED:
+  IMPORT: []
+  INHERIT:
   - TestSurvey2
   - Survey
 - TYPE: TestSurvey3
@@ -42,7 +45,8 @@ DEPENDENCY:
   DEPENDENCY: []
   LINK:
   - Survey
-  INHERITED:
+  IMPORT: []
+  INHERIT:
   - TestSurvey3
   - Survey
 - TYPE: ViewController
@@ -55,7 +59,8 @@ DEPENDENCY:
   - TYPE: ViewModel
     QUALIFIER: 
   LINK: []
-  INHERITED:
+  IMPORT: []
+  INHERIT:
   - ViewController
 - TYPE: ViewModel
   LAZILY: false
@@ -65,7 +70,8 @@ DEPENDENCY:
   - TYPE: SurveyService
     QUALIFIER: 
   LINK: []
-  INHERITED:
+  IMPORT: []
+  INHERIT:
   - ViewModel
 PROPERTY: {}
 PROJECT: Survey

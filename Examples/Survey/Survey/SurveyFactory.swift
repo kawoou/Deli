@@ -5,9 +5,10 @@
 
 import Deli
 
+// swiftlint:disable all
 final class SurveyFactory: ModuleFactory {
     override func load(context: AppContext) {
-        loadProperty([:])
+        context.loadProperty([:])
 
         register(
             SurveyServiceImpl.self,

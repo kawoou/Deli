@@ -15,10 +15,14 @@ class NestedClass {
 
 struct NestedStruct {
     class NestedClass: Component {
-        struct NestedStruct {
-            class NestedClass: Component {
 
-            }
+    }
+}
+
+extension NestedStruct.NestedClass {
+    struct NestedStruct {
+        class NestedClass: Component {
+
         }
     }
 }

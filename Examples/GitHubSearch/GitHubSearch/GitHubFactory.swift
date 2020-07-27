@@ -5,9 +5,10 @@
 
 import Deli
 
+// swiftlint:disable all
 final class GitHubFactory: ModuleFactory {
     override func load(context: AppContext) {
-        loadProperty([:])
+        context.loadProperty([:])
 
         register(
             GitHubServiceImpl.self,
