@@ -33,8 +33,8 @@ final class DependencyParser: Parsable {
         _ source: Structure,
         root: Structure,
         fileContent: String,
-        typealiasMap: [String: String]
-    ) throws -> Dependency? {
+        typealiasMap: [String: [String]]
+    ) throws -> [Dependency]? {
         guard let rootName = root.name else { return nil }
         guard let typeName = source.typeName else { return nil }
 
@@ -66,28 +66,33 @@ final class DependencyParser: Parsable {
 
         if let arrayMatch = Constant.arrayRegex.findFirst(in: typeName), let arrayType = arrayMatch.group(at: 1) {
             if target == Constant.propertyWrapperArray {
-                return Dependency(
-                    parent: rootName,
-                    target: source,
-                    name: typealiasMap[arrayType] ?? arrayType,
-                    type: .array,
-                    rule: .default,
-                    qualifier: qualifier,
-                    qualifierBy: qualifierBy
-                )
+                return (typealiasMap[arrayType] ?? [arrayType]).map {
+                    Dependency(
+                        parent: rootName,
+                        target: source,
+                        name: $0,
+                        type: .array,
+                        rule: .default,
+                        qualifier: qualifier,
+                        qualifierBy: qualifierBy
+                    )
+                }
             } else {
                 Logger.log(.error("Use @DependencyArray for the Array type.", source.getSourceLine(with: fileContent)))
                 throw ParserError.useDependencyArray
             }
+        } else {
+            return (typealiasMap[typeName] ?? [typeName]).map {
+                Dependency(
+                    parent: rootName,
+                    target: source,
+                    name: $0,
+                    rule: .default,
+                    qualifier: qualifier,
+                    qualifierBy: qualifierBy
+                )
+            }
         }
-        return Dependency(
-            parent: rootName,
-            target: source,
-            name: typealiasMap[typeName] ?? typeName,
-            rule: .default,
-            qualifier: qualifier,
-            qualifierBy: qualifierBy
-        )
     }
 
     // MARK: - Public
@@ -96,7 +101,7 @@ final class DependencyParser: Parsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
@@ -105,13 +110,13 @@ final class DependencyParser: Parsable {
 
         let dependencyList = try source.substructures
             .filter { $0.attributes.contains(SwiftDeclarationAttributeKind._custom.rawValue) }
-            .compactMap {
+            .flatMap {
                 try found(
                     $0,
                     root: source,
                     fileContent: fileContent,
                     typealiasMap: typealiasMap
-                )
+                ) ?? []
             }
 
         guard !dependencyList.isEmpty else { return [] }

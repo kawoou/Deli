@@ -40,18 +40,30 @@ final class SourceGenerator: Generator {
                 guard let module = module else { return nil }
                 guard let moduleFactory = resolveFactories[module] else { return nil }
 
+                var uniqueSet = Set<String>()
                 let linkData = results
-                    .flatMap { result -> [String] in
-                        let className = "\(module).\(result.instanceType)"
-                        return result.linkType.map { children in
-                            """
-                            $0.link(
-                                NSClassFromString("\(className)")!,
-                                qualifier: "\(result.qualifier ?? "")",
-                                children: \(children).self
-                            )
-                            """
+                    .flatMap { result -> [(ResolveLinkerResult, String)] in
+                        result.linkType.map { (result, $0) }
+                    }
+                    .filter { (result, children) in
+                        let key = "\(module).\(result.instanceType):\(children)"
+                        if uniqueSet.contains(key) {
+                            return false
+                        } else {
+                            uniqueSet.insert(key)
+                            return true
                         }
+                    }
+                    .sorted { $0.1 < $1.1 }
+                    .map { (result, children) -> String in
+                        let className = "\(module).\(result.instanceType)"
+                        return """
+                        $0.link(
+                            NSClassFromString("\(className)")!,
+                            qualifier: "\(result.qualifier ?? "")",
+                            children: \(children).self
+                        )
+                        """
                     }
                     .joined(separator: "\n")
                     .replacingOccurrences(of: "\n", with: "\n    ")

@@ -23,7 +23,7 @@ final class ConfigPropertyParser: Parsable {
         _ source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> ConfigPropertyResult {
         guard let name = source.name.map({ typePrefix + $0 }) else {
             throw ParserError.unknown
@@ -84,7 +84,7 @@ final class ConfigPropertyParser: Parsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         guard source.name != nil else {
             Logger.log(.assert("Unknown structure name."))

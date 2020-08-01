@@ -42,7 +42,7 @@ final class ConfigurationParser: Parsable {
         parent: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> ConfigFunctionResult {
         guard let name = parent.name else {
             throw ParserError.unknown
@@ -86,16 +86,18 @@ final class ConfigurationParser: Parsable {
         let dependencies = try arguments
             /// Remove unnecessary arguments.
             .filter { $0.firstIndex(of: Constant.argumentInfoKeyword) == nil }
-            .map { dependencyName -> Dependency in
+            .flatMap { dependencyName -> [Dependency] in
                 if Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) != nil {
                     Logger.log(.error("Configuration does not support injection for Array type Dependency. Using `Inject(\(dependencyName).self)`.", source.getSourceLine(with: fileContent)))
                     throw ParserError.configurationCannotSupportArrayType
                 }
-                return Dependency(
-                    parent: name,
-                    target: source,
-                    name: typealiasMap[dependencyName] ?? dependencyName
-                )
+                return (typealiasMap[dependencyName] ?? [dependencyName]).map {
+                    return Dependency(
+                        parent: name,
+                        target: source,
+                        name: $0
+                    )
+                }
             }
 
         let qualifierRaw = arguments
@@ -163,7 +165,7 @@ final class ConfigurationParser: Parsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))

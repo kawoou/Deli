@@ -18,6 +18,7 @@ final class Parser: Runnable {
             SwiftDeclarationKind.protocol.rawValue,
             SwiftDeclarationKind.extension.rawValue
         ]
+
         static let allowAccessLevels = [
             Structure.AccessLevel.open,
             Structure.AccessLevel.public,
@@ -28,6 +29,10 @@ final class Parser: Runnable {
             SwiftDeclarationKind.class.rawValue,
             SwiftDeclarationKind.struct.rawValue,
             SwiftDeclarationKind.protocol.rawValue
+        ]
+
+        static let inheritedKinds = parseKinds + [
+            SwiftDeclarationKind.typealias.rawValue
         ]
 
         static let typealiasRegex = "typealias[\\s]+([^\\s=]+)[\\s]*=[\\s]*([^\\n]+)".r!
@@ -41,7 +46,7 @@ final class Parser: Runnable {
     
     private var inheritanceMap = [String: InheritanceInfo]()
 
-    private func parseTypealias(structure: Structure, content: String) -> String? {
+    private func parseTypealias(structure: Structure, content: String) -> [String]? {
         guard let data = content.utf8[Int(structure.offset)..<Int(structure.offset + structure.length)] else { return nil }
         guard let typeMatch = Constant.typealiasRegex.findFirst(in: data) else {
             Logger.log(.debug("Failed to parse file content for 'typealias' keyword"))
@@ -56,17 +61,28 @@ final class Parser: Runnable {
             ))
             return nil
         }
-        return typeResult
+        return typeResult.split(separator: "&")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
     }
     
     private func parse(
         structure: Structure,
         content: String,
         typePrefix: String = "",
-        typealiasMap: [String: String] = [:]
+        typealiasMap: [String: [String]] = [:]
     ) throws -> [Results] {
         guard let name = structure.name.map({ typePrefix + $0 }) else { return [] }
-        
+
+        if structure.kind == SwiftDeclarationKind.typealias.rawValue {
+            /// Save inheritance information
+            inheritanceMap[name] = InheritanceInfo(
+                name: name,
+                types: structure.inheritedTypes.flatMap { (typealiasMap[$0] ?? []) + [$0] },
+                structure: structure,
+                content: content
+            )
+        }
+
         /// Compare allowed keywords
         guard Constant.allowKinds.contains(structure.kind) else { return [] }
         
@@ -87,6 +103,7 @@ final class Parser: Runnable {
 
         /// Find nested type
         let results = try structure.substructures
+            .sorted(by: sortStructureByKind)
             .flatMap {
                 try parse(
                     structure: $0,
@@ -102,7 +119,7 @@ final class Parser: Runnable {
         /// Save inheritance information
         inheritanceMap[name] = InheritanceInfo(
             name: name,
-            types: structure.inheritedTypes,
+            types: structure.inheritedTypes.flatMap { (typealiasMap[$0] ?? []) + [$0] },
             structure: structure,
             content: content
         )
@@ -136,7 +153,7 @@ final class Parser: Runnable {
         return parseResults + results
     }
     
-    private func parse(path: String) throws -> [Results] {
+    private func parse(path: String, typealiasMap: [String: [String]]) throws -> [Results] {
         let url = URL(fileURLWithPath: path).standardized
 
         let content = try String(contentsOfFile: path, encoding: .utf8)
@@ -150,7 +167,54 @@ final class Parser: Runnable {
         
         /// Parsing
         return try rootStructure.substructures
-            .flatMap { try parse(structure: $0, content: content) }
+            .sorted(by: sortStructureByKind)
+            .flatMap { try parse(structure: $0, content: content, typealiasMap: typealiasMap) }
+    }
+
+    private func parseRootTypealiasMap(_ pathList: [String]) -> [String: [String]] {
+        var typealiasMap = [String: [String]]()
+
+        try? pathList.forEach { path in
+            let url = URL(fileURLWithPath: path).standardized
+            let content = try String(contentsOfFile: path, encoding: .utf8)
+
+            /// Analysis the source code
+            let info = (try? KittenStructure(file: File(contents: content)).dictionary) ?? [:]
+            guard let rootStructure = RootStructure(source: info, filePath: url.path) else {
+                Logger.log(.debug("Failed to parse the source code in SourceKitten. (\(path))"))
+                return
+            }
+
+            rootStructure.substructures
+                .filter { $0.kind == SwiftDeclarationKind.typealias.rawValue }
+                .forEach { structure in
+                    guard let typeName = structure.name else { return }
+                    guard let typeResult = parseTypealias(structure: structure, content: content) else { return }
+
+                    typealiasMap[typeName] = typeResult
+                }
+        }
+
+        return typealiasMap
+    }
+
+    private func sortStructureByKind(_ lhs: Structure, _ rhs: Structure) -> Bool {
+        let orderKey: (Structure) -> Int = { structure in
+            switch structure.kind {
+            case SwiftDeclarationKind.typealias.rawValue:
+                return 1
+            case SwiftDeclarationKind.class.rawValue,
+                 SwiftDeclarationKind.struct.rawValue,
+                 SwiftDeclarationKind.protocol.rawValue:
+                return 2
+            case SwiftDeclarationKind.extension.rawValue:
+                return 3
+            default:
+                return 4
+            }
+        }
+
+        return orderKey(lhs) < orderKey(rhs)
     }
     
     // MARK: - Public
@@ -168,7 +232,8 @@ final class Parser: Runnable {
     }
     
     func run(_ pathList: [String]) throws -> [Results] {
-        return try pathList.flatMap { try parse(path: $0) }
+        let typealiasMap = parseRootTypealiasMap(pathList)
+        return try pathList.flatMap { try parse(path: $0, typealiasMap: typealiasMap) }
     }
     func reset() {
         inheritanceMap = [:]

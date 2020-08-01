@@ -32,7 +32,7 @@ final class LazyAutowiredFactoryParser: Parsable {
     private func convert(
         name: String,
         fileContent: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) -> String? {
         guard let nameMatch = Constant.typeRegex.findFirst(in: name) else { return name }
         guard let nameResult = nameMatch.group(at: 2) else { return name }
@@ -46,7 +46,7 @@ final class LazyAutowiredFactoryParser: Parsable {
     private func convertPayload(
         name: String,
         fileContent: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) -> String? {
         guard let nameMatch = Constant.payloadTypeRegex.findFirst(in: name) else { return name }
         guard let payloadName = nameMatch.group(at: 2) else { return name }
@@ -81,7 +81,7 @@ final class LazyAutowiredFactoryParser: Parsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
@@ -134,7 +134,7 @@ final class LazyAutowiredFactoryParser: Parsable {
         let qualifier = try parseQualifier(source, fileContent: fileContent)
         let dependencies = try parameterList
             .enumerated()
-            .map { (index, info) -> Dependency in
+            .flatMap { (index, info) -> [Dependency] in
                 guard let typeName = info.typeName else {
                     Logger.log(.error("Unknown `\(name)` dependency type.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
@@ -148,23 +148,28 @@ final class LazyAutowiredFactoryParser: Parsable {
                 let qualifierBy = try parseQualifierBy(info, fileContent: fileContent)
                 
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
-                    return Dependency(
-                        parent: name,
-                        target: injector,
-                        name: typealiasMap[arrayType] ?? arrayType,
-                        type: .array,
-                        qualifier: qualifier,
-                        qualifierBy: qualifierBy
-                    )
+                    return (typealiasMap[arrayType] ?? [arrayType]).map {
+                        Dependency(
+                            parent: name,
+                            target: injector,
+                            name: $0,
+                            type: .array,
+                            qualifier: qualifier,
+                            qualifierBy: qualifierBy
+                        )
+                    }
+                } else {
+                    return (typealiasMap[dependencyName] ?? [dependencyName]).map {
+                        Dependency(
+                            parent: name,
+                            target: injector,
+                            name: $0,
+                            qualifier: qualifier,
+                            qualifierBy: qualifierBy
+                        )
+                    }
                 }
-                return Dependency(
-                    parent: name,
-                    target: injector,
-                    name: typealiasMap[dependencyName] ?? dependencyName,
-                    qualifier: qualifier,
-                    qualifierBy: qualifierBy
-                )
-        }
+            }
         
         let payload: Dependency = try {
             guard let info = constructor.substructures.first else {
@@ -183,7 +188,7 @@ final class LazyAutowiredFactoryParser: Parsable {
             return Dependency(
                 parent: name,
                 target: constructor,
-                name: typealiasMap[payloadName] ?? payloadName
+                name: typealiasMap[payloadName]?.joined(separator: " & ") ?? payloadName
             )
         }()
         
