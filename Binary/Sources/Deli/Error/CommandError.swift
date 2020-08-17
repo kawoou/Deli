@@ -13,6 +13,7 @@ enum CommandError: Error {
     case cannotOverwriteDirectory
     case circularDependencyBetweenTargetsExists
     case notFoundResolvedTarget
+    case notFoundTarget
     case unknown
 
     var localizedDescription: String {
@@ -35,6 +36,8 @@ enum CommandError: Error {
             return "The circular dependency between targets exists."
         case .notFoundResolvedTarget:
             return "Not found resolved target"
+        case .notFoundTarget:
+            return "Not found target"
         case .unknown:
             return "Unknown error."
         }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum ConfigDependency: Decodable {
+enum ConfigDependency: Decodable, Hashable {
     enum CodingKeys: String, CodingKey {
         case target
     }
@@ -22,9 +22,31 @@ enum ConfigDependency: Decodable {
             self = .resolveFile(try ConfigDependencyResolveFile(from: decoder))
         }
     }
+
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case let .target(target):
+            hasher.combine("target")
+            hasher.combine(target)
+        case let .resolveFile(resolveFile):
+            hasher.combine("resolveFile")
+            hasher.combine(resolveFile)
+        }
+    }
+
+    static func == (lhs: ConfigDependency, rhs: ConfigDependency) -> Bool {
+        switch (lhs, rhs) {
+        case (.target(let lhsTarget), .target(let rhsTarget)) where lhsTarget == rhsTarget:
+            return true
+        case (.resolveFile(let lhsResolveFile), .resolveFile(let rhsResolveFile)) where lhsResolveFile == rhsResolveFile:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
-struct ConfigDependencyTarget: Decodable {
+struct ConfigDependencyTarget: Decodable, Hashable {
 
     // MARK: - Enumerable
 
@@ -57,7 +79,7 @@ struct ConfigDependencyTarget: Decodable {
     }
 }
 
-struct ConfigDependencyResolveFile: Decodable {
+struct ConfigDependencyResolveFile: Decodable, Hashable {
 
     // MARK: - Enumerable
 

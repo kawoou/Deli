@@ -21,6 +21,7 @@ final class FactoryReferenceValidator: Validatable {
         
         var isError: Bool = false
         for result in results {
+            guard !result.isResolved else { continue }
             for dependency in result.dependencies {
                 guard map[dependency.name]?.isFactory == true else { continue }
                 guard dependency.rule == .default else { continue }

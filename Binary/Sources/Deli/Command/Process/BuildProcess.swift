@@ -17,6 +17,9 @@ final class BuildProcess {
 
     private let configure: Config
 
+    private var cacheLock = NSLock()
+    private var cachedSourceList = [ConfigInfo: [String]]()
+
     private var resolveFactoryMap = [String: String]()
     private var resolvedMap = [String: [ResolveData.Dependency]]()
 
@@ -37,7 +40,12 @@ final class BuildProcess {
                         resolveFactories: &resolveFactories
                     )
 
-                    resolveFactories[target.target] = factory
+                    if let targetName = configure.config[target.target]?.target {
+                        resolveFactories[targetName] = factory
+                    } else {
+                        Logger.log(.error("Not found target: \(target.target)", nil))
+                        throw CommandError.notFoundTarget
+                    }
                     resolveParser.load(resolvedData, imports: target.imports, module: target.target)
                 } else {
                     Logger.log(.error("Not found resolved target: \(target.target)", nil))
@@ -49,13 +57,55 @@ final class BuildProcess {
         }
     }
 
+    private func loadSourceList(_ info: ConfigInfo) -> [String]? {
+        cacheLock.lock()
+        if let sourceList = cachedSourceList[info] {
+            cacheLock.unlock()
+            return sourceList
+        } else {
+            cacheLock.unlock()
+        }
+
+        let list = try? configuration.getSourceList(info: info)
+
+        cacheLock.lock()
+        cachedSourceList[info] = list
+        cacheLock.unlock()
+
+        return list
+    }
+
+    private func loadAllSourceList() {
+        let dispatchGroup = DispatchGroup()
+
+        configure.target.forEach { target in
+            guard let info = configure.config[target] else {
+                Logger.log(.warn("Target not found: `\(target)`", nil))
+                return
+            }
+
+            dispatchGroup.enter()
+            DispatchQueue.global().async {
+                _ = self.loadSourceList(info)
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.wait()
+    }
+
     // MARK: - Public
 
     func processNext() throws -> BuildProcessResult? {
+        Logger.log(.debug("Find next build target."))
         guard let target = dependencyTree.pop() else { return nil }
-        guard let info = configure.config[target] else { return nil }
 
         Logger.log(.info("Set Target `\(target)`"))
+        guard let info = configure.config[target] else {
+            Logger.log(.error("Not found target: \(target)", nil))
+            throw CommandError.notFoundTarget
+        }
+
         let outputFile: String
         let className: String
         let resolvedOutputFile = configuration.getResolvedOutputPath(info: info)
@@ -67,7 +117,7 @@ final class BuildProcess {
             className = configuration.getClassName(info: info)
         }
 
-        guard let sourceFiles = try? configuration.getSourceList(info: info) else {
+        guard let sourceFiles = loadSourceList(info) else {
             return BuildProcessResult(
                 target: target,
                 output: info.output ?? "\(className).swift",
@@ -127,6 +177,8 @@ final class BuildProcess {
 
         do {
             var resolveFactories = [String: String]()
+
+            resolveParser.reset()
             try loadDependencies(info, resolveParser: resolveParser, resolveFactories: &resolveFactories)
 
             let results = try validator.run(
@@ -199,6 +251,8 @@ final class BuildProcess {
             }
             self.configure = config
         }
+
+        loadAllSourceList()
 
         guard configure.target.count > 0 else {
             Logger.log(.warn("No targets are active.", nil))

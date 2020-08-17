@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct ConfigInfo: Decodable {
+struct ConfigInfo: Decodable, Hashable {
 
     // MARK: - Enumerable
 

@@ -13,16 +13,18 @@ final class RootStructure {
     let length: Int64
     let filePath: String
     let substructures: [Structure]
+    let content: String
     
     // MARK: - Lifecycle
     
-    init?(source: KittenType, filePath: String) {
+    init?(source: KittenType, filePath: String, content: String) {
         guard let offset = source[SwiftDocKey.offset.rawValue] as? Int64 else { return nil }
         guard let length = source[SwiftDocKey.length.rawValue] as? Int64 else { return nil }
         
         self.offset = offset
         self.length = length
         self.filePath = filePath
+        self.content = content
         
         if let substructuresRaw = source[SwiftDocKey.substructure.rawValue] as? [KittenType] {
             self.substructures = substructuresRaw

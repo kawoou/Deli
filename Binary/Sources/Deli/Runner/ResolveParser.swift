@@ -21,6 +21,9 @@ final class ResolveParser {
     // NARK: - Public
 
     func load(_ resultList: [ResolveData.Dependency], imports: [String], module: String) {
+        guard !loadedModules.contains(module) else { return }
+        loadedModules.insert(module)
+        
         dependencies += resultList.map {
             ResolveResult($0, imports: imports, module: module)
         }
@@ -60,6 +63,7 @@ final class ResolveParser {
         return data + dependencies
     }
     func reset() {
+        loadedModules = []
         dependencies = []
     }
 
@@ -69,6 +73,7 @@ final class ResolveParser {
 
     // MARK: - Private
 
+    private var loadedModules = Set<String>()
     private var dependencies: [Results] = []
 
     // MARK: - Lifecycle

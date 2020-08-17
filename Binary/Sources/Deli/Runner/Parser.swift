@@ -43,7 +43,9 @@ final class Parser: Runnable {
     let moduleList: [Parsable]
     
     // MARK: - Private
-    
+
+    private var cacheLock = NSLock()
+    private var cachedStructures = [String: RootStructure]()
     private var inheritanceMap = [String: InheritanceInfo]()
 
     private func parseTypealias(structure: Structure, content: String) -> [String]? {
@@ -154,13 +156,8 @@ final class Parser: Runnable {
     }
     
     private func parse(path: String, typealiasMap: [String: [String]]) throws -> [Results] {
-        let url = URL(fileURLWithPath: path).standardized
-
-        let content = try String(contentsOfFile: path, encoding: .utf8)
-
         /// Analysis the source code
-        let info = (try? KittenStructure(file: File(contents: content)).dictionary) ?? [:]
-        guard let rootStructure = RootStructure(source: info, filePath: url.path) else {
+        guard let rootStructure = try loadStructure(from: path) else {
             Logger.log(.debug("Failed to parse the source code in SourceKitten. (\(path))"))
             return []
         }
@@ -168,19 +165,15 @@ final class Parser: Runnable {
         /// Parsing
         return try rootStructure.substructures
             .sorted(by: sortStructureByKind)
-            .flatMap { try parse(structure: $0, content: content, typealiasMap: typealiasMap) }
+            .flatMap { try parse(structure: $0, content: rootStructure.content, typealiasMap: typealiasMap) }
     }
 
     private func parseRootTypealiasMap(_ pathList: [String]) -> [String: [String]] {
         var typealiasMap = [String: [String]]()
 
         try? pathList.forEach { path in
-            let url = URL(fileURLWithPath: path).standardized
-            let content = try String(contentsOfFile: path, encoding: .utf8)
-
             /// Analysis the source code
-            let info = (try? KittenStructure(file: File(contents: content)).dictionary) ?? [:]
-            guard let rootStructure = RootStructure(source: info, filePath: url.path) else {
+            guard let rootStructure = try loadStructure(from: path) else {
                 Logger.log(.debug("Failed to parse the source code in SourceKitten. (\(path))"))
                 return
             }
@@ -189,7 +182,7 @@ final class Parser: Runnable {
                 .filter { $0.kind == SwiftDeclarationKind.typealias.rawValue }
                 .forEach { structure in
                     guard let typeName = structure.name else { return }
-                    guard let typeResult = parseTypealias(structure: structure, content: content) else { return }
+                    guard let typeResult = parseTypealias(structure: structure, content: rootStructure.content) else { return }
 
                     typealiasMap[typeName] = typeResult
                 }
@@ -216,6 +209,42 @@ final class Parser: Runnable {
 
         return orderKey(lhs) < orderKey(rhs)
     }
+
+    private func loadStructure(from path: String) throws -> RootStructure? {
+        cacheLock.lock()
+        if let structure = cachedStructures[path] {
+            cacheLock.unlock()
+            return structure
+        } else {
+            cacheLock.unlock()
+        }
+
+        let url = URL(fileURLWithPath: path).standardized
+        let content = try String(contentsOfFile: path, encoding: .utf8)
+
+        let info = (try? KittenStructure(file: File(contents: content)).dictionary) ?? [:]
+        let structure = RootStructure(source: info, filePath: url.path, content: content)
+
+        cacheLock.lock()
+        cachedStructures[path] = structure
+        cacheLock.unlock()
+
+        return structure
+    }
+
+    private func loadAllStructure(from pathList: [String]) {
+        let dispatchGroup = DispatchGroup()
+
+        pathList.forEach { path in
+            dispatchGroup.enter()
+            DispatchQueue.global().async {
+                _ = try? self.loadStructure(from: path)
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.wait()
+    }
     
     // MARK: - Public
     
@@ -232,10 +261,13 @@ final class Parser: Runnable {
     }
     
     func run(_ pathList: [String]) throws -> [Results] {
+        loadAllStructure(from: pathList)
+        
         let typealiasMap = parseRootTypealiasMap(pathList)
         return try pathList.flatMap { try parse(path: $0, typealiasMap: typealiasMap) }
     }
     func reset() {
+        cachedStructures = [:]
         inheritanceMap = [:]
     }
     
