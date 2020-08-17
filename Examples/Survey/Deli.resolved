@@ -9,6 +9,10 @@ DEPENDENCY:
     QUALIFIER: 
   LINK:
   - SurveyService
+  IMPORT: []
+  INHERIT:
+  - SurveyServiceImpl
+  - SurveyService
 - TYPE: TestSurvey1
   QUALIFIER: Survey1
   LAZILY: false
@@ -16,6 +20,10 @@ DEPENDENCY:
   VALUE_TYPE: false
   DEPENDENCY: []
   LINK:
+  - Survey
+  IMPORT: []
+  INHERIT:
+  - TestSurvey1
   - Survey
 - TYPE: TestSurvey2
   QUALIFIER: Survey2
@@ -25,6 +33,10 @@ DEPENDENCY:
   DEPENDENCY: []
   LINK:
   - Survey
+  IMPORT: []
+  INHERIT:
+  - TestSurvey2
+  - Survey
 - TYPE: TestSurvey3
   QUALIFIER: Survey3
   LAZILY: false
@@ -32,6 +44,10 @@ DEPENDENCY:
   VALUE_TYPE: false
   DEPENDENCY: []
   LINK:
+  - Survey
+  IMPORT: []
+  INHERIT:
+  - TestSurvey3
   - Survey
 - TYPE: ViewController
   LAZILY: false
@@ -43,6 +59,9 @@ DEPENDENCY:
   - TYPE: ViewModel
     QUALIFIER: 
   LINK: []
+  IMPORT: []
+  INHERIT:
+  - ViewController
 - TYPE: ViewModel
   LAZILY: false
   FACTORY: false
@@ -51,6 +70,9 @@ DEPENDENCY:
   - TYPE: SurveyService
     QUALIFIER: 
   LINK: []
+  IMPORT: []
+  INHERIT:
+  - ViewModel
 PROPERTY: {}
 PROJECT: Survey
 REFERENCE: Survey/SurveyFactory.swift

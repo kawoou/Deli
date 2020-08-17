@@ -17,9 +17,15 @@ struct TypeKey {
     }
 }
 extension TypeKey: Hashable {
+    #if swift(>=4.2)
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(hash)
+    }
+    #else
     var hashValue: Int {
 	    return hash
     }
+    #endif
 }
 extension TypeKey: Equatable {
     static func ==(lhs: TypeKey, rhs: TypeKey) -> Bool {

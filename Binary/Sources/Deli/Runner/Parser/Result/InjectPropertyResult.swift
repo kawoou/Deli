@@ -12,8 +12,11 @@ final class InjectPropertyResult: Results {
     var scope: String? = nil
     var qualifier: String? = nil
     var dependencies: [Dependency] = []
+    var inheritanceList: [String] = []
     var instanceDependency: [Dependency] = []
+    
     var imports: [String] = []
+    var module: String?
 
     var linkType: Set<String> = Set()
 

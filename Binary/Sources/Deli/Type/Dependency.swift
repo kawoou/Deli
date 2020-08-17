@@ -29,7 +29,15 @@ struct Dependency {
 
     // MARL: - Lifecycle
 
-    init(parent: String, target: Structure?, name: String, type: DependencyType = .single, rule: DependencyRule = .default, qualifier: String = "", qualifierBy: String? = nil) {
+    init(
+        parent: String,
+        target: Structure?,
+        name: String,
+        type: DependencyType = .single,
+        rule: DependencyRule = .default,
+        qualifier: String = "",
+        qualifierBy: String? = nil
+    ) {
         self.parent = parent
         self.target = target
         self.name = name

@@ -5,9 +5,10 @@
 
 import Deli
 
+// swiftlint:disable all
 final class DeliFactory: ModuleFactory {
     override func load(context: AppContext) {
-        loadProperty([
+        context.loadProperty([
             "boolean1": "true",
             "boolean2": "1",
             "environment": "dev",

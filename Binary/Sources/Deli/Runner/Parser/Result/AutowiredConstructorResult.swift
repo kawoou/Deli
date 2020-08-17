@@ -13,7 +13,9 @@ final class AutowiredConstructorResult: Results {
     var qualifier: String?
     var dependencies: [Dependency]
     var instanceDependency: [Dependency]
+    var inheritanceList: [String] = []
     var imports: [String]
+    var module: String?
 
     var linkType: Set<String> = Set()
     
@@ -70,7 +72,7 @@ final class AutowiredConstructorResult: Results {
                 if dependency.qualifierBy != nil {
                     return "_\(index)"
                 } else {
-                    return "\(dependency.qualifier == "" ? "" : "\(dependency.qualifier): ")_\(index)"
+                    return "\(dependency.qualifier.isEmpty ? "" : "\(dependency.qualifier): ")_\(index)"
                 }
             }
             .joined(separator: ", ")

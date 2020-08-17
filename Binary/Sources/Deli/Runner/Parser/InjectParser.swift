@@ -38,8 +38,8 @@ final class InjectParser: Parsable {
         _ source: Structure,
         root: Structure,
         fileContent: String,
-        typealiasMap: [String: String]
-    ) throws -> Dependency? {
+        typealiasMap: [String: [String]]
+    ) throws -> [Dependency]? {
         guard let rootName = root.name else { return nil }
         guard let name = source.name else { return nil }
         guard name == Constant.functionName || name.hasSuffix(".\(Constant.functionName)") else { return nil }
@@ -93,30 +93,35 @@ final class InjectParser: Parsable {
         let isPayload = arguments.contains { $0.hasPrefix(Constant.payloadPrefix) }
 
         if let arrayMatch = Constant.arrayRegex.findFirst(in: typeName), let arrayType = arrayMatch.group(at: 1) {
-            return Dependency(
-                parent: rootName,
-                target: source,
-                name: typealiasMap[arrayType] ?? arrayType,
-                type: .array,
-                rule: isPayload ? .payload : .default,
-                qualifier: qualifier,
-                qualifierBy: qualifierBy
-            )
+            return (typealiasMap[arrayType] ?? [arrayType]).map {
+                Dependency(
+                    parent: rootName,
+                    target: source,
+                    name: $0,
+                    type: .array,
+                    rule: isPayload ? .payload : .default,
+                    qualifier: qualifier,
+                    qualifierBy: qualifierBy
+                )
+            }
+        } else {
+            return (typealiasMap[typeName] ?? [typeName]).map {
+                Dependency(
+                    parent: rootName,
+                    target: source,
+                    name: $0,
+                    rule: isPayload ? .payload : .default,
+                    qualifier: qualifier,
+                    qualifierBy: qualifierBy
+                )
+            }
         }
-        return Dependency(
-            parent: rootName,
-            target: source,
-            name: typealiasMap[typeName] ?? typeName,
-            rule: isPayload ? .payload : .default,
-            qualifier: qualifier,
-            qualifierBy: qualifierBy
-        )
     }
 
     private func searchInject(
         _ source: Structure,
         fileContent: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Dependency] {
         var dependencyList = [Dependency]()
 
@@ -129,7 +134,7 @@ final class InjectParser: Parsable {
                 root: source,
                 fileContent: fileContent,
                 typealiasMap: typealiasMap
-            ).map { dependencyList.append($0) }
+            ).map { dependencyList.append(contentsOf: $0) }
         }
 
         return dependencyList
@@ -141,7 +146,7 @@ final class InjectParser: Parsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         return try parse(
             by: source,
@@ -156,7 +161,7 @@ final class InjectParser: Parsable {
         fileContent: String,
         isInheritanceCheck: Bool,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))

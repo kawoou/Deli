@@ -58,21 +58,11 @@ public class AppContext {
         lock.lock()
         defer { lock.unlock() }
 
-        /// Duplicated load
-        let factories = factories
-            .filter { factory in
-                !loadedList.contains(where: { $0.factory === factory })
-            }
-
         /// Load factory
         factories.forEach { factory in
+            guard !loadedList.contains(where: { type(of: $0.factory) === type(of: factory) }) else { return }
+            loadedList.append(LoadInfo(factory: factory, priority: priority))
             factory.load(context: self)
-            loadedList.append(
-                LoadInfo(
-                    factory: factory,
-                    priority: priority
-                )
-            )
         }
 
         /// Update loaded list
@@ -372,7 +362,6 @@ public class AppContext {
         lock.lock()
         defer { lock.unlock() }
 
-        propertyContainer.unloadProperty()
         propertyContainer.loadProperty(properties)
     }
 

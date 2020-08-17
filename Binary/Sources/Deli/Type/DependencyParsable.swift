@@ -8,6 +8,6 @@ protocol DependencyParsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Dependency]
 }

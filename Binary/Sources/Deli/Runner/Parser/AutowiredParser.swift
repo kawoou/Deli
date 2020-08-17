@@ -53,7 +53,7 @@ final class AutowiredParser: Parsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         guard let name = source.name.map({ typePrefix + $0 }) else {
             Logger.log(.assert("Unknown structure name."))
@@ -88,7 +88,7 @@ final class AutowiredParser: Parsable {
             .flatMap { $0.substructures }
             .filter { $0.kind == SwiftDeclarationKind.varParameter.rawValue }
             .enumerated()
-            .map { (index, info) -> Dependency in
+            .flatMap { (index, info) -> [Dependency] in
                 guard let typeName = info.typeName else {
                     Logger.log(.error("Unknown `\(name)` dependency type.", info.getSourceLine(with: fileContent)))
                     throw ParserError.typeNotFound
@@ -102,22 +102,27 @@ final class AutowiredParser: Parsable {
                 let qualifierBy = try parseQualifierBy(info, fileContent: fileContent)
 
                 if let arrayType = Constant.arrayRegex.findFirst(in: dependencyName)?.group(at: 1) {
-                    return Dependency(
-                        parent: name,
-                        target: constructor,
-                        name: typealiasMap[arrayType] ?? arrayType,
-                        type: .array,
-                        qualifier: qualifier,
-                        qualifierBy: qualifierBy
-                    )
+                    return (typealiasMap[arrayType] ?? [arrayType]).map {
+                        Dependency(
+                            parent: name,
+                            target: constructor,
+                            name: $0,
+                            type: .array,
+                            qualifier: qualifier,
+                            qualifierBy: qualifierBy
+                        )
+                    }
+                } else {
+                    return (typealiasMap[dependencyName] ?? [dependencyName]).map {
+                        Dependency(
+                            parent: name,
+                            target: constructor,
+                            name: $0,
+                            qualifier: qualifier,
+                            qualifierBy: qualifierBy
+                        )
+                    }
                 }
-                return Dependency(
-                    parent: name,
-                    target: constructor,
-                    name: typealiasMap[dependencyName] ?? dependencyName,
-                    qualifier: qualifier,
-                    qualifierBy: qualifierBy
-                )
             }
         
         return [

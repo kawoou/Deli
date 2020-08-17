@@ -20,11 +20,20 @@ final class ResolveParser {
 
     // NARK: - Public
 
-    func load(_ infoList: [ConfigDependencyInfo]) throws {
+    func load(_ resultList: [ResolveData.Dependency], imports: [String], module: String) {
+        guard !loadedModules.contains(module) else { return }
+        loadedModules.insert(module)
+        
+        dependencies += resultList.map {
+            ResolveResult($0, imports: imports, module: module)
+        }
+    }
+
+    func load(_ infoList: [ConfigDependencyResolveFile]) throws {
         let decoder = YAMLDecoder()
 
-        dependencies = try infoList
-            .compactMap { info -> ConfigDependencyInfo? in
+        dependencies += try infoList
+            .compactMap { info -> ConfigDependencyResolveFile? in
                 let url = URL(fileURLWithPath: info.path)
 
                 let fileManager = FileManager.default
@@ -40,13 +49,13 @@ final class ResolveParser {
                     Logger.log(.warn("Not found dependency resolved file on `\(newPath)`.", nil))
                     return nil
                 }
-                return ConfigDependencyInfo(path: newPath, imports: info.imports)
+                return ConfigDependencyResolveFile(path: newPath, imports: info.imports)
             }
             .flatMap { info -> [ResolveResult] in
                 let data = try String(contentsOfFile: info.path, encoding: .utf8)
                 let resolveData = try decoder.decode(ResolveData.self, from: data)
                 return resolveData.dependency
-                    .map { ResolveResult($0, imports: info.imports) }
+                    .map { ResolveResult($0, imports: info.imports, module: resolveData.projectName) }
             }
     }
 
@@ -54,11 +63,17 @@ final class ResolveParser {
         return data + dependencies
     }
     func reset() {
+        loadedModules = []
         dependencies = []
+    }
+
+    func inheritanceList(_ name: String) -> [String] {
+        dependencies.first { $0.instanceType == name }?.inheritanceList ?? []
     }
 
     // MARK: - Private
 
+    private var loadedModules = Set<String>()
     private var dependencies: [Results] = []
 
     // MARK: - Lifecycle

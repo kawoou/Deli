@@ -19,7 +19,7 @@ final class ComponentParser: Parsable {
         by source: Structure,
         fileContent: String,
         typePrefix: String,
-        typealiasMap: [String: String]
+        typealiasMap: [String: [String]]
     ) throws -> [Results] {
         guard let name = source.name.map({ typePrefix + $0 }) else { return [] }
         guard source.inheritedTypes.contains(Constant.inheritanceName) else { return [] }

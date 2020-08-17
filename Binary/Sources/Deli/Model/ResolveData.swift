@@ -40,6 +40,8 @@ struct ResolveData: Codable {
             case isValueType = "VALUE_TYPE"
             case dependencies = "DEPENDENCY"
             case linkType = "LINK"
+            case imports = "IMPORT"
+            case inheritanceType = "INHERIT"
         }
 
         let type: String
@@ -49,6 +51,8 @@ struct ResolveData: Codable {
         let isValueType: Bool
         var dependencies: [DependencyTarget]
         var linkType: [String]
+        let imports: [String]
+        let inheritanceType: [String]
     }
 
     // MARK: - Property
