@@ -12,24 +12,11 @@ let package = Package(
     products: [
         .library(name: "Deli", targets: ["Deli"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/Quick/Quick.git", .exact("2.2.0")),
-        .package(url: "https://github.com/Quick/Nimble.git", .exact("8.0.2"))
-    ],
     targets: [
         .target(
             name: "Deli",
             dependencies: [],
             path: "Sources/Deli"
-        ),
-        .testTarget(
-            name: "DeliTests",
-            dependencies: [
-                "Deli",
-                "Quick",
-                "Nimble"
-            ],
-            path: "Tests/DeliTests"
         )
     ],
     swiftLanguageVersions: [.v4, .v4_2, .v5]
