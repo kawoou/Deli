@@ -4,16 +4,31 @@
 //
 
 struct TypeKey {
-    let type: Any.Type
+    let type: ObjectIdentifier
     let qualifier: String
 
     private let hash: Int
 
-    init(type: Any.Type, qualifier: String = "") {
-	    self.type = type
+    init(type: AnyClass, qualifier: String = "") {
+        self.type = ObjectIdentifier(type)
         self.qualifier = qualifier
 
-	    hash = ObjectIdentifier(type).hashValue ^ qualifier.hashValue
+        hash = self.type.hashValue ^ qualifier.hashValue
+    }
+
+    @inline(__always)
+    init<T>(type: T.Type, qualifier: String = "") {
+	    self.type = ObjectIdentifier(type)
+        self.qualifier = qualifier
+
+        hash = self.type.hashValue ^ qualifier.hashValue
+    }
+
+    init(type: ObjectIdentifier, qualifier: String = "") {
+        self.type = type
+        self.qualifier = qualifier
+
+        hash = type.hashValue ^ qualifier.hashValue
     }
 }
 extension TypeKey: Hashable {
